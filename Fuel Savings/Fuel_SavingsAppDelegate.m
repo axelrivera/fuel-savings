@@ -10,13 +10,20 @@
 
 @implementation Fuel_SavingsAppDelegate
 
-
-@synthesize window=_window;
+@synthesize window = window_;
+@synthesize tabBarController = tabBarController_;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	// Override point for customization after application launch.
-	[self.window makeKeyAndVisible];
+	[[self.tabBarController.viewControllers objectAtIndex:0] setTitle:@"Fuel Savings"];
+	[[self.tabBarController.viewControllers objectAtIndex:1] setTitle:@"My Savings"];
+	[[self.tabBarController.viewControllers objectAtIndex:2] setTitle:@"MPG Database"];
+	[[self.tabBarController.viewControllers objectAtIndex:3] setTitle:@"Settings"];
+	
+    [self.window addSubview:self.tabBarController.view];
+    [self.window makeKeyAndVisible];
+	
     return YES;
 }
 
@@ -61,7 +68,8 @@
 
 - (void)dealloc
 {
-	[_window release];
+	[window_ release];
+	[tabBarController_ release];
     [super dealloc];
 }
 

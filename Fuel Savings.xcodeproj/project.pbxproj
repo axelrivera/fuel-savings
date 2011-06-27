@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* CurrentSavingsViewController.m */; };
+		1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */; };
 		1666FCF013B8FA8B00FC97F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */; };
 		1666FCF213B8FA8B00FC97F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCF113B8FA8B00FC97F1 /* Foundation.framework */; };
 		1666FCF413B8FA8B00FC97F1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCF313B8FA8B00FC97F1 /* CoreGraphics.framework */; };
@@ -14,20 +16,63 @@
 		1666FCFD13B8FA8B00FC97F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FCFC13B8FA8B00FC97F1 /* main.m */; };
 		1666FD0013B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FCFF13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m */; };
 		1666FD0313B8FA8B00FC97F1 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0113B8FA8B00FC97F1 /* MainWindow.xib */; };
+		1666FD1013B8FAC500FC97F1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0913B8FAC500FC97F1 /* Icon-72.png */; };
+		1666FD1113B8FAC500FC97F1 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */; };
+		1666FD1213B8FAC500FC97F1 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */; };
+		1666FD1313B8FAC500FC97F1 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */; };
+		1666FD1413B8FAC500FC97F1 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0D13B8FAC500FC97F1 /* Icon.png */; };
+		1666FD1513B8FAC500FC97F1 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0E13B8FAC500FC97F1 /* Icon@2x.png */; };
+		1666FD1613B8FAC500FC97F1 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */; };
+		1666FD1D13B8FB4D00FC97F1 /* SavingsCalculation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1C13B8FB4D00FC97F1 /* SavingsCalculation.m */; };
+		1666FD2013B8FB5D00FC97F1 /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */; };
+		1666FD2B13B9108B00FC97F1 /* FuelSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */; };
+		1666FD2F13B910D300FC97F1 /* MySavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD2E13B910D300FC97F1 /* MySavingsViewController.m */; };
+		1666FD3213B910ED00FC97F1 /* MPGDatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD3113B910ED00FC97F1 /* MPGDatabaseViewController.m */; };
+		1666FD3513B9111300FC97F1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD3413B9111300FC97F1 /* SettingsViewController.m */; };
+		1666FD3713B911A400FC97F1 /* FuelSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */; };
+		1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */; };
+		1666FD3B13B911D100FC97F1 /* MPGDatabaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */; };
+		1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1658291113B9262100BC5219 /* CurrentSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentSavingsViewController.h; sourceTree = "<group>"; };
+		1658291213B9262100BC5219 /* CurrentSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentSavingsViewController.m; sourceTree = "<group>"; };
+		1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentSavingsViewController.xib; sourceTree = "<group>"; };
 		1666FCEB13B8FA8B00FC97F1 /* Fuel Savings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fuel Savings.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1666FCF113B8FA8B00FC97F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1666FCF313B8FA8B00FC97F1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		1666FCF713B8FA8B00FC97F1 /* Fuel Savings-Info.plist */ = {isa = PBXFileReference; path = "Fuel Savings-Info.plist"; sourceTree = "<group>"; };
+		1666FCF713B8FA8B00FC97F1 /* Fuel Savings-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Fuel Savings-Info.plist"; sourceTree = "<group>"; };
 		1666FCF913B8FA8B00FC97F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1666FCFB13B8FA8B00FC97F1 /* Fuel Savings-Prefix.pch */ = {isa = PBXFileReference; path = "Fuel Savings-Prefix.pch"; sourceTree = "<group>"; };
+		1666FCFB13B8FA8B00FC97F1 /* Fuel Savings-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Fuel Savings-Prefix.pch"; sourceTree = "<group>"; };
 		1666FCFC13B8FA8B00FC97F1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1666FCFE13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.h */ = {isa = PBXFileReference; path = Fuel_SavingsAppDelegate.h; sourceTree = "<group>"; };
+		1666FCFE13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fuel_SavingsAppDelegate.h; sourceTree = "<group>"; };
 		1666FCFF13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Fuel_SavingsAppDelegate.m; sourceTree = "<group>"; };
 		1666FD0213B8FA8B00FC97F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		1666FD0913B8FAC500FC97F1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		1666FD0D13B8FAC500FC97F1 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		1666FD0E13B8FAC500FC97F1 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		1666FD1B13B8FB4D00FC97F1 /* SavingsCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavingsCalculation.h; sourceTree = "<group>"; };
+		1666FD1C13B8FB4D00FC97F1 /* SavingsCalculation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavingsCalculation.m; sourceTree = "<group>"; };
+		1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
+		1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vehicle.m; sourceTree = "<group>"; };
+		1666FD2913B9108B00FC97F1 /* FuelSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsViewController.h; sourceTree = "<group>"; };
+		1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuelSavingsViewController.m; sourceTree = "<group>"; };
+		1666FD2D13B910D300FC97F1 /* MySavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySavingsViewController.h; sourceTree = "<group>"; };
+		1666FD2E13B910D300FC97F1 /* MySavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySavingsViewController.m; sourceTree = "<group>"; };
+		1666FD3013B910ED00FC97F1 /* MPGDatabaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGDatabaseViewController.h; sourceTree = "<group>"; };
+		1666FD3113B910ED00FC97F1 /* MPGDatabaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGDatabaseViewController.m; sourceTree = "<group>"; };
+		1666FD3313B9111300FC97F1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		1666FD3413B9111300FC97F1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FuelSavingsViewController.xib; sourceTree = "<group>"; };
+		1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySavingsViewController.xib; sourceTree = "<group>"; };
+		1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MPGDatabaseViewController.xib; sourceTree = "<group>"; };
+		1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +121,10 @@
 			children = (
 				1666FCFE13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.h */,
 				1666FCFF13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m */,
-				1666FD0113B8FA8B00FC97F1 /* MainWindow.xib */,
+				1666FD1713B8FAD700FC97F1 /* Controllers */,
+				1666FD1913B8FAF700FC97F1 /* Model+Data */,
+				1666FD1813B8FAEE00FC97F1 /* Helpers */,
+				1666FD1A13B8FB0800FC97F1 /* Views */,
 				1666FCF613B8FA8B00FC97F1 /* Supporting Files */,
 			);
 			path = "Fuel Savings";
@@ -85,12 +133,67 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1666FD0913B8FAC500FC97F1 /* Icon-72.png */,
+				1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */,
+				1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */,
+				1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */,
+				1666FD0D13B8FAC500FC97F1 /* Icon.png */,
+				1666FD0E13B8FAC500FC97F1 /* Icon@2x.png */,
+				1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */,
 				1666FCF713B8FA8B00FC97F1 /* Fuel Savings-Info.plist */,
 				1666FCF813B8FA8B00FC97F1 /* InfoPlist.strings */,
 				1666FCFB13B8FA8B00FC97F1 /* Fuel Savings-Prefix.pch */,
 				1666FCFC13B8FA8B00FC97F1 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1666FD1713B8FAD700FC97F1 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1666FD2913B9108B00FC97F1 /* FuelSavingsViewController.h */,
+				1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */,
+				1666FD2D13B910D300FC97F1 /* MySavingsViewController.h */,
+				1666FD2E13B910D300FC97F1 /* MySavingsViewController.m */,
+				1666FD3013B910ED00FC97F1 /* MPGDatabaseViewController.h */,
+				1666FD3113B910ED00FC97F1 /* MPGDatabaseViewController.m */,
+				1666FD3313B9111300FC97F1 /* SettingsViewController.h */,
+				1666FD3413B9111300FC97F1 /* SettingsViewController.m */,
+				1658291113B9262100BC5219 /* CurrentSavingsViewController.h */,
+				1658291213B9262100BC5219 /* CurrentSavingsViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		1666FD1813B8FAEE00FC97F1 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		1666FD1913B8FAF700FC97F1 /* Model+Data */ = {
+			isa = PBXGroup;
+			children = (
+				1666FD1B13B8FB4D00FC97F1 /* SavingsCalculation.h */,
+				1666FD1C13B8FB4D00FC97F1 /* SavingsCalculation.m */,
+				1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */,
+				1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */,
+			);
+			name = "Model+Data";
+			sourceTree = "<group>";
+		};
+		1666FD1A13B8FB0800FC97F1 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1666FD0113B8FA8B00FC97F1 /* MainWindow.xib */,
+				1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */,
+				1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */,
+				1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */,
+				1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */,
+				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,6 +245,18 @@
 			files = (
 				1666FCFA13B8FA8B00FC97F1 /* InfoPlist.strings in Resources */,
 				1666FD0313B8FA8B00FC97F1 /* MainWindow.xib in Resources */,
+				1666FD1013B8FAC500FC97F1 /* Icon-72.png in Resources */,
+				1666FD1113B8FAC500FC97F1 /* Icon-Small-50.png in Resources */,
+				1666FD1213B8FAC500FC97F1 /* Icon-Small.png in Resources */,
+				1666FD1313B8FAC500FC97F1 /* Icon-Small@2x.png in Resources */,
+				1666FD1413B8FAC500FC97F1 /* Icon.png in Resources */,
+				1666FD1513B8FAC500FC97F1 /* Icon@2x.png in Resources */,
+				1666FD1613B8FAC500FC97F1 /* iTunesArtwork.png in Resources */,
+				1666FD3713B911A400FC97F1 /* FuelSavingsViewController.xib in Resources */,
+				1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */,
+				1666FD3B13B911D100FC97F1 /* MPGDatabaseViewController.xib in Resources */,
+				1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */,
+				1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +269,13 @@
 			files = (
 				1666FCFD13B8FA8B00FC97F1 /* main.m in Sources */,
 				1666FD0013B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m in Sources */,
+				1666FD1D13B8FB4D00FC97F1 /* SavingsCalculation.m in Sources */,
+				1666FD2013B8FB5D00FC97F1 /* Vehicle.m in Sources */,
+				1666FD2B13B9108B00FC97F1 /* FuelSavingsViewController.m in Sources */,
+				1666FD2F13B910D300FC97F1 /* MySavingsViewController.m in Sources */,
+				1666FD3213B910ED00FC97F1 /* MPGDatabaseViewController.m in Sources */,
+				1666FD3513B9111300FC97F1 /* SettingsViewController.m in Sources */,
+				1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +380,7 @@
 				1666FD0813B8FA8B00FC97F1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
