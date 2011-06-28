@@ -13,7 +13,7 @@
 @implementation SavingsCalculation
 
 @synthesize name = name_;
-@synthesize savingsCalculationType, fuelPrice, carOwnership;
+@synthesize savingsCalculationType, fuelPrice, distance, carOwnership;
 
 - (id)init
 {

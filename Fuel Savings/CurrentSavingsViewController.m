@@ -8,8 +8,9 @@
 
 #import "CurrentSavingsViewController.h"
 
-
 @implementation CurrentSavingsViewController
+
+@synthesize currentTable = currentTable_;
 
 - (id)init
 {
@@ -32,6 +33,7 @@
 
 - (void)dealloc
 {
+	[currentTable_ release];
     [super dealloc];
 }
 
@@ -55,6 +57,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.currentTable = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,6 +82,70 @@
 - (void)dismissAction
 {
 	[self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - UITableView Data Source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 3;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+	NSInteger rows;
+	if (section == 0) {
+		rows = 4;
+	} else if (section == 1) {
+		rows = 1;
+	} else {
+		rows = 1;
+	}
+	return rows;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	static NSString *CellIdentifier = @"Cell";
+	
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	
+	if (indexPath.section == 0) {
+		if (indexPath.row == 0) {
+			cell.textLabel.text = @"Type";
+		} else if (indexPath.row == 1) {
+			cell.textLabel.text = @"Fuel Price";
+			cell.detailTextLabel.text = @"$3.95 /gallon";
+		} else if (indexPath.row == 2) {
+			cell.textLabel.text = @"Distance";
+			cell.detailTextLabel.text = @"100,000 miles/year";
+		} else {
+			cell.textLabel.text = @"Car Ownership";
+			cell.detailTextLabel.text = @"20 years";
+		}
+	} else if (indexPath.section == 1) {
+		if (indexPath.row == 0) {
+			cell.textLabel.text = @"Add New Vehicle";
+		}
+	} else {
+		cell.textLabel.text = @"Name";
+	}
+	
+	return cell;
+}
+
+#pragma mark - UITableView Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

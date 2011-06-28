@@ -1,5 +1,5 @@
 //
-//  FuelSavingsViewController.h
+//  RLTopToolbar.h
 //  Fuel Savings
 //
 //  Created by arn on 6/27/11.
@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RLTopToolbar.h"
 
-@interface FuelSavingsViewController : UIViewController {
-	UIView *topBarView_;
+
+@interface RLTopToolbar : UIToolbar {
+    
 }
 
 @end
