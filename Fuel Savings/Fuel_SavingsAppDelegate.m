@@ -7,6 +7,7 @@
 //
 
 #import "Fuel_SavingsAppDelegate.h"
+#import "SavingsData.h"
 
 @implementation Fuel_SavingsAppDelegate
 
@@ -15,6 +16,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	
+	[SavingsData sharedSavingsData];
+	
 	// Override point for customization after application launch.
 	[[self.tabBarController.viewControllers objectAtIndex:0] setTitle:@"Fuel Savings"];
 	[[self.tabBarController.viewControllers objectAtIndex:1] setTitle:@"My Savings"];

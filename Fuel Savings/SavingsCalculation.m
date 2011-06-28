@@ -13,12 +13,19 @@
 @implementation SavingsCalculation
 
 @synthesize name = name_;
-@synthesize savingsCalculationType, fuelPrice, distance, carOwnership;
+@synthesize type, fuelPrice, distance, carOwnership;
+
+#pragma mark - Class Methods
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
+		self.name = @"";
+		self.type = SavingsCalculationTypeAverage;
+		self.fuelPrice = 3.65;
+		self.distance = 15000;
+		self.carOwnership = 5;
 		vehicles_ = [[NSMutableArray alloc] initWithCapacity:0];
 	}
 	return self;
@@ -40,25 +47,17 @@
 
 #pragma mark - Custom Methods
 
-- (BOOL)addVehicle:(id)vehicle
+- (NSString *)stringForCurrentType
 {
-	NSAssert([vehicle isKindOfClass:[Vehicle class]], @"The object is not a vehicle");
-	if ([vehicles_ count] > MAX_VEHICLES) {
-		return NO;
+	return [[self class] stringValueForType:self.type];
+}
+
++ (NSString *)stringValueForType:(SavingsCalculationType)type
+{
+	if (type == SavingsCalculationTypeAverage) {
+		return @"Average MPG";
 	}
-	
-	[vehicles_ addObject:vehicle];
-	return YES;
-}
-
-- (void)removeVehicleAtIndex:(NSInteger)index
-{
-	[vehicles_ removeObjectAtIndex:index];
-}
-
-- (void)removeAllVehicles
-{
-	[vehicles_ removeAllObjects];
+	return @"City / Highway MPG";
 }
 
 @end

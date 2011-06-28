@@ -16,14 +16,14 @@ typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } S
 }
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic) SavingsCalculationType savingsCalculationType;
+@property (nonatomic) SavingsCalculationType type;
 @property (nonatomic) CGFloat fuelPrice;
 @property (nonatomic) NSInteger distance;
 @property (nonatomic) NSInteger carOwnership;
 @property (nonatomic, readonly) NSArray *vehicles;
 
-- (BOOL)addVehicle:(id)vehicle;
-- (void)removeVehicleAtIndex:(NSInteger)index;
-- (void)removeAllVehicles;
++ (NSString *)stringValueForType:(SavingsCalculationType)type;
+
+- (NSString *)stringForCurrentType;
 
 @end

@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SavingsData.h"
 #import "SavingsCalculation.h"
 
 @interface CurrentSavingsViewController : UIViewController {
-	SavingsCalculation *currentCalculation_;
+	SavingsData *savingsData_;
 }
 
-@property (nonatomic, retain) UITableView *currentTable;
+@property (nonatomic, retain) IBOutlet UITableView *currentTable;
 
 @end

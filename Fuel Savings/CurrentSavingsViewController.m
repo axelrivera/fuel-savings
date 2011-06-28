@@ -7,6 +7,8 @@
 //
 
 #import "CurrentSavingsViewController.h"
+#import "TypeInputViewController.h"
+#import "NameInputViewController.h"
 
 @implementation CurrentSavingsViewController
 
@@ -27,6 +29,8 @@
 																					action:@selector(saveAction)];
 		self.navigationItem.rightBarButtonItem = saveButton;
 		[saveButton release];
+		
+		savingsData_ = [SavingsData sharedSavingsData];
 	}
 	return self;
 }
@@ -65,6 +69,7 @@
 	[super viewWillAppear:animated];
 	
 	self.title = @"New Savings";
+	[self.currentTable reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -120,6 +125,7 @@
 	if (indexPath.section == 0) {
 		if (indexPath.row == 0) {
 			cell.textLabel.text = @"Type";
+			cell.detailTextLabel.text = [savingsData_.currentCalculation stringForCurrentType];
 		} else if (indexPath.row == 1) {
 			cell.textLabel.text = @"Fuel Price";
 			cell.detailTextLabel.text = @"$3.95 /gallon";
@@ -136,6 +142,7 @@
 		}
 	} else {
 		cell.textLabel.text = @"Name";
+		cell.detailTextLabel.text = savingsData_.currentCalculation.name;
 	}
 	
 	return cell;
@@ -146,6 +153,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	UIViewController *viewController;
+	
+	if (indexPath.section == 0) {
+		TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
+		inputViewController.title = @"Change Type";
+		viewController = inputViewController;
+	} else if (indexPath.section == 1) {
+		// data
+	} else {
+		NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
+		inputViewController.title = @"Edit Name";
+		viewController = inputViewController;
+	}
+	
+	if (viewController) {
+		[self.navigationController pushViewController:viewController animated:YES];
+		[viewController release];
+	}
 }
 
 @end
