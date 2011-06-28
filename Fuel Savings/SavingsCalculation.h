@@ -17,7 +17,7 @@ typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } S
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) SavingsCalculationType type;
-@property (nonatomic) CGFloat fuelPrice;
+@property (nonatomic, copy) NSDecimalNumber *fuelPrice;
 @property (nonatomic) NSInteger distance;
 @property (nonatomic) NSInteger carOwnership;
 @property (nonatomic, readonly) NSArray *vehicles;

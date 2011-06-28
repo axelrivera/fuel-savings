@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
+		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
+		161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956D13BA479300DE5E5C /* PriceInputViewController.xib */; };
 		1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* CurrentSavingsViewController.m */; };
 		1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */; };
 		165ACFB413B937D200A2AD3E /* topbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFB213B937D200A2AD3E /* topbar.png */; };
@@ -56,6 +58,9 @@
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TypeInputViewController.m; sourceTree = "<group>"; };
 		161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeInputViewController.xib; sourceTree = "<group>"; };
+		161F956A13BA474B00DE5E5C /* PriceInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceInputViewController.h; sourceTree = "<group>"; };
+		161F956B13BA474B00DE5E5C /* PriceInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceInputViewController.m; sourceTree = "<group>"; };
+		161F956D13BA479300DE5E5C /* PriceInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceInputViewController.xib; sourceTree = "<group>"; };
 		1658291113B9262100BC5219 /* CurrentSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentSavingsViewController.h; sourceTree = "<group>"; };
 		1658291213B9262100BC5219 /* CurrentSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentSavingsViewController.m; sourceTree = "<group>"; };
 		1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentSavingsViewController.xib; sourceTree = "<group>"; };
@@ -232,6 +237,8 @@
 				16A707AB13B9FFE600A0E93F /* NameInputViewController.m */,
 				161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */,
 				161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */,
+				161F956A13BA474B00DE5E5C /* PriceInputViewController.h */,
+				161F956B13BA474B00DE5E5C /* PriceInputViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -269,6 +276,7 @@
 				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
 				16A707AE13BA057D00A0E93F /* NameInputViewController.xib */,
 				161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */,
+				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -346,6 +354,7 @@
 				165ACFE413B9759500A2AD3E /* saved_tab@2x.png in Resources */,
 				16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */,
 				161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */,
+				161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,6 +379,7 @@
 				16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */,
 				16A707BD13BA240700A0E93F /* SavingsData.m in Sources */,
 				161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */,
+				161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

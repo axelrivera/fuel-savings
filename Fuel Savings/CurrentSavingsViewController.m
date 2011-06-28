@@ -8,6 +8,7 @@
 
 #import "CurrentSavingsViewController.h"
 #import "TypeInputViewController.h"
+#import "PriceInputViewController.h"
 #import "NameInputViewController.h"
 
 @implementation CurrentSavingsViewController
@@ -128,7 +129,9 @@
 			cell.detailTextLabel.text = [savingsData_.currentCalculation stringForCurrentType];
 		} else if (indexPath.row == 1) {
 			cell.textLabel.text = @"Fuel Price";
-			cell.detailTextLabel.text = @"$3.95 /gallon";
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+			cell.detailTextLabel.text = [formatter stringFromNumber:savingsData_.currentCalculation.fuelPrice];
 		} else if (indexPath.row == 2) {
 			cell.textLabel.text = @"Distance";
 			cell.detailTextLabel.text = @"100,000 miles/year";
@@ -157,9 +160,20 @@
 	UIViewController *viewController;
 	
 	if (indexPath.section == 0) {
-		TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
-		inputViewController.title = @"Change Type";
-		viewController = inputViewController;
+		if (indexPath.row == 0) {
+			TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
+			inputViewController.title = @"Change Type";
+			viewController = inputViewController;
+		} else if (indexPath.row == 1) {
+			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
+			inputViewController.title = @"Change Price";
+			viewController = inputViewController;
+		} else if (indexPath.row == 2) {
+			// Test
+		} else {
+			// test
+		}
+		
 	} else if (indexPath.section == 1) {
 		// data
 	} else {
