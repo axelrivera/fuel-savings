@@ -9,7 +9,8 @@
 #import "CurrentSavingsViewController.h"
 #import "TypeInputViewController.h"
 #import "PriceInputViewController.h"
-#import "NameInputViewController.h"
+#import "DistanceInputViewController.h"
+#import "OwnerInputViewController.h"
 
 @implementation CurrentSavingsViewController
 
@@ -69,7 +70,7 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.title = @"New Savings";
+	self.title = @"New Calculation";
 	[self.currentTable reloadData];
 }
 
@@ -94,7 +95,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 3;
+	return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -102,8 +103,6 @@
 	NSInteger rows;
 	if (section == 0) {
 		rows = 4;
-	} else if (section == 1) {
-		rows = 1;
 	} else {
 		rows = 1;
 	}
@@ -125,27 +124,32 @@
 	
 	if (indexPath.section == 0) {
 		if (indexPath.row == 0) {
-			cell.textLabel.text = @"Type";
+			cell.textLabel.text = @"Use";
 			cell.detailTextLabel.text = [savingsData_.currentCalculation stringForCurrentType];
 		} else if (indexPath.row == 1) {
 			cell.textLabel.text = @"Fuel Price";
 			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-			cell.detailTextLabel.text = [formatter stringFromNumber:savingsData_.currentCalculation.fuelPrice];
+			NSString *numberString = [formatter stringFromNumber:savingsData_.currentCalculation.fuelPrice];
+			[formatter release];
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ /gallon", numberString];
 		} else if (indexPath.row == 2) {
 			cell.textLabel.text = @"Distance";
-			cell.detailTextLabel.text = @"100,000 miles/year";
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+			[formatter setMaximumFractionDigits:0];
+			NSString *numberString = [formatter stringFromNumber:savingsData_.currentCalculation.distance];
+			[formatter release];
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ miles/year", numberString];
 		} else {
 			cell.textLabel.text = @"Car Ownership";
-			cell.detailTextLabel.text = @"20 years";
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ years",
+										 [savingsData_.currentCalculation.carOwnership stringValue]];
 		}
-	} else if (indexPath.section == 1) {
+	} else {
 		if (indexPath.row == 0) {
 			cell.textLabel.text = @"Add New Vehicle";
 		}
-	} else {
-		cell.textLabel.text = @"Name";
-		cell.detailTextLabel.text = savingsData_.currentCalculation.name;
 	}
 	
 	return cell;
@@ -162,24 +166,23 @@
 	if (indexPath.section == 0) {
 		if (indexPath.row == 0) {
 			TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
-			inputViewController.title = @"Change Type";
+			inputViewController.title = @"Change Use";
 			viewController = inputViewController;
 		} else if (indexPath.row == 1) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.title = @"Change Price";
 			viewController = inputViewController;
 		} else if (indexPath.row == 2) {
-			// Test
+			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
+			inputViewController.title = @"Change Distance";
+			viewController = inputViewController;
 		} else {
-			// test
+			OwnerInputViewController *inputViewController = [[OwnerInputViewController alloc] init];
+			inputViewController.title = @"Change Ownership";
+			viewController = inputViewController;
 		}
-		
-	} else if (indexPath.section == 1) {
-		// data
 	} else {
-		NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
-		inputViewController.title = @"Edit Name";
-		viewController = inputViewController;
+		// data
 	}
 	
 	if (viewController) {

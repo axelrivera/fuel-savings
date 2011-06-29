@@ -7,7 +7,6 @@
 //
 
 #import "PriceInputViewController.h"
-#import "SavingsData.h"
 
 @implementation PriceInputViewController
 
@@ -35,6 +34,7 @@
 		[formatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
 		
 		currencyScale_ = -1 * [formatter_ maximumFractionDigits];
+		savingsData_ = [SavingsData sharedSavingsData];
 	}
 	return self;
 }
@@ -70,12 +70,22 @@
 	self.inputTextField = nil;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	
+	self.result = savingsData_.currentCalculation.fuelPrice;
+	self.inputTextField.text = [formatter_ stringFromNumber:self.result];
+	
+	[self.inputTextField becomeFirstResponder];
+}
+
 #pragma mark - Custom Actions
 
 - (void)doneAction
 {
-	[SavingsData sharedSavingsData].currentCalculation.fuelPrice = [NSDecimalNumber decimalNumberWithDecimal:[self.result decimalValue]];
-	NSLog(@"Fuel Price: %@", [SavingsData sharedSavingsData].currentCalculation.fuelPrice);
+	[self.inputTextField resignFirstResponder];
+	savingsData_.currentCalculation.fuelPrice = self.result;
 	[self performSelector:@selector(dismissAction)];
 }
 
@@ -87,25 +97,16 @@
 #pragma mark -
 #pragma mark UITextFieldDelegate methods
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    // Keep a pointer to the field, so we can resign it from a toolbar
-    self.inputTextField = textField;
-    self.enteredDigits = @"";
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{	
+	NSDecimalNumber *digits = [self.result decimalNumberByMultiplyingByPowerOf10:abs(currencyScale_)];
+	self.enteredDigits = [digits stringValue];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    if ([self.enteredDigits length] > 0) {
-        // Get the amount
-		NSDecimalNumber *decimal = [NSDecimalNumber decimalNumberWithString:self.enteredDigits];
-        NSDecimalNumber *result = [decimal decimalNumberByMultiplyingByPowerOf10:currencyScale_];
-		self.result = result;
-    }
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-	
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{	
     // Check the length of the string
-    if ([string length]) {
+    if ([string length] > 0) {
         self.enteredDigits = [self.enteredDigits stringByAppendingFormat:@"%d", [string integerValue]];
     } else {
         // This is a backspace
@@ -117,17 +118,18 @@
         }
     }
 	
-    NSDecimalNumber *result = nil;
+    NSDecimalNumber *number = nil;
 	
-    if ( ![self.enteredDigits isEqualToString:@""]) {
+    if (![self.enteredDigits isEqualToString:@""]) {
 		NSDecimalNumber *decimal = [NSDecimalNumber decimalNumberWithString:self.enteredDigits];
-        result = [decimal decimalNumberByMultiplyingByPowerOf10:currencyScale_];
+        number = [decimal decimalNumberByMultiplyingByPowerOf10:currencyScale_];
     } else {
-        result = [NSDecimalNumber zero];
+        number = [NSDecimalNumber zero];
     }
 	
+	self.result = number;
     // Replace the text with the localized decimal number
-    textField.text = [formatter_ stringFromNumber:result];
+    textField.text = [formatter_ stringFromNumber:number];
 	
     return NO;  
 }

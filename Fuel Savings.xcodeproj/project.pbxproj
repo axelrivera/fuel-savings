@@ -52,6 +52,10 @@
 		16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16A707AE13BA057D00A0E93F /* NameInputViewController.xib */; };
 		16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */; };
 		16A707BD13BA240700A0E93F /* SavingsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707BC13BA240700A0E93F /* SavingsData.m */; };
+		16B5F7E813BB81CE00DEE869 /* DistanceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */; };
+		16B5F7EB13BB81FD00DEE869 /* DistanceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */; };
+		16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */; };
+		16B5F7F013BB9D8100DEE869 /* OwnerInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +121,12 @@
 		16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Vehicle.m"; sourceTree = "<group>"; };
 		16A707BB13BA240700A0E93F /* SavingsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavingsData.h; sourceTree = "<group>"; };
 		16A707BC13BA240700A0E93F /* SavingsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavingsData.m; sourceTree = "<group>"; };
+		16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceInputViewController.h; sourceTree = "<group>"; };
+		16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceInputViewController.m; sourceTree = "<group>"; };
+		16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DistanceInputViewController.xib; sourceTree = "<group>"; };
+		16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OwnerInputViewController.h; sourceTree = "<group>"; };
+		16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OwnerInputViewController.m; sourceTree = "<group>"; };
+		16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OwnerInputViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,6 +249,10 @@
 				161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */,
 				161F956A13BA474B00DE5E5C /* PriceInputViewController.h */,
 				161F956B13BA474B00DE5E5C /* PriceInputViewController.m */,
+				16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */,
+				16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */,
+				16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */,
+				16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -277,6 +291,8 @@
 				16A707AE13BA057D00A0E93F /* NameInputViewController.xib */,
 				161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */,
 				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
+				16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */,
+				16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -355,6 +371,8 @@
 				16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */,
 				161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */,
 				161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */,
+				16B5F7EB13BB81FD00DEE869 /* DistanceInputViewController.xib in Resources */,
+				16B5F7F013BB9D8100DEE869 /* OwnerInputViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +398,8 @@
 				16A707BD13BA240700A0E93F /* SavingsData.m in Sources */,
 				161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */,
 				161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */,
+				16B5F7E813BB81CE00DEE869 /* DistanceInputViewController.m in Sources */,
+				16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

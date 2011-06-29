@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SavingsData.h"
 
 @interface PriceInputViewController : UIViewController {
 	NSNumberFormatter *formatter_;
     NSInteger currencyScale_;
+	SavingsData *savingsData_;
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *inputTextField;
-@property (nonatomic, retain) NSString *enteredDigits;
+@property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSDecimalNumber *result;
 
 @end

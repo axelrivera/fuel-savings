@@ -13,8 +13,10 @@
 @implementation SavingsCalculation
 
 @synthesize name = name_;
+@synthesize type;
 @synthesize fuelPrice = fuelPrice_;
-@synthesize type, distance, carOwnership;
+@synthesize distance = distance_;
+@synthesize carOwnership = carOwnership_;
 
 #pragma mark - Class Methods
 
@@ -25,8 +27,8 @@
 		self.name = @"";
 		self.type = SavingsCalculationTypeAverage;
 		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
-		self.distance = 15000;
-		self.carOwnership = 5;
+		self.distance = [NSNumber numberWithInteger:15000];
+		self.carOwnership = [NSNumber numberWithInteger:5];
 		vehicles_ = [[NSMutableArray alloc] initWithCapacity:0];
 	}
 	return self;
@@ -37,6 +39,8 @@
 	[name_ release];
 	[vehicles_ release];
 	[fuelPrice_ release];
+	[distance_ release];
+	[carOwnership_ release];
 	[super dealloc];
 }
 
