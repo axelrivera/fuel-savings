@@ -11,6 +11,7 @@
 @implementation PriceInputViewController
 
 @synthesize inputTextField = inputTextField_;
+@synthesize clearButton = clearButton_;
 @synthesize enteredDigits = enteredDigits_;
 @synthesize result = result_;
 
@@ -42,6 +43,7 @@
 - (void)dealloc
 {
 	[inputTextField_ release];
+	[clearButton_ release];
 	[enteredDigits_ release];
 	[result_ release];
     [super dealloc];
@@ -60,6 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	self.clearButton.title = @"Clear";
 }
 
 - (void)viewDidUnload
@@ -68,6 +71,7 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 	self.inputTextField = nil;
+	self.clearButton = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -92,6 +96,13 @@
 - (void)dismissAction
 {
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)clearAction:(id)sender
+{
+	self.result = [NSDecimalNumber zero];
+	self.enteredDigits = @"";
+	self.inputTextField.text = [formatter_ stringFromNumber:self.result];
 }
 
 #pragma mark -

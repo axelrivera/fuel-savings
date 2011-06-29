@@ -16,7 +16,10 @@
 }
 
 @property (nonatomic, retain) IBOutlet UITextField *inputTextField;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *clearButton;
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSDecimalNumber *result;
+
+- (IBAction)clearAction:(id)sender;
 
 @end
