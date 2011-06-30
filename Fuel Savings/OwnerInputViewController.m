@@ -66,6 +66,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	self.title = @"Change Ownership";
 }
 
 - (void)viewDidUnload

@@ -1,21 +1,23 @@
 //
-//  TypeInputViewController.m
+//  VehicleInputViewController.m
 //  Fuel Savings
 //
-//  Created by arn on 6/28/11.
+//  Created by arn on 6/30/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "TypeInputViewController.h"
-#import "SavingsCalculation.h"
-#import "SavingsData.h"
+#import "VehicleInputViewController.h"
 
-@implementation TypeInputViewController
+@implementation VehicleInputViewController
+
+@synthesize vehicleName = vehicleName_;
 
 - (id)init
 {
-	self = [super initWithNibName:@"TypeInputViewController" bundle:nil];
+	self = [super initWithNibName:@"VehicleInputViewController" bundle:nil];
 	if (self) {
+		savingsData_ = [SavingsData sharedSavingsData];
+		
 		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																					  target:self
 																					  action:@selector(dismissAction)];
@@ -27,12 +29,18 @@
 																					action:@selector(doneAction)];
 		self.navigationItem.rightBarButtonItem = doneButton;
 		[doneButton release];
+		
+		editingVehicle_ = nil;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[avgTextField_ release];
+	[cityTextField_ release];
+	[highwayTextField_ release];
+	[vehicleName_ release];
     [super dealloc];
 }
 
@@ -49,7 +57,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.title = @"Change Use";
+	
 }
 
 - (void)viewDidUnload
@@ -57,12 +65,24 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	[avgTextField_ release];
+	avgTextField_ = nil;
+	[cityTextField_ release];
+	cityTextField_ = nil;
+	[highwayTextField_ release];
+	highwayTextField_ = nil;
+	self.vehicleName = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-	currentIndex_ = [SavingsData sharedSavingsData].currentCalculation.type;
+	
+	if (!editingVehicle_) {
+		self.title = @"New Vehicle";
+	} else {
+		self.title = @"Edit Vehicle";
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -74,7 +94,6 @@
 
 - (void)doneAction
 {
-	[SavingsData sharedSavingsData].currentCalculation.type = currentIndex_;
 	[self performSelector:@selector(dismissAction)];
 }
 
@@ -83,13 +102,27 @@
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - Custom Methods
+
+- (void)setEditingVehicle:(Vehicle *)vehicle
+{
+	editingVehicle_ = vehicle;
+}
 
 #pragma mark - Table view data source
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+#warning Potentially incomplete method implementation.
+    // Return the number of sections.
+    return 0;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 2;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,44 +133,10 @@
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-	
-	if (indexPath.row == 0) {
-		cell.textLabel.text = [SavingsCalculation stringValueForType:SavingsCalculationTypeAverage];
-	} else {
-		cell.textLabel.text = [SavingsCalculation stringValueForType:SavingsCalculationTypeSeparate];
-	}
-	
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	cell.accessoryType = UITableViewCellAccessoryNone;
-	if (currentIndex_ == indexPath.row) {
-		cell.accessoryType = UITableViewCellAccessoryCheckmark;
-	}
-	
+    
+    // Configure the cell...
+    
     return cell;
-}
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSInteger localIndex = currentIndex_;
-    if (localIndex == indexPath.row) {
-        return;
-    }
-    NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:0];
-	
-    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-    if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-        newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        currentIndex_ = indexPath.row;
-    }
-	
-    UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
-    if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
-        oldCell.accessoryType = UITableViewCellAccessoryNone;
-    }
 }
 
 @end

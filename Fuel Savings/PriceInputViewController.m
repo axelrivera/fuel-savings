@@ -62,6 +62,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	self.title = @"Change Price";
 	self.clearButton.title = @"Clear";
 }
 

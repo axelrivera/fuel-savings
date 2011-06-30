@@ -73,6 +73,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	self.title = @"Change Distance";
 }
 
 - (void)viewDidUnload

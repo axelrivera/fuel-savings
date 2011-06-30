@@ -24,6 +24,8 @@
 		165ACFE013B9737A00A2AD3E /* settings_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD813B9737A00A2AD3E /* settings_tab@2x.png */; };
 		165ACFE313B9759500A2AD3E /* saved_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFE113B9759500A2AD3E /* saved_tab.png */; };
 		165ACFE413B9759500A2AD3E /* saved_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFE213B9759500A2AD3E /* saved_tab@2x.png */; };
+		165EA7C213BCFC0200EFC1A2 /* VehicleInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 165EA7C113BCFC0200EFC1A2 /* VehicleInputViewController.m */; };
+		165EA7C513BCFC3900EFC1A2 /* VehicleInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 165EA7C413BCFC3900EFC1A2 /* VehicleInputViewController.xib */; };
 		1666FCF013B8FA8B00FC97F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */; };
 		1666FCF213B8FA8B00FC97F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCF113B8FA8B00FC97F1 /* Foundation.framework */; };
 		1666FCF413B8FA8B00FC97F1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCF313B8FA8B00FC97F1 /* CoreGraphics.framework */; };
@@ -80,6 +82,9 @@
 		165ACFD813B9737A00A2AD3E /* settings_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_tab@2x.png"; sourceTree = "<group>"; };
 		165ACFE113B9759500A2AD3E /* saved_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saved_tab.png; sourceTree = "<group>"; };
 		165ACFE213B9759500A2AD3E /* saved_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saved_tab@2x.png"; sourceTree = "<group>"; };
+		165EA7C013BCFC0200EFC1A2 /* VehicleInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VehicleInputViewController.h; sourceTree = "<group>"; };
+		165EA7C113BCFC0200EFC1A2 /* VehicleInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VehicleInputViewController.m; sourceTree = "<group>"; };
+		165EA7C413BCFC3900EFC1A2 /* VehicleInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VehicleInputViewController.xib; sourceTree = "<group>"; };
 		1666FCEB13B8FA8B00FC97F1 /* Fuel Savings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fuel Savings.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1666FCF113B8FA8B00FC97F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -253,6 +258,8 @@
 				16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */,
 				16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */,
 				16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */,
+				165EA7C013BCFC0200EFC1A2 /* VehicleInputViewController.h */,
+				165EA7C113BCFC0200EFC1A2 /* VehicleInputViewController.m */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -293,6 +300,7 @@
 				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
 				16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */,
 				16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */,
+				165EA7C413BCFC3900EFC1A2 /* VehicleInputViewController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -373,6 +381,7 @@
 				161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */,
 				16B5F7EB13BB81FD00DEE869 /* DistanceInputViewController.xib in Resources */,
 				16B5F7F013BB9D8100DEE869 /* OwnerInputViewController.xib in Resources */,
+				165EA7C513BCFC3900EFC1A2 /* VehicleInputViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +409,7 @@
 				161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */,
 				16B5F7E813BB81CE00DEE869 /* DistanceInputViewController.m in Sources */,
 				16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */,
+				165EA7C213BCFC0200EFC1A2 /* VehicleInputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

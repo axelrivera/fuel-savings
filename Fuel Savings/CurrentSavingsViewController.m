@@ -11,6 +11,7 @@
 #import "PriceInputViewController.h"
 #import "DistanceInputViewController.h"
 #import "OwnerInputViewController.h"
+#import "VehicleInputViewController.h"
 
 @implementation CurrentSavingsViewController
 
@@ -161,28 +162,27 @@
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	UIViewController *viewController;
+	UIViewController *viewController = nil;
 	
 	if (indexPath.section == 0) {
 		if (indexPath.row == 0) {
 			TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
-			inputViewController.title = @"Change Use";
 			viewController = inputViewController;
 		} else if (indexPath.row == 1) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
-			inputViewController.title = @"Change Price";
 			viewController = inputViewController;
 		} else if (indexPath.row == 2) {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
-			inputViewController.title = @"Change Distance";
 			viewController = inputViewController;
 		} else {
 			OwnerInputViewController *inputViewController = [[OwnerInputViewController alloc] init];
-			inputViewController.title = @"Change Ownership";
 			viewController = inputViewController;
 		}
 	} else {
-		// data
+		if (indexPath.row == 0) {
+			VehicleInputViewController *inputViewController = [[VehicleInputViewController alloc] init];
+			viewController = inputViewController;
+		}
 	}
 	
 	if (viewController) {
