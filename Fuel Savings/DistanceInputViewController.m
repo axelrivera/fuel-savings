@@ -12,28 +12,15 @@
 
 @implementation DistanceInputViewController
 
+@synthesize delegate = delegate_;
 @synthesize inputLabel = inputLabel_;
 @synthesize inputPicker = inputPicker_;
-@synthesize result = result_;
+@synthesize currentDistance = currentDistance_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"DistanceInputViewController" bundle:nil];
 	if (self) {
-		savingsData = [SavingsData sharedSavingsData];
-		
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(dismissAction)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		[cancelButton release];
-		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																					target:self
-																					action:@selector(doneAction)];
-		self.navigationItem.rightBarButtonItem = doneButton;
-		[doneButton release];
-		
 		NSMutableArray *input = [[NSMutableArray alloc] initWithCapacity:50];
 		
 		for (NSInteger i = 1; i <= 50; i++) {
@@ -46,6 +33,8 @@
 		numberFormatter_ = [[NSNumberFormatter alloc] init];
 		[numberFormatter_ setNumberStyle:NSNumberFormatterDecimalStyle];
 		[numberFormatter_ setMaximumFractionDigits:0];
+		
+		self.currentDistance = [NSNumber numberWithInteger:15000];
 	}
 	return self;
 }
@@ -56,7 +45,7 @@
 	[numberFormatter_ release];
 	[inputLabel_ release];
 	[inputPicker_ release];
-	[result_ release];
+	[currentDistance_ release];
     [super dealloc];
 }
 
@@ -73,6 +62,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																				  target:self
+																				  action:@selector(dismissAction)];
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	[cancelButton release];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+																				target:self
+																				action:@selector(doneAction)];
+	self.navigationItem.rightBarButtonItem = doneButton;
+	[doneButton release];
+	
 	self.title = @"Change Distance";
 }
 
@@ -89,30 +91,22 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.result = savingsData.currentCalculation.distance;
-	
-	NSInteger initialRow = ([self.result integerValue] / DISTANCE_MULTIPLIER) - 1;
+	NSInteger initialRow = ([self.currentDistance integerValue] / DISTANCE_MULTIPLIER) - 1;
 	
 	[self.inputPicker selectRow:initialRow inComponent:0 animated:NO];
-	self.inputLabel.text = [NSString stringWithFormat:@"%@ miles/year", [numberFormatter_ stringFromNumber:self.result]];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
+	self.inputLabel.text = [NSString stringWithFormat:@"%@ miles/year", [numberFormatter_ stringFromNumber:self.currentDistance]];
 }
 
 #pragma mark - Custom Actions
 
 - (void)doneAction
 {
-	savingsData.currentCalculation.distance = self.result;
-	[self performSelector:@selector(dismissAction)];
+	[self.delegate distanceInputViewControllerDidFinish:self save:YES];
 }
 
 - (void)dismissAction
 {
-	[self.navigationController popViewControllerAnimated:YES];
+	[self.delegate distanceInputViewControllerDidFinish:self save:NO];
 }
 
 # pragma mark - UIPickerView Data Source
@@ -141,8 +135,8 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-	self.result = [inputData_ objectAtIndex:row];
-	self.inputLabel.text = [NSString stringWithFormat:@"%@ miles/year", [numberFormatter_ stringFromNumber:self.result]];
+	self.currentDistance = [inputData_ objectAtIndex:row];
+	self.inputLabel.text = [NSString stringWithFormat:@"%@ miles/year", [numberFormatter_ stringFromNumber:self.currentDistance]];
 }
 
 @end

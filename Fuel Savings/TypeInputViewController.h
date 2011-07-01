@@ -8,8 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TypeInputViewControllerDelegate;
+
 @interface TypeInputViewController : UITableViewController {
-	NSInteger currentIndex_;
+
 }
+
+@property (nonatomic, assign) id <TypeInputViewControllerDelegate> delegate;
+@property (nonatomic) NSInteger currentType;
+
+@end
+
+@protocol TypeInputViewControllerDelegate
+
+- (void)typeInputViewControllerDidFinish:(TypeInputViewController *)controller save:(BOOL)save;
 
 @end

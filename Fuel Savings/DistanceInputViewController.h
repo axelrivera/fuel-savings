@@ -7,16 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SavingsData.h"
+
+@protocol DistanceInputViewControllerDelegate;
 
 @interface DistanceInputViewController : UIViewController {
     NSArray *inputData_;
 	NSNumberFormatter *numberFormatter_;
-	SavingsData *savingsData;
 }
 
+@property (nonatomic, assign) id <DistanceInputViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UILabel *inputLabel;
 @property (nonatomic, retain) IBOutlet UIPickerView *inputPicker;
-@property (nonatomic, copy) NSNumber *result;
+@property (nonatomic, copy) NSNumber *currentDistance;
+
+@end
+
+@protocol DistanceInputViewControllerDelegate
+
+- (void)distanceInputViewControllerDidFinish:(DistanceInputViewController *)controller save:(BOOL)save;
 
 @end

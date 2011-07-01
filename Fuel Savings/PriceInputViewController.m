@@ -10,32 +10,21 @@
 
 @implementation PriceInputViewController
 
+@synthesize delegate = delegate_;
 @synthesize inputTextField = inputTextField_;
 @synthesize clearButton = clearButton_;
 @synthesize enteredDigits = enteredDigits_;
-@synthesize result = result_;
+@synthesize currentPrice = currentPrice_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"PriceInputViewController" bundle:nil];
-	if (self) {
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(dismissAction)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		[cancelButton release];
-		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																					target:self
-																					action:@selector(doneAction)];
-		self.navigationItem.rightBarButtonItem = doneButton;
-		[doneButton release];
-		
+	if (self) {		
 		formatter_ = [[NSNumberFormatter alloc] init];
 		[formatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
 		
 		currencyScale_ = -1 * [formatter_ maximumFractionDigits];
-		savingsData_ = [SavingsData sharedSavingsData];
+		self.currentPrice = [NSDecimalNumber zero];
 	}
 	return self;
 }
@@ -45,7 +34,7 @@
 	[inputTextField_ release];
 	[clearButton_ release];
 	[enteredDigits_ release];
-	[result_ release];
+	[currentPrice_ release];
     [super dealloc];
 }
 
@@ -62,6 +51,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																				  target:self
+																				  action:@selector(dismissAction)];
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	[cancelButton release];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+																				target:self
+																				action:@selector(doneAction)];
+	self.navigationItem.rightBarButtonItem = doneButton;
+	[doneButton release];
+	
 	self.title = @"Change Price";
 	self.clearButton.title = @"Clear";
 }
@@ -79,9 +81,7 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.result = savingsData_.currentCalculation.fuelPrice;
-	self.inputTextField.text = [formatter_ stringFromNumber:self.result];
-	
+	self.inputTextField.text = [formatter_ stringFromNumber:self.currentPrice];
 	[self.inputTextField becomeFirstResponder];
 }
 
@@ -90,20 +90,20 @@
 - (void)doneAction
 {
 	[self.inputTextField resignFirstResponder];
-	savingsData_.currentCalculation.fuelPrice = self.result;
-	[self performSelector:@selector(dismissAction)];
+	[self.delegate priceInputViewControllerDidFinish:self save:YES];
+	 
 }
 
 - (void)dismissAction
 {
-	[self.navigationController popViewControllerAnimated:YES];
+	[self.delegate priceInputViewControllerDidFinish:self save:NO];
 }
 
 - (void)clearAction:(id)sender
 {
-	self.result = [NSDecimalNumber zero];
+	self.currentPrice = [NSDecimalNumber zero];
 	self.enteredDigits = @"";
-	self.inputTextField.text = [formatter_ stringFromNumber:self.result];
+	self.inputTextField.text = [formatter_ stringFromNumber:self.currentPrice];
 }
 
 #pragma mark -
@@ -111,7 +111,7 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {	
-	NSDecimalNumber *digits = [self.result decimalNumberByMultiplyingByPowerOf10:abs(currencyScale_)];
+	NSDecimalNumber *digits = [self.currentPrice decimalNumberByMultiplyingByPowerOf10:abs(currencyScale_)];
 	self.enteredDigits = [digits stringValue];
 }
 
@@ -139,7 +139,7 @@
         number = [NSDecimalNumber zero];
     }
 	
-	self.result = number;
+	self.currentPrice = number;
     // Replace the text with the localized decimal number
     textField.text = [formatter_ stringFromNumber:number];
 	

@@ -7,11 +7,6 @@
 //
 
 #import "CurrentSavingsViewController.h"
-#import "TypeInputViewController.h"
-#import "PriceInputViewController.h"
-#import "DistanceInputViewController.h"
-#import "OwnerInputViewController.h"
-#import "VehicleInputViewController.h"
 
 @implementation CurrentSavingsViewController
 
@@ -167,15 +162,23 @@
 	if (indexPath.section == 0) {
 		if (indexPath.row == 0) {
 			TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentType = savingsData_.currentCalculation.type;
 			viewController = inputViewController;
 		} else if (indexPath.row == 1) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentPrice = savingsData_.currentCalculation.fuelPrice;
 			viewController = inputViewController;
 		} else if (indexPath.row == 2) {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentDistance = savingsData_.currentCalculation.distance;
 			viewController = inputViewController;
 		} else {
 			OwnerInputViewController *inputViewController = [[OwnerInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentOwnership = savingsData_.currentCalculation.carOwnership;
 			viewController = inputViewController;
 		}
 	} else {
@@ -189,6 +192,40 @@
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
+}
+
+#pragma mark - View Controller Delegates
+
+- (void)typeInputViewControllerDidFinish:(TypeInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		savingsData_.currentCalculation.type = controller.currentType;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		savingsData_.currentCalculation.fuelPrice = controller.currentPrice;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)distanceInputViewControllerDidFinish:(DistanceInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		savingsData_.currentCalculation.distance = controller.currentDistance;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)ownerInputViewControllerDelegate:(OwnerInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		savingsData_.currentCalculation.carOwnership = controller.currentOwnership;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

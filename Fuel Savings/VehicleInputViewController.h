@@ -10,12 +10,13 @@
 #import "SavingsData.h"
 #import "Vehicle.h"
 
-@interface VehicleInputViewController : UITableViewController {
+@interface VehicleInputViewController : UITableViewController <UITextFieldDelegate> {
 	SavingsData *savingsData_;
+	UITextField *nameTextField_;
 	UITextField *avgTextField_;
 	UITextField *cityTextField_;
 	UITextField *highwayTextField_;
-	NSInteger tableRows_;
+	NSInteger infoRows_;
 	Vehicle *editingVehicle_;
 }
 

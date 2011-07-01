@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "SavingsData.h"
 #import "SavingsCalculation.h"
+#import "TypeInputViewController.h"
+#import "PriceInputViewController.h"
+#import "DistanceInputViewController.h"
+#import "OwnerInputViewController.h"
+#import "VehicleInputViewController.h"
 
-@interface CurrentSavingsViewController : UIViewController {
+@interface CurrentSavingsViewController : UIViewController
+	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate,
+	DistanceInputViewControllerDelegate, OwnerInputViewControllerDelegate>
+{
 	SavingsData *savingsData_;
 }
 

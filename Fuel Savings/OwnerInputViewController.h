@@ -7,15 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SavingsData.h"
+
+@protocol OwnerInputViewControllerDelegate;
 
 @interface OwnerInputViewController : UIViewController {
 	NSArray *inputData_;
-	SavingsData *savingsData; 
 }
 
+@property (nonatomic, assign) id <OwnerInputViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UILabel *inputLabel;
 @property (nonatomic, retain) IBOutlet UIPickerView *inputPicker;
-@property (nonatomic, copy) NSNumber *result;
+@property (nonatomic, copy) NSNumber *currentOwnership;
+
+@end
+
+@protocol  OwnerInputViewControllerDelegate
+
+- (void)ownerInputViewControllerDelegate:(OwnerInputViewController *)controller save:(BOOL)save;
 
 @end

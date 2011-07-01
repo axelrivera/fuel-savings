@@ -8,25 +8,17 @@
 
 #import "TypeInputViewController.h"
 #import "SavingsCalculation.h"
-#import "SavingsData.h"
 
 @implementation TypeInputViewController
+
+@synthesize delegate = delegate_;
+@synthesize currentType = currentType_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"TypeInputViewController" bundle:nil];
 	if (self) {
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(dismissAction)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		[cancelButton release];
-		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																					target:self
-																					action:@selector(doneAction)];
-		self.navigationItem.rightBarButtonItem = doneButton;
-		[doneButton release];
+		self.currentType = 0;
 	}
 	return self;
 }
@@ -49,6 +41,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																				  target:self
+																				  action:@selector(dismissAction)];
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	[cancelButton release];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+																				target:self
+																				action:@selector(doneAction)];
+	self.navigationItem.rightBarButtonItem = doneButton;
+	[doneButton release];
+	
 	self.title = @"Change Use";
 }
 
@@ -59,28 +64,16 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-	currentIndex_ = [SavingsData sharedSavingsData].currentCalculation.type;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
 #pragma mark - Custom Actions
 
 - (void)doneAction
 {
-	[SavingsData sharedSavingsData].currentCalculation.type = currentIndex_;
-	[self performSelector:@selector(dismissAction)];
+	[self.delegate typeInputViewControllerDidFinish:self save:YES];
 }
 
 - (void)dismissAction
 {
-	[self.navigationController popViewControllerAnimated:YES];
+	[self.delegate typeInputViewControllerDidFinish:self save:NO];
 }
 
 
@@ -110,7 +103,7 @@
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	cell.accessoryType = UITableViewCellAccessoryNone;
-	if (currentIndex_ == indexPath.row) {
+	if (self.currentType == indexPath.row) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	}
 	
@@ -122,7 +115,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSInteger localIndex = currentIndex_;
+    NSInteger localIndex = self.currentType;
     if (localIndex == indexPath.row) {
         return;
     }
@@ -131,7 +124,7 @@
     UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
     if (newCell.accessoryType == UITableViewCellAccessoryNone) {
         newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        currentIndex_ = indexPath.row;
+        self.currentType = indexPath.row;
     }
 	
     UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];

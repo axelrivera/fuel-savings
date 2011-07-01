@@ -10,28 +10,15 @@
 
 @implementation OwnerInputViewController
 
+@synthesize delegate = delegate_;
 @synthesize inputLabel = inputLabel_;
 @synthesize inputPicker = inputPicker_;
-@synthesize result = result_;
+@synthesize currentOwnership = currentOwnership_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"OwnerInputViewController" bundle:nil];
 	if (self) {
-		savingsData = [SavingsData sharedSavingsData];
-		
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(dismissAction)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		[cancelButton release];
-		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																					target:self
-																					action:@selector(doneAction)];
-		self.navigationItem.rightBarButtonItem = doneButton;
-		[doneButton release];
-		
 		NSMutableArray *input = [[NSMutableArray alloc] initWithCapacity:50];
 		
 		for (NSInteger i = 1; i <= 20; i++) {
@@ -40,6 +27,8 @@
 		
 		inputData_ = [[NSArray alloc] initWithArray:input];
 		[input release];
+		
+		self.currentOwnership = [NSNumber numberWithInteger:5];
 	}
 	return self;
 }
@@ -49,7 +38,7 @@
 	[inputData_ release];
 	[inputLabel_ release];
 	[inputPicker_ release];
-	[result_ release];
+	[currentOwnership_ release];
     [super dealloc];
 }
 
@@ -66,6 +55,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																				  target:self
+																				  action:@selector(dismissAction)];
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	[cancelButton release];
+	
+	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+																				target:self
+																				action:@selector(doneAction)];
+	self.navigationItem.rightBarButtonItem = doneButton;
+	[doneButton release];
+	
 	self.title = @"Change Ownership";
 }
 
@@ -80,9 +82,7 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.result = savingsData.currentCalculation.carOwnership;
-	
-	NSInteger initialRow = [self.result integerValue] - 1;
+	NSInteger initialRow = [self.currentOwnership integerValue] - 1;
 	
 	NSString *yearString;
 	if (initialRow == 0) {
@@ -90,7 +90,7 @@
 	} else {
 		yearString = @"years";
 	}
-	self.inputLabel.text = [NSString stringWithFormat:@"%@ %@", [self.result stringValue], yearString];
+	self.inputLabel.text = [NSString stringWithFormat:@"%@ %@", [self.currentOwnership stringValue], yearString];
 	[self.inputPicker selectRow:initialRow inComponent:0 animated:NO];
 }
 
@@ -103,13 +103,12 @@
 
 - (void)doneAction
 {
-	savingsData.currentCalculation.carOwnership = self.result;
-	[self performSelector:@selector(dismissAction)];
+	[self.delegate ownerInputViewControllerDelegate:self save:YES];
 }
 
 - (void)dismissAction
 {
-	[self.navigationController popViewControllerAnimated:YES];
+	[self.delegate ownerInputViewControllerDelegate:self save:NO];
 }
 
 # pragma mark - UIPickerView Data Source
@@ -138,14 +137,14 @@
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-	self.result = [inputData_ objectAtIndex:row];
+	self.currentOwnership = [inputData_ objectAtIndex:row];
 	NSString *yearString;
 	if (row == 0) {
 		yearString = @"year";
 	} else {
 		yearString = @"years";
 	}
-	self.inputLabel.text = [NSString stringWithFormat:@"%@ %@", [self.result stringValue], yearString];
+	self.inputLabel.text = [NSString stringWithFormat:@"%@ %@", [self.currentOwnership stringValue], yearString];
 }
 
 @end
