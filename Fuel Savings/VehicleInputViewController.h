@@ -9,19 +9,29 @@
 #import <UIKit/UIKit.h>
 #import "SavingsData.h"
 #import "Vehicle.h"
+#import "NameInputViewController.h"
+#import "EfficiencyInputViewController.h"
 
-@interface VehicleInputViewController : UITableViewController <UITextFieldDelegate> {
+@protocol VehicleInputViewControllerDelegate;
+
+@interface VehicleInputViewController : UITableViewController
+	<NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate>
+{
 	SavingsData *savingsData_;
-	UITextField *nameTextField_;
-	UITextField *avgTextField_;
-	UITextField *cityTextField_;
-	UITextField *highwayTextField_;
 	NSInteger infoRows_;
-	Vehicle *editingVehicle_;
 }
 
-@property (nonatomic, copy) NSString *vehicleName;
+@property (nonatomic, assign) id <VehicleInputViewControllerDelegate> delegate;
+@property (nonatomic, copy) NSString *currentName;
+@property (nonatomic, copy) NSNumber *currentAvgEfficiency;
+@property (nonatomic, copy) NSNumber *currentCityEfficiency;
+@property (nonatomic, copy) NSNumber *currentHighwayEfficiency;
+@property (nonatomic) BOOL isEditingVehicle;
 
-- (void)setEditingVehicle:(Vehicle *)vehicle;
+@end
+
+@protocol VehicleInputViewControllerDelegate
+
+- (void)vehicleInputViewControllerDidFinish:(VehicleInputViewController *)controller save:(BOOL)save;
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "CurrentSavingsViewController.h"
+#import "NSMutableArray+Vehicle.h"
+
+#define MAX_VEHICLES 5
 
 @implementation CurrentSavingsViewController
 
@@ -67,7 +70,7 @@
 	[super viewWillAppear:animated];
 	
 	self.title = @"New Calculation";
-	[self.currentTable reloadData];
+	[self.currentTable reloadData];	
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -100,7 +103,7 @@
 	if (section == 0) {
 		rows = 4;
 	} else {
-		rows = 1;
+		rows = 1 + [savingsData_.currentCalculation.vehicles count];
 	}
 	return rows;
 }
@@ -145,6 +148,9 @@
 	} else {
 		if (indexPath.row == 0) {
 			cell.textLabel.text = @"Add New Vehicle";
+		} else {
+			Vehicle *vehicle = [savingsData_.currentCalculation.vehicles objectAtIndex:indexPath.row - 1];
+			cell.textLabel.text = vehicle.name;
 		}
 	}
 	
@@ -182,8 +188,28 @@
 			viewController = inputViewController;
 		}
 	} else {
+		NSInteger totalVehicles = [savingsData_.currentCalculation.vehicles count];
+		if (indexPath.row == 0 && totalVehicles >= MAX_VEHICLES) {
+			NSString *errorString = [NSString stringWithFormat:@"You can only add a maximum of %i vehicles. Please"
+									 @" remove one of your current vehicles before continuing.",
+									 MAX_VEHICLES];
+			[self performSelector:@selector(displayErrorWithMessage:) withObject:errorString];
+			return;
+		}
+		
+		VehicleInputViewController *inputViewController = [[VehicleInputViewController alloc] init];
+		inputViewController.delegate = self;
+		
 		if (indexPath.row == 0) {
-			VehicleInputViewController *inputViewController = [[VehicleInputViewController alloc] init];
+			inputViewController.currentName = [NSString stringWithFormat:@"Car %i", totalVehicles + 1];
+			viewController = inputViewController;
+		} else {
+			inputViewController.isEditingVehicle = YES;
+			Vehicle *vehicle = [savingsData_.currentCalculation.vehicles objectAtIndex:indexPath.row - 1];
+			inputViewController.currentName = vehicle.name;
+			inputViewController.currentAvgEfficiency = vehicle.avgEfficiency;
+			inputViewController.currentCityEfficiency = vehicle.cityEfficiency;
+			inputViewController.currentHighwayEfficiency = vehicle.highwayEfficiency;
 			viewController = inputViewController;
 		}
 	}
@@ -226,6 +252,46 @@
 		savingsData_.currentCalculation.carOwnership = controller.currentOwnership;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)vehicleInputViewControllerDidFinish:(VehicleInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		if (!controller.isEditingVehicle) {
+			Vehicle *vehicle = [[Vehicle alloc] init];
+			vehicle.name = controller.currentName;
+			if (savingsData_.currentCalculation.type == SavingsCalculationTypeAverage) {
+				vehicle.avgEfficiency = controller.currentAvgEfficiency;
+				vehicle.cityEfficiency = vehicle.avgEfficiency;
+				vehicle.highwayEfficiency = vehicle.avgEfficiency;
+			} else {
+				vehicle.cityEfficiency = controller.currentCityEfficiency;
+				vehicle.highwayEfficiency = controller.currentHighwayEfficiency;
+				
+				NSInteger average = ([vehicle.cityEfficiency integerValue] + [vehicle.highwayEfficiency integerValue]) / 2;
+				
+				vehicle.avgEfficiency = [NSNumber numberWithInteger:average];
+			}
+			
+			[savingsData_.currentCalculation.vehicles addVehicle:vehicle];
+			
+			[vehicle release];
+		}
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - UIAlert Views
+
+- (void)displayErrorWithMessage:(NSString *)message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
+													message:message
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
 }
 
 @end

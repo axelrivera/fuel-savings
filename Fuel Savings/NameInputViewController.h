@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol NameInputViewControllerDelegate;
+
 @interface NameInputViewController : UITableViewController <UITextFieldDelegate> {
-	UITextField *inputTextField_;
-	NSString *currentInput_;
+	UITextField *nameTextField_;
 }
+
+@property (nonatomic, assign) id <NameInputViewControllerDelegate> delegate;
+@property (nonatomic, copy) NSString *currentName;
+
+@end
+
+@protocol NameInputViewControllerDelegate
+
+- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save;
 
 @end

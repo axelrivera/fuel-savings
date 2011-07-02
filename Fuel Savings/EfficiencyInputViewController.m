@@ -1,40 +1,41 @@
 //
-//  PriceInputViewController.m
+//  MPGInputViewController.m
 //  Fuel Savings
 //
-//  Created by arn on 6/28/11.
+//  Created by arn on 7/1/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "PriceInputViewController.h"
+#import "EfficiencyInputViewController.h"
 
-@implementation PriceInputViewController
+#define MAX_DIGITS 3
+
+@implementation EfficiencyInputViewController
 
 @synthesize delegate = delegate_;
-@synthesize inputTextField = inputTextField_;
+@synthesize efficiencyTextField = efficiencyTextField_;
 @synthesize clearButton = clearButton_;
 @synthesize enteredDigits = enteredDigits_;
-@synthesize currentPrice = currentPrice_;
+@synthesize currentEfficiency = currentEfficiency_;
+@synthesize currentType = currentType_;
 
 - (id)init
 {
-	self = [super initWithNibName:@"PriceInputViewController" bundle:nil];
-	if (self) {		
-		formatter_ = [[NSNumberFormatter alloc] init];
-		[formatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
-		
-		currencyScale_ = -1 * [formatter_ maximumFractionDigits];
-		self.currentPrice = [NSDecimalNumber zero];
+	self = [super initWithNibName:@"EfficiencyInputViewController" bundle:nil];
+	if (self) {
+		self.enteredDigits = @"";
+		self.currentEfficiency = [NSNumber numberWithInteger:0];
+		self.currentType = EfficiencyInputTypeAverage;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[inputTextField_ release];
+	[efficiencyTextField_ release];
 	[clearButton_ release];
 	[enteredDigits_ release];
-	[currentPrice_ release];
+	[currentEfficiency_ release];
     [super dealloc];
 }
 
@@ -64,8 +65,9 @@
 	self.navigationItem.rightBarButtonItem = doneButton;
 	[doneButton release];
 	
-	self.title = @"Change Price";
+	self.title = @"Fuel Efficiency";
 	self.clearButton.title = @"Clear";
+	self.efficiencyTextField.placeholder = @"MPG";
 }
 
 - (void)viewDidUnload
@@ -73,7 +75,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	self.inputTextField = nil;
+	self.efficiencyTextField = nil;
 	self.clearButton = nil;
 }
 
@@ -81,44 +83,49 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.inputTextField.text = [formatter_ stringFromNumber:self.currentPrice];
-	[self.inputTextField becomeFirstResponder];
+	if ([self.currentEfficiency integerValue] > 0) {
+		self.efficiencyTextField.text = [NSString stringWithFormat:@"%@ MPG", [self.currentEfficiency stringValue]];
+	} else {
+		self.efficiencyTextField.text = @"";
+	}
+	
+	[self.efficiencyTextField becomeFirstResponder];
 }
 
 #pragma mark - Custom Actions
 
 - (void)doneAction
 {
-	[self.inputTextField resignFirstResponder];
-	[self.delegate priceInputViewControllerDidFinish:self save:YES];
-	 
+	[self.delegate efficiencyInputViewControllerDidFinish:self save:YES];
 }
 
 - (void)dismissAction
 {
-	[self.delegate priceInputViewControllerDidFinish:self save:NO];
+	[self.delegate efficiencyInputViewControllerDidFinish:self save:NO];
 }
+
 
 - (void)clearAction:(id)sender
 {
-	self.currentPrice = [NSDecimalNumber zero];
+	self.currentEfficiency = [NSNumber numberWithInteger:0];
 	self.enteredDigits = @"";
-	self.inputTextField.text = [formatter_ stringFromNumber:self.currentPrice];
+	self.efficiencyTextField.text = @"";
 }
 
 #pragma mark - UITextFieldDelegate methods
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {	
-	NSDecimalNumber *digits = [self.currentPrice decimalNumberByMultiplyingByPowerOf10:abs(currencyScale_)];
-	self.enteredDigits = [digits stringValue];
+	self.enteredDigits = [self.currentEfficiency stringValue];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {	
     // Check the length of the string
     if ([string length] > 0) {
-        self.enteredDigits = [self.enteredDigits stringByAppendingFormat:@"%d", [string integerValue]];
+		if ([self.enteredDigits length] <= MAX_DIGITS) {
+			self.enteredDigits = [self.enteredDigits stringByAppendingFormat:@"%d", [string integerValue]];
+		}
     } else {
         // This is a backspace
         NSUInteger len = [self.enteredDigits length];
@@ -129,18 +136,17 @@
         }
     }
 	
-    NSDecimalNumber *number = nil;
-	
     if (![self.enteredDigits isEqualToString:@""]) {
-		NSDecimalNumber *decimal = [NSDecimalNumber decimalNumberWithString:self.enteredDigits];
-        number = [decimal decimalNumberByMultiplyingByPowerOf10:currencyScale_];
+		self.currentEfficiency = [NSNumber numberWithInteger:[self.enteredDigits integerValue]];
     } else {
-        number = [NSDecimalNumber zero];
-    }
-	
-	self.currentPrice = number;
-    // Replace the text with the localized decimal number
-    textField.text = [formatter_ stringFromNumber:number];
+        self.currentEfficiency = [NSNumber numberWithInteger:0];
+	}
+    
+	if ([self.currentEfficiency integerValue] > 0) {
+		textField.text = [NSString stringWithFormat:@"%@ MPG", [self.currentEfficiency stringValue]];
+	} else {
+		textField.text = @"";
+	}
 	
     return NO;  
 }

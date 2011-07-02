@@ -12,7 +12,7 @@
 typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } SavingsCalculationType;
 
 @interface SavingsCalculation : NSObject {
-	NSMutableArray *vehicles_;
+
 }
 
 @property (nonatomic, copy) NSString *name;
@@ -20,7 +20,7 @@ typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } S
 @property (nonatomic, copy) NSDecimalNumber *fuelPrice;
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) NSNumber *carOwnership;
-@property (nonatomic, readonly) NSArray *vehicles;
+@property (nonatomic, retain) NSMutableArray *vehicles;
 
 + (NSString *)stringValueForType:(SavingsCalculationType)type;
 

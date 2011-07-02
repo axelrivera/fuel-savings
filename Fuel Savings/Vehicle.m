@@ -11,13 +11,18 @@
 @implementation Vehicle
 
 @synthesize name = name_;
-@synthesize avgMPG, cityMPG, highwayMPG;
+@synthesize avgEfficiency = avgEfficiency_;
+@synthesize cityEfficiency = cityEfficiency_;
+@synthesize highwayEfficiency = highwayEfficiency_;
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
-		// Initialization Code
+		self.name = @"";
+		self.avgEfficiency = [NSNumber numberWithInteger:0];
+		self.cityEfficiency = [NSNumber numberWithInteger:0];
+		self.highwayEfficiency = [NSNumber numberWithInteger:0];
 	}
 	return self;
 }
@@ -25,6 +30,9 @@
 - (void)dealloc
 {
 	[name_ release];
+	[avgEfficiency_ release];
+	[cityEfficiency_ release];
+	[highwayEfficiency_ release];
 	[super dealloc];
 }
 

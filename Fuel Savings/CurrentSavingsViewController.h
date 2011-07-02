@@ -16,8 +16,8 @@
 #import "VehicleInputViewController.h"
 
 @interface CurrentSavingsViewController : UIViewController
-	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate,
-	DistanceInputViewControllerDelegate, OwnerInputViewControllerDelegate>
+	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
+	OwnerInputViewControllerDelegate, VehicleInputViewControllerDelegate>
 {
 	SavingsData *savingsData_;
 }

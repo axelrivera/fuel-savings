@@ -14,8 +14,8 @@
 }
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic) NSInteger avgMPG;
-@property (nonatomic) NSInteger cityMPG;
-@property (nonatomic) NSInteger highwayMPG;
+@property (nonatomic, copy) NSNumber *avgEfficiency;
+@property (nonatomic, copy) NSNumber *cityEfficiency;
+@property (nonatomic, copy) NSNumber *highwayEfficiency;
 
 @end

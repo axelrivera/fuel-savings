@@ -13,7 +13,12 @@
 
 @implementation VehicleInputViewController
 
-@synthesize vehicleName = vehicleName_;
+@synthesize delegate = delegate_;
+@synthesize currentName = currentName_;
+@synthesize currentAvgEfficiency = currentAvgEfficiency_;
+@synthesize currentCityEfficiency = currentCityEfficiency_;
+@synthesize currentHighwayEfficiency = currentHighwayEfficiency_;
+@synthesize isEditingVehicle = isEditingVehicle_;
 
 - (id)init
 {
@@ -27,24 +32,27 @@
 		self.navigationItem.leftBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+		UIBarButtonItem *finishButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
 																					target:self
-																					action:@selector(doneAction)];
-		self.navigationItem.rightBarButtonItem = doneButton;
-		[doneButton release];
+																					action:@selector(finishAction)];
+		self.navigationItem.rightBarButtonItem = finishButton;
+		[finishButton release];
 		
-		editingVehicle_ = nil;
+		self.currentName = @"";
+		self.currentAvgEfficiency = [NSNumber numberWithInteger:0];
+		self.currentCityEfficiency = [NSNumber numberWithInteger:0];
+		self.currentHighwayEfficiency = [NSNumber numberWithInteger:0];
+		self.isEditingVehicle = NO;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[nameTextField_ release];
-	[avgTextField_ release];
-	[cityTextField_ release];
-	[highwayTextField_ release];
-	[vehicleName_ release];
+	[currentName_ release];
+	[currentAvgEfficiency_ release];
+	[currentCityEfficiency_ release];
+	[currentHighwayEfficiency_ release];
     [super dealloc];
 }
 
@@ -61,50 +69,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	nameTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(110.0, 7.0, 190.0, 30.0)];
-	nameTextField_.font = [UIFont systemFontOfSize:16.0];
-	nameTextField_.adjustsFontSizeToFitWidth = YES;
-	nameTextField_.placeholder = @"Name";
-	nameTextField_.keyboardType = UIKeyboardTypeDefault;
-	nameTextField_.returnKeyType = UIReturnKeyDefault;
-	nameTextField_.autocapitalizationType = UITextAutocapitalizationTypeWords;
-	nameTextField_.textAlignment = UITextAlignmentLeft;
-	nameTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	nameTextField_.delegate = self;
-	
-	avgTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(110.0, 7.0, 190.0, 30.0)];
-	avgTextField_.font = [UIFont systemFontOfSize:16.0];
-	avgTextField_.adjustsFontSizeToFitWidth = YES;
-	avgTextField_.placeholder = @"Average MPG";
-	avgTextField_.keyboardType = UIKeyboardTypeDefault;
-	avgTextField_.returnKeyType = UIReturnKeyDefault;
-	avgTextField_.autocapitalizationType = UITextAutocapitalizationTypeWords;
-	avgTextField_.textAlignment = UITextAlignmentLeft;
-	avgTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	avgTextField_.delegate = self;
-	
-	cityTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(110.0, 7.0, 190.0, 30.0)];
-	cityTextField_.font = [UIFont systemFontOfSize:16.0];
-	cityTextField_.adjustsFontSizeToFitWidth = YES;
-	cityTextField_.placeholder = @"City MPG";
-	cityTextField_.keyboardType = UIKeyboardTypeDefault;
-	cityTextField_.returnKeyType = UIReturnKeyDefault;
-	cityTextField_.autocapitalizationType = UITextAutocapitalizationTypeWords;
-	cityTextField_.textAlignment = UITextAlignmentLeft;
-	cityTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	cityTextField_.delegate = self;
-	
-	highwayTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(110.0, 7.0, 190.0, 30.0)];
-	highwayTextField_.font = [UIFont systemFontOfSize:16.0];
-	highwayTextField_.adjustsFontSizeToFitWidth = YES;
-	highwayTextField_.placeholder = @"Highway MPG";
-	highwayTextField_.keyboardType = UIKeyboardTypeDefault;
-	highwayTextField_.returnKeyType = UIReturnKeyDefault;
-	highwayTextField_.autocapitalizationType = UITextAutocapitalizationTypeWords;
-	highwayTextField_.textAlignment = UITextAlignmentLeft;
-	highwayTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	highwayTextField_.delegate = self;
 }
 
 - (void)viewDidUnload
@@ -112,22 +76,14 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	[nameTextField_ release];
-	nameTextField_ = nil;
-	[avgTextField_ release];
-	avgTextField_ = nil;
-	[cityTextField_ release];
-	cityTextField_ = nil;
-	[highwayTextField_ release];
-	highwayTextField_ = nil;
-	self.vehicleName = nil;
+	self.currentName = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 	
-	if (!editingVehicle_) {
+	if (!isEditingVehicle_) {
 		self.title = @"New Vehicle";
 	} else {
 		self.title = @"Edit Vehicle";
@@ -138,6 +94,7 @@
 	} else {
 		infoRows_ = CITY_HIGHWAY_ROWS;
 	}
+	[self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -147,21 +104,14 @@
 
 #pragma mark - Custom Actions
 
-- (void)doneAction
+- (void)finishAction
 {
-	[self performSelector:@selector(dismissAction)];
+	[self.delegate vehicleInputViewControllerDidFinish:self save:YES];
 }
 
 - (void)dismissAction
 {
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark - Custom Methods
-
-- (void)setEditingVehicle:(Vehicle *)vehicle
-{
-	editingVehicle_ = vehicle;
+	[self.delegate vehicleInputViewControllerDidFinish:self save:NO];
 }
 
 #pragma mark - Table view data source
@@ -199,30 +149,31 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
 	NSString *labelString = nil;
-	UIView *accessoryView = nil;
+	NSString *detailString = nil;
 	if (indexPath.row == 0) {
 		labelString = @"Name";
-		accessoryView = nameTextField_;
+		detailString = self.currentName;
 	} else if (indexPath.row == 1) {
 		if (infoRows_ == AVG_ROWS) {
-			labelString = @"Average";
-			accessoryView = avgTextField_;
+			labelString = @"Average MPG";
+			detailString = [NSString stringWithFormat:@"%@ MPG", [self.currentAvgEfficiency stringValue]];
 		} else {
-			labelString = @"City";
-			accessoryView = cityTextField_;
+			labelString = @"City MPG";
+			detailString = [NSString stringWithFormat:@"%@ MPG", [self.currentCityEfficiency stringValue]];
 		}
 	} else {
-		labelString = @"Highway";
-		accessoryView = highwayTextField_;
+		labelString = @"Highway MPG";
+		detailString = [NSString stringWithFormat:@"%@ MPG", [self.currentHighwayEfficiency stringValue]];
 	}
 	
-	cell.selectionStyle = UITableViewCellEditingStyleNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = labelString;
-	cell.accessoryView = accessoryView;
+	cell.detailTextLabel.text = detailString;
 	
     return cell;
 }
@@ -232,7 +183,62 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	UIViewController *viewController = nil;
+	
+	if (indexPath.section == 0) {
+		if (indexPath.row == 0) {
+			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentName = self.currentName;
+			viewController = inputViewController;
+		} else {
+			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
+			inputViewController.delegate = self;
+			if (indexPath.row == 1) {
+				if (infoRows_ == AVG_ROWS) {
+					inputViewController.currentEfficiency = self.currentAvgEfficiency;
+					inputViewController.currentType = EfficiencyInputTypeAverage;
+				} else {
+					inputViewController.currentEfficiency = self.currentCityEfficiency;
+					inputViewController.currentType = EfficiencyInputTypeCity;
+				}
+			} else {
+				inputViewController.currentEfficiency = self.currentHighwayEfficiency;
+				inputViewController.currentType = EfficiencyInputTypeHighway;
+			}
+			viewController = inputViewController;
+		}
+	}
+	
+	if (viewController) {
+		[self.navigationController pushViewController:viewController animated:YES];
+		[viewController release];
+	}
 }
 
+# pragma mark View Controller Delegates
+
+- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		self.currentName = controller.currentName;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)efficiencyInputViewControllerDidFinish:(EfficiencyInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		if (controller.currentType == EfficiencyInputTypeAverage) {
+			self.currentAvgEfficiency = controller.currentEfficiency;
+		} else if (controller.currentType == EfficiencyInputTypeCity) {
+			self.currentCityEfficiency = controller.currentEfficiency;
+		} else {
+			self.currentHighwayEfficiency = controller.currentEfficiency;
+		}
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

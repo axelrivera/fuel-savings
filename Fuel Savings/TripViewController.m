@@ -1,19 +1,19 @@
 //
-//  MySavingsViewController.m
+//  TripViewController.m
 //  Fuel Savings
 //
-//  Created by arn on 6/27/11.
+//  Created by arn on 7/1/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "MySavingsViewController.h"
+#import "TripViewController.h"
 
 
-@implementation MySavingsViewController
+@implementation TripViewController
 
 - (id)init
 {
-	self = [super initWithNibName:@"MySavingsViewController" bundle:nil];
+	self = [super initWithNibName:@"TripViewController" bundle:nil];
 	if (self) {
 		// Initialization Code
 	}
@@ -38,7 +38,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.title = @"Saved";
+	
+	self.title = @"My Trip";
 }
 
 - (void)viewDidUnload

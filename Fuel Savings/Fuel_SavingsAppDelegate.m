@@ -20,10 +20,11 @@
 	[SavingsData sharedSavingsData];
 	
 	// Override point for customization after application launch.
-	[[self.tabBarController.viewControllers objectAtIndex:0] setTitle:@"Fuel Savings"];
-	[[self.tabBarController.viewControllers objectAtIndex:1] setTitle:@"My Savings"];
-	[[self.tabBarController.viewControllers objectAtIndex:2] setTitle:@"Database"];
-	[[self.tabBarController.viewControllers objectAtIndex:3] setTitle:@"Settings"];
+	[[self.tabBarController.viewControllers objectAtIndex:0] setTitle:@"Compare"];
+	[[self.tabBarController.viewControllers objectAtIndex:1] setTitle:@"My Trip"];
+	[[self.tabBarController.viewControllers objectAtIndex:2] setTitle:@"Saved"];
+	[[self.tabBarController.viewControllers objectAtIndex:3] setTitle:@"Database"];
+	[[self.tabBarController.viewControllers objectAtIndex:4] setTitle:@"Settings"];
 	
     [self.window addSubview:self.tabBarController.view];
     [self.window makeKeyAndVisible];

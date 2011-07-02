@@ -45,7 +45,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.title = @"Fuel Savings";
+	self.navigationItem.title = @"Compare Savings";
 	
 	[self.view addSubview:[self topBar]];
 }

@@ -17,6 +17,7 @@
 @synthesize fuelPrice = fuelPrice_;
 @synthesize distance = distance_;
 @synthesize carOwnership = carOwnership_;
+@synthesize vehicles = vehicles_;
 
 #pragma mark - Class Methods
 
@@ -29,7 +30,7 @@
 		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
 		self.distance = [NSNumber numberWithInteger:15000];
 		self.carOwnership = [NSNumber numberWithInteger:5];
-		vehicles_ = [[NSMutableArray alloc] initWithCapacity:0];
+		self.vehicles = [NSMutableArray arrayWithCapacity:0];
 	}
 	return self;
 }
@@ -37,19 +38,14 @@
 - (void)dealloc
 {
 	[name_ release];
-	[vehicles_ release];
 	[fuelPrice_ release];
 	[distance_ release];
 	[carOwnership_ release];
+	[vehicles_ release];
 	[super dealloc];
 }
 
 #pragma mark - Custom Setters and Getters
-
-- (NSArray *)vehicles
-{
-	return vehicles_;
-}
 
 #pragma mark - Custom Methods
 
