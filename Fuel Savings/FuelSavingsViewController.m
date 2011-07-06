@@ -7,7 +7,7 @@
 //
 
 #import "FuelSavingsViewController.h"
-#import "CurrentSavingsViewController.h"
+#import "NewSavingsViewController.h"
 
 @implementation FuelSavingsViewController
 
@@ -82,7 +82,7 @@
 - (void)newAction
 {
 	[savingsData_ resetNewCalculation];
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] init];
+	NewSavingsViewController *currentSavingsViewController = [[NewSavingsViewController alloc] init];
 	currentSavingsViewController.delegate = self;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
@@ -106,7 +106,7 @@
 
 #pragma mark - View Controller Delegates
 
-- (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save
+- (void)newSavingsViewControllerDelegateDidFinish:(NewSavingsViewController *)controller save:(BOOL)save
 {
 	if (save) {
 		savingsData_.currentCalculation = savingsData_.newCalculation;

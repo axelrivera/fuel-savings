@@ -13,11 +13,12 @@
 @implementation EfficiencyInputViewController
 
 @synthesize delegate = delegate_;
-@synthesize efficiencyTextField = efficiencyTextField_;
-@synthesize clearButton = clearButton_;
+@synthesize key = key_;
 @synthesize enteredDigits = enteredDigits_;
 @synthesize currentEfficiency = currentEfficiency_;
 @synthesize currentType = currentType_;
+@synthesize efficiencyTextField = efficiencyTextField_;
+@synthesize clearButton = clearButton_;
 
 - (id)init
 {
@@ -32,10 +33,11 @@
 
 - (void)dealloc
 {
-	[efficiencyTextField_ release];
-	[clearButton_ release];
+	[key_ release];
 	[enteredDigits_ release];
 	[currentEfficiency_ release];
+	[efficiencyTextField_ release];
+	[clearButton_ release];
     [super dealloc];
 }
 

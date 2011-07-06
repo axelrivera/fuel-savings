@@ -21,11 +21,12 @@ typedef enum {
 }
 
 @property (nonatomic, assign) id <EfficiencyInputViewControllerDelegate> delegate;
-@property (nonatomic, retain) IBOutlet UITextField *efficiencyTextField;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *clearButton;
+@property (nonatomic, copy) NSString *key;
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSNumber *currentEfficiency;
 @property (nonatomic) EfficiencyInputType currentType;
+@property (nonatomic, retain) IBOutlet UITextField *efficiencyTextField;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *clearButton;
 
 - (IBAction)clearAction:(id)sender;
 

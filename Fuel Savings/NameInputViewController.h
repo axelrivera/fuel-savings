@@ -15,6 +15,7 @@
 }
 
 @property (nonatomic, assign) id <NameInputViewControllerDelegate> delegate;
+@property (nonatomic, copy) NSString *key;
 @property (nonatomic, copy) NSString *currentName;
 
 @end

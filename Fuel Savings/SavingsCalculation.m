@@ -17,7 +17,8 @@
 @synthesize fuelPrice = fuelPrice_;
 @synthesize distance = distance_;
 @synthesize carOwnership = carOwnership_;
-@synthesize vehicles = vehicles_;
+@synthesize vehicle1 = vehicle1_;
+@synthesize vehicle2 = vehicle2_;
 
 #pragma mark - Class Methods
 
@@ -30,7 +31,8 @@
 		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
 		self.distance = [NSNumber numberWithInteger:15000];
 		self.carOwnership = [NSNumber numberWithInteger:5];
-		self.vehicles = [NSMutableArray arrayWithCapacity:0];
+		self.vehicle1 = [Vehicle vehicleWithName:@"Car 1"];
+		self.vehicle2 = [Vehicle vehicleWithName:@"Car 2"];
 	}
 	return self;
 }
@@ -41,7 +43,8 @@
 	[fuelPrice_ release];
 	[distance_ release];
 	[carOwnership_ release];
-	[vehicles_ release];
+	[vehicle1_ release];
+	[vehicle2_ release];
 	[super dealloc];
 }
 
@@ -53,10 +56,8 @@
 	newSavings.fuelPrice = self.fuelPrice;
 	newSavings.distance = self.distance;
 	newSavings.carOwnership = self.carOwnership;
-	NSMutableArray *array = [[NSMutableArray alloc] initWithArray:self.vehicles];
-	newSavings.vehicles = array;
-	[array release];
-	NSLog(@"New Savings: %@", newSavings);
+	newSavings.vehicle1 = self.vehicle1;
+	newSavings.vehicle2 = self.vehicle2;
 	return newSavings;
 }
 

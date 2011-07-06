@@ -15,6 +15,17 @@
 @synthesize cityEfficiency = cityEfficiency_;
 @synthesize highwayEfficiency = highwayEfficiency_;
 
++ (Vehicle *)vehicle
+{
+	
+	return [[[[self class] alloc] init] autorelease];
+}
+
++ (Vehicle *)vehicleWithName:(NSString *)name
+{
+	return [[[[self class] alloc] initWithName:name] autorelease];
+}
+
 - (id)init
 {
 	self = [super init];
@@ -23,6 +34,15 @@
 		self.avgEfficiency = [NSNumber numberWithInteger:0];
 		self.cityEfficiency = [NSNumber numberWithInteger:0];
 		self.highwayEfficiency = [NSNumber numberWithInteger:0];
+	}
+	return self;
+}
+
+- (id)initWithName:(NSString *)name
+{
+	self = [self init];
+	if (self) {
+		self.name = name;
 	}
 	return self;
 }

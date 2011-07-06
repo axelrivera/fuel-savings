@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "RLTopToolbar.h"
-#import "CurrentSavingsViewController.h"
+#import "NewSavingsViewController.h"
 #import "SavingsData.h"
 
-@interface FuelSavingsViewController : UIViewController <CurrentSavingsViewControllerDelegate> {
+@interface FuelSavingsViewController : UIViewController <NewSavingsViewControllerDelegate> {
 	SavingsData *savingsData_;
 }
 

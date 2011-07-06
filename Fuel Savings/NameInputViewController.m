@@ -11,12 +11,14 @@
 @implementation NameInputViewController
 
 @synthesize delegate = delegate_;
+@synthesize key = key_;
 @synthesize currentName = currentName_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"NameInputViewController" bundle:nil];
 	if (self) {
+		self.key = @"";
 		self.currentName = @"";
 	}
 	return self;
@@ -24,6 +26,7 @@
 
 - (void)dealloc
 {
+	[key_ release];
 	[currentName_ release];
     [super dealloc];
 }

@@ -18,4 +18,9 @@
 @property (nonatomic, copy) NSNumber *cityEfficiency;
 @property (nonatomic, copy) NSNumber *highwayEfficiency;
 
++ (Vehicle *)vehicle;
++ (Vehicle *)vehicleWithName:(NSString *)name;
+
+- (id)initWithName:(NSString *)name;
+
 @end
