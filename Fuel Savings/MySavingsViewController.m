@@ -20,6 +20,17 @@
 	return self;
 }
 
+- (id)initWithTabBar
+{
+	self = [self init];
+	if (self) {
+		self.title = @"Saved";
+		self.navigationItem.title = @"Saved";
+		self.tabBarItem.image = [UIImage imageNamed:@"saved_tab.png"];
+	}
+	return self;
+}
+
 - (void)dealloc
 {
     [super dealloc];
@@ -38,7 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.title = @"Saved";
 }
 
 - (void)viewDidUnload

@@ -119,8 +119,10 @@
 	self.enteredDigits = [self.currentEfficiency stringValue];
 }
 
+// FIXME: In the first run you get MAX_DIGITS, but after you get MAX_DIGITS + 1
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {	
+	// ???: Is there an error here?
     // Check the length of the string
     if ([string length] > 0) {
 		if ([self.enteredDigits length] <= MAX_DIGITS) {

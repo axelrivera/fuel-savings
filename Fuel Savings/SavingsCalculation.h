@@ -11,7 +11,7 @@
 
 typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } SavingsCalculationType;
 
-@interface SavingsCalculation : NSObject {
+@interface SavingsCalculation : NSObject <NSCopying> {
 
 }
 

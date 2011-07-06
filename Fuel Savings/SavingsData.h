@@ -13,8 +13,12 @@
 
 }
 
-@property (nonatomic, retain) SavingsCalculation *currentCalculation;
+@property (nonatomic, copy) SavingsCalculation *newCalculation;
+@property (nonatomic, copy) SavingsCalculation *currentCalculation;
 
 + (SavingsData *)sharedSavingsData;
+
+- (void)resetNewCalculation;
+- (void)resetCurrentCalculation;
 
 @end

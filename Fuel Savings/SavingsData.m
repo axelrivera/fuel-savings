@@ -12,19 +12,22 @@ static SavingsData *sharedSavingsData;
 
 @implementation SavingsData
 
+@synthesize newCalculation = newCalculation_;
 @synthesize currentCalculation = currentCalculation_;
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
-		currentCalculation_ = [[SavingsCalculation alloc] init];
+		[self resetNewCalculation];
+		[self resetCurrentCalculation];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[newCalculation_ release];
 	[currentCalculation_ release];
 	[super dealloc];
 }
@@ -34,7 +37,7 @@ static SavingsData *sharedSavingsData;
 
 + (SavingsData *)sharedSavingsData {
     if (!sharedSavingsData) {
-        sharedSavingsData = [[SavingsData alloc] init];
+        sharedSavingsData = [[[self class] alloc] init];
 	}
     return sharedSavingsData;
 }
@@ -55,5 +58,18 @@ static SavingsData *sharedSavingsData;
 - (void)release {
     // No op
 }
+
+#pragma mark - Custom Methods
+
+- (void)resetNewCalculation
+{
+	self.newCalculation = [[[SavingsCalculation alloc] init] autorelease];
+}
+
+- (void)resetCurrentCalculation
+{
+	self.currentCalculation = [[[SavingsCalculation alloc] init] autorelease];
+}
+
 
 @end

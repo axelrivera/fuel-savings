@@ -45,6 +45,21 @@
 	[super dealloc];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+	SavingsCalculation *newSavings = [[[self class] allocWithZone:zone] init];
+	newSavings.name = self.name;
+	newSavings.type = self.type;
+	newSavings.fuelPrice = self.fuelPrice;
+	newSavings.distance = self.distance;
+	newSavings.carOwnership = self.carOwnership;
+	NSMutableArray *array = [[NSMutableArray alloc] initWithArray:self.vehicles];
+	newSavings.vehicles = array;
+	[array release];
+	NSLog(@"New Savings: %@", newSavings);
+	return newSavings;
+}
+
 #pragma mark - Custom Setters and Getters
 
 #pragma mark - Custom Methods

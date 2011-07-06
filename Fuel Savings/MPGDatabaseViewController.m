@@ -20,6 +20,17 @@
 	return self;
 }
 
+- (id)initWithTabBar
+{
+	self = [self init];
+	if (self) {
+		self.title = @"Database";
+		self.navigationItem.title = @"MPG Database";
+		self.tabBarItem.image = [UIImage imageNamed:@"mpg_tab.png"];
+	}
+	return self;
+}
+
 - (void)dealloc
 {
     [super dealloc];
@@ -38,7 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.navigationItem.title = @"MPG Database";
 }
 
 - (void)viewDidUnload

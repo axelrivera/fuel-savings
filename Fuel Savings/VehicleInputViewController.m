@@ -19,6 +19,7 @@
 @synthesize currentCityEfficiency = currentCityEfficiency_;
 @synthesize currentHighwayEfficiency = currentHighwayEfficiency_;
 @synthesize isEditingVehicle = isEditingVehicle_;
+@synthesize editVehicleIndex = editVehicleIndex_;
 
 - (id)init
 {
@@ -43,6 +44,7 @@
 		self.currentCityEfficiency = [NSNumber numberWithInteger:0];
 		self.currentHighwayEfficiency = [NSNumber numberWithInteger:0];
 		self.isEditingVehicle = NO;
+		self.editVehicleIndex = -1;
 	}
 	return self;
 }
@@ -53,6 +55,10 @@
 	[currentAvgEfficiency_ release];
 	[currentCityEfficiency_ release];
 	[currentHighwayEfficiency_ release];
+	
+	if (isEditingVehicle_) {
+		[deleteView_ release];
+	}
     [super dealloc];
 }
 
@@ -89,7 +95,7 @@
 		self.title = @"Edit Vehicle";
 	}
 	
-	if (savingsData_.currentCalculation.type == SavingsCalculationTypeAverage) {
+	if (savingsData_.newCalculation.type == SavingsCalculationTypeAverage) {
 		infoRows_ = AVG_ROWS;
 	} else {
 		infoRows_ = CITY_HIGHWAY_ROWS;
@@ -112,6 +118,26 @@
 - (void)dismissAction
 {
 	[self.delegate vehicleInputViewControllerDidFinish:self save:NO];
+}
+
+- (void)deleteVehicleAction
+{
+	if (editVehicleIndex_ > -1) {
+		[savingsData_.newCalculation.vehicles removeObjectAtIndex:editVehicleIndex_];
+	}
+	[self performSelector:@selector(dismissAction)];
+}
+
+- (void)showDeleteVehicleActionSheet:(id)sender
+{
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+															 delegate:self
+													cancelButtonTitle:@"Cancel"
+											   destructiveButtonTitle:@"Delete Vehicle"
+													otherButtonTitles:nil];
+	
+	[actionSheet showInView:self.view];
+	[actionSheet release];
 }
 
 #pragma mark - Table view data source
@@ -214,6 +240,50 @@
 	if (viewController) {
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
+	}
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	if (isEditingVehicle_ == NO) {
+		return nil;
+	}
+	
+	if (section == 0) {
+		return nil;
+	}
+
+	if (deleteView_ == nil) {
+		deleteView_ = [[UIView alloc] initWithFrame:CGRectZero];
+		
+		UIButton *deleteButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		
+		[deleteButton addTarget:self action:@selector(showDeleteVehicleActionSheet:) forControlEvents:UIControlEventTouchDown];
+		[deleteButton setTitle:@"Delete Vehicle" forState:UIControlStateNormal];
+		
+		CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
+		deleteButton.frame = CGRectMake(10.0, 25.0, buttonWidth, 44.0);
+		
+		[deleteView_ addSubview:deleteButton];
+		[deleteButton release];
+	}
+	return deleteView_;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	if (section == 1) {
+		return 69.0;
+	}
+	return 0.0;
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (buttonIndex == 0) {
+		[self performSelector:@selector(deleteVehicleAction)];
 	}
 }
 

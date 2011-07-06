@@ -8,6 +8,11 @@
 
 #import "Fuel_SavingsAppDelegate.h"
 #import "SavingsData.h"
+#import "FuelSavingsViewController.h"
+#import "TripViewController.h"
+#import "MySavingsViewController.h"
+#import "MPGDatabaseViewController.h"
+#import "SettingsViewController.h"
 
 @implementation Fuel_SavingsAppDelegate
 
@@ -16,15 +21,59 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	
 	[SavingsData sharedSavingsData];
 	
-	// Override point for customization after application launch.
-	[[self.tabBarController.viewControllers objectAtIndex:0] setTitle:@"Compare"];
-	[[self.tabBarController.viewControllers objectAtIndex:1] setTitle:@"My Trip"];
-	[[self.tabBarController.viewControllers objectAtIndex:2] setTitle:@"Saved"];
-	[[self.tabBarController.viewControllers objectAtIndex:3] setTitle:@"Database"];
-	[[self.tabBarController.viewControllers objectAtIndex:4] setTitle:@"Settings"];
+	NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:5];
+	
+	FuelSavingsViewController *fuelSavingViewController = [[FuelSavingsViewController alloc] initWithTabBar];
+	UINavigationController *fuelSavingNavigationController = [[UINavigationController alloc] initWithRootViewController:fuelSavingViewController];
+	
+	[viewControllers addObject:fuelSavingNavigationController];
+	
+	[fuelSavingViewController release];
+	[fuelSavingNavigationController release];
+	
+	TripViewController *tripViewController = [[TripViewController alloc] initWithTabBar];
+	UINavigationController *tripNavigationController = [[UINavigationController alloc] initWithRootViewController:tripViewController];
+	
+	[viewControllers addObject:tripNavigationController];
+	
+	[tripViewController release];
+	[tripNavigationController release];
+	
+	MySavingsViewController *mySavingsViewController = [[MySavingsViewController alloc] initWithTabBar];
+	UINavigationController *mySavingsNavigationController = [[UINavigationController alloc] initWithRootViewController:mySavingsViewController];
+	
+	[viewControllers addObject:mySavingsNavigationController];
+	
+	[mySavingsViewController release];
+	[mySavingsNavigationController release];
+	
+	MPGDatabaseViewController *mpgDatabaseViewController = [[MPGDatabaseViewController alloc] initWithTabBar];
+	UINavigationController *mpgDatabaseNavigationController = [[UINavigationController alloc] initWithRootViewController:mpgDatabaseViewController];
+	
+	[viewControllers addObject:mpgDatabaseNavigationController];
+	
+	[mpgDatabaseViewController release];
+	[mpgDatabaseNavigationController release];
+	
+	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithTabBar];
+	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+	
+	[viewControllers addObject:settingsNavigationController];
+	
+	[settingsViewController release];
+	[settingsNavigationController release];
+	
+	UITabBarController *tabBarController = [[UITabBarController alloc] init];
+	
+	self.tabBarController = tabBarController;
+	
+	[tabBarController release];
+	
+	self.tabBarController.viewControllers = viewControllers;
+	
+	[viewControllers release];
 	
     [self.window addSubview:self.tabBarController.view];
     [self.window makeKeyAndVisible];

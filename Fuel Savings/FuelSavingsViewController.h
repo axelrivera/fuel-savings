@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "RLTopToolbar.h"
+#import "CurrentSavingsViewController.h"
+#import "SavingsData.h"
 
-@interface FuelSavingsViewController : UIViewController {
-	UIView *topBarView_;
+@interface FuelSavingsViewController : UIViewController <CurrentSavingsViewControllerDelegate> {
+	SavingsData *savingsData_;
 }
+
+- (id)initWithTabBar;
 
 @end

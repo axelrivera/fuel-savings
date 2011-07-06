@@ -20,6 +20,17 @@
 	return self;
 }
 
+- (id)initWithTabBar
+{
+	self = [self init];
+	if (self) {
+		self.title = @"My Trip";
+		self.navigationItem.title = @"My Trip";
+		self.tabBarItem.image = [UIImage imageNamed:@"trip_tab.png"];
+	}
+	return self;
+}
+
 - (void)dealloc
 {
     [super dealloc];
@@ -38,8 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	self.title = @"My Trip";
 }
 
 - (void)viewDidUnload

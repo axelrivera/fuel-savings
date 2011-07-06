@@ -9,26 +9,30 @@
 #import "FuelSavingsViewController.h"
 #import "CurrentSavingsViewController.h"
 
-@interface FuelSavingsViewController (Private)
-
-- (UIView *)topBar;
-
-@end
-
 @implementation FuelSavingsViewController
 
 - (id)init
 {
 	self = [super initWithNibName:@"FuelSavingsViewController" bundle:nil];
 	if (self) {
-		// Initialization Code
+		savingsData_ = [SavingsData sharedSavingsData];
+	}
+	return self;
+}
+
+- (id)initWithTabBar
+{
+	self = [self init];
+	if (self) {
+		self.title = @"Compare";
+		self.navigationItem.title = @"Compare Savings";
+		self.tabBarItem.image = [UIImage imageNamed:@"compare_tab.png"];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[topBarView_ release];
     [super dealloc];
 }
 
@@ -45,9 +49,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.navigationItem.title = @"Compare Savings";
 	
-	[self.view addSubview:[self topBar]];
+	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
+																	style:UIBarButtonItemStyleBordered
+																   target:self
+																   action:@selector(newAction)];
+	self.navigationItem.rightBarButtonItem = rightButton;
+	[rightButton release];
 }
 
 - (void)viewDidUnload
@@ -55,14 +63,13 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	[topBarView_ release];
-	topBarView_ = nil;
-	
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	NSLog(@"%@", savingsData_.newCalculation);
+	NSLog(@"%@", savingsData_.currentCalculation);
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -74,7 +81,9 @@
 
 - (void)newAction
 {
+	[savingsData_ resetNewCalculation];
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] init];
+	currentSavingsViewController.delegate = self;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
 	
@@ -95,49 +104,14 @@
 	
 }
 
-#pragma mark - Private Methods
+#pragma mark - View Controller Delegates
 
-- (UIView *)topBar
+- (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save
 {
-	if (topBarView_ == nil) {
-		topBarView_ = [[UIView alloc] initWithFrame: CGRectMake(0.0,
-																0.0,
-																[UIScreen mainScreen].bounds.size.width,
-																44.0)];
-		
-		topBarView_.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"topbar.png"]];
-				
-		UIButton *newButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		
-		[newButton addTarget:self action:@selector(newAction) forControlEvents:UIControlEventTouchDown];
-		[newButton setTitle:@"New" forState:UIControlStateNormal];
-		newButton.titleLabel.font = [UIFont boldSystemFontOfSize:12.0];
-		newButton.frame = CGRectMake(5.0, 7.0, 100.0, 30.0);
-		
-		[topBarView_ addSubview:newButton];
-		[newButton release];
-		
-		UIButton *editButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		
-		[editButton addTarget:self action:@selector(editAction) forControlEvents:UIControlEventTouchDown];
-		[editButton setTitle:@"Edit" forState:UIControlStateNormal];
-		editButton.titleLabel.font = [UIFont boldSystemFontOfSize:12.0];
-		editButton.frame = CGRectMake(110.0, 7.0, 100.0, 30.0);
-		
-		[topBarView_ addSubview:editButton];
-		[editButton release];
-		
-		UIButton *saveButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		
-		[saveButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[saveButton setTitle:@"Save" forState:UIControlStateNormal];
-		saveButton.titleLabel.font = [UIFont boldSystemFontOfSize:12.0];
-		saveButton.frame = CGRectMake(215.0, 7.0, 100.0, 30.0);
-		
-		[topBarView_ addSubview:saveButton];
-		[saveButton release];
+	if (save) {
+		savingsData_.currentCalculation = savingsData_.newCalculation;
 	}
-	return topBarView_;
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

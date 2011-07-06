@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Vehicle : NSObject {
+@interface Vehicle : NSObject <NSCopying> {
     
 }
 

@@ -36,4 +36,14 @@
 	[super dealloc];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+	Vehicle *newVehicle = [[[self class] allocWithZone:zone] init];
+	newVehicle.name = self.name;
+	newVehicle.avgEfficiency = self.avgEfficiency;
+	newVehicle.cityEfficiency = self.cityEfficiency;
+	newVehicle.highwayEfficiency = self.highwayEfficiency;
+	return newVehicle;
+}
+
 @end

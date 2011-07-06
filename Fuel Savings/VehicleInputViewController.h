@@ -15,10 +15,11 @@
 @protocol VehicleInputViewControllerDelegate;
 
 @interface VehicleInputViewController : UITableViewController
-	<NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate>
+	<NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate, UIActionSheetDelegate>
 {
 	SavingsData *savingsData_;
 	NSInteger infoRows_;
+	UIView *deleteView_;
 }
 
 @property (nonatomic, assign) id <VehicleInputViewControllerDelegate> delegate;
@@ -27,6 +28,7 @@
 @property (nonatomic, copy) NSNumber *currentCityEfficiency;
 @property (nonatomic, copy) NSNumber *currentHighwayEfficiency;
 @property (nonatomic) BOOL isEditingVehicle;
+@property (nonatomic) NSInteger editVehicleIndex;
 
 @end
 
