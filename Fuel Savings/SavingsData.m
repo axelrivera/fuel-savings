@@ -19,8 +19,8 @@ static SavingsData *sharedSavingsData;
 {
 	self = [super init];
 	if (self) {
-		[self resetNewCalculation];
-		[self resetCurrentCalculation];
+		self.newCalculation = nil;
+		self.currentCalculation = nil;
 	}
 	return self;
 }

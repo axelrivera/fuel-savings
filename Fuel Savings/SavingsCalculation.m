@@ -11,7 +11,7 @@
 @interface SavingsCalculation (Private)
 
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle;
-- (NSNumber *)lifeCostForVehicle:(Vehicle *)vehicle;
+- (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle;
 
 @end
 
@@ -90,9 +90,9 @@
 	return [self annualCostForVehicle:self.vehicle1];
 }
 
-- (NSNumber *)lifeCostForVehicle1
+- (NSNumber *)totalCostForVehicle1
 {
-	return [self lifeCostForVehicle:self.vehicle1];
+	return [self totalCostForVehicle:self.vehicle1];
 }
 
 - (NSNumber *)annualCostForVehicle2
@@ -100,7 +100,7 @@
 	return [self annualCostForVehicle:self.vehicle2];
 }
 
-- (NSNumber *)lifeCostForVehicle2
+- (NSNumber *)totalCostForVehicle2
 {
 	return [self annualCostForVehicle:self.vehicle2];
 }
@@ -139,12 +139,20 @@
 
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
 {
-	return [NSNumber numberWithInteger:0];
+	float annual = 0.0;
+	if (self.type == SavingsCalculationTypeAverage) {
+		annual = [self.fuelPrice floatValue] * ([self.distance floatValue] / [vehicle.avgEfficiency floatValue]);
+	} else {
+		annual = ((([self.distance floatValue] / [vehicle.cityEfficiency floatValue]) * 
+				   [self.fuelPrice floatValue]) * ([self.cityRatio floatValue])) + 
+		((([self.distance floatValue] / [vehicle.highwayEfficiency floatValue]) * [self.fuelPrice floatValue]) * [self.highwayRatio floatValue]);
+	}
+	return [NSNumber numberWithFloat:annual];
 }
 
-- (NSNumber *)lifeCostForVehicle:(Vehicle *)vehicle
+- (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle
 {
-	return [NSNumber numberWithInteger:0];
+	return [NSNumber numberWithFloat:[self.carOwnership floatValue] * [[self annualCostForVehicle:vehicle] floatValue]];
 }
 
 @end

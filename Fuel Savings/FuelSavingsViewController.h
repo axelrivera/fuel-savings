@@ -13,7 +13,12 @@
 
 @interface FuelSavingsViewController : UIViewController <NewSavingsViewControllerDelegate> {
 	SavingsData *savingsData_;
+	NSNumberFormatter *currencyFormatter_;
 }
+
+@property (nonatomic, retain) IBOutlet UITableView *savingsTable;
+@property (nonatomic, copy) NSNumber *vehicle1AnnualCost;
+@property (nonatomic, copy) NSNumber *vehicle1TotalCost;
 
 - (id)initWithTabBar;
 

@@ -30,9 +30,9 @@ typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeCombined } S
 - (NSString *)stringForCurrentType;
 
 - (NSNumber *)annualCostForVehicle1;
-- (NSNumber *)lifeCostForVehicle1;
+- (NSNumber *)totalCostForVehicle1;
 
 - (NSNumber *)annualCostForVehicle2;
-- (NSNumber *)lifeCostForVehicle2;
+- (NSNumber *)totalCostForVehicle2;
 
 @end
