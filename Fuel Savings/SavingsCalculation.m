@@ -34,7 +34,7 @@
 	self = [super init];
 	if (self) {
 		self.name = @"";
-		self.type = SavingsCalculationTypeAverage;
+		self.type = EfficiencyTypeAverage;
 		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
 		// The cityRatio Setter will also set highwayRatio
 		self.cityRatio = [NSNumber numberWithFloat:0.55];
@@ -72,9 +72,9 @@
 
 #pragma mark - Custom Methods
 
-+ (NSString *)stringValueForType:(SavingsCalculationType)type
++ (NSString *)stringValueForType:(EfficiencyType)type
 {
-	if (type == SavingsCalculationTypeAverage) {
+	if (type == EfficiencyTypeAverage) {
 		return @"Average MPG";
 	}
 	return @"City / Highway MPG";
@@ -102,7 +102,7 @@
 
 - (NSNumber *)totalCostForVehicle2
 {
-	return [self annualCostForVehicle:self.vehicle2];
+	return [self totalCostForVehicle:self.vehicle2];
 }
 
 #pragma mark - Custom Setters
@@ -140,7 +140,7 @@
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
 {
 	float annual = 0.0;
-	if (self.type == SavingsCalculationTypeAverage) {
+	if (self.type == EfficiencyTypeAverage) {
 		annual = [self.fuelPrice floatValue] * ([self.distance floatValue] / [vehicle.avgEfficiency floatValue]);
 	} else {
 		annual = ((([self.distance floatValue] / [vehicle.cityEfficiency floatValue]) * 

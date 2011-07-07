@@ -7,6 +7,7 @@
 //
 
 #import "Vehicle.h"
+#import "SavingsCalculation.h"
 
 @implementation Vehicle
 
@@ -64,6 +65,21 @@
 	newVehicle.cityEfficiency = self.cityEfficiency;
 	newVehicle.highwayEfficiency = self.highwayEfficiency;
 	return newVehicle;
+}
+
+#pragma mark - Custom Methods
+
+- (BOOL)hasDataReadyForType:(EfficiencyType)type
+{
+	if (type == EfficiencyTypeAverage && [self.avgEfficiency integerValue] > 0) {
+		return YES;
+	}
+	
+	if (type == EfficiencyTypeCombined && ([self.cityEfficiency integerValue] > 0 && [self.highwayEfficiency integerValue] > 0)) {
+		return YES;
+	}
+		
+	return NO;
 }
 
 @end

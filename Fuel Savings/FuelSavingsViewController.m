@@ -8,6 +8,7 @@
 
 #import "FuelSavingsViewController.h"
 #import "NewSavingsViewController.h"
+#import "SavingsCalculation.h"
 
 @implementation FuelSavingsViewController
 
@@ -133,12 +134,24 @@
 	if (savingsData_.currentCalculation == nil) {
 		return 0;
 	}
+	
 	return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 1;
+	NSInteger rows = 0;
+	EfficiencyType type = savingsData_.currentCalculation.type;
+	
+	if ([savingsData_.currentCalculation.vehicle1 hasDataReadyForType:type]) {
+		rows++;
+	}
+	
+	if ([savingsData_.currentCalculation.vehicle2 hasDataReadyForType:type]) {
+		rows++;
+	}
+	
+	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,13 +165,13 @@
 	}
 	
 	NSNumber *number1 = nil;
-	//NSNumber *number2 = nil;
+	NSNumber *number2 = nil;
 	if (indexPath.section == 0) {
 		number1 = [savingsData_.currentCalculation annualCostForVehicle1];
-		//number2 = [savingsData_.currentCalculation annualCostForVehicle2];
+		number2 = [savingsData_.currentCalculation annualCostForVehicle2];
 	} else {
 		number1 = [savingsData_.currentCalculation totalCostForVehicle1];
-		//number2 = [savingsData_.currentCalculation totalCostForVehicle2];
+		number2 = [savingsData_.currentCalculation totalCostForVehicle2];
 	}
 	
 	NSString *textLabelString = nil;
@@ -168,10 +181,9 @@
 		textLabelString = savingsData_.currentCalculation.vehicle1.name;
 		detailTextLabelString = [currencyFormatter_ stringFromNumber:number1];
 	} else {
-		//textLabelString = savingsData_.currentCalculation.vehicle2.name;
-		//detailTextLabelString = [currencyFormatter_ stringFromNumber:number2];
+		textLabelString = savingsData_.currentCalculation.vehicle2.name;
+		detailTextLabelString = [currencyFormatter_ stringFromNumber:number2];
 	}
-	
 		
 	cell.accessoryType = UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;

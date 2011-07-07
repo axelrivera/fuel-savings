@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class SavingsCalculation;
 
 @interface Vehicle : NSObject <NSCopying> {
     
@@ -22,5 +23,7 @@
 + (Vehicle *)vehicleWithName:(NSString *)name;
 
 - (id)initWithName:(NSString *)name;
+
+- (BOOL)hasDataReadyForType:(EfficiencyType)type;
 
 @end

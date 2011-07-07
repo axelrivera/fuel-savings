@@ -95,9 +95,9 @@
     }
 	
 	if (indexPath.row == 0) {
-		cell.textLabel.text = [SavingsCalculation stringValueForType:SavingsCalculationTypeAverage];
+		cell.textLabel.text = [SavingsCalculation stringValueForType:EfficiencyTypeAverage];
 	} else {
-		cell.textLabel.text = [SavingsCalculation stringValueForType:SavingsCalculationTypeCombined];
+		cell.textLabel.text = [SavingsCalculation stringValueForType:EfficiencyTypeCombined];
 	}
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;

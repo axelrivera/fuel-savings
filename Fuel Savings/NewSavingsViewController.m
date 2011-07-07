@@ -117,7 +117,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	self.title = @"New Calculation";
 	
-	if (savingsData_.newCalculation.type == SavingsCalculationTypeAverage) {
+	if (savingsData_.newCalculation.type == EfficiencyTypeAverage) {
 		[newData_ replaceObjectAtIndex:0 withObject:[self avgInformationKeys]];
 		[newData_ replaceObjectAtIndex:1 withObject:[self avgVehicleKeys]];
 		[newData_ replaceObjectAtIndex:2 withObject:[self avgVehicleKeys]];
