@@ -68,8 +68,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	NSLog(@"%@", savingsData_.newCalculation);
-	NSLog(@"%@", savingsData_.currentCalculation);
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -46,6 +46,8 @@
 		1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */; };
 		1666FD3B13B911D100FC97F1 /* MPGDatabaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */; };
 		1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */; };
+		167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E52C513C4EF070024CA9A /* RatioInputViewController.m */; };
+		167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 167E52C713C4EF330024CA9A /* RatioInputViewController.xib */; };
 		16807F5913BE9E430036F89E /* TripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16807F5813BE9E430036F89E /* TripViewController.m */; };
 		16807F5C13BE9E660036F89E /* TripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5B13BE9E660036F89E /* TripViewController.xib */; };
 		16807F6313BEA0AE0036F89E /* compare_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5D13BEA0AE0036F89E /* compare_tab.png */; };
@@ -121,6 +123,9 @@
 		1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySavingsViewController.xib; sourceTree = "<group>"; };
 		1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MPGDatabaseViewController.xib; sourceTree = "<group>"; };
 		1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		167E52C413C4EF070024CA9A /* RatioInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatioInputViewController.h; sourceTree = "<group>"; };
+		167E52C513C4EF070024CA9A /* RatioInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatioInputViewController.m; sourceTree = "<group>"; };
+		167E52C713C4EF330024CA9A /* RatioInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatioInputViewController.xib; sourceTree = "<group>"; };
 		16807F5713BE9E430036F89E /* TripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripViewController.h; sourceTree = "<group>"; };
 		16807F5813BE9E430036F89E /* TripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripViewController.m; sourceTree = "<group>"; };
 		16807F5B13BE9E660036F89E /* TripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripViewController.xib; sourceTree = "<group>"; };
@@ -275,6 +280,8 @@
 				161F956B13BA474B00DE5E5C /* PriceInputViewController.m */,
 				16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */,
 				16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */,
+				167E52C413C4EF070024CA9A /* RatioInputViewController.h */,
+				167E52C513C4EF070024CA9A /* RatioInputViewController.m */,
 				16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */,
 				16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */,
 				1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */,
@@ -317,6 +324,7 @@
 				16A707AE13BA057D00A0E93F /* NameInputViewController.xib */,
 				161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */,
 				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
+				167E52C713C4EF330024CA9A /* RatioInputViewController.xib */,
 				16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */,
 				16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */,
 				1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */,
@@ -407,6 +415,7 @@
 				16807F6813BEA0AE0036F89E /* trip_tab@2x.png in Resources */,
 				16C97B2913C20F6E0059F6F9 /* Icon.png in Resources */,
 				16C97B2A13C20F6E0059F6F9 /* Icon@2x.png in Resources */,
+				167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +445,7 @@
 				16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */,
 				1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */,
 				16807F5913BE9E430036F89E /* TripViewController.m in Sources */,
+				167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

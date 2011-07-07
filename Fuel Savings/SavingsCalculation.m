@@ -8,13 +8,20 @@
 
 #import "SavingsCalculation.h"
 
-#define MAX_VEHICLES 5
+@interface SavingsCalculation (Private)
+
+- (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle;
+- (NSNumber *)lifeCostForVehicle:(Vehicle *)vehicle;
+
+@end
 
 @implementation SavingsCalculation
 
 @synthesize name = name_;
 @synthesize type;
 @synthesize fuelPrice = fuelPrice_;
+@synthesize cityRatio = cityRatio_;
+@synthesize highwayRatio = highwayRatio_;
 @synthesize distance = distance_;
 @synthesize carOwnership = carOwnership_;
 @synthesize vehicle1 = vehicle1_;
@@ -29,6 +36,8 @@
 		self.name = @"";
 		self.type = SavingsCalculationTypeAverage;
 		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
+		// The cityRatio Setter will also set highwayRatio
+		self.cityRatio = [NSNumber numberWithFloat:0.55];
 		self.distance = [NSNumber numberWithInteger:15000];
 		self.carOwnership = [NSNumber numberWithInteger:5];
 		self.vehicle1 = [Vehicle vehicleWithName:@"Car 1"];
@@ -61,14 +70,7 @@
 	return newSavings;
 }
 
-#pragma mark - Custom Setters and Getters
-
 #pragma mark - Custom Methods
-
-- (NSString *)stringForCurrentType
-{
-	return [[self class] stringValueForType:self.type];
-}
 
 + (NSString *)stringValueForType:(SavingsCalculationType)type
 {
@@ -76,6 +78,73 @@
 		return @"Average MPG";
 	}
 	return @"City / Highway MPG";
+}
+
+- (NSString *)stringForCurrentType
+{
+	return [[self class] stringValueForType:self.type];
+}
+
+- (NSNumber *)annualCostForVehicle1
+{
+	return [self annualCostForVehicle:self.vehicle1];
+}
+
+- (NSNumber *)lifeCostForVehicle1
+{
+	return [self lifeCostForVehicle:self.vehicle1];
+}
+
+- (NSNumber *)annualCostForVehicle2
+{
+	return [self annualCostForVehicle:self.vehicle2];
+}
+
+- (NSNumber *)lifeCostForVehicle2
+{
+	return [self annualCostForVehicle:self.vehicle2];
+}
+
+#pragma mark - Custom Setters
+
+- (void)setCityRatio:(NSNumber *)ratio
+{
+	NSAssert([ratio floatValue] <= 1.0, @"Invalid Ratio");
+	if (cityRatio_ != nil) {
+		[cityRatio_ release];
+	}
+	cityRatio_ = [ratio copy];
+	
+	if (highwayRatio_ != nil) {
+		[highwayRatio_ release];
+	}
+	highwayRatio_  = [[NSNumber alloc] initWithFloat:1 - [ratio floatValue]];
+}
+
+- (void)setHighwayRatio:(NSNumber *)ratio
+{
+	NSAssert([ratio floatValue] <= 1.0, @"Invalid Ratio");
+	if (highwayRatio_ != nil) {
+		[highwayRatio_ release];
+	}
+	highwayRatio_ = [ratio copy];
+	
+	if (cityRatio_ != nil) {
+		[cityRatio_ release];
+	}
+	cityRatio_ = [[NSNumber alloc] initWithFloat:1 - [ratio floatValue]];
+}
+
+#pragma mark - Private Methods
+
+- (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
+{
+	return [NSNumber numberWithInteger:0];
+}
+
+- (NSNumber *)lifeCostForVehicle:(Vehicle *)vehicle
+{
+	return [NSNumber numberWithInteger:0];
 }
 
 @end

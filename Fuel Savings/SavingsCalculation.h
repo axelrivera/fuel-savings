@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Vehicle.h"
 
-typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } SavingsCalculationType;
+typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeCombined } SavingsCalculationType;
 
 @interface SavingsCalculation : NSObject <NSCopying> {
 
@@ -18,6 +18,8 @@ typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } S
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) SavingsCalculationType type;
 @property (nonatomic, copy) NSDecimalNumber *fuelPrice;
+@property (nonatomic, copy) NSNumber *cityRatio;
+@property (nonatomic, copy) NSNumber *highwayRatio;
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) NSNumber *carOwnership;
 @property (nonatomic, copy) Vehicle *vehicle1;
@@ -26,5 +28,11 @@ typedef enum { SavingsCalculationTypeAverage, SavingsCalculationTypeSeparate } S
 + (NSString *)stringValueForType:(SavingsCalculationType)type;
 
 - (NSString *)stringForCurrentType;
+
+- (NSNumber *)annualCostForVehicle1;
+- (NSNumber *)lifeCostForVehicle1;
+
+- (NSNumber *)annualCostForVehicle2;
+- (NSNumber *)lifeCostForVehicle2;
 
 @end

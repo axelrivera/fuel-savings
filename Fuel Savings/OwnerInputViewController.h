@@ -23,6 +23,6 @@
 
 @protocol  OwnerInputViewControllerDelegate
 
-- (void)ownerInputViewControllerDelegate:(OwnerInputViewController *)controller save:(BOOL)save;
+- (void)ownerInputViewControllerDidFinish:(OwnerInputViewController *)controller save:(BOOL)save;
 
 @end

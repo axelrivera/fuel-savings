@@ -97,7 +97,7 @@
 	if (indexPath.row == 0) {
 		cell.textLabel.text = [SavingsCalculation stringValueForType:SavingsCalculationTypeAverage];
 	} else {
-		cell.textLabel.text = [SavingsCalculation stringValueForType:SavingsCalculationTypeSeparate];
+		cell.textLabel.text = [SavingsCalculation stringValueForType:SavingsCalculationTypeCombined];
 	}
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;

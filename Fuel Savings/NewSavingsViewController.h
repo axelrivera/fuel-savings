@@ -12,6 +12,7 @@
 #import "TypeInputViewController.h"
 #import "PriceInputViewController.h"
 #import "DistanceInputViewController.h"
+#import "RatioInputViewController.h"
 #import "OwnerInputViewController.h"
 #import "NameInputViewController.h"
 #import "EfficiencyInputViewController.h"
@@ -20,10 +21,15 @@
 
 @interface NewSavingsViewController : UIViewController
 	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
-	OwnerInputViewControllerDelegate, NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate>
+	RatioInputViewControllerDelegate, OwnerInputViewControllerDelegate, NameInputViewControllerDelegate,
+	EfficiencyInputViewControllerDelegate>
 {
 	SavingsData *savingsData_;
-	
+	NSMutableArray *newData_;
+	NSArray *avgInformationKeys_;
+	NSArray *combinedInformationKeys_;
+	NSArray *avgVehicleKeys_;
+	NSArray *combinedVehicleKeys_;
 }
 
 @property (nonatomic, assign) id <NewSavingsViewControllerDelegate> delegate;

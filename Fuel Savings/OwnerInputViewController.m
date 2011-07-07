@@ -103,12 +103,12 @@
 
 - (void)doneAction
 {
-	[self.delegate ownerInputViewControllerDelegate:self save:YES];
+	[self.delegate ownerInputViewControllerDidFinish:self save:YES];
 }
 
 - (void)dismissAction
 {
-	[self.delegate ownerInputViewControllerDelegate:self save:NO];
+	[self.delegate ownerInputViewControllerDidFinish:self save:NO];
 }
 
 # pragma mark - UIPickerView Data Source
