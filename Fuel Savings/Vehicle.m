@@ -32,7 +32,8 @@
 	self = [super init];
 	if (self) {
 		self.name = @"";
-		self.avgEfficiency = [NSNumber numberWithInteger:0];
+#warning Remember to Change the default Value
+		self.avgEfficiency = [NSNumber numberWithInteger:25];
 		self.cityEfficiency = [NSNumber numberWithInteger:0];
 		self.highwayEfficiency = [NSNumber numberWithInteger:0];
 	}
