@@ -25,6 +25,22 @@ static SavingsData *sharedSavingsData;
 	return self;
 }
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
+		self.newCalculation = [decoder decodeObjectForKey:@"savingsDataNewCalculation"];
+		self.currentCalculation = [decoder decodeObjectForKey:@"savingsDataCurrentCalculation"];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
+	[encoder encodeObject:self.newCalculation forKey:@"savingsDataNewCalculation"];
+	[encoder encodeObject:self.currentCalculation forKey:@"savingsDataCurrentCalculation"];
+}
+
 - (void)dealloc
 {
 	[newCalculation_ release];

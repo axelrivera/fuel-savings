@@ -15,4 +15,7 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
 
+- (NSString *)savingsDataFilePath;
+- (void)archiveSavingsData;
+
 @end

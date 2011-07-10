@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SavingsCalculation.h"
 
-@interface SavingsData : NSObject {
+@interface SavingsData : NSObject <NSCoding> {
 
 }
 

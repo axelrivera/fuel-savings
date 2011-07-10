@@ -49,13 +49,24 @@
 	return self;
 }
 
-- (void)dealloc
+- (id)initWithCoder:(NSCoder *)decoder
 {
-	[name_ release];
-	[avgEfficiency_ release];
-	[cityEfficiency_ release];
-	[highwayEfficiency_ release];
-	[super dealloc];
+	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
+		self.name = [decoder decodeObjectForKey:@"vehicleName"];
+		self.avgEfficiency = [decoder decodeObjectForKey:@"vehicleAvgEfficiency"];
+		self.cityEfficiency = [decoder decodeObjectForKey:@"vehicleCityEfficiency"];
+		self.highwayEfficiency = [decoder decodeObjectForKey:@"vehicleHighwayEfficiency"];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
+	[encoder encodeObject:self.name forKey:@"vehicleName"];
+	[encoder encodeObject:self.avgEfficiency forKey:@"vehicleAvgEfficiency"];
+	[encoder encodeObject:self.cityEfficiency forKey:@"vehicleCityEfficiency"];
+	[encoder encodeObject:self.highwayEfficiency forKey:@"vehicleHighwayEfficiency"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -66,6 +77,15 @@
 	newVehicle.cityEfficiency = self.cityEfficiency;
 	newVehicle.highwayEfficiency = self.highwayEfficiency;
 	return newVehicle;
+}
+
+- (void)dealloc
+{
+	[name_ release];
+	[avgEfficiency_ release];
+	[cityEfficiency_ release];
+	[highwayEfficiency_ release];
+	[super dealloc];
 }
 
 #pragma mark - Custom Methods

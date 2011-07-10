@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 160ED0B813CA41E5001021F7 /* FileHelpers.m */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
@@ -69,6 +70,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		160ED0B713CA41E5001021F7 /* FileHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHelpers.h; sourceTree = "<group>"; };
+		160ED0B813CA41E5001021F7 /* FileHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHelpers.m; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TypeInputViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeInputViewController.xib; sourceTree = "<group>"; };
@@ -294,6 +297,8 @@
 		1666FD1813B8FAEE00FC97F1 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				160ED0B713CA41E5001021F7 /* FileHelpers.h */,
+				160ED0B813CA41E5001021F7 /* FileHelpers.m */,
 				16A707B813BA1BA600A0E93F /* NSMutableArray+Vehicle.h */,
 				16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */,
 			);
@@ -448,6 +453,7 @@
 				1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */,
 				16807F5913BE9E430036F89E /* TripViewController.m in Sources */,
 				167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */,
+				160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

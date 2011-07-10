@@ -10,7 +10,7 @@
 
 @class SavingsCalculation;
 
-@interface Vehicle : NSObject <NSCopying> {
+@interface Vehicle : NSObject <NSCoding,NSCopying> {
     
 }
 

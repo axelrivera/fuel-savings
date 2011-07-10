@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Vehicle.h"
 
-@interface SavingsCalculation : NSObject <NSCopying> {
+@interface SavingsCalculation : NSObject <NSCoding,NSCopying> {
 
 }
 

@@ -20,8 +20,8 @@
 @protocol NewSavingsViewControllerDelegate;
 
 @interface NewSavingsViewController : UIViewController
-	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
-	RatioInputViewControllerDelegate, OwnerInputViewControllerDelegate, NameInputViewControllerDelegate,
+	<TypeInputViewControllerDelegate,PriceInputViewControllerDelegate,DistanceInputViewControllerDelegate,
+	RatioInputViewControllerDelegate,OwnerInputViewControllerDelegate,NameInputViewControllerDelegate,
 	EfficiencyInputViewControllerDelegate>
 {
 	SavingsData *savingsData_;

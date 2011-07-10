@@ -46,15 +46,32 @@
 	return self;
 }
 
-- (void)dealloc
+- (id)initWithCoder:(NSCoder *)decoder
 {
-	[name_ release];
-	[fuelPrice_ release];
-	[distance_ release];
-	[carOwnership_ release];
-	[vehicle1_ release];
-	[vehicle2_ release];
-	[super dealloc];
+	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
+		self.name = [decoder decodeObjectForKey:@"savingsCalculationName"];
+		self.type = [decoder decodeIntForKey:@"savingsCalculationType"];
+		self.fuelPrice = [decoder decodeObjectForKey:@"savingsCalculationFuelPrice"];
+		self.cityRatio = [decoder decodeObjectForKey:@"savingsCalculationCityRatio"];
+		self.distance = [decoder decodeObjectForKey:@"savingsCalculationDistance"];
+		self.carOwnership = [decoder decodeObjectForKey:@"savingsCalculationCarOwnership"];
+		self.vehicle1 = [decoder decodeObjectForKey:@"savingsCalculationVehicle1"];
+		self.vehicle2 = [decoder decodeObjectForKey:@"savingsCalculationVehicle2"];
+	}
+	return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
+	[encoder encodeObject:self.name forKey:@"savingsCalculationName"];
+	[encoder encodeInt:self.type forKey:@"savingsCalculationType"];
+	[encoder encodeObject:self.fuelPrice forKey:@"savingsCalculationFuelPrice"];
+	[encoder encodeObject:self.cityRatio forKey:@"savingsCalculationCityRatio"];
+	[encoder encodeObject:self.distance forKey:@"savingsCalculationDistance"];
+	[encoder encodeObject:self.carOwnership forKey:@"savingsCalculationCarOwnership"];
+	[encoder encodeObject:self.vehicle1 forKey:@"savingsCalculationVehicle1"];
+	[encoder encodeObject:self.vehicle2 forKey:@"savingsCalculationVehicle2"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -68,6 +85,17 @@
 	newSavings.vehicle1 = self.vehicle1;
 	newSavings.vehicle2 = self.vehicle2;
 	return newSavings;
+}
+
+- (void)dealloc
+{
+	[name_ release];
+	[fuelPrice_ release];
+	[distance_ release];
+	[carOwnership_ release];
+	[vehicle1_ release];
+	[vehicle2_ release];
+	[super dealloc];
 }
 
 #pragma mark - Custom Methods
