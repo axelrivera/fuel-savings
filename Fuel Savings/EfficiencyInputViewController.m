@@ -18,7 +18,6 @@
 @synthesize currentEfficiency = currentEfficiency_;
 @synthesize currentType = currentType_;
 @synthesize efficiencyTextField = efficiencyTextField_;
-@synthesize clearButton = clearButton_;
 
 - (id)init
 {
@@ -37,7 +36,6 @@
 	[enteredDigits_ release];
 	[currentEfficiency_ release];
 	[efficiencyTextField_ release];
-	[clearButton_ release];
     [super dealloc];
 }
 
@@ -54,21 +52,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																				  target:self
-																				  action:@selector(dismissAction)];
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																				target:self
-																				action:@selector(doneAction)];
-	self.navigationItem.rightBarButtonItem = doneButton;
-	[doneButton release];
-	
+		
 	self.title = @"Fuel Efficiency";
-	self.clearButton.title = @"Clear";
 	self.efficiencyTextField.placeholder = @"MPG";
 }
 
@@ -78,7 +63,6 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 	self.efficiencyTextField = nil;
-	self.clearButton = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,24 +78,10 @@
 	[self.efficiencyTextField becomeFirstResponder];
 }
 
-#pragma mark - Custom Actions
-
-- (void)doneAction
+- (void)viewWillDisappear:(BOOL)animated
 {
+	[super viewWillDisappear:animated];
 	[self.delegate efficiencyInputViewControllerDidFinish:self save:YES];
-}
-
-- (void)dismissAction
-{
-	[self.delegate efficiencyInputViewControllerDidFinish:self save:NO];
-}
-
-
-- (void)clearAction:(id)sender
-{
-	self.currentEfficiency = [NSNumber numberWithInteger:0];
-	self.enteredDigits = @"";
-	self.efficiencyTextField.text = @"";
 }
 
 #pragma mark - UITextFieldDelegate methods
@@ -153,6 +123,13 @@
 	}
 	
     return NO;  
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+	self.currentEfficiency = [NSNumber numberWithInteger:0];
+	self.enteredDigits = @"";
+	return YES;
 }
 
 @end

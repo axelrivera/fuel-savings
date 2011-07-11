@@ -7,7 +7,7 @@
 //
 
 #import "FuelSavingsViewController.h"
-#import "NewSavingsViewController.h"
+#import "CurrentSavingsViewController.h"
 #import "SavingsCalculation.h"
 
 @implementation FuelSavingsViewController
@@ -20,6 +20,7 @@ static CGSize totalLabelSize;
 @synthesize vehicle1TotalCost = vehicle1TotalCost_;
 @synthesize vehicle2AnnualCost = vehicle2AnnualCost_;
 @synthesize vehicle2TotalCost = vehicle2TotalCost_;
+@synthesize backupCopy = backupCopy_;
 
 - (id)init
 {
@@ -31,6 +32,7 @@ static CGSize totalLabelSize;
 		[currencyFormatter_ setMaximumFractionDigits:0];
 		annualLabelSize = CGSizeZero;
 		totalLabelSize = CGSizeZero;
+		self.backupCopy = nil;
 	}
 	return self;
 }
@@ -56,6 +58,8 @@ static CGSize totalLabelSize;
 	[vehicle2TotalCost_ release];
 	[annualFooterView_ release];
 	[totalFooterView_ release];
+	[infoFooterView_ release];
+	[backupCopy_ release];
     [super dealloc];
 }
 
@@ -72,6 +76,12 @@ static CGSize totalLabelSize;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																				target:self
+																				action:@selector(editAction)];
+	self.navigationItem.leftBarButtonItem = leftButton;
+	[leftButton release];
 	
 	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	style:UIBarButtonItemStyleBordered
@@ -93,7 +103,10 @@ static CGSize totalLabelSize;
 {
 	[super viewWillAppear:animated];
 	
+	self.navigationItem.leftBarButtonItem.enabled = NO;
+	
 	if (savingsData_.currentCalculation) {
+		self.navigationItem.leftBarButtonItem.enabled = YES;
 		EfficiencyType type = savingsData_.currentCalculation.type;
 		if ([savingsData_.currentCalculation.vehicle1 hasDataReadyForType:type]) {
 			self.vehicle1AnnualCost = [savingsData_.currentCalculation annualCostForVehicle1];
@@ -110,8 +123,8 @@ static CGSize totalLabelSize;
 			self.vehicle2AnnualCost = [NSNumber numberWithFloat:0.0];
 			self.vehicle2TotalCost = [NSNumber numberWithFloat:0.0];
 		}
-		[self.savingsTable reloadData];
 	}
+	[self.savingsTable reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -123,8 +136,8 @@ static CGSize totalLabelSize;
 
 - (void)newAction
 {
-	[savingsData_ resetNewCalculation];
-	NewSavingsViewController *currentSavingsViewController = [[NewSavingsViewController alloc] init];
+	[savingsData_ setupCurrentCalculation];
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] init];
 	currentSavingsViewController.delegate = self;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
@@ -138,20 +151,71 @@ static CGSize totalLabelSize;
 
 - (void)editAction
 {
+	self.backupCopy = savingsData_.currentCalculation;
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] init];
+	currentSavingsViewController.delegate = self;
+	currentSavingsViewController.isEditingSavings = YES;
 	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
+	
+	[currentSavingsViewController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[navController release];
 }
 
 - (void)saveAction
 {
+	[self performSelector:@selector(displayNameAction)];
+}
+
+- (void)displayNameAction
+{
+	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	inputViewController.delegate = self;
 	
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+	
+	inputViewController.currentName = [NSString stringWithFormat:@"Untitled %@", [dateFormatter stringFromDate:[NSDate date]]];
+	
+	[dateFormatter release];
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
+	
+	[inputViewController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[navController release];
 }
 
 #pragma mark - View Controller Delegates
 
-- (void)newSavingsViewControllerDelegateDidFinish:(NewSavingsViewController *)controller save:(BOOL)save
+- (void)currentSavingsViewControllerDelegateDidDelete:(CurrentSavingsViewController *)controller
+{
+	self.backupCopy = nil;
+}
+
+- (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save
+{
+	if (!save) {
+		if (controller.isEditingSavings == YES) {
+			savingsData_.currentCalculation = self.backupCopy;
+		} else {
+			savingsData_.currentCalculation = nil;
+		}
+	}
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		savingsData_.currentCalculation = savingsData_.newCalculation;
+		
 	}
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -182,7 +246,7 @@ static CGSize totalLabelSize;
 			rows++;
 		}
 	} else {
-		rows = 4;
+		rows = 3;
 	}
 	
 	return rows;
@@ -203,33 +267,30 @@ static CGSize totalLabelSize;
 		NSString *detailTextLabelString = nil;
 		
 		if (indexPath.row == 0) {
-			textLabelString = @"Using";
-			detailTextLabelString = [savingsData_.newCalculation stringForCurrentType];
-		} else if (indexPath.row == 1) {
 			textLabelString = @"Fuel Price";
 			
 			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 			
-			NSString *numberString = [formatter stringFromNumber:savingsData_.newCalculation.fuelPrice];
+			NSString *numberString = [formatter stringFromNumber:savingsData_.currentCalculation.fuelPrice];
 			[formatter release];
 			
 			detailTextLabelString = [NSString stringWithFormat:@"%@ /gallon", numberString];
-		} else if (indexPath.row == 2) {
+		} else if (indexPath.row == 1) {
 			textLabelString = @"Distance";
 			
 			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 			[formatter setMaximumFractionDigits:0];
 			
-			NSString *numberString = [formatter stringFromNumber:savingsData_.newCalculation.distance];
+			NSString *numberString = [formatter stringFromNumber:savingsData_.currentCalculation.distance];
 			[formatter release];
 			
 			detailTextLabelString = [NSString stringWithFormat:@"%@ miles/year", numberString];
 		} else {
 			textLabelString = @"Ownership";
 			detailTextLabelString = [NSString stringWithFormat:@"%@ years",
-									 [savingsData_.newCalculation.carOwnership stringValue]];
+									 [savingsData_.currentCalculation.carOwnership stringValue]];
 		}
 		
 		infoCell.accessoryType = UITableViewCellAccessoryNone;
@@ -295,6 +356,11 @@ static CGSize totalLabelSize;
 	return @"Information";
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 34.0;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
 	if (section == 0) {
@@ -302,7 +368,7 @@ static CGSize totalLabelSize;
 	} else if (section == 1) {
 		return totalLabelSize.height + 10.0;
 	}
-	return 50.0;
+	return 84.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
@@ -416,6 +482,21 @@ static CGSize totalLabelSize;
 			
 			return totalFooterView_;
 		}
+	} else {
+		[infoFooterView_ autorelease];
+		infoFooterView_ = [[UIView alloc] initWithFrame:CGRectZero];
+		
+		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[button addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Save" forState:UIControlStateNormal];
+		
+		CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
+		button.frame = CGRectMake(10.0, 20.0, buttonWidth, 44.0);
+		
+		[infoFooterView_ addSubview:button];
+		[button release];
+		
+		return infoFooterView_;
 	}
 	return nil;
 }

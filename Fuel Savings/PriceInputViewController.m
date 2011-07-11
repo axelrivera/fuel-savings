@@ -12,7 +12,6 @@
 
 @synthesize delegate = delegate_;
 @synthesize inputTextField = inputTextField_;
-@synthesize clearButton = clearButton_;
 @synthesize enteredDigits = enteredDigits_;
 @synthesize currentPrice = currentPrice_;
 
@@ -32,7 +31,6 @@
 - (void)dealloc
 {
 	[inputTextField_ release];
-	[clearButton_ release];
 	[enteredDigits_ release];
 	[currentPrice_ release];
     [super dealloc];
@@ -51,21 +49,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																				  target:self
-																				  action:@selector(dismissAction)];
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																				target:self
-																				action:@selector(doneAction)];
-	self.navigationItem.rightBarButtonItem = doneButton;
-	[doneButton release];
-	
 	self.title = @"Change Price";
-	self.clearButton.title = @"Clear";
 }
 
 - (void)viewDidUnload
@@ -74,7 +58,6 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 	self.inputTextField = nil;
-	self.clearButton = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -85,25 +68,11 @@
 	[self.inputTextField becomeFirstResponder];
 }
 
-#pragma mark - Custom Actions
-
-- (void)doneAction
+- (void)viewWillDisappear:(BOOL)animated
 {
+	[super viewWillDisappear:animated];
 	[self.inputTextField resignFirstResponder];
 	[self.delegate priceInputViewControllerDidFinish:self save:YES];
-	 
-}
-
-- (void)dismissAction
-{
-	[self.delegate priceInputViewControllerDidFinish:self save:NO];
-}
-
-- (void)clearAction:(id)sender
-{
-	self.currentPrice = [NSDecimalNumber zero];
-	self.enteredDigits = @"";
-	self.inputTextField.text = [formatter_ stringFromNumber:self.currentPrice];
 }
 
 #pragma mark - UITextFieldDelegate methods
@@ -143,6 +112,14 @@
     textField.text = [formatter_ stringFromNumber:number];
 	
     return NO;  
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+	self.currentPrice = [NSDecimalNumber zero];
+	self.enteredDigits = @"";
+	self.inputTextField.text = [formatter_ stringFromNumber:self.currentPrice];
+	return NO;
 }
 
 @end

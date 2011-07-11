@@ -14,8 +14,8 @@
 		161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956D13BA479300DE5E5C /* PriceInputViewController.xib */; };
 		1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */; };
 		1640EC1A13BE13A7008190C1 /* EfficiencyInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */; };
-		1658291313B9262100BC5219 /* NewSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* NewSavingsViewController.m */; };
-		1658291513B9264700BC5219 /* NewSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1658291413B9264700BC5219 /* NewSavingsViewController.xib */; };
+		1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* CurrentSavingsViewController.m */; };
+		1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */; };
 		165ACFB413B937D200A2AD3E /* topbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFB213B937D200A2AD3E /* topbar.png */; };
 		165ACFB513B937D200A2AD3E /* topbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFB313B937D200A2AD3E /* topbar@2x.png */; };
 		165ACFB813B9386600A2AD3E /* RLTopToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 165ACFB713B9386600A2AD3E /* RLTopToolbar.m */; };
@@ -81,9 +81,9 @@
 		1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EfficiencyInputViewController.h; sourceTree = "<group>"; };
 		1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EfficiencyInputViewController.m; sourceTree = "<group>"; };
 		1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EfficiencyInputViewController.xib; sourceTree = "<group>"; };
-		1658291113B9262100BC5219 /* NewSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSavingsViewController.h; sourceTree = "<group>"; };
-		1658291213B9262100BC5219 /* NewSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NewSavingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		1658291413B9264700BC5219 /* NewSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewSavingsViewController.xib; sourceTree = "<group>"; };
+		1658291113B9262100BC5219 /* CurrentSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = CurrentSavingsViewController.h; sourceTree = "<group>"; };
+		1658291213B9262100BC5219 /* CurrentSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CurrentSavingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentSavingsViewController.xib; sourceTree = "<group>"; };
 		165ACFB213B937D200A2AD3E /* topbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbar.png; sourceTree = "<group>"; };
 		165ACFB313B937D200A2AD3E /* topbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topbar@2x.png"; sourceTree = "<group>"; };
 		165ACFB613B9386600A2AD3E /* RLTopToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLTopToolbar.h; sourceTree = "<group>"; };
@@ -274,8 +274,8 @@
 				1666FD3113B910ED00FC97F1 /* MPGDatabaseViewController.m */,
 				1666FD3313B9111300FC97F1 /* SettingsViewController.h */,
 				1666FD3413B9111300FC97F1 /* SettingsViewController.m */,
-				1658291113B9262100BC5219 /* NewSavingsViewController.h */,
-				1658291213B9262100BC5219 /* NewSavingsViewController.m */,
+				1658291113B9262100BC5219 /* CurrentSavingsViewController.h */,
+				1658291213B9262100BC5219 /* CurrentSavingsViewController.m */,
 				16A707AA13B9FFE600A0E93F /* NameInputViewController.h */,
 				16A707AB13B9FFE600A0E93F /* NameInputViewController.m */,
 				161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */,
@@ -327,7 +327,7 @@
 				1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */,
 				1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */,
 				1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */,
-				1658291413B9264700BC5219 /* NewSavingsViewController.xib */,
+				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
 				16A707AE13BA057D00A0E93F /* NameInputViewController.xib */,
 				161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */,
 				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
@@ -398,7 +398,7 @@
 				1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */,
 				1666FD3B13B911D100FC97F1 /* MPGDatabaseViewController.xib in Resources */,
 				1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */,
-				1658291513B9264700BC5219 /* NewSavingsViewController.xib in Resources */,
+				1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */,
 				165ACFB413B937D200A2AD3E /* topbar.png in Resources */,
 				165ACFB513B937D200A2AD3E /* topbar@2x.png in Resources */,
 				165ACFD913B9737A00A2AD3E /* fuel_tab.png in Resources */,
@@ -441,7 +441,7 @@
 				1666FD2F13B910D300FC97F1 /* MySavingsViewController.m in Sources */,
 				1666FD3213B910ED00FC97F1 /* MPGDatabaseViewController.m in Sources */,
 				1666FD3513B9111300FC97F1 /* SettingsViewController.m in Sources */,
-				1658291313B9262100BC5219 /* NewSavingsViewController.m in Sources */,
+				1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */,
 				165ACFB813B9386600A2AD3E /* RLTopToolbar.m in Sources */,
 				16A707AC13B9FFE600A0E93F /* NameInputViewController.m in Sources */,
 				16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */,

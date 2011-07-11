@@ -18,6 +18,8 @@
 @property (nonatomic, copy) NSString *key;
 @property (nonatomic, copy) NSString *currentName;
 
+- (id)initWithNavigationButtons;
+
 @end
 
 @protocol NameInputViewControllerDelegate

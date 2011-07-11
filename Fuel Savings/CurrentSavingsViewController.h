@@ -17,12 +17,12 @@
 #import "NameInputViewController.h"
 #import "EfficiencyInputViewController.h"
 
-@protocol NewSavingsViewControllerDelegate;
+@protocol CurrentSavingsViewControllerDelegate;
 
-@interface NewSavingsViewController : UIViewController
+@interface CurrentSavingsViewController : UIViewController
 	<TypeInputViewControllerDelegate,PriceInputViewControllerDelegate,DistanceInputViewControllerDelegate,
 	RatioInputViewControllerDelegate,OwnerInputViewControllerDelegate,NameInputViewControllerDelegate,
-	EfficiencyInputViewControllerDelegate>
+	EfficiencyInputViewControllerDelegate,UIActionSheetDelegate>
 {
 	SavingsData *savingsData_;
 	NSMutableArray *newData_;
@@ -30,15 +30,18 @@
 	NSArray *combinedInformationKeys_;
 	NSArray *avgVehicleKeys_;
 	NSArray *combinedVehicleKeys_;
+	UIView *deleteHeaderView_;
 }
 
-@property (nonatomic, assign) id <NewSavingsViewControllerDelegate> delegate;
+@property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UITableView *newTable;
+@property (nonatomic) BOOL isEditingSavings;
 
 @end
 
-@protocol NewSavingsViewControllerDelegate
+@protocol CurrentSavingsViewControllerDelegate
 
-- (void)newSavingsViewControllerDelegateDidFinish:(NewSavingsViewController *)controller save:(BOOL)save;
+- (void)currentSavingsViewControllerDelegateDidDelete:(CurrentSavingsViewController *)controller;
+- (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save;
 
 @end

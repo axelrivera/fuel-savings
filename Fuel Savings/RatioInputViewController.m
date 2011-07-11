@@ -55,20 +55,7 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-	
-	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																				  target:self
-																				  action:@selector(dismissAction)];
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																				target:self
-																				action:@selector(doneAction)];
-	self.navigationItem.rightBarButtonItem = doneButton;
-	[doneButton release];
-	
+    [super viewDidLoad];	
 	self.title = @"Driving Ratio";
 }
 
@@ -94,17 +81,13 @@
 	self.highwayLabel.text = [numberFormatter_ stringFromNumber:self.currentHighwayRatio];
 }
 
-#pragma mark - Custom Actions
-
-- (void)doneAction
+- (void)viewWillDisappear:(BOOL)animated
 {
+	[super viewWillDisappear:animated];
 	[self.delegate ratioInputViewControllerDidFinish:self save:YES];
 }
 
-- (void)dismissAction
-{
-	[self.delegate ratioInputViewControllerDidFinish:self save:NO];
-}
+#pragma mark - Custom Actions
 
 - (IBAction)citySliderAction:(id)sender
 {

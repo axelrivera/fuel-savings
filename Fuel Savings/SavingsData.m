@@ -12,14 +12,12 @@ static SavingsData *sharedSavingsData;
 
 @implementation SavingsData
 
-@synthesize newCalculation = newCalculation_;
 @synthesize currentCalculation = currentCalculation_;
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
-		self.newCalculation = nil;
 		self.currentCalculation = nil;
 	}
 	return self;
@@ -28,7 +26,6 @@ static SavingsData *sharedSavingsData;
 - (id)initWithCoder:(NSCoder *)decoder
 {
 	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
-		self.newCalculation = [decoder decodeObjectForKey:@"savingsDataNewCalculation"];
 		self.currentCalculation = [decoder decodeObjectForKey:@"savingsDataCurrentCalculation"];
 	}
 	return self;
@@ -37,13 +34,11 @@ static SavingsData *sharedSavingsData;
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
 	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
-	[encoder encodeObject:self.newCalculation forKey:@"savingsDataNewCalculation"];
 	[encoder encodeObject:self.currentCalculation forKey:@"savingsDataCurrentCalculation"];
 }
 
 - (void)dealloc
 {
-	[newCalculation_ release];
 	[currentCalculation_ release];
 	[super dealloc];
 }
@@ -77,12 +72,7 @@ static SavingsData *sharedSavingsData;
 
 #pragma mark - Custom Methods
 
-- (void)resetNewCalculation
-{
-	self.newCalculation = [[[SavingsCalculation alloc] init] autorelease];
-}
-
-- (void)resetCurrentCalculation
+- (void)setupCurrentCalculation
 {
 	self.currentCalculation = [[[SavingsCalculation alloc] init] autorelease];
 }

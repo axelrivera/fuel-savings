@@ -18,8 +18,27 @@
 {
 	self = [super initWithNibName:@"NameInputViewController" bundle:nil];
 	if (self) {
+		self.title = @"Enter Name";
 		self.key = @"";
 		self.currentName = @"";
+	}
+	return self;
+}
+
+- (id)initWithNavigationButtons {
+	self = [self init];
+	if (self) {
+		UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+																					target:self
+																					action:@selector(saveAction)];
+		self.navigationItem.rightBarButtonItem = saveButton;
+		[saveButton release];
+		
+		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																					  target:self
+																					  action:@selector(cancelAction)];
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
 	}
 	return self;
 }
@@ -44,18 +63,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																				  target:self
-																				  action:@selector(dismissAction)];
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																				target:self
-																				action:@selector(doneAction)];
-	self.navigationItem.rightBarButtonItem = doneButton;
-	[doneButton release];
 
 	nameTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(0.0, 7.0, 280.0, 30.0)];
 	nameTextField_.font = [UIFont systemFontOfSize:16.0];
@@ -87,15 +94,23 @@
 	[nameTextField_ becomeFirstResponder];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	self.currentName = nameTextField_.text;
+	if (self.navigationItem.rightBarButtonItem == nil) {
+		[self performSelector:@selector(saveAction)];
+	}
+}
+
 #pragma mark - Custom Actions
 
-- (void)doneAction
+- (void)saveAction
 {
-	self.currentName = nameTextField_.text;
 	[self.delegate nameInputViewControllerDidFinish:self save:YES];
 }
 
-- (void)dismissAction
+- (void)cancelAction
 {
 	[self.delegate nameInputViewControllerDidFinish:self save:NO];
 }
@@ -104,7 +119,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	[self performSelector:@selector(doneAction)];
+	[textField resignFirstResponder];
 	return NO;
 }
 

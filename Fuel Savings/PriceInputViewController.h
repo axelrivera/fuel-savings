@@ -17,11 +17,8 @@
 
 @property (nonatomic, assign) id <PriceInputViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UITextField *inputTextField;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *clearButton;
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSDecimalNumber *currentPrice;
-
-- (IBAction)clearAction:(id)sender;
 
 @end
 

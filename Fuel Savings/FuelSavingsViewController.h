@@ -8,14 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "RLTopToolbar.h"
-#import "NewSavingsViewController.h"
+#import "CurrentSavingsViewController.h"
 #import "SavingsData.h"
+#import "NameInputViewController.h"
 
-@interface FuelSavingsViewController : UIViewController <NewSavingsViewControllerDelegate> {
+@interface FuelSavingsViewController : UIViewController <CurrentSavingsViewControllerDelegate,
+	NameInputViewControllerDelegate> {
 	SavingsData *savingsData_;
 	NSNumberFormatter *currencyFormatter_;
-	UILabel *annualFooterView_;
-	UILabel *totalFooterView_;
+	UIView *annualFooterView_;
+	UIView *totalFooterView_;
+	UIView *infoFooterView_;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *savingsTable;
@@ -23,6 +26,7 @@
 @property (nonatomic, copy) NSNumber *vehicle1TotalCost;
 @property (nonatomic, copy) NSNumber *vehicle2AnnualCost;
 @property (nonatomic, copy) NSNumber *vehicle2TotalCost;
+@property (nonatomic, copy) SavingsCalculation *backupCopy;
 
 - (id)initWithTabBar;
 

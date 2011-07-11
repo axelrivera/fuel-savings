@@ -55,19 +55,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
-	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																				  target:self
-																				  action:@selector(dismissAction)];
-	self.navigationItem.leftBarButtonItem = cancelButton;
-	[cancelButton release];
-	
-	UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-																				target:self
-																				action:@selector(doneAction)];
-	self.navigationItem.rightBarButtonItem = doneButton;
-	[doneButton release];
-	
 	self.title = @"Change Ownership";
 }
 
@@ -97,18 +84,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-}
-
-#pragma mark - Custom Actions
-
-- (void)doneAction
-{
 	[self.delegate ownerInputViewControllerDidFinish:self save:YES];
-}
-
-- (void)dismissAction
-{
-	[self.delegate ownerInputViewControllerDidFinish:self save:NO];
 }
 
 # pragma mark - UIPickerView Data Source

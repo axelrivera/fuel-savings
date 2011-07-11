@@ -26,9 +26,6 @@ typedef enum {
 @property (nonatomic, copy) NSNumber *currentEfficiency;
 @property (nonatomic) EfficiencyInputType currentType;
 @property (nonatomic, retain) IBOutlet UITextField *efficiencyTextField;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *clearButton;
-
-- (IBAction)clearAction:(id)sender;
 
 @end
 
