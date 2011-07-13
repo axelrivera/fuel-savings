@@ -67,7 +67,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[combinedInformationKeys_ release];
 	[avgVehicleKeys_ release];
 	[combinedVehicleKeys_ release];
-	[deleteHeaderView_ release];
 	[newTable_ release];
     [super dealloc];
 }
@@ -151,26 +150,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)dismissAction
 {
 	[self.delegate currentSavingsViewControllerDelegateDidFinish:self save:NO];
-}
-
-- (void)deleteAction
-{
-	[self.delegate currentSavingsViewControllerDelegateDidDelete:self];
-	[self.delegate currentSavingsViewControllerDelegateDidFinish:self save:NO];
-}
-
-- (void)deleteOptionsAction:(id)sender {
-	// open a dialog with two custom buttons	
-	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:nil
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Calculation"
-								  otherButtonTitles:nil];
-	
-	[actionSheet showInView:self.view]; // show from our table view (pops up in the middle of the table)
-	[actionSheet release];	
 }
 
 #pragma mark - UITableView Data Source
@@ -372,35 +351,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	return titleString;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-	if (section == 0 && self.isEditingSavings == YES) {
-		[deleteHeaderView_ autorelease];
-		deleteHeaderView_ = [[UIView alloc] initWithFrame:CGRectZero];
-		
-		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[button addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Delete Calculation" forState:UIControlStateNormal];
-		
-		CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
-		button.frame = CGRectMake(10.0, 20.0, buttonWidth, 44.0);
-		
-		[deleteHeaderView_ addSubview:button];
-		[button release];
-		
-		return deleteHeaderView_;
-	}
-	return nil;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	if (section == 0) {
-		return 84.0;
-	}
-	return 30.0;
-}
-
 #pragma mark - View Controller Delegates
 
 - (void)typeInputViewControllerDidFinish:(TypeInputViewController *)controller save:(BOOL)save
@@ -566,15 +516,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 										  otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
-}
-
-#pragma mark -
-#pragma mark UIActionSheet Delegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
-		[self performSelector:@selector(deleteAction)];
-	}
 }
 
 @end

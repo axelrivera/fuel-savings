@@ -20,9 +20,9 @@
 @protocol CurrentSavingsViewControllerDelegate;
 
 @interface CurrentSavingsViewController : UIViewController
-	<TypeInputViewControllerDelegate,PriceInputViewControllerDelegate,DistanceInputViewControllerDelegate,
-	RatioInputViewControllerDelegate,OwnerInputViewControllerDelegate,NameInputViewControllerDelegate,
-	EfficiencyInputViewControllerDelegate,UIActionSheetDelegate>
+	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
+	RatioInputViewControllerDelegate, OwnerInputViewControllerDelegate, NameInputViewControllerDelegate,
+	EfficiencyInputViewControllerDelegate>
 {
 	SavingsData *savingsData_;
 	NSMutableArray *newData_;
@@ -30,7 +30,6 @@
 	NSArray *combinedInformationKeys_;
 	NSArray *avgVehicleKeys_;
 	NSArray *combinedVehicleKeys_;
-	UIView *deleteHeaderView_;
 }
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;
@@ -41,7 +40,6 @@
 
 @protocol CurrentSavingsViewControllerDelegate
 
-- (void)currentSavingsViewControllerDelegateDidDelete:(CurrentSavingsViewController *)controller;
 - (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save;
 
 @end

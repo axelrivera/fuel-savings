@@ -23,6 +23,7 @@
 @property (nonatomic, copy) Vehicle *vehicle1;
 @property (nonatomic, copy) Vehicle *vehicle2;
 
++ (id)calculation;
 + (NSString *)stringValueForType:(EfficiencyType)type;
 
 - (NSString *)stringForCurrentType;

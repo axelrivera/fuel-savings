@@ -13,11 +13,10 @@
 
 }
 
-@property (nonatomic, copy) SavingsCalculation *currentCalculation;
+@property (nonatomic, assign) SavingsCalculation *currentCalculation;
+@property (nonatomic, retain) SavingsCalculation *savingsCalculation;
 @property (nonatomic, retain) NSMutableArray *savedCalculations; 
 
 + (SavingsData *)sharedSavingsData;
-
-- (void)setupCurrentCalculation;
 
 @end

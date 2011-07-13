@@ -13,6 +13,7 @@ static SavingsData *sharedSavingsData;
 @implementation SavingsData
 
 @synthesize currentCalculation = currentCalculation_;
+@synthesize savingsCalculation = savingsCalculation_;
 @synthesize savedCalculations = savedCalculations_;
 
 - (id)init
@@ -20,6 +21,7 @@ static SavingsData *sharedSavingsData;
 	self = [super init];
 	if (self) {
 		self.currentCalculation = nil;
+		self.savingsCalculation = nil;
 		self.savedCalculations = [NSMutableArray arrayWithCapacity:0];
 	}
 	return self;
@@ -28,7 +30,7 @@ static SavingsData *sharedSavingsData;
 - (id)initWithCoder:(NSCoder *)decoder
 {
 	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
-		self.currentCalculation = [decoder decodeObjectForKey:@"savingsDataCurrentCalculation"];
+		self.savingsCalculation = [decoder decodeObjectForKey:@"savingsDataSavingsCalculation"];
 		self.savedCalculations = [decoder decodeObjectForKey:@"savingsDataSavedCalculations"];
 	}
 	return self;
@@ -37,13 +39,13 @@ static SavingsData *sharedSavingsData;
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
 	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
-	[encoder encodeObject:self.currentCalculation forKey:@"savingsDataCurrentCalculation"];
+	[encoder encodeObject:self.savingsCalculation forKey:@"savingsDataSavingsCalculation"];
 	[encoder encodeObject:self.savedCalculations forKey:@"savingsDataSavedCalculations"];
 }
 
 - (void)dealloc
 {
-	[currentCalculation_ release];
+	[savingsCalculation_ release];
 	[savedCalculations_ release];
 	[super dealloc];
 }
@@ -74,13 +76,5 @@ static SavingsData *sharedSavingsData;
 - (void)release {
     // No op
 }
-
-#pragma mark - Custom Methods
-
-- (void)setupCurrentCalculation
-{
-	self.currentCalculation = [[[SavingsCalculation alloc] init] autorelease];
-}
-
 
 @end

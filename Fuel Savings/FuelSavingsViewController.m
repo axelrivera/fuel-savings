@@ -8,7 +8,9 @@
 
 #import "FuelSavingsViewController.h"
 #import "CurrentSavingsViewController.h"
-#import "SavingsCalculation.h"
+
+#define NEW_TAG 1
+#define DELETE_TAG 2
 
 @implementation FuelSavingsViewController
 
@@ -20,6 +22,7 @@ static CGSize totalLabelSize;
 @synthesize vehicle1TotalCost = vehicle1TotalCost_;
 @synthesize vehicle2AnnualCost = vehicle2AnnualCost_;
 @synthesize vehicle2TotalCost = vehicle2TotalCost_;
+@synthesize savingsCalculation = savingsCalculation_;
 @synthesize backupCopy = backupCopy_;
 
 - (id)init
@@ -32,9 +35,11 @@ static CGSize totalLabelSize;
 		[currencyFormatter_ setMaximumFractionDigits:0];
 		annualLabelSize = CGSizeZero;
 		totalLabelSize = CGSizeZero;
+		self.savingsCalculation = nil;
 		self.backupCopy = nil;
 		isNewSavings_ = NO;
 		showNewAction_ = NO;
+		hasTabBar_ = NO;
 	}
 	return self;
 }
@@ -46,6 +51,7 @@ static CGSize totalLabelSize;
 		self.title = @"Savings";
 		self.navigationItem.title = @"Compare Savings";
 		self.tabBarItem.image = [UIImage imageNamed:@"savings_tab.png"];
+		hasTabBar_ = YES;
 	}
 	return self;
 }
@@ -61,6 +67,7 @@ static CGSize totalLabelSize;
 	[annualFooterView_ release];
 	[totalFooterView_ release];
 	[infoFooterView_ release];
+	[savingsCalculation_ release];
 	[backupCopy_ release];
     [super dealloc];
 }
@@ -79,18 +86,20 @@ static CGSize totalLabelSize;
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
 																				target:self
 																				action:@selector(editAction)];
-	self.navigationItem.leftBarButtonItem = leftButton;
-	[leftButton release];
+	self.navigationItem.rightBarButtonItem = editButton;
+	[editButton release];
 	
-	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
-																	style:UIBarButtonItemStyleBordered
-																   target:self
-																   action:@selector(newCheckAction)];
-	self.navigationItem.rightBarButtonItem = rightButton;
-	[rightButton release];
+	if (hasTabBar_) {
+		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
+																	  style:UIBarButtonItemStyleBordered
+																	 target:self
+																	 action:@selector(newCheckAction)];
+		self.navigationItem.leftBarButtonItem = newButton;
+		[newButton release];
+	}
 }
 
 - (void)viewDidUnload
@@ -105,30 +114,36 @@ static CGSize totalLabelSize;
 {
 	[super viewWillAppear:animated];
 	
-	self.navigationItem.leftBarButtonItem.enabled = NO;
+	self.navigationItem.rightBarButtonItem.enabled = NO;
 	
-	if (savingsData_.currentCalculation) {
-		self.navigationItem.leftBarButtonItem.enabled = YES;
-		EfficiencyType type = savingsData_.currentCalculation.type;
-		if ([savingsData_.currentCalculation.vehicle1 hasDataReadyForType:type]) {
-			self.vehicle1AnnualCost = [savingsData_.currentCalculation annualCostForVehicle1];
-			self.vehicle1TotalCost = [savingsData_.currentCalculation totalCostForVehicle1];
+	if (hasTabBar_) {
+		self.savingsCalculation = savingsData_.savingsCalculation;
+	} else {
+		if (self.savingsCalculation == nil) {
+			[self.navigationController popToRootViewControllerAnimated:YES];
+		}
+	}
+	
+	if (self.savingsCalculation) {
+		self.navigationItem.rightBarButtonItem.enabled = YES;
+		EfficiencyType type = self.savingsCalculation.type;
+		if ([self.savingsCalculation.vehicle1 hasDataReadyForType:type]) {
+			self.vehicle1AnnualCost = [self.savingsCalculation annualCostForVehicle1];
+			self.vehicle1TotalCost = [self.savingsCalculation totalCostForVehicle1];
 		} else {
 			self.vehicle1AnnualCost = [NSNumber numberWithFloat:0.0];
 			self.vehicle1TotalCost = [NSNumber numberWithFloat:0.0];
 		}
 		
-		if ([savingsData_.currentCalculation.vehicle2 hasDataReadyForType:type]) {
-			self.vehicle2AnnualCost = [savingsData_.currentCalculation annualCostForVehicle2];
-			self.vehicle2TotalCost = [savingsData_.currentCalculation totalCostForVehicle2];
+		if ([self.savingsCalculation.vehicle2 hasDataReadyForType:type]) {
+			self.vehicle2AnnualCost = [self.savingsCalculation annualCostForVehicle2];
+			self.vehicle2TotalCost = [self.savingsCalculation totalCostForVehicle2];
 		} else {
 			self.vehicle2AnnualCost = [NSNumber numberWithFloat:0.0];
 			self.vehicle2TotalCost = [NSNumber numberWithFloat:0.0];
 		}
 	}
 	[self.savingsTable reloadData];
-	
-	NSLog(@"%@", savingsData_.savedCalculations);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -144,14 +159,17 @@ static CGSize totalLabelSize;
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
+	
+	if (hasTabBar_) {
+		savingsData_.savingsCalculation = self.savingsCalculation;
+	}
 }
 
 #pragma mark - Custom Actions
 
 - (void)newCheckAction
 {
-	NSLog(@"One");
-	if (savingsData_.currentCalculation == nil) {
+	if (self.savingsCalculation == nil) {
 		[self performSelector:@selector(newAction)];
 	} else {
 		[self performSelector:@selector(newOptionsAction:)];
@@ -160,7 +178,8 @@ static CGSize totalLabelSize;
 
 - (void)newAction
 {
-	[savingsData_ setupCurrentCalculation];
+	self.savingsCalculation = [SavingsCalculation calculation];
+	savingsData_.currentCalculation = self.savingsCalculation;
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] init];
 	currentSavingsViewController.delegate = self;
 	
@@ -173,23 +192,10 @@ static CGSize totalLabelSize;
 	[navController release];
 }
 
-- (void)newOptionsAction:(id)sender {
-	NSLog(@"Two");	
-	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:@"Save Current", nil];
-	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
-	[actionSheet release];	
-}
-
 - (void)editAction
 {
-	self.backupCopy = savingsData_.currentCalculation;
+	self.backupCopy = self.savingsCalculation;
+	savingsData_.currentCalculation = self.savingsCalculation;
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] init];
 	currentSavingsViewController.delegate = self;
 	currentSavingsViewController.isEditingSavings = YES;
@@ -205,13 +211,19 @@ static CGSize totalLabelSize;
 
 - (void)saveAction
 {
-	NSLog(@"Four");
 	[self performSelector:@selector(displayNameAction)];
+}
+
+
+- (void)deleteAction
+{
+	self.savingsCalculation = nil;
+	self.navigationItem.rightBarButtonItem.enabled = NO;
+	[self.savingsTable reloadData];
 }
 
 - (void)displayNameAction
 {
-	NSLog(@"Five");
 	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
 	inputViewController.delegate = self;
 	
@@ -233,31 +245,56 @@ static CGSize totalLabelSize;
 	[navController release];
 }
 
-#pragma mark - View Controller Delegates
-
-- (void)currentSavingsViewControllerDelegateDidDelete:(CurrentSavingsViewController *)controller
-{
-	self.backupCopy = nil;
+- (void)newOptionsAction:(id)sender {	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]
+								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Delete Current"
+								  otherButtonTitles:@"Save Current As..", nil];
+	
+	actionSheet.tag = NEW_TAG;
+	
+	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	[actionSheet release];	
 }
+
+- (void)deleteOptionsAction:(id)sender {
+	// open a dialog with two custom buttons	
+	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]
+								  initWithTitle:@"Are you sure? The information on your Current Savings will be lost."
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Delete Savings"
+								  otherButtonTitles:nil];
+	
+	actionSheet.tag = DELETE_TAG;
+	
+	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	[actionSheet release];	
+}
+
+#pragma mark - View Controller Delegates
 
 - (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save
 {
 	if (!save) {
 		if (controller.isEditingSavings == YES) {
-			savingsData_.currentCalculation = self.backupCopy;
+			self.savingsCalculation = self.backupCopy;
 		} else {
-			savingsData_.currentCalculation = nil;
+			self.savingsCalculation = nil;
 		}
 	}
+	savingsData_.currentCalculation = nil;
 	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
-	NSLog(@"Six");
 	if (save) {
-		savingsData_.currentCalculation.name = controller.currentName;
-		[savingsData_.savedCalculations addObject:savingsData_.currentCalculation];
+		self.savingsCalculation.name = controller.currentName;
+		[savingsData_.savedCalculations addObject:[self.savingsCalculation copy]];
 		if (isNewSavings_) {
 			isNewSavings_ = NO;
 			showNewAction_ = YES;
@@ -270,11 +307,17 @@ static CGSize totalLabelSize;
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if (savingsData_.currentCalculation == nil) {
+	if (self.savingsCalculation == nil) {
 		return 0;
 	}
 	
-	return 3;
+	NSInteger sections = 3;
+	
+	if (hasTabBar_) {
+		sections = sections + 2;
+	}
+	
+	return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -282,17 +325,19 @@ static CGSize totalLabelSize;
 	NSInteger rows = 0;
 	
 	if (section == 0 || section == 1) {
-		EfficiencyType type = savingsData_.currentCalculation.type;
+		EfficiencyType type = self.savingsCalculation.type;
 		
-		if ([savingsData_.currentCalculation.vehicle1 hasDataReadyForType:type]) {
+		if ([self.savingsCalculation.vehicle1 hasDataReadyForType:type]) {
 			rows++;
 		}
 		
-		if ([savingsData_.currentCalculation.vehicle2 hasDataReadyForType:type]) {
+		if ([self.savingsCalculation.vehicle2 hasDataReadyForType:type]) {
 			rows++;
 		}
-	} else {
+	} else if (section == 2) {
 		rows = 3;
+	} else {
+		rows = 1;
 	}
 	
 	return rows;
@@ -300,7 +345,47 @@ static CGSize totalLabelSize;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {	
-	if (indexPath.section == 2) {
+	if (indexPath.section == 0 || indexPath.section == 1) {
+		static NSString *VehicleCellIdentifier = @"VehicleCell";
+		
+		UITableViewCell *vehicleCell = [tableView dequeueReusableCellWithIdentifier:VehicleCellIdentifier];
+		
+		if (vehicleCell == nil) {
+			vehicleCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:VehicleCellIdentifier] autorelease];
+		}
+		
+		NSNumber *number1 = nil;
+		NSNumber *number2 = nil;
+		if (indexPath.section == 0) {
+			number1 = self.vehicle1AnnualCost;
+			number2 = self.vehicle2AnnualCost;
+		} else {
+			number1 = self.vehicle1TotalCost;
+			number2 = self.vehicle2TotalCost;
+		}
+		
+		NSString *textLabelString = nil;
+		NSString *detailTextLabelString = nil;
+		
+		if (indexPath.row == 0) {
+			textLabelString = self.savingsCalculation.vehicle1.name;
+			detailTextLabelString = [currencyFormatter_ stringFromNumber:number1];
+		} else {
+			textLabelString = self.savingsCalculation.vehicle2.name;
+			detailTextLabelString = [currencyFormatter_ stringFromNumber:number2];
+		}
+		
+		vehicleCell.accessoryType = UITableViewCellAccessoryNone;
+		vehicleCell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		vehicleCell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
+		vehicleCell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
+		
+		vehicleCell.textLabel.text = textLabelString;
+		vehicleCell.detailTextLabel.text = detailTextLabelString;
+		
+		return vehicleCell;
+	} else if (indexPath.section == 2) {
 		static NSString *InfoCellIdentifier = @"InfoCell";
 		
 		UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:InfoCellIdentifier];
@@ -318,7 +403,7 @@ static CGSize totalLabelSize;
 			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 			
-			NSString *numberString = [formatter stringFromNumber:savingsData_.currentCalculation.fuelPrice];
+			NSString *numberString = [formatter stringFromNumber:self.savingsCalculation.fuelPrice];
 			[formatter release];
 			
 			detailTextLabelString = [NSString stringWithFormat:@"%@ /gallon", numberString];
@@ -329,14 +414,14 @@ static CGSize totalLabelSize;
 			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 			[formatter setMaximumFractionDigits:0];
 			
-			NSString *numberString = [formatter stringFromNumber:savingsData_.currentCalculation.distance];
+			NSString *numberString = [formatter stringFromNumber:self.savingsCalculation.distance];
 			[formatter release];
 			
 			detailTextLabelString = [NSString stringWithFormat:@"%@ miles/year", numberString];
 		} else {
 			textLabelString = @"Ownership";
 			detailTextLabelString = [NSString stringWithFormat:@"%@ years",
-									 [savingsData_.currentCalculation.carOwnership stringValue]];
+									 [self.savingsCalculation.carOwnership stringValue]];
 		}
 		
 		infoCell.accessoryType = UITableViewCellAccessoryNone;
@@ -356,38 +441,31 @@ static CGSize totalLabelSize;
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
-	NSNumber *number1 = nil;
-	NSNumber *number2 = nil;
-	if (indexPath.section == 0) {
-		number1 = self.vehicle1AnnualCost;
-		number2 = self.vehicle2AnnualCost;
-	} else {
-		number1 = self.vehicle1TotalCost;
-		number2 = self.vehicle2TotalCost;
+	UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+	cell.backgroundColor = [UIColor clearColor];
+	cell.backgroundView = backView;
+	cell.selectionStyle = UITableViewCellEditingStyleNone;
+	
+	UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
+	button.frame = CGRectMake(0.0, 0.0, buttonWidth, 44.0);
+	
+	if (indexPath.section == 3) {
+		[button addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Save Current As..." forState:UIControlStateNormal];
 	}
 	
-	NSString *textLabelString = nil;
-	NSString *detailTextLabelString = nil;
-	
-	if (indexPath.row == 0) {
-		textLabelString = savingsData_.currentCalculation.vehicle1.name;
-		detailTextLabelString = [currencyFormatter_ stringFromNumber:number1];
-	} else {
-		textLabelString = savingsData_.currentCalculation.vehicle2.name;
-		detailTextLabelString = [currencyFormatter_ stringFromNumber:number2];
+	if (indexPath.section == 4) {
+		[button addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Delete Savings" forState:UIControlStateNormal];
 	}
-		
-	cell.accessoryType = UITableViewCellAccessoryNone;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
-	cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
+	cell.accessoryView = button;
 	
-	cell.textLabel.text = textLabelString;
-	cell.detailTextLabel.text = detailTextLabelString;
+	[button release];
 	
 	return cell;
 }
@@ -398,8 +476,10 @@ static CGSize totalLabelSize;
 		return @"Annual Cost";
 	} else if (section == 1) {
 		return @"Total Cost";
+	} else if (section == 2) {
+		return @"Information";
 	}
-	return @"Information";
+	return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -419,14 +499,14 @@ static CGSize totalLabelSize;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-	if (!savingsData_.currentCalculation) {
+	if (!self.savingsCalculation) {
 		return nil;
 	}
 	
-	EfficiencyType type = savingsData_.currentCalculation.type;
+	EfficiencyType type = self.savingsCalculation.type;
 	
-	BOOL isVehicle1Ready = [savingsData_.currentCalculation.vehicle1 hasDataReadyForType:type];
-	BOOL isVehicle2Ready = [savingsData_.currentCalculation.vehicle2 hasDataReadyForType:type];
+	BOOL isVehicle1Ready = [self.savingsCalculation.vehicle1 hasDataReadyForType:type];
+	BOOL isVehicle2Ready = [self.savingsCalculation.vehicle2 hasDataReadyForType:type];
 	if (section == 0) {
 		if (isVehicle1Ready && isVehicle2Ready) {
 			[annualFooterView_ autorelease];
@@ -451,12 +531,12 @@ static CGSize totalLabelSize;
 			} else if (result == NSOrderedDescending) {
 				NSNumber *savings = [NSNumber numberWithFloat:[self.vehicle1AnnualCost floatValue] - [self.vehicle2AnnualCost floatValue]];
 				label.text = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-							  savingsData_.currentCalculation.vehicle2.name,
+							  self.savingsCalculation.vehicle2.name,
 							  [currencyFormatter_ stringFromNumber:savings]];
 			} else {
 				NSNumber *savings = [NSNumber numberWithFloat:[self.vehicle2AnnualCost floatValue] - [self.vehicle1AnnualCost floatValue]];
 				label.text = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-							  savingsData_.currentCalculation.vehicle1.name,
+							  self.savingsCalculation.vehicle1.name,
 							  [currencyFormatter_ stringFromNumber:savings]];
 			}
 			
@@ -494,20 +574,20 @@ static CGSize totalLabelSize;
 			
 			NSComparisonResult result = [self.vehicle1TotalCost compare:self.vehicle2TotalCost];
 			
-			NSInteger years = [savingsData_.currentCalculation.carOwnership integerValue];
+			NSInteger years = [self.savingsCalculation.carOwnership integerValue];
 			
 			if (result == NSOrderedSame) {
 				label.text = [NSString stringWithFormat:@"The total fuel cost is the same over a period of %i years.", years];
 			} else if (result == NSOrderedDescending) {
 				NSNumber *savings = [NSNumber numberWithFloat:[self.vehicle1TotalCost floatValue] - [self.vehicle2TotalCost floatValue]];
 				label.text = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-							  savingsData_.currentCalculation.vehicle2.name,
+							  self.savingsCalculation.vehicle2.name,
 							  [currencyFormatter_ stringFromNumber:savings],
 							  years];
 			} else {
 				NSNumber *savings = [NSNumber numberWithFloat:[self.vehicle2TotalCost floatValue] - [self.vehicle1TotalCost floatValue]];
 				label.text = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-							  savingsData_.currentCalculation.vehicle1.name,
+							  self.savingsCalculation.vehicle1.name,
 							  [currencyFormatter_ stringFromNumber:savings],
 							  years];
 			}
@@ -526,21 +606,6 @@ static CGSize totalLabelSize;
 			
 			return totalFooterView_;
 		}
-	} else {
-		[infoFooterView_ autorelease];
-		infoFooterView_ = [[UIView alloc] initWithFrame:CGRectZero];
-		
-		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[button addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Save" forState:UIControlStateNormal];
-		
-		CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
-		button.frame = CGRectMake(10.0, 20.0, buttonWidth, 44.0);
-		
-		[infoFooterView_ addSubview:button];
-		[button release];
-		
-		return infoFooterView_;
 	}
 	return nil;
 }
@@ -549,13 +614,18 @@ static CGSize totalLabelSize;
 #pragma mark UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
-		[self performSelector:@selector(newAction)];
-	} else if (buttonIndex == 1) {
-		NSLog(@"Three");
-		isNewSavings_ = YES;
-		[self performSelector:@selector(saveAction)];
-	}	
+	if (actionSheet.tag == NEW_TAG) {
+		if (buttonIndex == 0) {
+			[self performSelector:@selector(newAction)];
+		} else if (buttonIndex == 1) {
+			isNewSavings_ = YES;
+			[self performSelector:@selector(saveAction)];
+		}
+	} else {
+		if (buttonIndex == 0) {
+			[self performSelector:@selector(deleteAction)];
+		}
+	}
 }
 
 @end

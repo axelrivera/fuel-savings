@@ -8,6 +8,7 @@
 
 #import "MySavingsViewController.h"
 #import "SavingsCalculation.h"
+#import "FuelSavingsViewController.h"
 
 @interface MySavingsViewController (Private)
 
@@ -63,6 +64,12 @@
 	[self setupSegmentedControl];
 	self.navigationItem.titleView = self.segmentedControl;
 	[self.segmentedControl setSelectedSegmentIndex:0];
+	
+	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																				target:self
+																				action:@selector(editAction)];
+	self.navigationItem.rightBarButtonItem = editButton;
+	[editButton release];
 }
 
 - (void)viewDidUnload
@@ -76,11 +83,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	
+	[self.tableView reloadData];
 }
 
 #pragma mark - Custom Actions
 
-- (void)changedSegmentedControl
+- (void)changedSegmentedControlAction
 {
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		tableData_ = savingsData_.savedCalculations;
@@ -91,6 +100,11 @@
 	[self.tableView reloadData];
 }
 
+- (void)editAction
+{
+	
+}
+
 #pragma mark - Private Methods
 
 - (void)setupSegmentedControl
@@ -98,11 +112,11 @@
 	UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Savings", @"Trips", nil]];
 	[segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
 	[segmentedControl setMomentary:NO];
-	[segmentedControl addTarget:self action:@selector(changedSegmentedControl) forControlEvents:UIControlEventValueChanged];
+	[segmentedControl addTarget:self action:@selector(changedSegmentedControlAction) forControlEvents:UIControlEventValueChanged];
 	
 	
-	[segmentedControl setWidth:150.0 forSegmentAtIndex:0];
-	[segmentedControl setWidth:150.0 forSegmentAtIndex:1];
+	[segmentedControl setWidth:80.0 forSegmentAtIndex:0];
+	[segmentedControl setWidth:80.0 forSegmentAtIndex:1];
 	
 	self.segmentedControl = segmentedControl;
 	[segmentedControl release];
@@ -132,9 +146,36 @@
 		textLabelString = calculation.name;
 	}
 	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.textLabel.text = textLabelString;
 	
 	return cell;
+}
+
+#pragma mark - UITableView Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	UIViewController *currentController = nil;
+	
+	if ([self.segmentedControl selectedSegmentIndex] == 0) {
+		FuelSavingsViewController *fuelSavingsViewController = [[FuelSavingsViewController alloc] init];
+		
+		SavingsCalculation *calculation = [tableData_ objectAtIndex:indexPath.row];
+		
+		fuelSavingsViewController.title	= calculation.name;
+		fuelSavingsViewController.savingsCalculation = calculation;
+		
+		currentController = fuelSavingsViewController;
+	}
+	
+	if (currentController) {
+		[self.navigationController pushViewController:currentController animated:YES];
+		[currentController release];
+	}
 }
 
 @end

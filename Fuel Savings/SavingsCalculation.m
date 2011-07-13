@@ -27,6 +27,11 @@
 @synthesize vehicle1 = vehicle1_;
 @synthesize vehicle2 = vehicle2_;
 
++ (id)calculation
+{
+	return [[[[self class] alloc] init] autorelease];
+}
+
 #pragma mark - Class Methods
 
 - (id)init

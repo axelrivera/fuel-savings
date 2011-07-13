@@ -97,7 +97,6 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	self.currentName = nameTextField_.text;
 	if (self.navigationItem.rightBarButtonItem == nil) {
 		[self performSelector:@selector(saveAction)];
 	}
@@ -107,6 +106,7 @@
 
 - (void)saveAction
 {
+	self.currentName = nameTextField_.text;
 	[self.delegate nameInputViewControllerDidFinish:self save:YES];
 }
 
