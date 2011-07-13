@@ -14,6 +14,7 @@
 }
 
 @property (nonatomic, copy) SavingsCalculation *currentCalculation;
+@property (nonatomic, retain) NSMutableArray *savedCalculations; 
 
 + (SavingsData *)sharedSavingsData;
 

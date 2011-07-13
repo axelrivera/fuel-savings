@@ -33,6 +33,8 @@ static CGSize totalLabelSize;
 		annualLabelSize = CGSizeZero;
 		totalLabelSize = CGSizeZero;
 		self.backupCopy = nil;
+		isNewSavings_ = NO;
+		showNewAction_ = NO;
 	}
 	return self;
 }
@@ -41,9 +43,9 @@ static CGSize totalLabelSize;
 {
 	self = [self init];
 	if (self) {
-		self.title = @"Compare";
+		self.title = @"Savings";
 		self.navigationItem.title = @"Compare Savings";
-		self.tabBarItem.image = [UIImage imageNamed:@"compare_tab.png"];
+		self.tabBarItem.image = [UIImage imageNamed:@"savings_tab.png"];
 	}
 	return self;
 }
@@ -86,7 +88,7 @@ static CGSize totalLabelSize;
 	UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	style:UIBarButtonItemStyleBordered
 																   target:self
-																   action:@selector(newAction)];
+																   action:@selector(newCheckAction)];
 	self.navigationItem.rightBarButtonItem = rightButton;
 	[rightButton release];
 }
@@ -125,6 +127,18 @@ static CGSize totalLabelSize;
 		}
 	}
 	[self.savingsTable reloadData];
+	
+	NSLog(@"%@", savingsData_.savedCalculations);
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	if (showNewAction_ == YES) {
+		showNewAction_ = NO;
+		[self performSelector:@selector(newAction)];
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -133,6 +147,16 @@ static CGSize totalLabelSize;
 }
 
 #pragma mark - Custom Actions
+
+- (void)newCheckAction
+{
+	NSLog(@"One");
+	if (savingsData_.currentCalculation == nil) {
+		[self performSelector:@selector(newAction)];
+	} else {
+		[self performSelector:@selector(newOptionsAction:)];
+	}
+}
 
 - (void)newAction
 {
@@ -147,6 +171,20 @@ static CGSize totalLabelSize;
 	[self presentModalViewController:navController animated:YES];
 	
 	[navController release];
+}
+
+- (void)newOptionsAction:(id)sender {
+	NSLog(@"Two");	
+	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]
+								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Delete Current"
+								  otherButtonTitles:@"Save Current", nil];
+	
+	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	[actionSheet release];	
 }
 
 - (void)editAction
@@ -167,11 +205,13 @@ static CGSize totalLabelSize;
 
 - (void)saveAction
 {
+	NSLog(@"Four");
 	[self performSelector:@selector(displayNameAction)];
 }
 
 - (void)displayNameAction
 {
+	NSLog(@"Five");
 	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
 	inputViewController.delegate = self;
 	
@@ -214,8 +254,14 @@ static CGSize totalLabelSize;
 
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
+	NSLog(@"Six");
 	if (save) {
-		
+		savingsData_.currentCalculation.name = controller.currentName;
+		[savingsData_.savedCalculations addObject:savingsData_.currentCalculation];
+		if (isNewSavings_) {
+			isNewSavings_ = NO;
+			showNewAction_ = YES;
+		}
 	}
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -475,8 +521,6 @@ static CGSize totalLabelSize;
 									 280.0,
 									 totalLabelSize.height);
 			
-			NSLog(@"Width: %f, Height: %f", totalLabelSize.width, totalLabelSize.height);
-			
 			[totalFooterView_ addSubview:label];
 			[label release];
 			
@@ -499,6 +543,19 @@ static CGSize totalLabelSize;
 		return infoFooterView_;
 	}
 	return nil;
+}
+
+#pragma mark -
+#pragma mark UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+		[self performSelector:@selector(newAction)];
+	} else if (buttonIndex == 1) {
+		NSLog(@"Three");
+		isNewSavings_ = YES;
+		[self performSelector:@selector(saveAction)];
+	}	
 }
 
 @end

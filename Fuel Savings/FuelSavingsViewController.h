@@ -12,13 +12,16 @@
 #import "SavingsData.h"
 #import "NameInputViewController.h"
 
-@interface FuelSavingsViewController : UIViewController <CurrentSavingsViewControllerDelegate,
-	NameInputViewControllerDelegate> {
+@interface FuelSavingsViewController : UIViewController <UIActionSheetDelegate, CurrentSavingsViewControllerDelegate,
+	NameInputViewControllerDelegate>
+{
 	SavingsData *savingsData_;
 	NSNumberFormatter *currencyFormatter_;
 	UIView *annualFooterView_;
 	UIView *totalFooterView_;
 	UIView *infoFooterView_;
+	BOOL isNewSavings_;
+	BOOL showNewAction_;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *savingsTable;

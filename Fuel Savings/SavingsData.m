@@ -13,12 +13,14 @@ static SavingsData *sharedSavingsData;
 @implementation SavingsData
 
 @synthesize currentCalculation = currentCalculation_;
+@synthesize savedCalculations = savedCalculations_;
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
 		self.currentCalculation = nil;
+		self.savedCalculations = [NSMutableArray arrayWithCapacity:0];
 	}
 	return self;
 }
@@ -27,6 +29,7 @@ static SavingsData *sharedSavingsData;
 {
 	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
 		self.currentCalculation = [decoder decodeObjectForKey:@"savingsDataCurrentCalculation"];
+		self.savedCalculations = [decoder decodeObjectForKey:@"savingsDataSavedCalculations"];
 	}
 	return self;
 }
@@ -35,11 +38,13 @@ static SavingsData *sharedSavingsData;
 {
 	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
 	[encoder encodeObject:self.currentCalculation forKey:@"savingsDataCurrentCalculation"];
+	[encoder encodeObject:self.savedCalculations forKey:@"savingsDataSavedCalculations"];
 }
 
 - (void)dealloc
 {
 	[currentCalculation_ release];
+	[savedCalculations_ release];
 	[super dealloc];
 }
 

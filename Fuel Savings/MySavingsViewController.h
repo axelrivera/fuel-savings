@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SavingsData.h"
 
-
-@interface MySavingsViewController : UIViewController {
-    
+@interface MySavingsViewController : UITableViewController {
+	SavingsData *savingsData_;
+    NSMutableArray *tableData_;
 }
+
+@property (nonatomic, retain) UISegmentedControl *segmentedControl;
 
 - (id)initWithTabBar;
 
