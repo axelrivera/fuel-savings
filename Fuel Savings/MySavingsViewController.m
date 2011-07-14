@@ -13,6 +13,7 @@
 @interface MySavingsViewController (Private)
 
 - (void)setupSegmentedControl;
+- (void)reloadTableData;
 
 @end
 
@@ -65,11 +66,7 @@
 	self.navigationItem.titleView = self.segmentedControl;
 	[self.segmentedControl setSelectedSegmentIndex:0];
 	
-	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																				target:self
-																				action:@selector(editAction)];
-	self.navigationItem.rightBarButtonItem = editButton;
-	[editButton release];
+	self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -83,8 +80,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	[self.tableView reloadData];
+	[self reloadTableData];
 }
 
 #pragma mark - Custom Actions
@@ -96,14 +92,31 @@
 	} else {
 		tableData_ = nil;
 	}
-	
-	[self.tableView reloadData];
+	[self reloadTableData];
 }
 
-- (void)editAction
+- (void)deleteAllAction
 {
+	[self setEditing:NO animated:YES];
+	[tableData_ removeAllObjects];
+	[self reloadTableData];
 	
 }
+
+- (void)deleteAllOptionsAction:(id)sender {
+	// open a dialog with two custom buttons	
+	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]
+								  initWithTitle:nil
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Delete All"
+								  otherButtonTitles:nil];
+	
+	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	[actionSheet release];	
+}
+
 
 #pragma mark - Private Methods
 
@@ -122,15 +135,84 @@
 	[segmentedControl release];
 }
 
+- (void)reloadTableData
+{
+	if ([tableData_ count] > 0) {
+		self.navigationItem.rightBarButtonItem.enabled = YES;
+	} else {
+		self.navigationItem.rightBarButtonItem.enabled = NO;
+	}
+	[self.tableView reloadData];
+}
+
+#pragma mark - UITableView Methods
+
+- (void)setEditing:(BOOL)flag animated:(BOOL)animated
+{
+	// Always call super implementation of this method, it needs to do some work
+	[super setEditing:flag animated:animated];
+	
+	// We need to insert/remove a new row in to table view to say "Add New Item..."
+	if (flag && [tableData_ count] > 0) {
+		[self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+	} else if (!flag && [tableData_ count] > 0) {
+		[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+	}
+	self.segmentedControl.enabled = !self.segmentedControl.enabled;
+}
+
 #pragma mark - UITableView Datasource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	if (tableData_ == nil) {
+		return 0;
+	}
+	NSInteger sections = 1;
+	if ([self isEditing]) {
+		sections = 2;
+	}
+	return sections;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [tableData_ count];
+	if (section == 0) {
+		return [tableData_ count];
+	}
+	return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	if (indexPath.section == 1) {
+		static NSString *ButtonCellIdentifier = @"ButtonCell";
+		
+		UITableViewCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:ButtonCellIdentifier];
+		
+		if (buttonCell == nil) {
+			buttonCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ButtonCellIdentifier] autorelease];
+		}
+		
+		UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+		buttonCell.backgroundColor = [UIColor clearColor];
+		buttonCell.backgroundView = backView;
+		buttonCell.selectionStyle = UITableViewCellEditingStyleNone;
+		
+		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
+		button.frame = CGRectMake(0.0, 0.0, buttonWidth, 44.0);
+		
+		[button addTarget:self action:@selector(deleteAllOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Delete All" forState:UIControlStateNormal];
+		
+		buttonCell.editingAccessoryView = button;
+		
+		[button release];
+		
+		return buttonCell;
+	}
+	
 	static NSString *CellIdentifier = @"Cell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -147,6 +229,7 @@
 	}
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	cell.textLabel.text = textLabelString;
 	
@@ -176,6 +259,69 @@
 		[self.navigationController pushViewController:currentController animated:YES];
 		[currentController release];
 	}
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+	NSString *name = nil;
+	if ([self.segmentedControl selectedSegmentIndex] == 0) {
+		SavingsCalculation *calculation = [tableData_ objectAtIndex:indexPath.row];
+		name = calculation.name;
+	}
+	
+	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	inputViewController.delegate = self;
+	inputViewController.currentName = name;
+	
+	selectedIndex_ = indexPath.row;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
+	
+	[inputViewController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[navController release];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath 
+{		
+	if ([self isEditing] && indexPath.section == 1) {
+		// During editing...
+		// The last row during editing will show an insert style button
+		return UITableViewCellEditingStyleNone;
+	}
+	return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+	// If the table view is asking to commit a delete command...
+	if (editingStyle == UITableViewCellEditingStyleDelete) {
+		// We remove the row being deleted from the possessions array
+		[tableData_ removeObjectAtIndex:indexPath.row];
+		// We also remove that row from the table view with an animation
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+	}
+}
+
+#pragma mark - View Controller Delegates
+
+- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		[[tableData_ objectAtIndex:selectedIndex_] setName:controller.currentName];
+		[self reloadTableData];
+	}
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+		if (buttonIndex == 0) {
+			[self performSelector:@selector(deleteAllAction)];
+		}
 }
 
 @end

@@ -24,8 +24,8 @@
 {
 	self = [self init];
 	if (self) {
-		self.title = @"My Trip";
-		self.navigationItem.title = @"My Trip";
+		self.title = @"Trip";
+		self.navigationItem.title = @"Analyze Trip";
 		self.tabBarItem.image = [UIImage imageNamed:@"trip_tab.png"];
 	}
 	return self;

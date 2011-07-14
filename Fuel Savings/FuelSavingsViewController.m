@@ -251,7 +251,7 @@ static CGSize totalLabelSize;
 								  delegate:self
 								  cancelButtonTitle:@"Cancel"
 								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:@"Save Current As..", nil];
+								  otherButtonTitles:@"Save Current As...", nil];
 	
 	actionSheet.tag = NEW_TAG;
 	
@@ -266,7 +266,7 @@ static CGSize totalLabelSize;
 								  initWithTitle:@"Are you sure? The information on your Current Savings will be lost."
 								  delegate:self
 								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Savings"
+								  destructiveButtonTitle:@"Delete Current"
 								  otherButtonTitles:nil];
 	
 	actionSheet.tag = DELETE_TAG;
@@ -460,7 +460,7 @@ static CGSize totalLabelSize;
 	
 	if (indexPath.section == 4) {
 		[button addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Delete Savings" forState:UIControlStateNormal];
+		[button setTitle:@"Delete Current" forState:UIControlStateNormal];
 	}
 	
 	cell.accessoryView = button;
