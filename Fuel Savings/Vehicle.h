@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class SavingsCalculation;
+#import "FuelSavingsHelpers.h"
 
 @interface Vehicle : NSObject <NSCoding,NSCopying> {
     

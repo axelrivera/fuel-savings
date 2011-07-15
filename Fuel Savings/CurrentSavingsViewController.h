@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SavingsData.h"
-#import "SavingsCalculation.h"
+#import "Savings.h"
 #import "TypeInputViewController.h"
 #import "PriceInputViewController.h"
 #import "DistanceInputViewController.h"

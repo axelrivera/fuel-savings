@@ -12,6 +12,8 @@
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
 		161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956D13BA479300DE5E5C /* PriceInputViewController.xib */; };
+		1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */; };
+		1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */; };
 		1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */; };
 		1640EC1A13BE13A7008190C1 /* EfficiencyInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */; };
 		1654418E13CC88690060D1C3 /* savings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418C13CC88690060D1C3 /* savings_tab.png */; };
@@ -39,7 +41,7 @@
 		1666FD1213B8FAC500FC97F1 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */; };
 		1666FD1313B8FAC500FC97F1 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */; };
 		1666FD1613B8FAC500FC97F1 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */; };
-		1666FD1D13B8FB4D00FC97F1 /* SavingsCalculation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1C13B8FB4D00FC97F1 /* SavingsCalculation.m */; };
+		1666FD1D13B8FB4D00FC97F1 /* Savings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1C13B8FB4D00FC97F1 /* Savings.m */; };
 		1666FD2013B8FB5D00FC97F1 /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */; };
 		1666FD2B13B9108B00FC97F1 /* FuelSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */; };
 		1666FD2F13B910D300FC97F1 /* MySavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD2E13B910D300FC97F1 /* MySavingsViewController.m */; };
@@ -69,6 +71,9 @@
 		16B5F7F013BB9D8100DEE869 /* OwnerInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */; };
 		16C97B2913C20F6E0059F6F9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16C97B2713C20F6E0059F6F9 /* Icon.png */; };
 		16C97B2A13C20F6E0059F6F9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16C97B2813C20F6E0059F6F9 /* Icon@2x.png */; };
+		16CBB87813D0805F00E8BD05 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87713D0805F00E8BD05 /* Trip.m */; };
+		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
+		16CBB87D13D0A08600E8BD05 /* TripData.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87C13D0A08600E8BD05 /* TripData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +85,9 @@
 		161F956A13BA474B00DE5E5C /* PriceInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceInputViewController.h; sourceTree = "<group>"; };
 		161F956B13BA474B00DE5E5C /* PriceInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceInputViewController.m; sourceTree = "<group>"; };
 		161F956D13BA479300DE5E5C /* PriceInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceInputViewController.xib; sourceTree = "<group>"; };
+		1635AFD613D0C549005FC8EB /* CurrentTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentTripViewController.h; sourceTree = "<group>"; };
+		1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentTripViewController.m; sourceTree = "<group>"; };
+		1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentTripViewController.xib; sourceTree = "<group>"; };
 		1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EfficiencyInputViewController.h; sourceTree = "<group>"; };
 		1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EfficiencyInputViewController.m; sourceTree = "<group>"; };
 		1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EfficiencyInputViewController.xib; sourceTree = "<group>"; };
@@ -114,8 +122,8 @@
 		1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
-		1666FD1B13B8FB4D00FC97F1 /* SavingsCalculation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SavingsCalculation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		1666FD1C13B8FB4D00FC97F1 /* SavingsCalculation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SavingsCalculation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		1666FD1B13B8FB4D00FC97F1 /* Savings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Savings.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		1666FD1C13B8FB4D00FC97F1 /* Savings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Savings.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
 		1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Vehicle.m; sourceTree = "<group>"; };
 		1666FD2913B9108B00FC97F1 /* FuelSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsViewController.h; sourceTree = "<group>"; };
@@ -130,7 +138,7 @@
 		1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySavingsViewController.xib; sourceTree = "<group>"; };
 		1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MPGDatabaseViewController.xib; sourceTree = "<group>"; };
 		1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
-		1677C05913C64A9F0013CDD3 /* FuelSavingsTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsTypes.h; sourceTree = "<group>"; };
+		1677C05913C64A9F0013CDD3 /* FuelSavingsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsHelpers.h; sourceTree = "<group>"; };
 		167E52C413C4EF070024CA9A /* RatioInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatioInputViewController.h; sourceTree = "<group>"; };
 		167E52C513C4EF070024CA9A /* RatioInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatioInputViewController.m; sourceTree = "<group>"; };
 		167E52C713C4EF330024CA9A /* RatioInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatioInputViewController.xib; sourceTree = "<group>"; };
@@ -158,6 +166,11 @@
 		16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OwnerInputViewController.xib; sourceTree = "<group>"; };
 		16C97B2713C20F6E0059F6F9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		16C97B2813C20F6E0059F6F9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		16CBB87613D0805F00E8BD05 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
+		16CBB87713D0805F00E8BD05 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
+		16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuelSavingsHelpers.m; sourceTree = "<group>"; };
+		16CBB87B13D0A08600E8BD05 /* TripData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripData.h; sourceTree = "<group>"; };
+		16CBB87C13D0A08600E8BD05 /* TripData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +187,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1635AFD313D0C496005FC8EB /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				16A707AA13B9FFE600A0E93F /* NameInputViewController.h */,
+				16A707AB13B9FFE600A0E93F /* NameInputViewController.m */,
+				161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */,
+				161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */,
+				161F956A13BA474B00DE5E5C /* PriceInputViewController.h */,
+				161F956B13BA474B00DE5E5C /* PriceInputViewController.m */,
+				16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */,
+				16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */,
+				167E52C413C4EF070024CA9A /* RatioInputViewController.h */,
+				167E52C513C4EF070024CA9A /* RatioInputViewController.m */,
+				16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */,
+				16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */,
+				1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */,
+				1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */,
+			);
+			name = Input;
+			sourceTree = "<group>";
+		};
+		1635AFD513D0C4D3005FC8EB /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				16A707AE13BA057D00A0E93F /* NameInputViewController.xib */,
+				161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */,
+				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
+				167E52C713C4EF330024CA9A /* RatioInputViewController.xib */,
+				16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */,
+				16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */,
+				1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */,
+			);
+			name = Input;
+			sourceTree = "<group>";
+		};
 		165ACFAF13B9374A00A2AD3E /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,20 +330,9 @@
 				1666FD3413B9111300FC97F1 /* SettingsViewController.m */,
 				1658291113B9262100BC5219 /* CurrentSavingsViewController.h */,
 				1658291213B9262100BC5219 /* CurrentSavingsViewController.m */,
-				16A707AA13B9FFE600A0E93F /* NameInputViewController.h */,
-				16A707AB13B9FFE600A0E93F /* NameInputViewController.m */,
-				161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */,
-				161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */,
-				161F956A13BA474B00DE5E5C /* PriceInputViewController.h */,
-				161F956B13BA474B00DE5E5C /* PriceInputViewController.m */,
-				16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */,
-				16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */,
-				167E52C413C4EF070024CA9A /* RatioInputViewController.h */,
-				167E52C513C4EF070024CA9A /* RatioInputViewController.m */,
-				16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */,
-				16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */,
-				1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */,
-				1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */,
+				1635AFD613D0C549005FC8EB /* CurrentTripViewController.h */,
+				1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */,
+				1635AFD313D0C496005FC8EB /* Input */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -303,6 +340,8 @@
 		1666FD1813B8FAEE00FC97F1 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1677C05913C64A9F0013CDD3 /* FuelSavingsHelpers.h */,
+				16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */,
 				160ED0B713CA41E5001021F7 /* FileHelpers.h */,
 				160ED0B813CA41E5001021F7 /* FileHelpers.m */,
 				16A707B813BA1BA600A0E93F /* NSMutableArray+Vehicle.h */,
@@ -314,13 +353,16 @@
 		1666FD1913B8FAF700FC97F1 /* Model+Data */ = {
 			isa = PBXGroup;
 			children = (
-				1666FD1B13B8FB4D00FC97F1 /* SavingsCalculation.h */,
-				1666FD1C13B8FB4D00FC97F1 /* SavingsCalculation.m */,
-				1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */,
-				1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */,
+				1666FD1B13B8FB4D00FC97F1 /* Savings.h */,
+				1666FD1C13B8FB4D00FC97F1 /* Savings.m */,
 				16A707BB13BA240700A0E93F /* SavingsData.h */,
 				16A707BC13BA240700A0E93F /* SavingsData.m */,
-				1677C05913C64A9F0013CDD3 /* FuelSavingsTypes.h */,
+				16CBB87613D0805F00E8BD05 /* Trip.h */,
+				16CBB87713D0805F00E8BD05 /* Trip.m */,
+				16CBB87B13D0A08600E8BD05 /* TripData.h */,
+				16CBB87C13D0A08600E8BD05 /* TripData.m */,
+				1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */,
+				1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */,
 			);
 			name = "Model+Data";
 			sourceTree = "<group>";
@@ -330,18 +372,13 @@
 			children = (
 				1666FD0113B8FA8B00FC97F1 /* MainWindow.xib */,
 				1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */,
+				16807F5B13BE9E660036F89E /* TripViewController.xib */,
 				1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */,
 				1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */,
 				1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */,
 				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
-				16A707AE13BA057D00A0E93F /* NameInputViewController.xib */,
-				161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */,
-				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
-				167E52C713C4EF330024CA9A /* RatioInputViewController.xib */,
-				16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */,
-				16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */,
-				1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */,
-				16807F5B13BE9E660036F89E /* TripViewController.xib */,
+				1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */,
+				1635AFD513D0C4D3005FC8EB /* Input */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -431,6 +468,7 @@
 				167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */,
 				1654418E13CC88690060D1C3 /* savings_tab.png in Resources */,
 				1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */,
+				1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,7 +481,7 @@
 			files = (
 				1666FCFD13B8FA8B00FC97F1 /* main.m in Sources */,
 				1666FD0013B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m in Sources */,
-				1666FD1D13B8FB4D00FC97F1 /* SavingsCalculation.m in Sources */,
+				1666FD1D13B8FB4D00FC97F1 /* Savings.m in Sources */,
 				1666FD2013B8FB5D00FC97F1 /* Vehicle.m in Sources */,
 				1666FD2B13B9108B00FC97F1 /* FuelSavingsViewController.m in Sources */,
 				1666FD2F13B910D300FC97F1 /* MySavingsViewController.m in Sources */,
@@ -462,6 +500,10 @@
 				16807F5913BE9E430036F89E /* TripViewController.m in Sources */,
 				167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */,
 				160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */,
+				16CBB87813D0805F00E8BD05 /* Trip.m in Sources */,
+				16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */,
+				16CBB87D13D0A08600E8BD05 /* TripData.m in Sources */,
+				1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

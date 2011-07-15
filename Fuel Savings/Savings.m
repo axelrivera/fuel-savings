@@ -1,21 +1,21 @@
 //
-//  SavingsCalculation.m
+//  Savings.m
 //  Fuel Savings
 //
 //  Created by arn on 6/27/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "SavingsCalculation.h"
+#import "Savings.h"
 
-@interface SavingsCalculation (Private)
+@interface Savings (Private)
 
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle;
 - (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle;
 
 @end
 
-@implementation SavingsCalculation
+@implementation Savings
 
 @synthesize name = name_;
 @synthesize type;
@@ -53,15 +53,16 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
-		self.name = [decoder decodeObjectForKey:@"savingsCalculationName"];
-		self.type = [decoder decodeIntForKey:@"savingsCalculationType"];
-		self.fuelPrice = [decoder decodeObjectForKey:@"savingsCalculationFuelPrice"];
-		self.cityRatio = [decoder decodeObjectForKey:@"savingsCalculationCityRatio"];
-		self.distance = [decoder decodeObjectForKey:@"savingsCalculationDistance"];
-		self.carOwnership = [decoder decodeObjectForKey:@"savingsCalculationCarOwnership"];
-		self.vehicle1 = [decoder decodeObjectForKey:@"savingsCalculationVehicle1"];
-		self.vehicle2 = [decoder decodeObjectForKey:@"savingsCalculationVehicle2"];
+	self = [super init]; // this needs to be [super initWithCoder:decoder] if the superclass implements NSCoding
+	if (self) {
+		self.name = [decoder decodeObjectForKey:@"savingsName"];
+		self.type = [decoder decodeIntForKey:@"savingsType"];
+		self.fuelPrice = [decoder decodeObjectForKey:@"savingsFuelPrice"];
+		self.cityRatio = [decoder decodeObjectForKey:@"savingsCityRatio"];
+		self.distance = [decoder decodeObjectForKey:@"savingsDistance"];
+		self.carOwnership = [decoder decodeObjectForKey:@"savingsCarOwnership"];
+		self.vehicle1 = [decoder decodeObjectForKey:@"savingsVehicle1"];
+		self.vehicle2 = [decoder decodeObjectForKey:@"savingsVehicle2"];
 	}
 	return self;
 }
@@ -69,19 +70,19 @@
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
 	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
-	[encoder encodeObject:self.name forKey:@"savingsCalculationName"];
-	[encoder encodeInt:self.type forKey:@"savingsCalculationType"];
-	[encoder encodeObject:self.fuelPrice forKey:@"savingsCalculationFuelPrice"];
-	[encoder encodeObject:self.cityRatio forKey:@"savingsCalculationCityRatio"];
-	[encoder encodeObject:self.distance forKey:@"savingsCalculationDistance"];
-	[encoder encodeObject:self.carOwnership forKey:@"savingsCalculationCarOwnership"];
-	[encoder encodeObject:self.vehicle1 forKey:@"savingsCalculationVehicle1"];
-	[encoder encodeObject:self.vehicle2 forKey:@"savingsCalculationVehicle2"];
+	[encoder encodeObject:self.name forKey:@"savingsName"];
+	[encoder encodeInt:self.type forKey:@"savingsType"];
+	[encoder encodeObject:self.fuelPrice forKey:@"savingsFuelPrice"];
+	[encoder encodeObject:self.cityRatio forKey:@"savingsCityRatio"];
+	[encoder encodeObject:self.distance forKey:@"savingsDistance"];
+	[encoder encodeObject:self.carOwnership forKey:@"savingsCarOwnership"];
+	[encoder encodeObject:self.vehicle1 forKey:@"savingsVehicle1"];
+	[encoder encodeObject:self.vehicle2 forKey:@"savingsVehicle2"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	SavingsCalculation *newSavings = [[[self class] allocWithZone:zone] init];
+	Savings *newSavings = [[[self class] allocWithZone:zone] init];
 	newSavings.name = self.name;
 	newSavings.type = self.type;
 	newSavings.fuelPrice = self.fuelPrice;
@@ -105,17 +106,9 @@
 
 #pragma mark - Custom Methods
 
-+ (NSString *)stringValueForType:(EfficiencyType)type
-{
-	if (type == EfficiencyTypeAverage) {
-		return @"Average MPG";
-	}
-	return @"City / Highway MPG";
-}
-
 - (NSString *)stringForCurrentType
 {
-	return [[self class] stringValueForType:self.type];
+	return efficiencyTypeStringValue(self.type);
 }
 
 - (NSNumber *)annualCostForVehicle1

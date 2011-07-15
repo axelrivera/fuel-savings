@@ -7,7 +7,7 @@
 //
 
 #import "TypeInputViewController.h"
-#import "SavingsCalculation.h"
+#import "Savings.h"
 
 @implementation TypeInputViewController
 
@@ -75,9 +75,9 @@
     }
 	
 	if (indexPath.row == 0) {
-		cell.textLabel.text = [SavingsCalculation stringValueForType:EfficiencyTypeAverage];
+		cell.textLabel.text = efficiencyTypeStringValue(EfficiencyTypeAverage);
 	} else {
-		cell.textLabel.text = [SavingsCalculation stringValueForType:EfficiencyTypeCombined];
+		cell.textLabel.text = efficiencyTypeStringValue(EfficiencyTypeCombined);
 	}
 	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;

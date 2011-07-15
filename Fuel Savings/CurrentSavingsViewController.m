@@ -251,8 +251,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
 	cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
 	
-	cell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-	
 	cell.textLabel.text = textLabelString;
 	cell.detailTextLabel.text = detailTextLabelString;
 	

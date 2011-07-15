@@ -9,15 +9,14 @@
 #import "FuelSavingsViewController.h"
 #import "CurrentSavingsViewController.h"
 
-#define NEW_TAG 1
-#define DELETE_TAG 2
+#define SAVINGS_NEW_TAG 1
+#define SAVINGS_DELETE_TAG 2
 
 @implementation FuelSavingsViewController
 
 static CGSize annualLabelSize;
 static CGSize totalLabelSize;
 
-@synthesize savingsTable = savingsTable_;
 @synthesize vehicle1AnnualCost = vehicle1AnnualCost_;
 @synthesize vehicle1TotalCost = vehicle1TotalCost_;
 @synthesize vehicle2AnnualCost = vehicle2AnnualCost_;
@@ -58,7 +57,6 @@ static CGSize totalLabelSize;
 
 - (void)dealloc
 {
-	[savingsTable_ release];
 	[currencyFormatter_ release];
 	[vehicle1AnnualCost_ release];
 	[vehicle1TotalCost_ release];
@@ -107,7 +105,6 @@ static CGSize totalLabelSize;
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	self.savingsTable = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -143,7 +140,7 @@ static CGSize totalLabelSize;
 			self.vehicle2TotalCost = [NSNumber numberWithFloat:0.0];
 		}
 	}
-	[self.savingsTable reloadData];
+	[self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -178,7 +175,7 @@ static CGSize totalLabelSize;
 
 - (void)newAction
 {
-	self.savingsCalculation = [SavingsCalculation calculation];
+	self.savingsCalculation = [Savings calculation];
 	savingsData_.currentCalculation = self.savingsCalculation;
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] init];
 	currentSavingsViewController.delegate = self;
@@ -219,7 +216,7 @@ static CGSize totalLabelSize;
 {
 	self.savingsCalculation = nil;
 	self.navigationItem.rightBarButtonItem.enabled = NO;
-	[self.savingsTable reloadData];
+	[self.tableView reloadData];
 }
 
 - (void)displayNameAction
@@ -253,7 +250,7 @@ static CGSize totalLabelSize;
 								  destructiveButtonTitle:@"Delete Current"
 								  otherButtonTitles:@"Save Current As...", nil];
 	
-	actionSheet.tag = NEW_TAG;
+	actionSheet.tag = SAVINGS_NEW_TAG;
 	
 	[actionSheet showFromTabBar:self.tabBarController.tabBar];
 	[actionSheet release];	
@@ -269,7 +266,7 @@ static CGSize totalLabelSize;
 								  destructiveButtonTitle:@"Delete Current"
 								  otherButtonTitles:nil];
 	
-	actionSheet.tag = DELETE_TAG;
+	actionSheet.tag = SAVINGS_DELETE_TAG;
 	
 	[actionSheet showFromTabBar:self.tabBarController.tabBar];
 	[actionSheet release];	
@@ -614,7 +611,7 @@ static CGSize totalLabelSize;
 #pragma mark UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (actionSheet.tag == NEW_TAG) {
+	if (actionSheet.tag == SAVINGS_NEW_TAG) {
 		if (buttonIndex == 0) {
 			[self performSelector:@selector(newAction)];
 		} else if (buttonIndex == 1) {

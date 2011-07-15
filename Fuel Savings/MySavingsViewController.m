@@ -7,7 +7,7 @@
 //
 
 #import "MySavingsViewController.h"
-#import "SavingsCalculation.h"
+#import "Savings.h"
 #import "FuelSavingsViewController.h"
 
 @interface MySavingsViewController (Private)
@@ -224,7 +224,7 @@
 	NSString *textLabelString = nil;
 	
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
-		SavingsCalculation *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
 		textLabelString = calculation.name;
 	}
 	
@@ -247,7 +247,7 @@
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		FuelSavingsViewController *fuelSavingsViewController = [[FuelSavingsViewController alloc] init];
 		
-		SavingsCalculation *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
 		
 		fuelSavingsViewController.title	= calculation.name;
 		fuelSavingsViewController.savingsCalculation = calculation;
@@ -265,7 +265,7 @@
 {
 	NSString *name = nil;
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
-		SavingsCalculation *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
 		name = calculation.name;
 	}
 	

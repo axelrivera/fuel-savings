@@ -1,5 +1,5 @@
 //
-//  SavingsCalculation.h
+//  Savings.h
 //  Fuel Savings
 //
 //  Created by arn on 6/27/11.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Vehicle.h"
 
-@interface SavingsCalculation : NSObject <NSCoding,NSCopying> {
+@interface Savings : NSObject <NSCoding, NSCopying> {
 
 }
 
@@ -24,7 +24,6 @@
 @property (nonatomic, copy) Vehicle *vehicle2;
 
 + (id)calculation;
-+ (NSString *)stringValueForType:(EfficiencyType)type;
 
 - (NSString *)stringForCurrentType;
 
