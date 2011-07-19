@@ -8,7 +8,9 @@
 
 #import "MySavingsViewController.h"
 #import "Savings.h"
+#import "Trip.h"
 #import "FuelSavingsViewController.h"
+#import "TripViewController.h"
 
 @interface MySavingsViewController (Private)
 
@@ -35,6 +37,7 @@
 	self = [self init];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
+		tripData_ = [TripData sharedTripData];
 		self.title = @"Saved";
 		self.navigationItem.title = @"Saved";
 		self.tabBarItem.image = [UIImage imageNamed:@"saved_tab.png"];
@@ -90,7 +93,7 @@
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		tableData_ = savingsData_.savedCalculations;
 	} else {
-		tableData_ = nil;
+		tableData_ = tripData_.savedCalculations;
 	}
 	[self reloadTableData];
 }
@@ -226,6 +229,9 @@
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
 		textLabelString = calculation.name;
+	} else {
+		Trip *calculation = [tableData_ objectAtIndex:indexPath.row];
+		textLabelString = calculation.name;
 	}
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -253,6 +259,15 @@
 		fuelSavingsViewController.savingsCalculation = calculation;
 		
 		currentController = fuelSavingsViewController;
+	} else {
+		TripViewController *tripViewController = [[TripViewController alloc] init];
+		
+		Trip *calculation = [tableData_ objectAtIndex:indexPath.row];
+		
+		tripViewController.title = calculation.name;
+		tripViewController.tripCalculation = calculation;
+		
+		currentController = tripViewController;
 	}
 	
 	if (currentController) {
@@ -302,6 +317,10 @@
 		[tableData_ removeObjectAtIndex:indexPath.row];
 		// We also remove that row from the table view with an animation
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
+	}
+	
+	if ([tableData_ count] == 0) {
+		[self setEditing:NO animated:YES];
 	}
 }
 

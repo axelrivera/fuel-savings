@@ -27,7 +27,7 @@
 		self.name = @"";
 		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
 		self.distance = [NSNumber numberWithInteger:100];
-		self.vehicle = [Vehicle vehicleWithName:@"Car"];
+		self.vehicle = [Vehicle vehicleWithName:@"Your Car"];
 	}
 	return self;
 }
@@ -70,6 +70,15 @@
 	[distance_ release];
 	[vehicle_ release];
 	[super dealloc];
+}
+
+#pragma mark - Custom Methods
+
+- (NSNumber *)tripCost
+{
+	float trip = 0.0;
+	trip = [self.fuelPrice floatValue] * ([self.distance floatValue] / [self.vehicle.avgEfficiency floatValue]);
+	return [NSNumber numberWithFloat:trip];
 }
 
 @end

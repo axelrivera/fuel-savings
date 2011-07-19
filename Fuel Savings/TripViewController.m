@@ -15,6 +15,7 @@
 
 @synthesize tripCalculation = tripCalculation_;
 @synthesize backupCopy = backupCopy_;
+@synthesize tripCost = tripCost_;
 
 - (id)init
 {
@@ -106,8 +107,32 @@
 	
 	if (self.tripCalculation) {
 		self.navigationItem.rightBarButtonItem.enabled = YES;
+		if ([self.tripCalculation.vehicle hasDataReadyForType:EfficiencyTypeAverage]) {
+			self.tripCost = [self.tripCalculation tripCost];
+		} else {
+			self.tripCost = [NSNumber numberWithFloat:0.0];
+		}
 	}
 	[self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	if (showNewAction_ == YES) {
+		showNewAction_ = NO;
+		[self performSelector:@selector(newAction)];
+	}
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	
+	if (hasTabBar_) {
+		tripData_.tripCalculation = self.tripCalculation;
+	}
 }
 
 #pragma mark - Custom Actions
@@ -250,13 +275,111 @@
 
 #pragma mark - UITableView Datasource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	if (self.tripCalculation == nil) {
+		return 0;
+	}
+	
+	NSInteger sections = 2;
+	
+	if (hasTabBar_) {
+		sections = sections + 2;
+	}
+	
+	return sections;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 0;
+	NSInteger rows = 0;
+	
+	if (section == 0) {
+		rows = 1;
+	} else if (section == 1) {
+		rows = 2;
+	} else {
+		rows = 1;
+	}
+	
+	return rows;
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	if (indexPath.section == 0) {
+		static NSString *CostCellIdentifier = @"CostCell";
+		
+		UITableViewCell *costCell = [tableView dequeueReusableCellWithIdentifier:CostCellIdentifier];
+		
+		if (costCell == nil) {
+			costCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CostCellIdentifier] autorelease];
+		}
+		
+		NSString *textLabelString = nil;
+		NSString *detailTextLabelString = nil;
+		
+		textLabelString = self.tripCalculation.vehicle.name;
+		detailTextLabelString = [currencyFormatter_ stringFromNumber:self.tripCost];
+		
+		costCell.accessoryType = UITableViewCellAccessoryNone;
+		costCell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		costCell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
+		costCell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
+		
+		costCell.textLabel.text = textLabelString;
+		costCell.detailTextLabel.text = detailTextLabelString;
+		
+		return costCell;
+	} else if (indexPath.section == 1) {
+		static NSString *InfoCellIdentifier = @"InfoCell";
+		
+		UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:InfoCellIdentifier];
+		
+		if (infoCell == nil) {
+			infoCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:InfoCellIdentifier] autorelease];
+		}
+		
+		NSString *textLabelString = nil;
+		NSString *detailTextLabelString = nil;
+		
+		if (indexPath.row == 0) {
+			textLabelString = @"Fuel Price";
+			
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+			
+			NSString *numberString = [formatter stringFromNumber:self.tripCalculation.fuelPrice];
+			[formatter release];
+			
+			detailTextLabelString = [NSString stringWithFormat:@"%@ /gallon", numberString];
+		} else {
+			textLabelString = @"Distance";
+			
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+			[formatter setMaximumFractionDigits:0];
+			
+			NSString *numberString = [formatter stringFromNumber:self.tripCalculation.distance];
+			[formatter release];
+			
+			detailTextLabelString = [NSString stringWithFormat:@"%@ miles", numberString];
+		}
+		
+		infoCell.accessoryType = UITableViewCellAccessoryNone;
+		infoCell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		infoCell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
+		infoCell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
+		
+		infoCell.textLabel.text = textLabelString;
+		infoCell.detailTextLabel.text = detailTextLabelString;
+		
+		return infoCell;
+	}
+	
 	static NSString *CellIdentifier = @"Cell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -264,7 +387,63 @@
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
+	
+	UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+	cell.backgroundColor = [UIColor clearColor];
+	cell.backgroundView = backView;
+	cell.selectionStyle = UITableViewCellEditingStyleNone;
+	
+	UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
+	button.frame = CGRectMake(0.0, 0.0, buttonWidth, 44.0);
+	
+	if (indexPath.section == 2) {
+		[button addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Save Current As..." forState:UIControlStateNormal];
+	}
+	
+	if (indexPath.section == 3) {
+		[button addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Delete Current" forState:UIControlStateNormal];
+	}
+	
+	cell.accessoryView = button;
+	
+	[button release];
+	
 	return cell;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (section == 0) {
+		return @"Trip Cost";
+	} else if (section == 1) {
+		return @"Information";
+	}
+	return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 34.0;
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (actionSheet.tag == TRIP_NEW_TAG) {
+		if (buttonIndex == 0) {
+			[self performSelector:@selector(newAction)];
+		} else if (buttonIndex == 1) {
+			isNewTrip_ = YES;
+			[self performSelector:@selector(saveAction)];
+		}
+	} else {
+		if (buttonIndex == 0) {
+			[self performSelector:@selector(deleteAction)];
+		}
+	}
 }
 
 @end

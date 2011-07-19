@@ -10,13 +10,17 @@
 #import "TripData.h"
 #import "Trip.h"
 #import "PriceInputViewController.h"
+#import "DistanceInputViewController.h"
 #import "NameInputViewController.h"
 #import "EfficiencyInputViewController.h"
 
 @protocol CurrentTripViewControllerDelegate;
 
-@interface CurrentTripViewController : UITableViewController {
-    
+@interface CurrentTripViewController : UITableViewController
+	<PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, NameInputViewControllerDelegate,
+	EfficiencyInputViewControllerDelegate>
+{
+	TripData *tripData_; 
 }
 
 @property (nonatomic, assign) id <CurrentTripViewControllerDelegate> delegate;

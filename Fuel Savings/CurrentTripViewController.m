@@ -17,7 +17,7 @@
 {
 	self = [super initWithNibName:@"CurrentTripViewController" bundle:nil];
 	if (self) {
-		// Initialization Code
+		tripData_ = [TripData sharedTripData];
 	}
 	return self;
 }
@@ -70,6 +70,8 @@
 	} else {
 		self.title = @"New Trip";
 	}
+	
+	[self.tableView reloadData];
 }
 
 #pragma mark - Custom Actions
@@ -82,6 +84,42 @@
 - (void)dismissAction
 {
 	[self.delegate currentTripViewControllerDelegateDidFinish:self save:NO];
+}
+
+#pragma mark - UIViewController Delegates
+
+- (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		tripData_.currentCalculation.fuelPrice = controller.currentPrice;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)distanceInputViewControllerDidFinish:(DistanceInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		tripData_.currentCalculation.distance = controller.currentDistance;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		tripData_.currentCalculation.vehicle.name = controller.currentName;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)efficiencyInputViewControllerDidFinish:(EfficiencyInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		tripData_.currentCalculation.vehicle.avgEfficiency = controller.currentEfficiency;
+		tripData_.currentCalculation.vehicle.cityEfficiency = controller.currentEfficiency;
+		tripData_.currentCalculation.vehicle.highwayEfficiency = controller.currentEfficiency;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -111,18 +149,34 @@
     if (indexPath.section == 0) {
 		if (indexPath.row == 0) {
 			textLabelString = @"Fuel Price";
-			detailTextLabelString = @"";
+			
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+			
+			NSString *numberString = [formatter stringFromNumber:tripData_.currentCalculation.fuelPrice];
+			[formatter release];
+			
+			detailTextLabelString = [NSString stringWithFormat:@"%@ /gallon", numberString];
 		} else {
 			textLabelString = @"Distance";
-			detailTextLabelString = @"";
+			
+			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+			[formatter setMaximumFractionDigits:0];
+			
+			NSString *numberString = [formatter stringFromNumber:tripData_.currentCalculation.distance];
+			[formatter release];
+			
+			detailTextLabelString = [NSString stringWithFormat:@"%@ miles", numberString];
 		}
 	} else {
 		if (indexPath.row == 0) {
 			textLabelString = @"Name";
-			detailTextLabelString = @"";
+			detailTextLabelString = tripData_.currentCalculation.vehicle.name;
 		} else {
 			textLabelString = @"Fuel Efficiency";
-			detailTextLabelString = @"";
+			detailTextLabelString = [NSString stringWithFormat:@"%@ MPG",
+									 [tripData_.currentCalculation.vehicle.avgEfficiency stringValue]];
 		}
 	}
 	
@@ -142,14 +196,41 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	UIViewController *viewController = nil;
+    
+	if (indexPath.section == 0) {
+		if (indexPath.row == 0) {
+			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentPrice = tripData_.currentCalculation.fuelPrice;
+			viewController = inputViewController;
+		} else {
+			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] initWithType:DistanceInputTypeTrip];
+			inputViewController.delegate = self;
+			inputViewController.currentDistance = tripData_.currentCalculation.distance;
+			viewController = inputViewController;
+		}
+	} else {
+		if (indexPath.row == 0) {
+			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentName = tripData_.currentCalculation.vehicle.name;
+			viewController = inputViewController;
+		} else {
+			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentEfficiency = tripData_.currentCalculation.vehicle.avgEfficiency;
+			inputViewController.currentType	= EfficiencyInputTypeAverage;
+			viewController = inputViewController;
+		}
+	}
+	
+	if (viewController) {
+		[self.navigationController pushViewController:viewController animated:YES];
+		[viewController release];
+	}
 }
 
 @end

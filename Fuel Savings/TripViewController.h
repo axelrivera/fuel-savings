@@ -23,6 +23,7 @@
 
 @property (nonatomic, retain) Trip *tripCalculation;
 @property (nonatomic, copy) Trip *backupCopy;
+@property (nonatomic, copy) NSNumber *tripCost;
 
 - (id)initWithTabBar;
 

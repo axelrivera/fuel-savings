@@ -607,8 +607,7 @@ static CGSize totalLabelSize;
 	return nil;
 }
 
-#pragma mark -
-#pragma mark UIActionSheet Delegate
+#pragma mark - UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == SAVINGS_NEW_TAG) {

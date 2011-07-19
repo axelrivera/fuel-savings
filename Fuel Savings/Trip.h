@@ -20,4 +20,6 @@
 
 + (id)calculation;
 
+- (NSNumber *)tripCost;
+
 @end
