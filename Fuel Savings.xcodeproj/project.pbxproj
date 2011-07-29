@@ -12,6 +12,15 @@
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
 		161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956D13BA479300DE5E5C /* PriceInputViewController.xib */; };
+		1620146D13E32D4B00EDFF2B /* MPGDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */; };
+		1620147013E32DDA00EDFF2B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1620146F13E32DDA00EDFF2B /* CoreData.framework */; };
+		1620147513E32ECD00EDFF2B /* VehicleDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1620147213E32ECD00EDFF2B /* VehicleDetailsViewController.m */; };
+		1620147613E32ECD00EDFF2B /* VehicleSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1620147413E32ECD00EDFF2B /* VehicleSelectViewController.m */; };
+		1620147913E32EE700EDFF2B /* VehicleDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1620147713E32EE700EDFF2B /* VehicleDetailsViewController.xib */; };
+		1620147A13E32EE700EDFF2B /* VehicleSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1620147813E32EE700EDFF2B /* VehicleSelectViewController.xib */; };
+		162535CF13E32B4000162B7A /* MPGDatabaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 162535CC13E32B4000162B7A /* MPGDatabaseInfo.m */; };
+		162535D013E32B4000162B7A /* RLCoreDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 162535CE13E32B4000162B7A /* RLCoreDataObject.m */; };
+		162535D413E32B9200162B7A /* MPGDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */; };
 		1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */; };
 		1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */; };
 		1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */; };
@@ -45,11 +54,9 @@
 		1666FD2013B8FB5D00FC97F1 /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */; };
 		1666FD2B13B9108B00FC97F1 /* FuelSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */; };
 		1666FD2F13B910D300FC97F1 /* MySavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD2E13B910D300FC97F1 /* MySavingsViewController.m */; };
-		1666FD3213B910ED00FC97F1 /* MPGDatabaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD3113B910ED00FC97F1 /* MPGDatabaseViewController.m */; };
 		1666FD3513B9111300FC97F1 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD3413B9111300FC97F1 /* SettingsViewController.m */; };
 		1666FD3713B911A400FC97F1 /* FuelSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */; };
 		1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */; };
-		1666FD3B13B911D100FC97F1 /* MPGDatabaseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */; };
 		1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */; };
 		167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E52C513C4EF070024CA9A /* RatioInputViewController.m */; };
 		167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 167E52C713C4EF330024CA9A /* RatioInputViewController.xib */; };
@@ -85,6 +92,19 @@
 		161F956A13BA474B00DE5E5C /* PriceInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceInputViewController.h; sourceTree = "<group>"; };
 		161F956B13BA474B00DE5E5C /* PriceInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceInputViewController.m; sourceTree = "<group>"; };
 		161F956D13BA479300DE5E5C /* PriceInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceInputViewController.xib; sourceTree = "<group>"; };
+		1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = MPGDatabase.sqlite; sourceTree = "<group>"; };
+		1620146F13E32DDA00EDFF2B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1620147113E32ECD00EDFF2B /* VehicleDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VehicleDetailsViewController.h; sourceTree = "<group>"; };
+		1620147213E32ECD00EDFF2B /* VehicleDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VehicleDetailsViewController.m; sourceTree = "<group>"; };
+		1620147313E32ECD00EDFF2B /* VehicleSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VehicleSelectViewController.h; sourceTree = "<group>"; };
+		1620147413E32ECD00EDFF2B /* VehicleSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VehicleSelectViewController.m; sourceTree = "<group>"; };
+		1620147713E32EE700EDFF2B /* VehicleDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VehicleDetailsViewController.xib; sourceTree = "<group>"; };
+		1620147813E32EE700EDFF2B /* VehicleSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VehicleSelectViewController.xib; sourceTree = "<group>"; };
+		162535CB13E32B4000162B7A /* MPGDatabaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGDatabaseInfo.h; sourceTree = "<group>"; };
+		162535CC13E32B4000162B7A /* MPGDatabaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGDatabaseInfo.m; sourceTree = "<group>"; };
+		162535CD13E32B4000162B7A /* RLCoreDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLCoreDataObject.h; sourceTree = "<group>"; };
+		162535CE13E32B4000162B7A /* RLCoreDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLCoreDataObject.m; sourceTree = "<group>"; };
+		162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MPGDatabase.xcdatamodel; sourceTree = "<group>"; };
 		1635AFD613D0C549005FC8EB /* CurrentTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentTripViewController.h; sourceTree = "<group>"; };
 		1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentTripViewController.m; sourceTree = "<group>"; };
 		1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentTripViewController.xib; sourceTree = "<group>"; };
@@ -130,13 +150,10 @@
 		1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuelSavingsViewController.m; sourceTree = "<group>"; };
 		1666FD2D13B910D300FC97F1 /* MySavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySavingsViewController.h; sourceTree = "<group>"; };
 		1666FD2E13B910D300FC97F1 /* MySavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySavingsViewController.m; sourceTree = "<group>"; };
-		1666FD3013B910ED00FC97F1 /* MPGDatabaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGDatabaseViewController.h; sourceTree = "<group>"; };
-		1666FD3113B910ED00FC97F1 /* MPGDatabaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGDatabaseViewController.m; sourceTree = "<group>"; };
 		1666FD3313B9111300FC97F1 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		1666FD3413B9111300FC97F1 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FuelSavingsViewController.xib; sourceTree = "<group>"; };
 		1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySavingsViewController.xib; sourceTree = "<group>"; };
-		1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MPGDatabaseViewController.xib; sourceTree = "<group>"; };
 		1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		1677C05913C64A9F0013CDD3 /* FuelSavingsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsHelpers.h; sourceTree = "<group>"; };
 		167E52C413C4EF070024CA9A /* RatioInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatioInputViewController.h; sourceTree = "<group>"; };
@@ -178,6 +195,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1620147013E32DDA00EDFF2B /* CoreData.framework in Frameworks */,
 				1666FCF013B8FA8B00FC97F1 /* UIKit.framework in Frameworks */,
 				1666FCF213B8FA8B00FC97F1 /* Foundation.framework in Frameworks */,
 				1666FCF413B8FA8B00FC97F1 /* CoreGraphics.framework in Frameworks */,
@@ -274,6 +292,7 @@
 		1666FCEE13B8FA8B00FC97F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1620146F13E32DDA00EDFF2B /* CoreData.framework */,
 				1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */,
 				1666FCF113B8FA8B00FC97F1 /* Foundation.framework */,
 				1666FCF313B8FA8B00FC97F1 /* CoreGraphics.framework */,
@@ -299,6 +318,8 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */,
+				162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */,
 				16C97B2713C20F6E0059F6F9 /* Icon.png */,
 				16C97B2813C20F6E0059F6F9 /* Icon@2x.png */,
 				165ACFB113B937A500A2AD3E /* images */,
@@ -318,14 +339,16 @@
 		1666FD1713B8FAD700FC97F1 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1620147113E32ECD00EDFF2B /* VehicleDetailsViewController.h */,
+				1620147213E32ECD00EDFF2B /* VehicleDetailsViewController.m */,
+				1620147313E32ECD00EDFF2B /* VehicleSelectViewController.h */,
+				1620147413E32ECD00EDFF2B /* VehicleSelectViewController.m */,
 				1666FD2913B9108B00FC97F1 /* FuelSavingsViewController.h */,
 				1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */,
 				16807F5713BE9E430036F89E /* TripViewController.h */,
 				16807F5813BE9E430036F89E /* TripViewController.m */,
 				1666FD2D13B910D300FC97F1 /* MySavingsViewController.h */,
 				1666FD2E13B910D300FC97F1 /* MySavingsViewController.m */,
-				1666FD3013B910ED00FC97F1 /* MPGDatabaseViewController.h */,
-				1666FD3113B910ED00FC97F1 /* MPGDatabaseViewController.m */,
 				1666FD3313B9111300FC97F1 /* SettingsViewController.h */,
 				1666FD3413B9111300FC97F1 /* SettingsViewController.m */,
 				1658291113B9262100BC5219 /* CurrentSavingsViewController.h */,
@@ -353,6 +376,10 @@
 		1666FD1913B8FAF700FC97F1 /* Model+Data */ = {
 			isa = PBXGroup;
 			children = (
+				162535CB13E32B4000162B7A /* MPGDatabaseInfo.h */,
+				162535CC13E32B4000162B7A /* MPGDatabaseInfo.m */,
+				162535CD13E32B4000162B7A /* RLCoreDataObject.h */,
+				162535CE13E32B4000162B7A /* RLCoreDataObject.m */,
 				1666FD1B13B8FB4D00FC97F1 /* Savings.h */,
 				1666FD1C13B8FB4D00FC97F1 /* Savings.m */,
 				16A707BB13BA240700A0E93F /* SavingsData.h */,
@@ -370,11 +397,12 @@
 		1666FD1A13B8FB0800FC97F1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1620147713E32EE700EDFF2B /* VehicleDetailsViewController.xib */,
+				1620147813E32EE700EDFF2B /* VehicleSelectViewController.xib */,
 				1666FD0113B8FA8B00FC97F1 /* MainWindow.xib */,
 				1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */,
 				16807F5B13BE9E660036F89E /* TripViewController.xib */,
 				1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */,
-				1666FD3A13B911D100FC97F1 /* MPGDatabaseViewController.xib */,
 				1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */,
 				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
 				1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */,
@@ -439,7 +467,6 @@
 				1666FD1613B8FAC500FC97F1 /* iTunesArtwork.png in Resources */,
 				1666FD3713B911A400FC97F1 /* FuelSavingsViewController.xib in Resources */,
 				1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */,
-				1666FD3B13B911D100FC97F1 /* MPGDatabaseViewController.xib in Resources */,
 				1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */,
 				1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */,
 				165ACFB413B937D200A2AD3E /* topbar.png in Resources */,
@@ -469,6 +496,9 @@
 				1654418E13CC88690060D1C3 /* savings_tab.png in Resources */,
 				1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */,
 				1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */,
+				1620146D13E32D4B00EDFF2B /* MPGDatabase.sqlite in Resources */,
+				1620147913E32EE700EDFF2B /* VehicleDetailsViewController.xib in Resources */,
+				1620147A13E32EE700EDFF2B /* VehicleSelectViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -485,7 +515,6 @@
 				1666FD2013B8FB5D00FC97F1 /* Vehicle.m in Sources */,
 				1666FD2B13B9108B00FC97F1 /* FuelSavingsViewController.m in Sources */,
 				1666FD2F13B910D300FC97F1 /* MySavingsViewController.m in Sources */,
-				1666FD3213B910ED00FC97F1 /* MPGDatabaseViewController.m in Sources */,
 				1666FD3513B9111300FC97F1 /* SettingsViewController.m in Sources */,
 				1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */,
 				165ACFB813B9386600A2AD3E /* RLTopToolbar.m in Sources */,
@@ -504,6 +533,11 @@
 				16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */,
 				16CBB87D13D0A08600E8BD05 /* TripData.m in Sources */,
 				1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */,
+				162535CF13E32B4000162B7A /* MPGDatabaseInfo.m in Sources */,
+				162535D013E32B4000162B7A /* RLCoreDataObject.m in Sources */,
+				162535D413E32B9200162B7A /* MPGDatabase.xcdatamodeld in Sources */,
+				1620147513E32ECD00EDFF2B /* VehicleDetailsViewController.m in Sources */,
+				1620147613E32ECD00EDFF2B /* VehicleSelectViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +648,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */,
+			);
+			currentVersion = 162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */;
+			path = MPGDatabase.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1666FCE213B8FA8B00FC97F1 /* Project object */;
 }

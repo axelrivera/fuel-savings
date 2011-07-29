@@ -8,21 +8,25 @@
 
 #import "Fuel_SavingsAppDelegate.h"
 #import "FileHelpers.h"
+#import "RLCoreDataObject.h"
 #import "SavingsData.h"
 #import "TripData.h"
 #import "FuelSavingsViewController.h"
 #import "TripViewController.h"
 #import "MySavingsViewController.h"
-#import "MPGDatabaseViewController.h"
+#import "VehicleSelectViewController.h"
 #import "SettingsViewController.h"
 
 @implementation Fuel_SavingsAppDelegate
 
-@synthesize window = window_;
-@synthesize tabBarController = tabBarController_;
+@synthesize window = _window;
+@synthesize tabBarController = _tabBarController;
+@synthesize coreDataObject = _coreDataObject;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	_coreDataObject = [[RLCoreDataObject alloc] initWithName:@"MPGDatabase"];
+	
 	NSString *savingsDataPath = [self savingsDataFilePath];
 	SavingsData *savingsData = [NSKeyedUnarchiver unarchiveObjectWithFile:savingsDataPath];
 	
@@ -62,13 +66,14 @@
 	[mySavingsViewController release];
 	[mySavingsNavigationController release];
 	
-	MPGDatabaseViewController *mpgDatabaseViewController = [[MPGDatabaseViewController alloc] initWithTabBar];
-	UINavigationController *mpgDatabaseNavigationController = [[UINavigationController alloc] initWithRootViewController:mpgDatabaseViewController];
+	VehicleSelectViewController *vehicleViewController = [[VehicleSelectViewController alloc] initWithTabBar];
+	vehicleViewController.context = [self.coreDataObject managedObjectContext];
+	UINavigationController *vehicleNavigationController = [[UINavigationController alloc] initWithRootViewController:vehicleViewController];
 	
-	[viewControllers addObject:mpgDatabaseNavigationController];
+	[viewControllers addObject:vehicleNavigationController];
 	
-	[mpgDatabaseViewController release];
-	[mpgDatabaseNavigationController release];
+	[vehicleViewController release];
+	[vehicleNavigationController release];
 	
 	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithTabBar];
 	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
@@ -124,6 +129,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+	[self.coreDataObject saveContext];
 	[self archiveSavingsData];
 	[self archiveTripData];
 }
@@ -152,8 +158,9 @@
 
 - (void)dealloc
 {
-	[window_ release];
-	[tabBarController_ release];
+	[_window release];
+	[_tabBarController release];
+	[_coreDataObject release];
     [super dealloc];
 }
 

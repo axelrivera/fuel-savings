@@ -6,7 +6,8 @@
 
 #include "FileHelpers.h"
 
-NSString *pathInDocumentDirectory(NSString *fileName) {
+NSString *pathInDocumentDirectory(NSString *fileName)
+{
 	// Get list of document directories in sandbox
 	NSArray *documentDirectories = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	
@@ -15,4 +16,9 @@ NSString *pathInDocumentDirectory(NSString *fileName) {
 	
 	// Append passed in file name to that directory, return it
 	return [documentDirectory stringByAppendingPathComponent:fileName];
+}
+
+NSURL *applicationDocumentsDirectory(void)
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }

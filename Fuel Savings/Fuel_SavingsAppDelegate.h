@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface Fuel_SavingsAppDelegate : NSObject <UIApplicationDelegate> {
+@class RLCoreDataObject;
 
-}
+@interface Fuel_SavingsAppDelegate : NSObject <UIApplicationDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
+@property (nonatomic, retain) RLCoreDataObject *coreDataObject;
 
 - (NSString *)savingsDataFilePath;
 - (void)archiveSavingsData;

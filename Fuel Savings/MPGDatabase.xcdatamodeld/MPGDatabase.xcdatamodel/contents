@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="562" systemVersion="11A511" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="MPGDatabaseInfo" representedClassName="MPGDatabaseInfo">
+        <attribute name="cylinders" optional="YES" attributeType="String"/>
+        <attribute name="drive" optional="YES" attributeType="String"/>
+        <attribute name="engine" optional="YES" attributeType="String"/>
+        <attribute name="gears" optional="YES" attributeType="String"/>
+        <attribute name="guzzler" optional="YES" attributeType="Boolean"/>
+        <attribute name="make" optional="YES" attributeType="String"/>
+        <attribute name="model" optional="YES" attributeType="String"/>
+        <attribute name="mpgAverage" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="mpgCity" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="mpgHighway" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="sizeClass" optional="YES" attributeType="String"/>
+        <attribute name="supercharger" optional="YES" attributeType="Boolean"/>
+        <attribute name="transmission" optional="YES" attributeType="String"/>
+        <attribute name="turbocharger" optional="YES" attributeType="Boolean"/>
+        <attribute name="year" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+    </entity>
+    <elements>
+        <element name="MPGDatabaseInfo" positionX="160" positionY="192" width="128" height="270"/>
+    </elements>
+</model>
