@@ -107,7 +107,7 @@
 	
 	if (self.tripCalculation) {
 		self.navigationItem.rightBarButtonItem.enabled = YES;
-		if ([self.tripCalculation.vehicle hasDataReadyForType:EfficiencyTypeAverage]) {
+		if ([self.tripCalculation.vehicle hasDataReady]) {
 			self.tripCost = [self.tripCalculation tripCost];
 		} else {
 			self.tripCost = [NSNumber numberWithFloat:0.0];

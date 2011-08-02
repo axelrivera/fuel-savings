@@ -11,6 +11,7 @@
 @implementation VehicleDetailsViewController
 
 @synthesize mpgDatabaseInfo = _mpgDatabaseInfo;
+@synthesize delegate = _delegate;
 
 - (id)init
 {
@@ -51,6 +52,14 @@
     [super viewDidLoad];
 	
 	self.title = [self.mpgDatabaseInfo objectForKey:@"model"];
+	
+	if (self.tabBarController == nil) {
+		UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+																					target:self
+																					action:@selector(saveAction)];
+		self.navigationItem.rightBarButtonItem = saveButton;
+		[saveButton release];
+	}
 }
 
 - (void)viewDidUnload
@@ -68,6 +77,13 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+}
+
+#pragma mark - Action Methods
+
+- (void)saveAction
+{
+	[self.delegate vehicleDetailsViewControllerDidFinish:self save:YES];
 }
 
 #pragma mark - Table view data source

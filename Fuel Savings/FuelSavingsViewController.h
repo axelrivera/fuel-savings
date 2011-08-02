@@ -25,10 +25,6 @@
 	BOOL hasTabBar_;
 }
 
-@property (nonatomic, copy) NSNumber *vehicle1AnnualCost;
-@property (nonatomic, copy) NSNumber *vehicle1TotalCost;
-@property (nonatomic, copy) NSNumber *vehicle2AnnualCost;
-@property (nonatomic, copy) NSNumber *vehicle2TotalCost;
 @property (nonatomic, retain) Savings *savingsCalculation;
 @property (nonatomic, copy) Savings *backupCopy;
 

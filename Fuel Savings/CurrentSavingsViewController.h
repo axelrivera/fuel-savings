@@ -16,13 +16,15 @@
 #import "OwnerInputViewController.h"
 #import "NameInputViewController.h"
 #import "EfficiencyInputViewController.h"
+#import "VehicleSelectViewController.h"
+#import "VehicleDetailsViewController.h"
 
 @protocol CurrentSavingsViewControllerDelegate;
 
 @interface CurrentSavingsViewController : UIViewController
 	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
 	RatioInputViewControllerDelegate, OwnerInputViewControllerDelegate, NameInputViewControllerDelegate,
-	EfficiencyInputViewControllerDelegate>
+	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
 {
 	SavingsData *savingsData_;
 	NSMutableArray *newData_;
@@ -30,6 +32,8 @@
 	NSArray *combinedInformationKeys_;
 	NSArray *avgVehicleKeys_;
 	NSArray *combinedVehicleKeys_;
+	BOOL isCar1Selected_;
+	BOOL isCar2Selected_;
 }
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;

@@ -7,6 +7,8 @@
 //
 
 #import "VehicleSelectViewController.h"
+#import "CurrentSavingsViewController.h"
+#import "CurrentTripViewController.h"
 #import "VehicleDetailsViewController.h"
 
 @interface VehicleSelectViewController (Private)
@@ -22,6 +24,8 @@
 @synthesize make = _make;
 @synthesize mpgDatabaseInfo = _mpgDatabaseInfo;
 @synthesize context = _context;
+@synthesize currentSavingsViewController = _currentSavingsViewController;
+@synthesize currentTripViewController = _currentTripViewController;
 
 - (id)init
 {
@@ -32,6 +36,8 @@
 		self.make = @"";
 		self.mpgDatabaseInfo = nil;
 		self.context = nil;
+		self.currentSavingsViewController = nil;
+		self.currentTripViewController = nil;
 	}
 	return self;
 }
@@ -53,6 +59,19 @@
 		self.selectionType = type;
 		self.year = year;
 		self.make = make;
+	}
+	return self;
+}
+
+- (id)initWithCancelButton
+{
+	self = [self init];
+	if (self) {
+		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																					  target:self
+																					  action:@selector(cancelAction)];
+		self.navigationItem.leftBarButtonItem = cancelButton;
+		[cancelButton release];
 	}
 	return self;
 }
@@ -88,6 +107,13 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 	self.mpgDatabaseInfo = nil;
+}
+
+#pragma mark - Action Methods
+
+- (void)cancelAction
+{
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - Private Methods
@@ -213,6 +239,8 @@
 																									 year:yearStr
 																									 make:nil];
 		selectController.context = self.context;
+		selectController.currentSavingsViewController = self.currentSavingsViewController;
+		selectController.currentTripViewController = self.currentTripViewController;
 		viewController = selectController;
 	} else if (self.selectionType == VehicleSelectionTypeMake) {
 		NSString *yearStr = self.year;
@@ -221,9 +249,20 @@
 																									 year:yearStr
 																									 make:makeStr];
 		selectController.context = self.context;
+		selectController.currentSavingsViewController = self.currentSavingsViewController;
+		selectController.currentTripViewController = self.currentTripViewController;
 		viewController = selectController;
 	} else {
 		VehicleDetailsViewController *detailsController = [[VehicleDetailsViewController alloc] initWithInfo:info];
+		
+		if (self.currentSavingsViewController) {
+			detailsController.delegate = self.currentSavingsViewController;
+		}
+		
+		if (self.currentTripViewController) {
+			//
+		}
+		
 		viewController = detailsController;
 	}
 	

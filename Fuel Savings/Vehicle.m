@@ -31,8 +31,7 @@
 	self = [super init];
 	if (self) {
 		self.name = @"";
-#warning Remember to Change the default Value
-		self.avgEfficiency = [NSNumber numberWithInteger:25];
+		self.avgEfficiency = [NSNumber numberWithInteger:0];
 		self.cityEfficiency = [NSNumber numberWithInteger:0];
 		self.highwayEfficiency = [NSNumber numberWithInteger:0];
 	}
@@ -89,16 +88,13 @@
 
 #pragma mark - Custom Methods
 
-- (BOOL)hasDataReadyForType:(EfficiencyType)type
+- (BOOL)hasDataReady
 {
-	if (type == EfficiencyTypeAverage && [self.avgEfficiency integerValue] > 0) {
+	if ([self.avgEfficiency integerValue] > 0 &&
+		[self.cityEfficiency integerValue] > 0 &&
+		[self.highwayEfficiency integerValue] > 0) {
 		return YES;
 	}
-	
-	if (type == EfficiencyTypeCombined && ([self.cityEfficiency integerValue] > 0 && [self.highwayEfficiency integerValue] > 0)) {
-		return YES;
-	}
-		
 	return NO;
 }
 

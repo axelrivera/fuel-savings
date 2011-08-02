@@ -23,6 +23,6 @@
 
 - (id)initWithName:(NSString *)name;
 
-- (BOOL)hasDataReadyForType:(EfficiencyType)type;
+- (BOOL)hasDataReady;
 
 @end

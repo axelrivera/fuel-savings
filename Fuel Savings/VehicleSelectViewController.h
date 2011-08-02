@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class CurrentSavingsViewController;
+@class CurrentTripViewController;
+
 typedef enum {
 	VehicleSelectionTypeYear,
 	VehicleSelectionTypeMake,
@@ -21,7 +24,10 @@ typedef enum {
 @property (nonatomic, copy) NSString *make;
 @property (nonatomic, retain) NSArray *mpgDatabaseInfo;
 @property (nonatomic, retain) NSManagedObjectContext *context;
+@property (nonatomic, assign) CurrentSavingsViewController *currentSavingsViewController;
+@property (nonatomic, assign) CurrentTripViewController *currentTripViewController;
 
 - (id)initWithType:(VehicleSelectionType)type year:(NSString *)year make:(NSString *)make;
+- (id)initWithCancelButton;
 
 @end
