@@ -13,7 +13,7 @@
 
 @property (nonatomic, retain) TotalView *totalView;
 
-- (id)initWithTotalType:(TotalViewType)type reuseIdentifier:(NSString *)reuseIdentifier;
+- (id)initWithTotalType:(TotalViewType)type;
 - (void)redisplay;
 
 @end

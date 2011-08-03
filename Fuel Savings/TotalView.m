@@ -148,7 +148,7 @@
 - (UILabel *)commonLabel
 {
 	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-	label.font = [UIFont systemFontOfSize:15.0];
+	label.font = [UIFont systemFontOfSize:16.0];
 	label.lineBreakMode = UILineBreakModeTailTruncation;
 	label.backgroundColor = [UIColor whiteColor];
 	label.textColor = [UIColor darkGrayColor];

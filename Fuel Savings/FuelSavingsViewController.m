@@ -10,6 +10,7 @@
 #import "CurrentSavingsViewController.h"
 #import "TotalView.h"
 #import "TotalViewCell.h"
+#import "TotalDetailViewCell.h"
 
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_DELETE_TAG 2
@@ -284,7 +285,7 @@
 	NSInteger sections = 3;
 	
 	if (hasTabBar_) {
-		sections = sections + 2;
+		sections = sections + 1;
 	}
 	
 	return sections;
@@ -292,96 +293,119 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 1;
+	NSInteger rows = 1;
+	if (section <= 1 && [self.savingsCalculation.vehicle2 hasDataReady]) {
+		rows = 2;
+	}
+	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {	
 	if (indexPath.section <= 1) {
-		static NSString *TotalCellIdentifier = @"TotalCell";
-		
-		//TotalViewCell *totalCell = (TotalViewCell *)[tableView dequeueReusableCellWithIdentifier:TotalCellIdentifier];
-		
-		//if (totalCell == nil) {
+		if (indexPath.row < 1) {
 			TotalViewType type = TotalViewTypeSingle;
 			if ([self.savingsCalculation.vehicle2 hasDataReady]) {
 				type = TotalViewTypeDouble;
 			}
-			TotalViewCell *totalCell = [[[TotalViewCell alloc] initWithTotalType:type reuseIdentifier:TotalCellIdentifier] autorelease];
-		//}
-		
-		totalCell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		NSString *imageStr = nil;;
-		NSString *titleStr = nil;
-		NSString *text1LabelStr = nil;
-		NSString *text2LabelStr = nil;
-		NSString *detail1LabelStr = nil;
-		NSString *detail2LabelStr = nil;
-		
-		if (indexPath.section == 0) {
-			imageStr = @"money.png";
-			titleStr = @"Annual Fuel Cost";
-			detail1LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation annualCostForVehicle1]];
-			detail2LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation annualCostForVehicle2]];
-		} else {
-			imageStr = @"calendar.png";
-			titleStr = @"Total Fuel Cost";
-			detail1LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation totalCostForVehicle1]];
-			detail2LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation totalCostForVehicle2]];
-		}
-		
-		text1LabelStr = self.savingsCalculation.vehicle1.name;
-		text2LabelStr = self.savingsCalculation.vehicle2.name;
-		
-		totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
-		totalCell.totalView.titleLabel.text = titleStr;
-		totalCell.totalView.text1Label.text = text1LabelStr;
-		totalCell.totalView.detail1Label.text = detail1LabelStr;
-		
-		if ([self.savingsCalculation.vehicle2 hasDataReady]) {
-			totalCell.totalView.text2Label.text = text2LabelStr;
-			totalCell.totalView.detail2Label.text = detail2LabelStr;
-		}
+			TotalViewCell *totalCell = [[[TotalViewCell alloc] initWithTotalType:type] autorelease];
+			
+			totalCell.selectionStyle = UITableViewCellSelectionStyleNone;
+			
+			NSString *imageStr = nil;;
+			NSString *titleStr = nil;
+			NSString *text1LabelStr = nil;
+			NSString *text2LabelStr = nil;
+			NSString *detail1LabelStr = nil;
+			NSString *detail2LabelStr = nil;
+			
+			if (indexPath.section == 0) {
+				imageStr = @"money.png";
+				titleStr = @"Annual Fuel Cost";
+				detail1LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation annualCostForVehicle1]];
+				detail2LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation annualCostForVehicle2]];
+			} else {
+				imageStr = @"chart.png";
+				titleStr = @"Total Fuel Cost";
+				detail1LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation totalCostForVehicle1]];
+				detail2LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation totalCostForVehicle2]];
+			}
+			
+			text1LabelStr = self.savingsCalculation.vehicle1.name;
+			text2LabelStr = self.savingsCalculation.vehicle2.name;
+			
+			totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
+			totalCell.totalView.titleLabel.text = titleStr;
+			totalCell.totalView.text1Label.text = text1LabelStr;
+			totalCell.totalView.detail1Label.text = detail1LabelStr;
+			
+			if ([self.savingsCalculation.vehicle2 hasDataReady]) {
+				totalCell.totalView.text2Label.text = text2LabelStr;
+				totalCell.totalView.detail2Label.text = detail2LabelStr;
+			}
 
-		return totalCell;
-	}
-	
-	if (indexPath.section == 2) {
-		static NSString *InfoCellIdentifier = @"InformationCell";
-		
-		UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:InfoCellIdentifier];
-		
-		if (infoCell == nil) {
-			infoCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:InfoCellIdentifier] autorelease];
+			return totalCell;
+		} else {
+			static NSString *DetailCellIdentifier = @"DetailCell";
+			
+			TotalDetailViewCell *detailCell = (TotalDetailViewCell *)[tableView dequeueReusableCellWithIdentifier:DetailCellIdentifier];
+			
+			if (detailCell == nil) {
+				detailCell = [[[TotalDetailViewCell alloc] initWithReuseIdentifier:DetailCellIdentifier] autorelease];
+			}
+			
+			detailCell.selectionStyle = UITableViewCellSelectionStyleNone;
+			
+			NSString *textLabelStr = nil;
+			
+			if (indexPath.section == 0) {
+				NSNumber *vehicle1AnnualCost = [self.savingsCalculation annualCostForVehicle1];
+				NSNumber *vehicle2AnnualCost = [self.savingsCalculation annualCostForVehicle2];
+				
+				NSComparisonResult result = [vehicle1AnnualCost compare:vehicle2AnnualCost];
+				
+				if (result == NSOrderedSame) {
+					textLabelStr = @"Fuel cost is the same.";
+				} else if (result == NSOrderedDescending) {
+					NSNumber *savings = [NSNumber numberWithFloat:[vehicle1AnnualCost floatValue] - [vehicle2AnnualCost floatValue]];
+					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
+									self.savingsCalculation.vehicle2.name,
+									[currencyFormatter_ stringFromNumber:savings]];
+				} else {
+					NSNumber *savings = [NSNumber numberWithFloat:[vehicle2AnnualCost floatValue] - [vehicle1AnnualCost floatValue]];
+					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
+									self.savingsCalculation.vehicle1.name,
+									[currencyFormatter_ stringFromNumber:savings]];
+				}
+			} else {
+				NSNumber *vehicle1TotalCost = [self.savingsCalculation totalCostForVehicle1];
+				NSNumber *vehicle2TotalCost = [self.savingsCalculation totalCostForVehicle2];
+				
+				NSComparisonResult result = [vehicle1TotalCost compare:vehicle2TotalCost];
+				
+				NSInteger years = [self.savingsCalculation.carOwnership integerValue];
+				
+				if (result == NSOrderedSame) {
+					textLabelStr = [NSString stringWithFormat:@"Fuel cost is the same over %i years.", years];
+				} else if (result == NSOrderedDescending) {
+					NSNumber *savings = [NSNumber numberWithFloat:[vehicle1TotalCost floatValue] - [vehicle2TotalCost floatValue]];
+					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
+									self.savingsCalculation.vehicle2.name,
+									[currencyFormatter_ stringFromNumber:savings],
+									years];
+				} else {
+					NSNumber *savings = [NSNumber numberWithFloat:[vehicle2TotalCost floatValue] - [vehicle1TotalCost floatValue]];
+					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
+									self.savingsCalculation.vehicle1.name,
+									[currencyFormatter_ stringFromNumber:savings],
+									years];
+				}
+			}
+			
+			detailCell.textLabel.text = textLabelStr;
+			
+			return detailCell;
 		}
-		
-		infoCell.selectionStyle = UITableViewCellSelectionStyleNone;
-		infoCell.accessoryType = UITableViewCellAccessoryNone;
-		
-		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-		
-		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-		
-		NSString *fuelStr = [formatter stringFromNumber:self.savingsCalculation.fuelPrice];
-		
-		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[formatter setMaximumFractionDigits:0];
-		
-		NSString *distanceStr = [formatter stringFromNumber:self.savingsCalculation.distance];
-		
-		
-		infoCell.textLabel.text = nil;
-		
-		infoCell.detailTextLabel.lineBreakMode = UILineBreakModeWordWrap;
-		infoCell.detailTextLabel.numberOfLines = 2;
-		infoCell.detailTextLabel.text = [NSString stringWithFormat:@"Fuel Price - %@ /gallon\nDistance - %@ miles/year",
-										 fuelStr,
-										 distanceStr];
-		
-		[formatter release];
-		
-		return infoCell;
 	}
 	
 	static NSString *CellIdentifier = @"ButtonCell";
@@ -397,23 +421,85 @@
 	cell.backgroundView = backView;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-	CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 40.0;
-	button.frame = CGRectMake(20.0, 0.0, buttonWidth, 44.0);
+	CGFloat contentWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
 	
-	if (indexPath.section == 3) {
-		[button addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Save Current As..." forState:UIControlStateNormal];
+	if (indexPath.section == 2) {
+		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		textLabel.lineBreakMode = UILineBreakModeWordWrap;
+		textLabel.numberOfLines = 3;
+		textLabel.textAlignment = UITextAlignmentCenter;
+		textLabel.backgroundColor = [UIColor clearColor];
+		textLabel.textColor = [UIColor darkGrayColor];
+		textLabel.font = [UIFont systemFontOfSize:14.0];
+		textLabel.shadowColor = [UIColor whiteColor];
+		textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+		
+		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+		
+		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+		
+		NSString *fuelStr = [formatter stringFromNumber:self.savingsCalculation.fuelPrice];
+		
+		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+		[formatter setMaximumFractionDigits:0];
+		
+		NSString *distanceStr = [formatter stringFromNumber:self.savingsCalculation.distance];
+		
+		NSInteger years = [self.savingsCalculation.carOwnership integerValue];
+		
+		NSString *yearsStr = nil;
+		
+		if (years == 1) {
+			yearsStr = [NSString stringWithFormat:@"%i year", years];
+		} else {
+			yearsStr = [NSString stringWithFormat:@"%i years", years];
+		}
+		
+		textLabel.text = [NSString stringWithFormat:
+						  @"Fuel Price - %@ /gallon\n"
+						  @"Distance - %@ miles/year\n"
+						  @"Ownership - %@",
+						  fuelStr,
+						  distanceStr,
+						  yearsStr];
+		
+		textLabel.frame = CGRectMake(10.0, 0.0, contentWidth, 66.0);
+		
+		cell.accessoryView = textLabel;
+		
+		[textLabel release];
+		[formatter release];
+	} else {
+		UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
+		
+		UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[rightButton setTitle:@"Delete" forState:UIControlStateNormal];
+		
+		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectZero];
+		buttonView.frame = CGRectMake(20.0, 0.0, contentWidth, 44.0);
+		
+		leftButton.frame = CGRectMake(0.0,
+									  0.0,
+									  (contentWidth / 2.0) - 10.0,
+									  44.0);
+		
+		rightButton.frame = CGRectMake((contentWidth / 2.0) + 5.0,
+									  0.0,
+									  (contentWidth / 2.0) - 10.0,
+									  44.0);
+		
+		[buttonView addSubview:leftButton];
+		[buttonView addSubview:rightButton];
+		
+		cell.accessoryView = buttonView;
+		
+		[leftButton release];
+		[rightButton release];
+		[buttonView release];
 	}
-	
-	if (indexPath.section == 4) {
-		[button addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Delete Current" forState:UIControlStateNormal];
-	}
-	
-	cell.accessoryView = button;
-	
-	[button release];
 	
 	return cell;
 }
@@ -422,120 +508,47 @@
 {
 	NSInteger height = 44.0;
 	if (indexPath.section <= 1) {
-		height = 66.0;
-		if ([self.savingsCalculation.vehicle2 hasDataReady]) {
-			height = 88.0;
+		if (indexPath.row < 1) {
+			height = 66.0;
+			if ([self.savingsCalculation.vehicle2 hasDataReady]) {
+				height = 88.0;
+			}
+		} else {
+			height = 46.0;
 		}
 	} else if (indexPath.section == 2) {
-		height = 50.0;
+		height = 66.0;
 	}
 	return height;
 }
 
-//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-//{
-//	if (!self.savingsCalculation) {
-//		return nil;
-//	}
-//	
-//	BOOL isVehicle1Ready = [self.savingsCalculation.vehicle1 hasDataReady];
-//	BOOL isVehicle2Ready = [self.savingsCalculation.vehicle2 hasDataReady];
-//	if (section == 0) {
-//		if (isVehicle1Ready && isVehicle2Ready) {
-//			[annualFooterView_ autorelease];
-//			annualFooterView_ = [[UIView alloc] initWithFrame:CGRectZero];
-//			
-//			UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-//			label.lineBreakMode = UILineBreakModeMiddleTruncation;
-//			label.textAlignment = UITextAlignmentCenter;
-//			label.font = [UIFont systemFontOfSize:15.0];
-//			label.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
-//			label.backgroundColor = [UIColor clearColor];
-//			
-//			label.shadowColor = [UIColor whiteColor];
-//			label.shadowOffset = CGSizeMake(0.0, 1.0);
-//			
-//			NSNumber *vehicle1AnnualCost = [self.savingsCalculation annualCostForVehicle1];
-//			NSNumber *vehicle2AnnualCost = [self.savingsCalculation annualCostForVehicle2];
-//			
-//			NSComparisonResult result = [vehicle1AnnualCost compare:vehicle2AnnualCost];
-//			
-//			if (result == NSOrderedSame) {
-//				label.text = @"Fuel cost is the same.";
-//			} else if (result == NSOrderedDescending) {
-//				NSNumber *savings = [NSNumber numberWithFloat:[vehicle1AnnualCost floatValue] - [vehicle2AnnualCost floatValue]];
-//				label.text = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-//							  self.savingsCalculation.vehicle2.name,
-//							  [currencyFormatter_ stringFromNumber:savings]];
-//			} else {
-//				NSNumber *savings = [NSNumber numberWithFloat:[vehicle2AnnualCost floatValue] - [vehicle1AnnualCost floatValue]];
-//				label.text = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-//							  self.savingsCalculation.vehicle1.name,
-//							  [currencyFormatter_ stringFromNumber:savings]];
-//			}
-//			
-//			label.frame = CGRectMake(20.0,
-//									 5.0,
-//									 280.0,
-//									 17.0);
-//			
-//			
-//			[annualFooterView_ addSubview:label];
-//			[label release];
-//			
-//			return annualFooterView_;
-//		}
-//	} else if (section == 1) {
-//		if (isVehicle1Ready && isVehicle2Ready) {
-//			[totalFooterView_ autorelease];
-//			totalFooterView_ = [[UIView alloc] initWithFrame:CGRectZero];
-//			
-//			UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-//			label.lineBreakMode = UILineBreakModeMiddleTruncation;
-//			label.textAlignment = UITextAlignmentCenter;
-//			label.font = [UIFont systemFontOfSize:15.0];
-//			label.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
-//			label.backgroundColor = [UIColor clearColor];
-//			
-//			label.shadowColor = [UIColor whiteColor];
-//			label.shadowOffset = CGSizeMake(0.0, 1.0);
-//			
-//			NSNumber *vehicle1TotalCost = [self.savingsCalculation totalCostForVehicle1];
-//			NSNumber *vehicle2TotalCost = [self.savingsCalculation totalCostForVehicle2];
-//			
-//			NSComparisonResult result = [vehicle1TotalCost compare:vehicle2TotalCost];
-//			
-//			NSInteger years = [self.savingsCalculation.carOwnership integerValue];
-//			
-//			if (result == NSOrderedSame) {
-//				label.text = [NSString stringWithFormat:@"Fuel cost is the same over %i years.", years];
-//			} else if (result == NSOrderedDescending) {
-//				NSNumber *savings = [NSNumber numberWithFloat:[vehicle1TotalCost floatValue] - [vehicle2TotalCost floatValue]];
-//				label.text = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-//							  self.savingsCalculation.vehicle2.name,
-//							  [currencyFormatter_ stringFromNumber:savings],
-//							  years];
-//			} else {
-//				NSNumber *savings = [NSNumber numberWithFloat:[vehicle2TotalCost floatValue] - [vehicle1TotalCost floatValue]];
-//				label.text = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-//							  self.savingsCalculation.vehicle1.name,
-//							  [currencyFormatter_ stringFromNumber:savings],
-//							  years];
-//			}
-//			
-//			label.frame = CGRectMake(20.0,
-//									 5.0,
-//									 280.0,
-//									 17.0);
-//			
-//			[totalFooterView_ addSubview:label];
-//			[label release];
-//			
-//			return totalFooterView_;
-//		}
-//	}
-//	return nil;
-//}
+-(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+		return 13.0;
+	}
+    return 1.0;
+}
+
+
+-(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+{
+	NSInteger height = 13.0;
+	if (section == 1 || section == 2) {
+		height = 1.0;
+	}
+    return height;
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
 
 #pragma mark - UIActionSheet Delegate
 
