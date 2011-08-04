@@ -12,7 +12,6 @@
 		161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A613EA035D00D2D2FC /* chart@2x.png */; };
 		161100AB13EA035D00D2D2FC /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A713EA035D00D2D2FC /* money.png */; };
 		161100AC13EA035D00D2D2FC /* money@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A813EA035D00D2D2FC /* money@2x.png */; };
-		161BA0E913E7606E003D57CF /* TotalCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161BA0E813E7606E003D57CF /* TotalCellView.xib */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
@@ -97,7 +96,6 @@
 		161100A613EA035D00D2D2FC /* chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chart@2x.png"; sourceTree = "<group>"; };
 		161100A713EA035D00D2D2FC /* money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = money.png; sourceTree = "<group>"; };
 		161100A813EA035D00D2D2FC /* money@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "money@2x.png"; sourceTree = "<group>"; };
-		161BA0E813E7606E003D57CF /* TotalCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TotalCellView.xib; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TypeInputViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeInputViewController.xib; sourceTree = "<group>"; };
@@ -431,7 +429,6 @@
 				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
 				1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */,
 				1635AFD513D0C4D3005FC8EB /* Input */,
-				161BA0E813E7606E003D57CF /* TotalCellView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -524,7 +521,6 @@
 				1620146D13E32D4B00EDFF2B /* MPGDatabase.sqlite in Resources */,
 				1620147913E32EE700EDFF2B /* VehicleDetailsViewController.xib in Resources */,
 				1620147A13E32EE700EDFF2B /* VehicleSelectViewController.xib in Resources */,
-				161BA0E913E7606E003D57CF /* TotalCellView.xib in Resources */,
 				161100A913EA035D00D2D2FC /* chart.png in Resources */,
 				161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */,
 				161100AB13EA035D00D2D2FC /* money.png in Resources */,

@@ -23,7 +23,6 @@ static NSString * const vehicleNameKey = @"VehicleNameKey";
 static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 static NSString * const vehicleCityEfficiencyKey = @"VehicleCityEfficiencyKey";
 static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiencyKey";
-static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKey";
 
 @interface CurrentSavingsViewController (Private)
 
@@ -156,6 +155,35 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 	[self.delegate currentSavingsViewControllerDelegateDidFinish:self save:NO];
 }
 
+- (void)selectCar1Action
+{
+	isCar1Selected_ = YES;
+	isCar2Selected_ = NO;
+	[self performSelector:@selector(selectCarAction)];
+}
+
+- (void)selectCar2Action
+{
+	isCar1Selected_ = NO;
+	isCar2Selected_ = YES;
+	[self performSelector:@selector(selectCarAction)];
+}
+
+- (void)selectCarAction
+{
+	VehicleSelectViewController *inputViewController = [[VehicleSelectViewController alloc] init];
+	Fuel_SavingsAppDelegate *appDelegate = (Fuel_SavingsAppDelegate *)[[UIApplication sharedApplication] delegate];
+	inputViewController.context = [appDelegate.coreDataObject managedObjectContext];
+	inputViewController.currentSavingsViewController = self;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[inputViewController release];
+	[navController release];
+}
+
 #pragma mark - UITableView Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -232,12 +260,6 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 			vehicle = savingsData_.currentCalculation.vehicle2;
 		}
 		
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
-		cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
-		
 		NSString *efficiencyFormatString = @"%@ MPG";
 		
 		if ([key isEqualToString:vehicleNameKey]) {
@@ -252,13 +274,14 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 		} else if ([key isEqualToString:vehicleHighwayEfficiencyKey]) {
 			textLabelString = @"Highway MPG";
 			detailTextLabelString = [NSString stringWithFormat:efficiencyFormatString, [vehicle.highwayEfficiency stringValue]];
-		} else {
-			textLabelString = @"Load From Database";
-			cell.accessoryType = UITableViewCellAccessoryNone;
-			cell.textLabel.textAlignment = UITextAlignmentCenter;
-			detailTextLabelString = nil;
 		}
 	}
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	
+	cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
+	cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
 	
 	cell.textLabel.text = textLabelString;
 	cell.detailTextLabel.text = detailTextLabelString;
@@ -272,7 +295,6 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	UIViewController *modalController = nil;
 	UIViewController *viewController = nil;
 	
 	NSString *key = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -338,30 +360,12 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 				inputViewController.currentType = EfficiencyInputTypeHighway;
 			}
 			viewController = inputViewController;
-		} else {
-			if (indexPath.section == 1) {
-				isCar1Selected_ = YES;
-				isCar2Selected_ = NO;
-			} else {
-				isCar1Selected_ = NO;
-				isCar2Selected_ = YES;
-			}
-			VehicleSelectViewController *inputViewController = [[VehicleSelectViewController alloc] initWithCancelButton];
-			Fuel_SavingsAppDelegate *appDelegate = (Fuel_SavingsAppDelegate *)[[UIApplication sharedApplication] delegate];
-			inputViewController.context = [appDelegate.coreDataObject managedObjectContext];
-			inputViewController.currentSavingsViewController = self;
-			modalController = inputViewController;
 		}
 	}
 	
 	if (viewController) {
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
-	} else {
-		UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:modalController];
-		[self presentModalViewController:navController animated:YES];
-		[viewController release];
-		[navController release];
 	}
 }
 
@@ -376,6 +380,76 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 		titleString = @"Car 2 (Optional)";
 	}
 	return titleString;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+	if (section > 0) {
+		SEL carSelector;
+		NSString *titleStr = nil;
+		if (section == 1) {
+			titleStr = @"Car 1";
+			carSelector = @selector(selectCar1Action);
+		} else {
+			titleStr = @"Car 2";
+			carSelector = @selector(selectCar2Action);
+		}
+		
+		UIView *headerView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+		
+		CGRect headerRect = CGRectMake(0.0,
+									   0.0,
+									   [UIScreen mainScreen].bounds.size.width,
+									   34.0);
+		
+		headerView.frame = headerRect;
+		
+		UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		headerLabel.font = [UIFont systemFontOfSize:18.0];
+		headerLabel.backgroundColor = [UIColor clearColor];
+		headerLabel.textColor = [UIColor darkGrayColor];
+		headerLabel.shadowColor = [UIColor whiteColor];
+		headerLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+		headerLabel.lineBreakMode = UILineBreakModeTailTruncation;
+		headerLabel.text = titleStr;
+		
+		UIButton *headerButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		
+		
+		[headerButton addTarget:self action:carSelector forControlEvents:UIControlEventTouchDown];
+		[headerButton setTitle:@"Select Car" forState:UIControlStateNormal];
+		
+		CGFloat buttonWidth = 120.0;
+		
+		CGRect headerLabelRect = CGRectMake(10.0 + 5.0,
+											0.0,
+											headerRect.size.width - (10.0 + 5.0 + 5.0 + buttonWidth + 10.0),
+											24.0);
+		
+		headerLabel.frame = headerLabelRect;
+		
+		headerButton.frame = CGRectMake(10.0 + 5.0 + headerLabelRect.size.width + 5.0,
+										0.0,
+										buttonWidth,
+										24.0);
+		
+		[headerView addSubview:headerLabel];
+		[headerView addSubview:headerButton];
+		
+		[headerLabel release];
+		[headerButton release];
+		
+		return headerView;
+	}
+	return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	if (section > 0) {
+		return 34.0;
+	}
+	return 0.0;
 }
 
 #pragma mark - View Controller Delegates
@@ -539,7 +613,6 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 	avgVehicleKeys_ = [[NSArray alloc] initWithObjects:
 					   vehicleNameKey,
 					   vehicleAvgEfficiencyKey,
-					   vehicleLoadFromDatabaseKey,
 					   nil];
 }
 
@@ -557,7 +630,6 @@ static NSString * const vehicleLoadFromDatabaseKey = @"VehicleLoadFromDatabaseKe
 							vehicleNameKey,
 							vehicleCityEfficiencyKey,
 							vehicleHighwayEfficiencyKey,
-							vehicleLoadFromDatabaseKey,
 							nil];
 }
 

@@ -28,6 +28,5 @@ typedef enum {
 @property (nonatomic, assign) CurrentTripViewController *currentTripViewController;
 
 - (id)initWithType:(VehicleSelectionType)type year:(NSString *)year make:(NSString *)make;
-- (id)initWithCancelButton;
 
 @end

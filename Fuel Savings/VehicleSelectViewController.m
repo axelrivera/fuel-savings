@@ -63,19 +63,6 @@
 	return self;
 }
 
-- (id)initWithCancelButton
-{
-	self = [self init];
-	if (self) {
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(cancelAction)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		[cancelButton release];
-	}
-	return self;
-}
-
 - (void)didReceiveMemoryWarning
 {
     // Releases the view if it doesn't have a superview.
@@ -98,6 +85,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	if (self.tabBarController == nil) {
+		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																					  target:self
+																					  action:@selector(cancelAction)];
+		self.navigationItem.rightBarButtonItem = cancelButton;
+		[cancelButton release];
+	}
+	
 	[self setupDataSourceAndFetchRequest];
 }
 
@@ -185,8 +181,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCellStyle cellStyle = UITableViewCellStyleDefault;
+	static NSString *CellIdentifier = @"Cell";
+	UITableViewCellStyle cellStyle = UITableViewCellStyleDefault;
 	
 	if (self.selectionType == VehicleSelectionTypeModel) {
 		cellStyle = UITableViewCellStyleSubtitle;
@@ -220,8 +216,7 @@
 	if (detailStr) {
 		cell.detailTextLabel.text = detailStr;
 	}
-    
-    return cell;
+	return cell;
 }
 
 #pragma mark - Table view delegate
