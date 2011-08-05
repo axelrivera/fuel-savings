@@ -29,6 +29,8 @@
 		1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */; };
 		1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */; };
 		1640EC1A13BE13A7008190C1 /* EfficiencyInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */; };
+		1641350513ECA5ED00BFD3DD /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350313ECA5ED00BFD3DD /* add.png */; };
+		1641350613ECA5ED00BFD3DD /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350413ECA5ED00BFD3DD /* add@2x.png */; };
 		1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */; };
 		1654418E13CC88690060D1C3 /* savings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418C13CC88690060D1C3 /* savings_tab.png */; };
 		1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418D13CC88690060D1C3 /* savings_tab@2x.png */; };
@@ -121,6 +123,8 @@
 		1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EfficiencyInputViewController.h; sourceTree = "<group>"; };
 		1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EfficiencyInputViewController.m; sourceTree = "<group>"; };
 		1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EfficiencyInputViewController.xib; sourceTree = "<group>"; };
+		1641350313ECA5ED00BFD3DD /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		1641350413ECA5ED00BFD3DD /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		1643A65813E9B8F9005F2F1F /* TotalDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalDetailViewCell.h; sourceTree = "<group>"; };
 		1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalDetailViewCell.m; sourceTree = "<group>"; };
 		1654418C13CC88690060D1C3 /* savings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = savings_tab.png; sourceTree = "<group>"; };
@@ -270,6 +274,8 @@
 		165ACFB113B937A500A2AD3E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1641350313ECA5ED00BFD3DD /* add.png */,
+				1641350413ECA5ED00BFD3DD /* add@2x.png */,
 				161100A513EA035D00D2D2FC /* chart.png */,
 				161100A613EA035D00D2D2FC /* chart@2x.png */,
 				161100A713EA035D00D2D2FC /* money.png */,
@@ -525,6 +531,8 @@
 				161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */,
 				161100AB13EA035D00D2D2FC /* money.png in Resources */,
 				161100AC13EA035D00D2D2FC /* money@2x.png in Resources */,
+				1641350513ECA5ED00BFD3DD /* add.png in Resources */,
+				1641350613ECA5ED00BFD3DD /* add@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

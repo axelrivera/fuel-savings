@@ -319,20 +319,26 @@
 			NSString *detail1LabelStr = nil;
 			NSString *detail2LabelStr = nil;
 			
+			NSNumber *cost1 = nil;
+			NSNumber *cost2 = nil;
+			
 			if (indexPath.section == 0) {
 				imageStr = @"money.png";
 				titleStr = @"Annual Fuel Cost";
-				detail1LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation annualCostForVehicle1]];
-				detail2LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation annualCostForVehicle2]];
+				cost1 = [self.savingsCalculation annualCostForVehicle1];
+				cost2 = [self.savingsCalculation annualCostForVehicle2];
 			} else {
 				imageStr = @"chart.png";
 				titleStr = @"Total Fuel Cost";
-				detail1LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation totalCostForVehicle1]];
-				detail2LabelStr = [currencyFormatter_ stringFromNumber:[self.savingsCalculation totalCostForVehicle2]];
+				cost1 = [self.savingsCalculation totalCostForVehicle1];
+				cost2 = [self.savingsCalculation totalCostForVehicle2];
 			}
 			
 			text1LabelStr = self.savingsCalculation.vehicle1.name;
 			text2LabelStr = self.savingsCalculation.vehicle2.name;
+			
+			detail1LabelStr = [currencyFormatter_ stringFromNumber:cost1];
+			detail2LabelStr = [currencyFormatter_ stringFromNumber:cost2];
 			
 			totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
 			totalCell.totalView.titleLabel.text = titleStr;
@@ -342,6 +348,17 @@
 			if ([self.savingsCalculation.vehicle2 hasDataReady]) {
 				totalCell.totalView.text2Label.text = text2LabelStr;
 				totalCell.totalView.detail2Label.text = detail2LabelStr;
+				
+				UIColor *red = [UIColor redColor];
+				
+				NSComparisonResult compareCost = [cost1 compare:cost2];
+				if (compareCost == NSOrderedDescending) {
+					totalCell.totalView.text1Label.textColor = red;
+					totalCell.totalView.detail1Label.textColor = red;
+				} else if (compareCost == NSOrderedAscending) {
+					totalCell.totalView.text2Label.textColor = red;
+					totalCell.totalView.detail2Label.textColor = red;
+				}
 			}
 
 			return totalCell;

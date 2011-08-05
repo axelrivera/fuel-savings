@@ -27,17 +27,13 @@
 	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
 {
 	SavingsData *savingsData_;
-	NSMutableArray *newData_;
-	NSArray *avgInformationKeys_;
-	NSArray *combinedInformationKeys_;
-	NSArray *avgVehicleKeys_;
-	NSArray *combinedVehicleKeys_;
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;
 }
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UITableView *newTable;
+@property (nonatomic, retain) NSMutableArray *newData;
 @property (nonatomic) BOOL isEditingSavings;
 
 @end
