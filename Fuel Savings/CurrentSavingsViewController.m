@@ -115,11 +115,11 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	[self.newData addObject:[self informationArray]];
 	[self.newData addObject:[self vehicleArrayWithKey:vehicle1Key]];
-	[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
+	//[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
 	
-//	if ([savingsData_.currentCalculation.vehicle2 hasDataReady]) {
-//		[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
-//	}
+	if ([savingsData_.currentCalculation.vehicle2 hasDataReady]) {
+		[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
+	}
 	
 	[self.newTable reloadData];	
 }
@@ -175,44 +175,40 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 	NSInteger sections = [self.newData count];
-	
-	//if (![savingsData_.currentCalculation.vehicle2 hasDataReady] && sections < 3) {
-	//	sections++;
-	//}
-	
+	if (sections == 2) {
+		sections++;
+	}
 	return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	NSInteger rows = 0;
-	//if (![savingsData_.currentCalculation.vehicle2 hasDataReady] && section == 2) {
-	//	rows = 1;
-	//} else {
+	if (section == 2 && [self.newData count] == 2) {
+		rows = 1;
+	} else {
 		rows = [[self.newData objectAtIndex:section] count];
-	//}
+	}
 	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//	if (![savingsData_.currentCalculation.vehicle2 hasDataReady] && indexPath.section == 2) {
-//		static NSString *AddCellIdentifier = @"AddCell";
-//		
-//		UITableViewCell *addCell = [tableView dequeueReusableCellWithIdentifier:AddCellIdentifier];
-//		
-//		if (addCell == nil) {
-//			addCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AddCellIdentifier] autorelease];
-//		}
-//		
-//		addCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-//		
-//		addCell.imageView.image = [UIImage imageNamed:@"add.png"];
-//		
-//		addCell.textLabel.text = @"Add Car 2 (Optional)";
-//		
-//		return addCell;
-//	}
+	if (indexPath.section == 2 && [self.newData count] == 2) {
+		static NSString *AddCellIdentifier = @"AddCell";
+		
+		UITableViewCell *addCell = [tableView dequeueReusableCellWithIdentifier:AddCellIdentifier];
+		
+		if (addCell == nil) {
+			addCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AddCellIdentifier] autorelease];
+		}
+	
+		addCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+		addCell.imageView.image = [UIImage imageNamed:@"add.png"];
+		addCell.textLabel.text = @"Add Car 2 (Optional)";
+		
+		return addCell;
+	}
 	
 	NSDictionary *dictionary = [[self.newData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
@@ -261,12 +257,23 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-//	if (![savingsData_.currentCalculation.vehicle2 hasDataReady] && indexPath.section == 2) {
-//		//[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
-//		//[tableView insertSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationTop];
-//		
-//		return;
-//	}
+	if (indexPath.section == 2 && [self.newData count] == 2) {
+		[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
+				
+		[tableView beginUpdates];
+		
+		[tableView deleteSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+		[tableView insertSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationTop];
+		
+		[tableView endUpdates];
+		
+		NSIndexPath *lastCell = [NSIndexPath indexPathForRow:[[self.newData objectAtIndex:2] count] - 1
+												   inSection:2];
+		
+		[tableView scrollToRowAtIndexPath:lastCell atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+		
+		return;
+	}
 	
 	UIViewController *viewController = nil;
 	
