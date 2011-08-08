@@ -17,16 +17,13 @@
 {
 	SavingsData *savingsData_;
 	NSNumberFormatter *currencyFormatter_;
-	UIView *annualFooterView_;
-	UIView *totalFooterView_;
-	UIView *infoFooterView_;
 	BOOL isNewSavings_;
 	BOOL showNewAction_;
 	BOOL hasTabBar_;
 }
 
-@property (nonatomic, retain) Savings *savingsCalculation;
-@property (nonatomic, copy) Savings *backupCopy;
+@property (nonatomic, copy) Savings *newSavings;
+@property (nonatomic, copy) Savings *currentSavings;
 
 - (id)initWithTabBar;
 

@@ -43,6 +43,7 @@
 	NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:5];
 	
 	FuelSavingsViewController *fuelSavingViewController = [[FuelSavingsViewController alloc] initWithTabBar];
+	fuelSavingViewController.currentSavings = savingsData.savingsCalculation;
 	UINavigationController *fuelSavingNavigationController = [[UINavigationController alloc] initWithRootViewController:fuelSavingViewController];
 	
 	[viewControllers addObject:fuelSavingNavigationController];

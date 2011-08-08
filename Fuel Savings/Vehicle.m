@@ -18,12 +18,12 @@
 + (Vehicle *)vehicle
 {
 	
-	return [[[[self class] alloc] init] autorelease];
+	return [[[Vehicle alloc] init] autorelease];
 }
 
 + (Vehicle *)vehicleWithName:(NSString *)name
 {
-	return [[[[self class] alloc] initWithName:name] autorelease];
+	return [[[Vehicle alloc] initWithName:name] autorelease];
 }
 
 - (id)init
@@ -69,7 +69,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	Vehicle *newVehicle = [[[self class] allocWithZone:zone] init];
+	Vehicle *newVehicle = [[Vehicle allocWithZone:zone] init];
 	newVehicle.name = self.name;
 	newVehicle.avgEfficiency = self.avgEfficiency;
 	newVehicle.cityEfficiency = self.cityEfficiency;

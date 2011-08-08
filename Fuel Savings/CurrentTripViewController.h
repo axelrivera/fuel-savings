@@ -13,17 +13,19 @@
 #import "DistanceInputViewController.h"
 #import "NameInputViewController.h"
 #import "EfficiencyInputViewController.h"
+#import "VehicleDetailsViewController.h"
 
 @protocol CurrentTripViewControllerDelegate;
 
 @interface CurrentTripViewController : UITableViewController
 	<PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, NameInputViewControllerDelegate,
-	EfficiencyInputViewControllerDelegate>
+	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
 {
 	TripData *tripData_; 
 }
 
 @property (nonatomic, assign) id <CurrentTripViewControllerDelegate> delegate;
+@property (nonatomic, retain) NSMutableArray *newData;
 @property (nonatomic) BOOL isEditingTrip;
 
 @end

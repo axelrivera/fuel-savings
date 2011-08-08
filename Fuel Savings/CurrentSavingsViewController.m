@@ -8,12 +8,8 @@
 
 #import "CurrentSavingsViewController.h"
 #import "NSMutableArray+Vehicle.h"
+#import "NSDictionary+Section.h"
 #import "Fuel_SavingsAppDelegate.h"
-
-static NSString * const dictionaryKey = @"DictionaryKey";
-static NSString * const dictionaryTextKey = @"DictionaryTextKey";
-static NSString * const dictionaryDetailKey = @"DictionaryDetailKey";
-static NSString * const dictionaryButtonKey = @"DictionaryButtonKey";
 
 static NSString * const typeKey = @"TypeKey";
 static NSString * const fuelPriceKey = @"PriceKey";
@@ -33,8 +29,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (NSArray *)informationArray;
 - (NSArray *)vehicleArrayWithKey:(NSString *)key;
-- (NSDictionary *)textDictionaryWithKey:(NSString *)key text:(NSString *)text detail:(NSString *)detail;
-- (NSDictionary *)buttonDictionaryWithKey:(NSString *)key text:(NSString *)text selector:(SEL)selector;
 
 - (void)displayErrorWithMessage:(NSString *)message;
 
@@ -43,6 +37,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 @implementation CurrentSavingsViewController
 
 @synthesize delegate = delegate_;
+@synthesize currentSavings = currentSavings_;
 @synthesize newTable = newTable_;
 @synthesize newData = newData_;
 @synthesize isEditingSavings = isEditingSavings_;
@@ -50,16 +45,26 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (id)init
 {
 	self = [super initWithNibName:@"CurrentSavingsViewController" bundle:nil];
-	if (self) {		
-		savingsData_ = [SavingsData sharedSavingsData];
+	if (self) {
+		self.currentSavings = nil;
 		isCar1Selected_ = NO;
 		isCar2Selected_ = NO;
 	}
 	return self;
 }
 
+- (id)initWithSavings:(Savings *)savings
+{
+	self = [self init];
+	if (self) {
+		self.currentSavings = savings;
+	}
+	return self;
+}
+
 - (void)dealloc
 {
+	[currentSavings_ release];
 	[newData_ release];
 	[newTable_ release];
     [super dealloc];
@@ -113,20 +118,24 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	self.newData = [NSMutableArray arrayWithCapacity:0];
 	
-	[self.newData addObject:[self informationArray]];
-	[self.newData addObject:[self vehicleArrayWithKey:vehicle1Key]];
-	//[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
-	
-	if ([savingsData_.currentCalculation.vehicle2 hasDataReady]) {
-		[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
+	if (self.currentSavings) {
+		NSArray *informationArray = [[self informationArray] retain];
+		NSArray *vehicle1Array = [[self vehicleArrayWithKey:vehicle1Key] retain]; 
+		
+		[self.newData addObject:informationArray];
+		[self.newData addObject:vehicle1Array];
+		
+		[informationArray release];
+		[vehicle1Array release];
+		
+		if ([self.currentSavings.vehicle2 hasDataReady]) {
+			NSArray *vehicle2Array = [[self vehicleArrayWithKey:vehicle2Key] retain];
+			[self.newData addObject:vehicle2Array];
+			[vehicle2Array release];
+		}
 	}
 	
 	[self.newTable reloadData];	
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
 }
 
 #pragma mark - Custom Actions
@@ -267,8 +276,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		
 		[tableView endUpdates];
 		
-		NSIndexPath *lastCell = [NSIndexPath indexPathForRow:[[self.newData objectAtIndex:2] count] - 1
-												   inSection:2];
+		NSInteger lastRow = [[self.newData objectAtIndex:2] count] - 1;
+		NSIndexPath *lastCell = [NSIndexPath indexPathForRow:lastRow inSection:2];
 		
 		[tableView scrollToRowAtIndexPath:lastCell atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 		
@@ -284,38 +293,38 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		if ([key isEqualToString:typeKey]) {
 			TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
 			inputViewController.delegate = self;
-			inputViewController.currentType = savingsData_.currentCalculation.type;
+			inputViewController.currentType = self.currentSavings.type;
 			viewController = inputViewController;
 		} else if ([key isEqualToString:fuelPriceKey]) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
-			inputViewController.currentPrice = savingsData_.currentCalculation.fuelPrice;
+			inputViewController.currentPrice = self.currentSavings.fuelPrice;
 			viewController = inputViewController;
 		} else if ([key isEqualToString:distanceKey]) {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
 			inputViewController.delegate = self;
-			inputViewController.currentDistance = savingsData_.currentCalculation.distance;
+			inputViewController.currentDistance = self.currentSavings.distance;
 			viewController = inputViewController;
 		} else if ([key isEqualToString:ratioKey]) {
 			RatioInputViewController *inputViewcontroller = [[RatioInputViewController alloc] init];
 			inputViewcontroller.delegate = self;
-			inputViewcontroller.currentCityRatio = savingsData_.currentCalculation.cityRatio;
-			inputViewcontroller.currentHighwayRatio = savingsData_.currentCalculation.highwayRatio;
+			inputViewcontroller.currentCityRatio = self.currentSavings.cityRatio;
+			inputViewcontroller.currentHighwayRatio = self.currentSavings.highwayRatio;
 			viewController = inputViewcontroller;
 		} else {
 			OwnerInputViewController *inputViewController = [[OwnerInputViewController alloc] init];
 			inputViewController.delegate = self;
-			inputViewController.currentOwnership = savingsData_.currentCalculation.carOwnership;
+			inputViewController.currentOwnership = self.currentSavings.carOwnership;
 			viewController = inputViewController;
 		}
 	} else {
 		Vehicle *vehicle = nil;
 		NSString *vehicleKey = nil;
 		if (indexPath.section == 1) {
-			vehicle = savingsData_.currentCalculation.vehicle1;
+			vehicle = self.currentSavings.vehicle1;
 			vehicleKey = vehicle1Key;
 		} else {
-			vehicle = savingsData_.currentCalculation.vehicle2;
+			vehicle = self.currentSavings.vehicle2;
 			vehicleKey = vehicle2Key;
 		}
 		
@@ -325,20 +334,26 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			inputViewController.key = vehicleKey;
 			inputViewController.currentName = vehicle.name;
 			viewController = inputViewController;
-		} else {
+		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.key = vehicleKey;
-			if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
-				inputViewController.currentEfficiency = vehicle.avgEfficiency;
-				inputViewController.currentType = EfficiencyInputTypeAverage;
-			} else if ([key isEqualToString:vehicleCityEfficiencyKey]) {
-				inputViewController.currentEfficiency = vehicle.cityEfficiency;
-				inputViewController.currentType = EfficiencyInputTypeCity;
-			} else {
-				inputViewController.currentEfficiency = vehicle.highwayEfficiency;
-				inputViewController.currentType = EfficiencyInputTypeHighway;
-			}
+			inputViewController.currentEfficiency = vehicle.avgEfficiency;
+			inputViewController.currentType = EfficiencyInputTypeAverage;
+			viewController = inputViewController;
+		} else if ([key isEqualToString:vehicleCityEfficiencyKey]) {
+			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.key = vehicleKey;
+			inputViewController.currentEfficiency = vehicle.cityEfficiency;
+			inputViewController.currentType = EfficiencyInputTypeCity;
+			viewController = inputViewController;
+		} else if ([key isEqualToString:vehicleHighwayEfficiencyKey]) {
+			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.key = vehicleKey;
+			inputViewController.currentEfficiency = vehicle.highwayEfficiency;
+			inputViewController.currentType = EfficiencyInputTypeHighway;
 			viewController = inputViewController;
 		}
 	}
@@ -354,7 +369,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)typeInputViewControllerDidFinish:(TypeInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		savingsData_.currentCalculation.type = controller.currentType;
+		self.currentSavings.type = controller.currentType;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -362,7 +377,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		savingsData_.currentCalculation.fuelPrice = controller.currentPrice;
+		self.currentSavings.fuelPrice = controller.currentPrice;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -370,7 +385,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)distanceInputViewControllerDidFinish:(DistanceInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		savingsData_.currentCalculation.distance = controller.currentDistance;
+		self.currentSavings.distance = controller.currentDistance;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -378,8 +393,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)ratioInputViewControllerDidFinish:(RatioInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		savingsData_.currentCalculation.cityRatio = controller.currentCityRatio;
-		savingsData_.currentCalculation.highwayRatio = controller.currentHighwayRatio;
+		self.currentSavings.cityRatio = controller.currentCityRatio;
+		self.currentSavings.highwayRatio = controller.currentHighwayRatio;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -387,7 +402,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)ownerInputViewControllerDidFinish:(OwnerInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		savingsData_.currentCalculation.carOwnership = controller.currentOwnership;
+		self.currentSavings.carOwnership = controller.currentOwnership;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -397,9 +412,9 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	if (save) {
 		Vehicle *vehicle = nil;
 		if ([controller.key isEqualToString:vehicle1Key]) {
-			vehicle = savingsData_.currentCalculation.vehicle1;
+			vehicle = self.currentSavings.vehicle1;
 		} else {
-			vehicle = savingsData_.currentCalculation.vehicle2;
+			vehicle = self.currentSavings.vehicle2;
 		}
 		vehicle.name = controller.currentName;
 	}
@@ -411,9 +426,9 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	if (save) {
 		Vehicle *vehicle = nil;
 		if ([controller.key isEqualToString:vehicle1Key]) {
-			vehicle = savingsData_.currentCalculation.vehicle1;
+			vehicle = self.currentSavings.vehicle1;
 		} else {
-			vehicle = savingsData_.currentCalculation.vehicle2;
+			vehicle = self.currentSavings.vehicle2;
 		}
 		
 		if (controller.currentType == EfficiencyInputTypeAverage) {
@@ -438,19 +453,19 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	if (save) {
 		NSDictionary *info = controller.mpgDatabaseInfo;
 		if (isCar1Selected_ == YES) {
-			savingsData_.currentCalculation.vehicle1.name = [NSString stringWithFormat:@"%@ %@",
+			self.currentSavings.vehicle1.name = [NSString stringWithFormat:@"%@ %@",
 															 [info objectForKey:@"make"],
 															 [info objectForKey:@"model"]];
-			savingsData_.currentCalculation.vehicle1.avgEfficiency = [info objectForKey:@"mpgAverage"];
-			savingsData_.currentCalculation.vehicle1.cityEfficiency = [info objectForKey:@"mpgCity"];
-			savingsData_.currentCalculation.vehicle1.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
+			self.currentSavings.vehicle1.avgEfficiency = [info objectForKey:@"mpgAverage"];
+			self.currentSavings.vehicle1.cityEfficiency = [info objectForKey:@"mpgCity"];
+			self.currentSavings.vehicle1.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
 		} else {
-			savingsData_.currentCalculation.vehicle2.name = [NSString stringWithFormat:@"%@ %@",
+			self.currentSavings.vehicle2.name = [NSString stringWithFormat:@"%@ %@",
 															 [info objectForKey:@"make"],
 															 [info objectForKey:@"model"]];
-			savingsData_.currentCalculation.vehicle2.avgEfficiency = [info objectForKey:@"mpgAverage"];
-			savingsData_.currentCalculation.vehicle2.cityEfficiency = [info objectForKey:@"mpgCity"];
-			savingsData_.currentCalculation.vehicle2.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
+			self.currentSavings.vehicle2.avgEfficiency = [info objectForKey:@"mpgAverage"];
+			self.currentSavings.vehicle2.cityEfficiency = [info objectForKey:@"mpgCity"];
+			self.currentSavings.vehicle2.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
 		}
 	}
 	isCar1Selected_ = NO;
@@ -458,69 +473,68 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[self dismissModalViewControllerAnimated:YES];
 }
 
-#pragma mark - Custom Methods
+#pragma mark - Private Methods
 
 - (NSArray *)informationArray
 {	
-	NSMutableArray *array = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
 	
 	NSDictionary *dictionary = nil;
-		
-	dictionary = [self textDictionaryWithKey:typeKey
-										text:@"Using"
-									  detail:[savingsData_.currentCalculation stringForCurrentType]];
+	
+	NSString *typeStr = [NSString stringWithString:[self.currentSavings stringForCurrentType]];
+	dictionary = [NSDictionary textDictionaryWithKey:typeKey text:@"Using" detail:typeStr];
 	[array addObject:dictionary];
 	
 	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
 	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 	
-	NSString *priceStr = [priceFormatter stringFromNumber:savingsData_.currentCalculation.fuelPrice];
+	NSString *priceStr = [priceFormatter stringFromNumber:self.currentSavings.fuelPrice];
 	[priceFormatter release];
 	
-	dictionary = [self textDictionaryWithKey:fuelPriceKey
-										text:@"Fuel Price"
-									  detail:[NSString stringWithFormat:@"%@ /gallon", priceStr]];
+	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
+												text:@"Fuel Price"
+											  detail:[NSString stringWithFormat:@"%@ /gallon", priceStr]];
 	[array addObject:dictionary];
 	
 	NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
 	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	[distanceFormatter setMaximumFractionDigits:0];
 	
-	NSString *distanceStr = [distanceFormatter stringFromNumber:savingsData_.currentCalculation.distance];
+	NSString *distanceStr = [distanceFormatter stringFromNumber:self.currentSavings.distance];
 	[distanceFormatter release];
 	
-	dictionary = [self textDictionaryWithKey:distanceKey
-										text:@"Distance"
-									  detail:[NSString stringWithFormat:@"%@ miles/year", distanceStr]];
+	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
+												text:@"Distance"
+											  detail:[NSString stringWithFormat:@"%@ miles/year", distanceStr]];
 	[array addObject:dictionary];
 	
-	if (savingsData_.currentCalculation.type == EfficiencyTypeCombined) {
+	if (self.currentSavings.type == EfficiencyTypeCombined) {
 		NSNumberFormatter *ratioFormatter = [[NSNumberFormatter alloc] init];
 		[ratioFormatter setNumberStyle:NSNumberFormatterPercentStyle];
 		[ratioFormatter setMaximumFractionDigits:0];
 		
 		NSString *ratioStr = [NSString stringWithFormat:@"%@ City / %@ Highway",
-								 [ratioFormatter stringFromNumber:savingsData_.currentCalculation.cityRatio],
-								 [ratioFormatter stringFromNumber:savingsData_.currentCalculation.highwayRatio]];
+							  [ratioFormatter stringFromNumber:self.currentSavings.cityRatio],
+							  [ratioFormatter stringFromNumber:self.currentSavings.highwayRatio]];
 		[ratioFormatter release];
 		
-		dictionary = [self textDictionaryWithKey:ratioKey
-											text:@"Ratio"
-										  detail:ratioStr];
+		dictionary = [NSDictionary textDictionaryWithKey:ratioKey
+													text:@"Ratio"
+												  detail:ratioStr];
 		[array addObject:dictionary];
 	}
 	
 	NSString *ownershipStr = nil;
 	
-	if ([savingsData_.currentCalculation.carOwnership integerValue] > 1) {
-		ownershipStr = [NSString stringWithFormat:@"%@ years", [savingsData_.currentCalculation.carOwnership stringValue]];
+	if ([self.currentSavings.carOwnership integerValue] > 1) {
+		ownershipStr = [NSString stringWithFormat:@"%@ years", [self.currentSavings.carOwnership stringValue]];
 	} else {
-		ownershipStr = [NSString stringWithFormat:@"%@ year", [savingsData_.currentCalculation.carOwnership stringValue]];					
+		ownershipStr = [NSString stringWithFormat:@"%@ year", [self.currentSavings.carOwnership stringValue]];					
 	}
 	
-	dictionary = [self textDictionaryWithKey:carOwnershipKey
-										text:@"Ownership"
-									  detail:ownershipStr];
+	dictionary = [NSDictionary textDictionaryWithKey:carOwnershipKey
+												text:@"Ownership"
+											  detail:ownershipStr];
 	[array addObject:dictionary];
 	
 	return array;
@@ -533,82 +547,57 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	SEL titleSelector;
 	
 	if ([key isEqualToString:vehicle1Key]) {
-		vehicle = savingsData_.currentCalculation.vehicle1;
+		vehicle = self.currentSavings.vehicle1;
 		titleText = @"Car 1";
 		titleSelector = @selector(selectCar1Action);
 	} else {
-		vehicle = savingsData_.currentCalculation.vehicle2;
+		vehicle = self.currentSavings.vehicle2;
 		titleText = @"Car 2";
 		titleSelector = @selector(selectCar2Action);
 	}
 	
-	NSMutableArray *array = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
 	
 	NSDictionary *dictionary = nil;
 	
-	dictionary = [self buttonDictionaryWithKey:key
-										  text:titleText
-									  selector:titleSelector];
+	dictionary = [NSDictionary buttonDictionaryWithKey:key
+												  text:titleText];
+	
+	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
+	[button addTarget:self action:titleSelector forControlEvents:UIControlEventTouchDown];
+	
 	[array addObject:dictionary];
 	
-	dictionary = [self textDictionaryWithKey:vehicleNameKey
-										text:@"Name"
-									  detail:vehicle.name];
+	NSString *nameStr = [NSString stringWithString:vehicle.name];
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
+												text:@"Name"
+											  detail:nameStr];
 	[array addObject:dictionary];
 	
 	NSString *efficiencyFormatString = @"%@ MPG";
 	
-	if (savingsData_.currentCalculation.type == EfficiencyTypeAverage) {
+	if (self.currentSavings.type == EfficiencyTypeAverage) {
 		NSString *combinedStr = [NSString stringWithFormat:efficiencyFormatString, [vehicle.avgEfficiency stringValue]];
-		dictionary = [self textDictionaryWithKey:vehicleAvgEfficiencyKey
-											text:@"Combined MPG"
-										  detail:combinedStr];
+		dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
+													text:@"Combined MPG"
+												  detail:combinedStr];
 		[array addObject:dictionary];
 	} else {
 		NSString *cityStr = [NSString stringWithFormat:efficiencyFormatString, [vehicle.cityEfficiency stringValue]];
-		dictionary = [self textDictionaryWithKey:vehicleCityEfficiencyKey
-											text:@"City MPG"
-										  detail:cityStr];
+		dictionary = [NSDictionary textDictionaryWithKey:vehicleCityEfficiencyKey
+													text:@"City MPG"
+												  detail:cityStr];
 		[array addObject:dictionary];
 		
 		NSString *highwayStr = [NSString stringWithFormat:efficiencyFormatString, [vehicle.highwayEfficiency stringValue]];
-		dictionary = [self textDictionaryWithKey:vehicleHighwayEfficiencyKey
-											text:@"Highway MPG"
-										  detail:highwayStr];
+		dictionary = [NSDictionary textDictionaryWithKey:vehicleHighwayEfficiencyKey
+													text:@"Highway MPG"
+												  detail:highwayStr];
 		[array addObject:dictionary];
 	}
-
+	
 	return array;
 }
-
-- (NSDictionary *)textDictionaryWithKey:(NSString *)key text:(NSString *)text detail:(NSString *)detail
-{
-	NSDictionary *dictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:
-								 key, dictionaryKey,
-								 text, dictionaryTextKey,
-								 detail, dictionaryDetailKey,
-								 nil] autorelease];
-	return dictionary;
-}
-
-- (NSDictionary *)buttonDictionaryWithKey:(NSString *)key text:(NSString *)text selector:(SEL)selector;
-{
-	UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-	[button addTarget:self action:selector forControlEvents:UIControlEventTouchDown];
-	[button setTitle:@"Select Car" forState:UIControlStateNormal];
-	button.frame = CGRectMake(0.0, 0.0, 110.0, 28.0);
-	
-	NSDictionary *dictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:
-								 key, dictionaryKey,
-								 text, dictionaryTextKey,
-								 button, dictionaryButtonKey,
-								 nil] autorelease];
-	[button release];
-	
-	return dictionary;
-}
-
-#pragma mark - Private Methods
 
 - (void)displayErrorWithMessage:(NSString *)message
 {

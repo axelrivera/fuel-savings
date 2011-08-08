@@ -9,9 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Vehicle.h"
 
-@interface Trip : NSObject <NSCoding, NSCopying> {
-    
-}
+@interface Trip : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSDecimalNumber *fuelPrice;

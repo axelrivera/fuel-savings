@@ -7,10 +7,28 @@
 //
 
 #import "CurrentTripViewController.h"
+#import "NSDictionary+Section.h"
+#import "VehicleSelectViewController.h"
+#import "Fuel_SavingsAppDelegate.h"
+
+static NSString * const fuelPriceKey = @"PriceKey";
+static NSString * const distanceKey = @"DistanceKey";
+
+static NSString * const vehicleKey = @"VehicleKey";
+static NSString * const vehicleNameKey = @"VehicleNameKey";
+static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
+
+@interface CurrentTripViewController (Private)
+
+- (NSArray *)informationArray;
+- (NSArray *)vehicleArray;
+
+@end
 
 @implementation CurrentTripViewController
 
 @synthesize delegate = delegate_;
+@synthesize newData = newData_;
 @synthesize isEditingTrip = isEditingTrip_;
 
 - (id)init
@@ -24,6 +42,7 @@
 
 - (void)dealloc
 {
+	[newData_ release];
     [super dealloc];
 }
 
@@ -59,6 +78,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.newData = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -71,6 +91,11 @@
 		self.title = @"New Trip";
 	}
 	
+	self.newData = [NSMutableArray arrayWithCapacity:0];
+	
+	[self.newData addObject:[self informationArray]];
+	[self.newData addObject:[self vehicleArray]];
+
 	[self.tableView reloadData];
 }
 
@@ -84,6 +109,21 @@
 - (void)dismissAction
 {
 	[self.delegate currentTripViewControllerDelegateDidFinish:self save:NO];
+}
+
+- (void)selectCarAction
+{
+	VehicleSelectViewController *inputViewController = [[VehicleSelectViewController alloc] init];
+	Fuel_SavingsAppDelegate *appDelegate = (Fuel_SavingsAppDelegate *)[[UIApplication sharedApplication] delegate];
+	inputViewController.context = [appDelegate.coreDataObject managedObjectContext];
+	inputViewController.currentTripViewController = self;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[inputViewController release];
+	[navController release];
 }
 
 #pragma mark - UIViewController Delegates
@@ -126,58 +166,43 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return [self.newData count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 2;
+	return [[self.newData objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-	NSString *textLabelString = nil;
-	NSString *detailTextLabelString = nil;
+	NSDictionary *dictionary = [[self.newData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
-    if (indexPath.section == 0) {
-		if (indexPath.row == 0) {
-			textLabelString = @"Fuel Price";
-			
-			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-			
-			NSString *numberString = [formatter stringFromNumber:tripData_.currentCalculation.fuelPrice];
-			[formatter release];
-			
-			detailTextLabelString = [NSString stringWithFormat:@"%@ /gallon", numberString];
-		} else {
-			textLabelString = @"Distance";
-			
-			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-			[formatter setMaximumFractionDigits:0];
-			
-			NSString *numberString = [formatter stringFromNumber:tripData_.currentCalculation.distance];
-			[formatter release];
-			
-			detailTextLabelString = [NSString stringWithFormat:@"%@ miles", numberString];
+	if (indexPath.section > 0 && indexPath.row == 0) {
+		static NSString *TitleCellIdentifier = @"TitleCell";
+		
+		UITableViewCell *titleCell = [tableView dequeueReusableCellWithIdentifier:TitleCellIdentifier];
+		
+		if (titleCell == nil) {
+			titleCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TitleCellIdentifier] autorelease];
 		}
-	} else {
-		if (indexPath.row == 0) {
-			textLabelString = @"Name";
-			detailTextLabelString = tripData_.currentCalculation.vehicle.name;
-		} else {
-			textLabelString = @"Fuel Efficiency";
-			detailTextLabelString = [NSString stringWithFormat:@"%@ MPG",
-									 [tripData_.currentCalculation.vehicle.avgEfficiency stringValue]];
-		}
+		
+		titleCell.accessoryView = [dictionary objectForKey:dictionaryButtonKey];
+		titleCell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		titleCell.textLabel.textColor = [UIColor colorWithRed:57.0/255.0 green:85.0/255.0 blue:135.0/255.0 alpha:1.0];
+		
+		titleCell.textLabel.text = [dictionary objectForKey:dictionaryTextKey];
+		
+		return titleCell;
+	}
+	
+	static NSString *CellIdentifier = @"Cell";
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -186,10 +211,10 @@
 	cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
 	cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
 	
-	cell.textLabel.text = textLabelString;
-	cell.detailTextLabel.text = detailTextLabelString;
-    
-    return cell;
+	cell.textLabel.text = [dictionary objectForKey:dictionaryTextKey];
+	cell.detailTextLabel.text = [dictionary objectForKey:dictionaryDetailKey];
+	
+	return cell;
 }
 
 #pragma mark - Table view delegate
@@ -199,9 +224,12 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	UIViewController *viewController = nil;
+	
+	NSDictionary *dictionary = [[self.newData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSString *key = [dictionary objectForKey:dictionaryKey];
     
 	if (indexPath.section == 0) {
-		if (indexPath.row == 0) {
+		if ([key isEqualToString:fuelPriceKey]) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentPrice = tripData_.currentCalculation.fuelPrice;
@@ -213,12 +241,12 @@
 			viewController = inputViewController;
 		}
 	} else {
-		if (indexPath.row == 0) {
+		if ([key isEqualToString:vehicleNameKey]) {
 			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentName = tripData_.currentCalculation.vehicle.name;
 			viewController = inputViewController;
-		} else {
+		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentEfficiency = tripData_.currentCalculation.vehicle.avgEfficiency;
@@ -231,6 +259,83 @@
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
+}
+
+- (void)vehicleDetailsViewControllerDidFinish:(VehicleDetailsViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		NSDictionary *info = controller.mpgDatabaseInfo;
+		tripData_.currentCalculation.vehicle.name = [NSString stringWithFormat:@"%@ %@",
+														 [info objectForKey:@"make"],
+														 [info objectForKey:@"model"]];
+		tripData_.currentCalculation.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
+		tripData_.currentCalculation.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];
+		tripData_.currentCalculation.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];
+	}
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+#pragma mark - Private Methods
+
+- (NSArray *)informationArray
+{	
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
+	
+	NSDictionary *dictionary = nil;
+	
+	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
+	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	NSString *priceStr = [priceFormatter stringFromNumber:tripData_.currentCalculation.fuelPrice];
+	[priceFormatter release];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
+												text:@"Fuel Price"
+											  detail:[NSString stringWithFormat:@"%@ /gallon", priceStr]];
+	[array addObject:dictionary];
+	
+	NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
+	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+	[distanceFormatter setMaximumFractionDigits:0];
+	
+	NSString *distanceStr = [distanceFormatter stringFromNumber:tripData_.currentCalculation.distance];
+	[distanceFormatter release];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
+												text:@"Distance"
+											  detail:[NSString stringWithFormat:@"%@ miles", distanceStr]];
+	[array addObject:dictionary];
+	
+	return array;
+}
+
+- (NSArray *)vehicleArray
+{	
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
+	
+	NSDictionary *dictionary = nil;
+	
+	dictionary = [NSDictionary buttonDictionaryWithKey:vehicleKey
+												  text:@"Your Car"];
+	
+	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
+	[button addTarget:self action:@selector(selectCarAction) forControlEvents:UIControlEventTouchDown];
+	
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
+												text:@"Name"
+											  detail:tripData_.currentCalculation.vehicle.name];
+	[array addObject:dictionary];
+	
+	NSString *combinedStr = [NSString stringWithFormat:@"%@ MPG", [tripData_.currentCalculation.vehicle.avgEfficiency stringValue]];
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
+												text:@"Fuel Efficiency"
+											  detail:combinedStr];
+	[array addObject:dictionary];
+	
+	return array;
 }
 
 @end

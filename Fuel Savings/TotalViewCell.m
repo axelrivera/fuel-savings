@@ -12,9 +12,9 @@
 
 @synthesize totalView = totalView_;
 
-- (id)initWithTotalType:(TotalViewType)type
+- (id)initWithTotalType:(TotalViewType)type reuseIdentifier:(NSString *)reuseIdentifier
 {	
-	if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil]) {
+	if (self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier]) {
 		// The height will be ignored
 		CGRect tvFrame = CGRectMake(0.0, 0.0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
 		totalView_ = [[TotalView alloc] initWithFrame:tvFrame type:type];

@@ -200,7 +200,7 @@
 		UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 		buttonCell.backgroundColor = [UIColor clearColor];
 		buttonCell.backgroundView = backView;
-		buttonCell.selectionStyle = UITableViewCellEditingStyleNone;
+		buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 		CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
@@ -256,7 +256,7 @@
 		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
 		
 		fuelSavingsViewController.title	= calculation.name;
-		fuelSavingsViewController.savingsCalculation = calculation;
+		fuelSavingsViewController.currentSavings = calculation;
 		
 		currentController = fuelSavingsViewController;
 	} else {

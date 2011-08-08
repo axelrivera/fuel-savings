@@ -7,6 +7,9 @@
 //
 
 #import "TripViewController.h"
+#import "TotalView.h"
+#import "TotalViewCell.h"
+#import "TotalDetailViewCell.h"
 
 #define TRIP_NEW_TAG 1
 #define TRIP_DELETE_TAG 2
@@ -15,7 +18,6 @@
 
 @synthesize tripCalculation = tripCalculation_;
 @synthesize backupCopy = backupCopy_;
-@synthesize tripCost = tripCost_;
 
 - (id)init
 {
@@ -68,13 +70,13 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																				target:self
-																				action:@selector(editAction)];
-	self.navigationItem.rightBarButtonItem = editButton;
-	[editButton release];
-	
 	if (hasTabBar_) {
+		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																					target:self
+																					action:@selector(editAction)];
+		self.navigationItem.rightBarButtonItem = editButton;
+		[editButton release];
+		
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
@@ -107,11 +109,6 @@
 	
 	if (self.tripCalculation) {
 		self.navigationItem.rightBarButtonItem.enabled = YES;
-		if ([self.tripCalculation.vehicle hasDataReady]) {
-			self.tripCost = [self.tripCalculation tripCost];
-		} else {
-			self.tripCost = [NSNumber numberWithFloat:0.0];
-		}
 	}
 	[self.tableView reloadData];
 }
@@ -280,104 +277,47 @@
 	if (self.tripCalculation == nil) {
 		return 0;
 	}
-	
 	NSInteger sections = 2;
-	
 	if (hasTabBar_) {
-		sections = sections + 2;
+		sections = sections + 1;
 	}
-	
 	return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSInteger rows = 0;
-	
-	if (section == 0) {
-		rows = 1;
-	} else if (section == 1) {
-		rows = 2;
-	} else {
-		rows = 1;
-	}
-	
-	return rows;
-
+	return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	if (indexPath.section == 0) {
-		static NSString *CostCellIdentifier = @"CostCell";
+		static NSString *TotalCellIdentifier = @"TotalCell";
 		
-		UITableViewCell *costCell = [tableView dequeueReusableCellWithIdentifier:CostCellIdentifier];
+		TotalViewCell *totalCell = (TotalViewCell *)[tableView dequeueReusableCellWithIdentifier:TotalCellIdentifier];
 		
-		if (costCell == nil) {
-			costCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CostCellIdentifier] autorelease];
+		if (totalCell == nil) {
+			totalCell = [[[TotalViewCell alloc] initWithTotalType:TotalViewTypeSingle reuseIdentifier:TotalCellIdentifier] autorelease];
 		}
 		
-		NSString *textLabelString = nil;
-		NSString *detailTextLabelString = nil;
+		totalCell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		textLabelString = self.tripCalculation.vehicle.name;
-		detailTextLabelString = [currencyFormatter_ stringFromNumber:self.tripCost];
+		NSString *imageStr = @"money.png";
+		NSString *titleStr = @"Trip Cost";
+		NSString *text1LabelStr = self.tripCalculation.vehicle.name;
 		
-		costCell.accessoryType = UITableViewCellAccessoryNone;
-		costCell.selectionStyle = UITableViewCellSelectionStyleNone;
+		NSNumber *cost = [self.tripCalculation tripCost];
+		NSString *detail1LabelStr = [currencyFormatter_ stringFromNumber:cost];
 		
-		costCell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
-		costCell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
+		totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
+		totalCell.totalView.titleLabel.text = titleStr;
+		totalCell.totalView.text1Label.text = text1LabelStr;
+		totalCell.totalView.detail1Label.text = detail1LabelStr;
 		
-		costCell.textLabel.text = textLabelString;
-		costCell.detailTextLabel.text = detailTextLabelString;
+		totalCell.totalView.text1Label.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
+		totalCell.totalView.detail1Label.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
 		
-		return costCell;
-	} else if (indexPath.section == 1) {
-		static NSString *InfoCellIdentifier = @"InfoCell";
-		
-		UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:InfoCellIdentifier];
-		
-		if (infoCell == nil) {
-			infoCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:InfoCellIdentifier] autorelease];
-		}
-		
-		NSString *textLabelString = nil;
-		NSString *detailTextLabelString = nil;
-		
-		if (indexPath.row == 0) {
-			textLabelString = @"Fuel Price";
-			
-			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-			[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-			
-			NSString *numberString = [formatter stringFromNumber:self.tripCalculation.fuelPrice];
-			[formatter release];
-			
-			detailTextLabelString = [NSString stringWithFormat:@"%@ /gallon", numberString];
-		} else {
-			textLabelString = @"Distance";
-			
-			NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-			[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-			[formatter setMaximumFractionDigits:0];
-			
-			NSString *numberString = [formatter stringFromNumber:self.tripCalculation.distance];
-			[formatter release];
-			
-			detailTextLabelString = [NSString stringWithFormat:@"%@ miles", numberString];
-		}
-		
-		infoCell.accessoryType = UITableViewCellAccessoryNone;
-		infoCell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		infoCell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
-		infoCell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
-		
-		infoCell.textLabel.text = textLabelString;
-		infoCell.detailTextLabel.text = detailTextLabelString;
-		
-		return infoCell;
+		return totalCell;
 	}
 	
 	static NSString *CellIdentifier = @"Cell";
@@ -391,42 +331,115 @@
 	UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 	cell.backgroundColor = [UIColor clearColor];
 	cell.backgroundView = backView;
-	cell.selectionStyle = UITableViewCellEditingStyleNone;
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
-	UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-	CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
-	button.frame = CGRectMake(0.0, 0.0, buttonWidth, 44.0);
+	CGFloat contentWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
 	
-	if (indexPath.section == 2) {
-		[button addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Save Current As..." forState:UIControlStateNormal];
+	if (indexPath.section == 1) {
+		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+		textLabel.lineBreakMode = UILineBreakModeWordWrap;
+		textLabel.numberOfLines = 2;
+		textLabel.textAlignment = UITextAlignmentCenter;
+		textLabel.backgroundColor = [UIColor clearColor];
+		textLabel.textColor = [UIColor darkGrayColor];
+		textLabel.font = [UIFont systemFontOfSize:14.0];
+		textLabel.shadowColor = [UIColor whiteColor];
+		textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+		
+		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+		
+		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+		
+		NSString *fuelStr = [formatter stringFromNumber:self.tripCalculation.fuelPrice];
+		
+		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+		[formatter setMaximumFractionDigits:0];
+		
+		NSString *distanceStr = [formatter stringFromNumber:self.tripCalculation.distance];
+		
+		textLabel.text = [NSString stringWithFormat:
+						  @"Fuel Price - %@ /gallon\n"
+						  @"Distance - %@ miles\n",
+						  fuelStr,
+						  distanceStr];
+		
+		textLabel.frame = CGRectMake(10.0, 0.0, contentWidth, 34.0);
+		
+		cell.accessoryView = textLabel;
+		
+		[textLabel release];
+		[formatter release];
+	} else {
+		UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
+		
+		UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[rightButton setTitle:@"Delete" forState:UIControlStateNormal];
+		
+		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectZero];
+		buttonView.frame = CGRectMake(20.0, 0.0, contentWidth, 44.0);
+		
+		leftButton.frame = CGRectMake(0.0,
+									  0.0,
+									  (contentWidth / 2.0) - 5.0,
+									  44.0);
+		
+		rightButton.frame = CGRectMake((contentWidth / 2.0) + 5.0,
+									   0.0,
+									   (contentWidth / 2.0) - 5.0,
+									   44.0);
+		
+		[buttonView addSubview:leftButton];
+		[buttonView addSubview:rightButton];
+		
+		cell.accessoryView = buttonView;
+		
+		[leftButton release];
+		[rightButton release];
+		[buttonView release];
 	}
-	
-	if (indexPath.section == 3) {
-		[button addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Delete Current" forState:UIControlStateNormal];
-	}
-	
-	cell.accessoryView = button;
-	
-	[button release];
 	
 	return cell;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (section == 0) {
-		return @"Trip Cost";
-	} else if (section == 1) {
-		return @"Information";
+	CGFloat height = 44.0;
+	if (indexPath.section == 0) {
+		height = 66.0;
+	} else if (indexPath.section == 1) {
+		height = 34.0;
 	}
-	return nil;
+	return height;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+-(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section
 {
-	return 34.0;
+    if (section == 0) {
+		return 13.0;
+	}
+    return 1.0;
+}
+
+-(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+{
+	NSInteger height = 13.0;
+	if (section == 0 && section == 1) {
+		height = 1.0;
+	}
+    return height;
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+-(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
 
 #pragma mark - UIActionSheet Delegate

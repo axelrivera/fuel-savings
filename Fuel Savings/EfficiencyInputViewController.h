@@ -16,9 +16,7 @@ typedef enum {
 	EfficiencyInputTypeHighway
 } EfficiencyInputType;
 
-@interface EfficiencyInputViewController : UIViewController {
-    
-}
+@interface EfficiencyInputViewController : UIViewController
 
 @property (nonatomic, assign) id <EfficiencyInputViewControllerDelegate> delegate;
 @property (nonatomic, copy) NSString *key;

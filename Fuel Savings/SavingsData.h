@@ -9,11 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Savings.h"
 
-@interface SavingsData : NSObject <NSCoding> {
+@interface SavingsData : NSObject <NSCoding>
 
-}
-
-@property (nonatomic, assign) Savings *currentCalculation;
 @property (nonatomic, retain) Savings *savingsCalculation;
 @property (nonatomic, retain) NSMutableArray *savedCalculations; 
 

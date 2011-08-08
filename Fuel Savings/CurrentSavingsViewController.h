@@ -26,15 +26,17 @@
 	RatioInputViewControllerDelegate, OwnerInputViewControllerDelegate, NameInputViewControllerDelegate,
 	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
 {
-	SavingsData *savingsData_;
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;
 }
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;
+@property (nonatomic, retain) Savings *currentSavings;
 @property (nonatomic, retain) IBOutlet UITableView *newTable;
 @property (nonatomic, retain) NSMutableArray *newData;
 @property (nonatomic) BOOL isEditingSavings;
+
+- (id)initWithSavings:(Savings *)savings;
 
 @end
 

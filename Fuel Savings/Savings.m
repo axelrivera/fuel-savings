@@ -29,7 +29,7 @@
 
 + (id)calculation
 {
-	return [[[[self class] alloc] init] autorelease];
+	return [[[Savings alloc] init] autorelease];
 }
 
 #pragma mark - Class Methods
@@ -82,7 +82,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	Savings *newSavings = [[[self class] allocWithZone:zone] init];
+	Savings *newSavings = [[Savings allocWithZone:zone] init];
 	newSavings.name = self.name;
 	newSavings.type = self.type;
 	newSavings.fuelPrice = self.fuelPrice;

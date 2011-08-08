@@ -12,7 +12,6 @@ static SavingsData *sharedSavingsData;
 
 @implementation SavingsData
 
-@synthesize currentCalculation = currentCalculation_;
 @synthesize savingsCalculation = savingsCalculation_;
 @synthesize savedCalculations = savedCalculations_;
 
@@ -20,7 +19,6 @@ static SavingsData *sharedSavingsData;
 {
 	self = [super init];
 	if (self) {
-		self.currentCalculation = nil;
 		self.savingsCalculation = nil;
 		self.savedCalculations = [NSMutableArray arrayWithCapacity:0];
 	}
@@ -71,10 +69,6 @@ static SavingsData *sharedSavingsData;
 
 - (id)copyWithZone:(NSZone *)zone {
     return self;
-}
-
-- (void)release {
-    // No op
 }
 
 @end

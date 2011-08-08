@@ -124,7 +124,6 @@
 	
 	[fetchRequest setResultType:NSDictionaryResultType];
 	
-	NSString *sort = nil;
 	NSString *titleStr = nil;
 	
 	if (self.selectionType == VehicleSelectionTypeYear) {
@@ -138,6 +137,7 @@
 		[fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
 		
 		titleStr = @"Select Year";
+		[sort release];
 	} else if (self.selectionType == VehicleSelectionTypeMake) {
 		NSPredicate *predicate = [NSPredicate predicateWithFormat:@"year == %@", self.year];
 		[fetchRequest setPredicate:predicate];
@@ -161,6 +161,7 @@
 		[fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
 		
 		titleStr = self.make;
+		[sort release];
 	}
     
 	NSError *error;
@@ -168,7 +169,6 @@
 	
 	self.navigationItem.title = titleStr;
 	
-	[sort release];
     [fetchRequest release];
 }
 
@@ -255,7 +255,7 @@
 		}
 		
 		if (self.currentTripViewController) {
-			//
+			detailsController.delegate = self.currentTripViewController;
 		}
 		
 		viewController = detailsController;

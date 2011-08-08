@@ -10,9 +10,7 @@
 
 @protocol TypeInputViewControllerDelegate;
 
-@interface TypeInputViewController : UITableViewController {
-
-}
+@interface TypeInputViewController : UITableViewController
 
 @property (nonatomic, assign) id <TypeInputViewControllerDelegate> delegate;
 @property (nonatomic) NSInteger currentType;

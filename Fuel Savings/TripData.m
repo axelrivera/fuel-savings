@@ -73,8 +73,4 @@ static TripData *sharedTripData;
     return self;
 }
 
-- (void)release {
-    // No op
-}
-
 @end

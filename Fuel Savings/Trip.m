@@ -17,7 +17,7 @@
 
 + (id)calculation
 {
-	return [[[[self class] alloc] init] autorelease];
+	return [[[Trip alloc] init] autorelease];
 }
 
 - (id)init
@@ -55,7 +55,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	Trip *newTrip = [[[self class] allocWithZone:zone] init];
+	Trip *newTrip = [[Trip allocWithZone:zone] init];
 	newTrip.name = self.name;
 	newTrip.fuelPrice = self.fuelPrice;
 	newTrip.distance = self.distance;
