@@ -16,19 +16,19 @@
 
 @implementation TripViewController
 
-@synthesize tripCalculation = tripCalculation_;
-@synthesize backupCopy = backupCopy_;
+@synthesize newTrip	= newTrip_;
+@synthesize currentTrip = currentTrip_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"TripViewController" bundle:nil];
 	if (self) {
-		tripData_ = [TripData sharedTripData];
+		savingsData_ = [SavingsData sharedSavingsData];
 		currencyFormatter_ = [[NSNumberFormatter alloc] init];
 		[currencyFormatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
 		[currencyFormatter_ setMaximumFractionDigits:0];
-		self.tripCalculation = nil;
-		self.backupCopy = nil;
+		self.newTrip = nil;
+		self.currentTrip = nil;
 		isNewTrip_ = NO;
 		showNewAction_ = NO;
 		hasTabBar_ = NO;
@@ -51,8 +51,8 @@
 - (void)dealloc
 {
 	[currencyFormatter_ release];
-	[tripCalculation_ release];
-	[backupCopy_ release];
+	[newTrip_ release];
+	[currentTrip_ release];
     [super dealloc];
 }
 
@@ -99,15 +99,7 @@
 	
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 	
-	if (hasTabBar_) {
-		self.tripCalculation = tripData_.tripCalculation;
-	} else {
-		if (self.tripCalculation == nil) {
-			[self.navigationController popToRootViewControllerAnimated:YES];
-		}
-	}
-	
-	if (self.tripCalculation) {
+	if (self.currentTrip) {
 		self.navigationItem.rightBarButtonItem.enabled = YES;
 	}
 	[self.tableView reloadData];
@@ -123,20 +115,11 @@
 	}
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-	
-	if (hasTabBar_) {
-		tripData_.tripCalculation = self.tripCalculation;
-	}
-}
-
 #pragma mark - Custom Actions
 
 - (void)newCheckAction
 {
-	if (self.tripCalculation == nil) {
+	if (self.currentTrip == nil) {
 		[self performSelector:@selector(newAction)];
 	} else {
 		[self performSelector:@selector(newOptionsAction:)];
@@ -145,34 +128,28 @@
 
 - (void)newAction
 {
-	self.tripCalculation = [Trip calculation];
-	tripData_.currentCalculation = self.tripCalculation;
-	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] init];
+	self.newTrip = [Trip calculation];
+	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:newTrip_];
 	currentTripViewController.delegate = self;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentTripViewController];
-	
-	[currentTripViewController release];
-	
 	[self presentModalViewController:navController animated:YES];
 	
+	[currentTripViewController release];
 	[navController release];
 }
 
 - (void)editAction
 {
-	self.backupCopy = self.tripCalculation;
-	tripData_.currentCalculation = self.tripCalculation;
-	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] init];
+	self.newTrip = self.currentTrip;
+	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:newTrip_];
 	currentTripViewController.delegate = self;
 	currentTripViewController.isEditingTrip = YES;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentTripViewController];
-	
-	[currentTripViewController release];
-	
 	[self presentModalViewController:navController animated:YES];
 	
+	[currentTripViewController release];
 	[navController release];
 }
 
@@ -184,7 +161,7 @@
 
 - (void)deleteAction
 {
-	self.tripCalculation = nil;
+	self.currentTrip = nil;
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 	[self.tableView reloadData];
 }
@@ -204,11 +181,9 @@
 	[dateFormatter release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
-	
-	[inputViewController release];
-	
 	[self presentModalViewController:navController animated:YES];
 	
+	[inputViewController release];
 	[navController release];
 }
 
@@ -246,22 +221,19 @@
 
 - (void)currentTripViewControllerDelegateDidFinish:(CurrentTripViewController *)controller save:(BOOL)save
 {
-	if (!save) {
-		if (controller.isEditingTrip == YES) {
-			self.tripCalculation = self.backupCopy;
-		} else {
-			self.tripCalculation = nil;
-		}
+	if (save) {
+		self.currentTrip = controller.currentTrip;
 	}
-	tripData_.currentCalculation = nil;
 	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		self.tripCalculation.name = controller.currentName;
-		[tripData_.savedCalculations addObject:[self.tripCalculation copy]];
+		self.currentTrip.name = controller.currentName;
+		Trip *trip = [self.currentTrip copy];
+		[savingsData_.tripArray addObject:trip];
+		[trip release];
 		if (isNewTrip_) {
 			isNewTrip_ = NO;
 			showNewAction_ = YES;
@@ -274,7 +246,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if (self.tripCalculation == nil) {
+	if (self.currentTrip == nil) {
 		return 0;
 	}
 	NSInteger sections = 2;
@@ -304,9 +276,9 @@
 		
 		NSString *imageStr = @"money.png";
 		NSString *titleStr = @"Trip Cost";
-		NSString *text1LabelStr = self.tripCalculation.vehicle.name;
+		NSString *text1LabelStr = self.currentTrip.vehicle.name;
 		
-		NSNumber *cost = [self.tripCalculation tripCost];
+		NSNumber *cost = [self.currentTrip tripCost];
 		NSString *detail1LabelStr = [currencyFormatter_ stringFromNumber:cost];
 		
 		totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
@@ -350,12 +322,12 @@
 		
 		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 		
-		NSString *fuelStr = [formatter stringFromNumber:self.tripCalculation.fuelPrice];
+		NSString *fuelStr = [formatter stringFromNumber:self.currentTrip.fuelPrice];
 		
 		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 		[formatter setMaximumFractionDigits:0];
 		
-		NSString *distanceStr = [formatter stringFromNumber:self.tripCalculation.distance];
+		NSString *distanceStr = [formatter stringFromNumber:self.currentTrip.distance];
 		
 		textLabel.text = [NSString stringWithFormat:
 						  @"Fuel Price - %@ /gallon\n"
@@ -440,6 +412,17 @@
 -(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
 {
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+#pragma mark - Custom Setter
+
+- (void)setCurrentTrip:(Trip *)currentTrip
+{
+	[currentTrip_ autorelease];
+	currentTrip_ = [currentTrip copy];
+	if (hasTabBar_) {
+		savingsData_.currentTrip = [currentTrip copy];
+	}
 }
 
 #pragma mark - UIActionSheet Delegate

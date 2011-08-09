@@ -28,6 +28,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 @implementation CurrentTripViewController
 
 @synthesize delegate = delegate_;
+@synthesize currentTrip = currentTrip_;
 @synthesize newData = newData_;
 @synthesize isEditingTrip = isEditingTrip_;
 
@@ -35,13 +36,23 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 {
 	self = [super initWithNibName:@"CurrentTripViewController" bundle:nil];
 	if (self) {
-		tripData_ = [TripData sharedTripData];
+		self.currentTrip = nil;
+	}
+	return self;
+}
+
+- (id)initWithTrip:(Trip *)trip
+{
+	self = [self init];
+	if (self) {
+		self.currentTrip = trip;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[currentTrip_ release];
 	[newData_ release];
     [super dealloc];
 }
@@ -59,7 +70,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+	
  	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																				  target:self
 																				  action:@selector(dismissAction)];
@@ -93,9 +104,9 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	self.newData = [NSMutableArray arrayWithCapacity:0];
 	
-	[self.newData addObject:[self informationArray]];
-	[self.newData addObject:[self vehicleArray]];
-
+	[newData_ addObject:[self informationArray]];
+	[newData_ addObject:[self vehicleArray]];
+	
 	[self.tableView reloadData];
 }
 
@@ -131,7 +142,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		tripData_.currentCalculation.fuelPrice = controller.currentPrice;
+		self.currentTrip.fuelPrice = controller.currentPrice;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -139,7 +150,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)distanceInputViewControllerDidFinish:(DistanceInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		tripData_.currentCalculation.distance = controller.currentDistance;
+		self.currentTrip.distance = controller.currentDistance;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -147,7 +158,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		tripData_.currentCalculation.vehicle.name = controller.currentName;
+		self.currentTrip.vehicle.name = controller.currentName;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -155,9 +166,9 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)efficiencyInputViewControllerDidFinish:(EfficiencyInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		tripData_.currentCalculation.vehicle.avgEfficiency = controller.currentEfficiency;
-		tripData_.currentCalculation.vehicle.cityEfficiency = controller.currentEfficiency;
-		tripData_.currentCalculation.vehicle.highwayEfficiency = controller.currentEfficiency;
+		self.currentTrip.vehicle.avgEfficiency = controller.currentEfficiency;
+		self.currentTrip.vehicle.cityEfficiency = controller.currentEfficiency;
+		self.currentTrip.vehicle.highwayEfficiency = controller.currentEfficiency;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -166,17 +177,19 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.newData count];
+	NSInteger sections = [newData_ count];
+    return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [[self.newData objectAtIndex:section] count];
+	NSInteger rows = [[newData_ objectAtIndex:section] count]; 
+	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDictionary *dictionary = [[self.newData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
 	if (indexPath.section > 0 && indexPath.row == 0) {
 		static NSString *TitleCellIdentifier = @"TitleCell";
@@ -225,31 +238,31 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	UIViewController *viewController = nil;
 	
-	NSDictionary *dictionary = [[self.newData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	NSString *key = [dictionary objectForKey:dictionaryKey];
     
 	if (indexPath.section == 0) {
 		if ([key isEqualToString:fuelPriceKey]) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
-			inputViewController.currentPrice = tripData_.currentCalculation.fuelPrice;
+			inputViewController.currentPrice = self.currentTrip.fuelPrice;
 			viewController = inputViewController;
 		} else {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] initWithType:DistanceInputTypeTrip];
 			inputViewController.delegate = self;
-			inputViewController.currentDistance = tripData_.currentCalculation.distance;
+			inputViewController.currentDistance = self.currentTrip.distance;
 			viewController = inputViewController;
 		}
 	} else {
 		if ([key isEqualToString:vehicleNameKey]) {
 			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
 			inputViewController.delegate = self;
-			inputViewController.currentName = tripData_.currentCalculation.vehicle.name;
+			inputViewController.currentName = self.currentTrip.vehicle.name;
 			viewController = inputViewController;
 		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
-			inputViewController.currentEfficiency = tripData_.currentCalculation.vehicle.avgEfficiency;
+			inputViewController.currentEfficiency = self.currentTrip.vehicle.avgEfficiency;
 			inputViewController.currentType	= EfficiencyInputTypeAverage;
 			viewController = inputViewController;
 		}
@@ -265,12 +278,12 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 {
 	if (save) {
 		NSDictionary *info = controller.mpgDatabaseInfo;
-		tripData_.currentCalculation.vehicle.name = [NSString stringWithFormat:@"%@ %@",
-														 [info objectForKey:@"make"],
-														 [info objectForKey:@"model"]];
-		tripData_.currentCalculation.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
-		tripData_.currentCalculation.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];
-		tripData_.currentCalculation.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];
+		self.currentTrip.vehicle.name = [NSString stringWithFormat:@"%@ %@",
+										 [info objectForKey:@"make"],
+										 [info objectForKey:@"model"]];
+		self.currentTrip.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
+		self.currentTrip.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];
+		self.currentTrip.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];
 	}
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -287,7 +300,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
 	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
 	
-	NSString *priceStr = [priceFormatter stringFromNumber:tripData_.currentCalculation.fuelPrice];
+	NSString *priceStr = [priceFormatter stringFromNumber:self.currentTrip.fuelPrice];
 	[priceFormatter release];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
@@ -299,7 +312,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	[distanceFormatter setMaximumFractionDigits:0];
 	
-	NSString *distanceStr = [distanceFormatter stringFromNumber:tripData_.currentCalculation.distance];
+	NSString *distanceStr = [distanceFormatter stringFromNumber:self.currentTrip.distance];
 	[distanceFormatter release];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
@@ -326,10 +339,10 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
 												text:@"Name"
-											  detail:tripData_.currentCalculation.vehicle.name];
+											  detail:self.currentTrip.vehicle.name];
 	[array addObject:dictionary];
 	
-	NSString *combinedStr = [NSString stringWithFormat:@"%@ MPG", [tripData_.currentCalculation.vehicle.avgEfficiency stringValue]];
+	NSString *combinedStr = [NSString stringWithFormat:@"%@ MPG", [self.currentTrip.vehicle.avgEfficiency stringValue]];
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
 												text:@"Fuel Efficiency"
 											  detail:combinedStr];

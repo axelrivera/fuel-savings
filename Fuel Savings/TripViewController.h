@@ -7,22 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TripData.h"
+#import "SavingsData.h"
 #import "CurrentTripViewController.h"
 #import "NameInputViewController.h"
 
 @interface TripViewController : UITableViewController <UIActionSheetDelegate, CurrentTripViewControllerDelegate,
 	NameInputViewControllerDelegate>
 {
-    TripData *tripData_;
+    SavingsData *savingsData_;
 	NSNumberFormatter *currencyFormatter_;
 	BOOL isNewTrip_;
 	BOOL showNewAction_;
 	BOOL hasTabBar_;
 }
 
-@property (nonatomic, retain) Trip *tripCalculation;
-@property (nonatomic, copy) Trip *backupCopy;
+@property (nonatomic, copy) Trip *newTrip;
+@property (nonatomic, copy) Trip *currentTrip;
 
 - (id)initWithTabBar;
 

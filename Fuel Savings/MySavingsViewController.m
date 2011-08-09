@@ -21,6 +21,7 @@
 
 @implementation MySavingsViewController
 
+@synthesize tableData = tableData_;
 @synthesize segmentedControl = segmentedControl_;
 
 - (id)init
@@ -37,7 +38,6 @@
 	self = [self init];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
-		tripData_ = [TripData sharedTripData];
 		self.title = @"Saved";
 		self.navigationItem.title = @"Saved";
 		self.tabBarItem.image = [UIImage imageNamed:@"saved_tab.png"];
@@ -91,9 +91,9 @@
 - (void)changedSegmentedControlAction
 {
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
-		tableData_ = savingsData_.savedCalculations;
+		self.tableData = savingsData_.savingsArray;
 	} else {
-		tableData_ = tripData_.savedCalculations;
+		self.tableData = savingsData_.tripArray;
 	}
 	[self reloadTableData];
 }
@@ -101,7 +101,7 @@
 - (void)deleteAllAction
 {
 	[self setEditing:NO animated:YES];
-	[tableData_ removeAllObjects];
+	[self.tableData removeAllObjects];
 	[self reloadTableData];
 	
 }
@@ -140,7 +140,7 @@
 
 - (void)reloadTableData
 {
-	if ([tableData_ count] > 0) {
+	if ([self.tableData count] > 0) {
 		self.navigationItem.rightBarButtonItem.enabled = YES;
 	} else {
 		self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -156,9 +156,9 @@
 	[super setEditing:flag animated:animated];
 	
 	// We need to insert/remove a new row in to table view to say "Add New Item..."
-	if (flag && [tableData_ count] > 0) {
+	if (flag && [self.tableData count] > 0) {
 		[self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-	} else if (!flag && [tableData_ count] > 0) {
+	} else if (!flag && [self.tableData count] > 0) {
 		[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
 	}
 	self.segmentedControl.enabled = !self.segmentedControl.enabled;
@@ -168,7 +168,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if (tableData_ == nil) {
+	if (self.tableData == nil) {
 		return 0;
 	}
 	NSInteger sections = 1;
@@ -181,7 +181,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	if (section == 0) {
-		return [tableData_ count];
+		return [self.tableData count];
 	}
 	return 1;
 }
@@ -227,10 +227,10 @@
 	NSString *textLabelString = nil;
 	
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
-		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Savings *calculation = [self.tableData objectAtIndex:indexPath.row];
 		textLabelString = calculation.name;
 	} else {
-		Trip *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Trip *calculation = [self.tableData objectAtIndex:indexPath.row];
 		textLabelString = calculation.name;
 	}
 	
@@ -253,7 +253,7 @@
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		FuelSavingsViewController *fuelSavingsViewController = [[FuelSavingsViewController alloc] init];
 		
-		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Savings *calculation = [self.tableData objectAtIndex:indexPath.row];
 		
 		fuelSavingsViewController.title	= calculation.name;
 		fuelSavingsViewController.currentSavings = calculation;
@@ -262,10 +262,10 @@
 	} else {
 		TripViewController *tripViewController = [[TripViewController alloc] init];
 		
-		Trip *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Trip *calculation = [self.tableData objectAtIndex:indexPath.row];
 		
 		tripViewController.title = calculation.name;
-		tripViewController.tripCalculation = calculation;
+		tripViewController.currentTrip = calculation;
 		
 		currentController = tripViewController;
 	}
@@ -280,7 +280,7 @@
 {
 	NSString *name = nil;
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
-		Savings *calculation = [tableData_ objectAtIndex:indexPath.row];
+		Savings *calculation = [self.tableData objectAtIndex:indexPath.row];
 		name = calculation.name;
 	}
 	
@@ -314,12 +314,12 @@
 	// If the table view is asking to commit a delete command...
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
 		// We remove the row being deleted from the possessions array
-		[tableData_ removeObjectAtIndex:indexPath.row];
+		[self.tableData removeObjectAtIndex:indexPath.row];
 		// We also remove that row from the table view with an animation
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
 	}
 	
-	if ([tableData_ count] == 0) {
+	if ([self.tableData count] == 0) {
 		[self setEditing:NO animated:YES];
 	}
 }
@@ -329,7 +329,7 @@
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		[[tableData_ objectAtIndex:selectedIndex_] setName:controller.currentName];
+		[[self.tableData objectAtIndex:selectedIndex_] setName:controller.currentName];
 		[self reloadTableData];
 	}
 	[self dismissModalViewControllerAnimated:YES];

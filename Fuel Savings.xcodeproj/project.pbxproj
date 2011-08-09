@@ -88,7 +88,6 @@
 		16C9E31E13E83E71001809B2 /* TotalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C9E31D13E83E71001809B2 /* TotalView.m */; };
 		16CBB87813D0805F00E8BD05 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87713D0805F00E8BD05 /* Trip.m */; };
 		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
-		16CBB87D13D0A08600E8BD05 /* TripData.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87C13D0A08600E8BD05 /* TripData.m */; };
 		16D590A413E822B80095EAC3 /* TotalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D590A313E822B80095EAC3 /* TotalViewCell.m */; };
 /* End PBXBuildFile section */
 
@@ -205,8 +204,6 @@
 		16CBB87613D0805F00E8BD05 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
 		16CBB87713D0805F00E8BD05 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuelSavingsHelpers.m; sourceTree = "<group>"; };
-		16CBB87B13D0A08600E8BD05 /* TripData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripData.h; sourceTree = "<group>"; };
-		16CBB87C13D0A08600E8BD05 /* TripData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripData.m; sourceTree = "<group>"; };
 		16D590A213E822B80095EAC3 /* TotalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalViewCell.h; sourceTree = "<group>"; };
 		16D590A313E822B80095EAC3 /* TotalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -419,8 +416,6 @@
 				16A707BC13BA240700A0E93F /* SavingsData.m */,
 				16CBB87613D0805F00E8BD05 /* Trip.h */,
 				16CBB87713D0805F00E8BD05 /* Trip.m */,
-				16CBB87B13D0A08600E8BD05 /* TripData.h */,
-				16CBB87C13D0A08600E8BD05 /* TripData.m */,
 				1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */,
 				1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */,
 			);
@@ -569,7 +564,6 @@
 				160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */,
 				16CBB87813D0805F00E8BD05 /* Trip.m in Sources */,
 				16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */,
-				16CBB87D13D0A08600E8BD05 /* TripData.m in Sources */,
 				1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */,
 				162535CF13E32B4000162B7A /* MPGDatabaseInfo.m in Sources */,
 				162535D013E32B4000162B7A /* RLCoreDataObject.m in Sources */,

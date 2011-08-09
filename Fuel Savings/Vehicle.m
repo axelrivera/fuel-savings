@@ -49,7 +49,8 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
+	self = [super init]; // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
+	if (self) {
 		self.name = [decoder decodeObjectForKey:@"vehicleName"];
 		self.avgEfficiency = [decoder decodeObjectForKey:@"vehicleAvgEfficiency"];
 		self.cityEfficiency = [decoder decodeObjectForKey:@"vehicleCityEfficiency"];

@@ -22,9 +22,11 @@
 	BOOL hasTabBar_;
 }
 
-@property (nonatomic, copy) Savings *newSavings;
-@property (nonatomic, copy) Savings *currentSavings;
+@property (nonatomic, retain) Savings *newSavings;
+@property (nonatomic, retain, readonly) Savings *currentSavings;
 
 - (id)initWithTabBar;
+
+- (void)setCurrentSavings:(Savings *)currentSavings;
 
 @end

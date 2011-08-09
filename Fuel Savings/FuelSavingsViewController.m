@@ -123,11 +123,6 @@
 	}
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
 #pragma mark - Custom Actions
 
 - (void)newCheckAction
@@ -142,7 +137,7 @@
 - (void)newAction
 {
 	self.newSavings = [Savings calculation];
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:self.newSavings];
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
 	currentSavingsViewController.delegate = self;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
@@ -155,8 +150,10 @@
 
 - (void)editAction
 {
-	self.newSavings = self.currentSavings;
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:self.newSavings];
+	Savings *savings = [currentSavings_ copy];
+	self.newSavings = savings;
+	[savings release];
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
 	currentSavingsViewController.delegate = self;
 	currentSavingsViewController.isEditingSavings = YES;
 	
@@ -238,7 +235,9 @@
 - (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		self.currentSavings = controller.currentSavings;
+		Savings *savings = [controller.currentSavings copy];
+		self.currentSavings = savings;
+		[savings release];
 	}
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -247,7 +246,9 @@
 {
 	if (save) {
 		self.currentSavings.name = controller.currentName;
-		[savingsData_.savedCalculations addObject:[self.currentSavings copy]];
+		Savings *savings = [self.currentSavings copy];
+		[savingsData_.savingsArray addObject:savings];
+		[savings release];
 		if (isNewSavings_) {
 			isNewSavings_ = NO;
 			showNewAction_ = YES;
@@ -550,9 +551,9 @@
 - (void)setCurrentSavings:(Savings *)currentSavings
 {
 	[currentSavings_ autorelease];
-	currentSavings_ = currentSavings;
+	currentSavings_ = [currentSavings retain];
 	if (hasTabBar_) {
-		savingsData_.savingsCalculation = currentSavings;
+		savingsData_.currentSavings = [currentSavings retain];
 	}
 }
 

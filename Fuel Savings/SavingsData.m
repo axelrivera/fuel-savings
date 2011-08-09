@@ -12,24 +12,31 @@ static SavingsData *sharedSavingsData;
 
 @implementation SavingsData
 
-@synthesize savingsCalculation = savingsCalculation_;
-@synthesize savedCalculations = savedCalculations_;
+@synthesize currentSavings = currentSavings_;
+@synthesize currentTrip = currentTrip_;
+@synthesize savingsArray = savingsArray_;
+@synthesize tripArray = tripArray_;
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
-		self.savingsCalculation = nil;
-		self.savedCalculations = [NSMutableArray arrayWithCapacity:0];
+		self.currentSavings = nil;
+		self.currentTrip = nil;
+		self.savingsArray = [NSMutableArray arrayWithCapacity:0];
+		self.tripArray = [NSMutableArray arrayWithCapacity:0];
 	}
 	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	if ((self = [super init])) { // this needs to be [super initWithCoder:aDecoder] if the superclass implements NSCoding
-		self.savingsCalculation = [decoder decodeObjectForKey:@"savingsDataSavingsCalculation"];
-		self.savedCalculations = [decoder decodeObjectForKey:@"savingsDataSavedCalculations"];
+	self = [super init]; // this needs to be [super initWithCoder:decoder] if the superclass implements NSCoding
+	if (self) {
+		self.currentSavings = [decoder decodeObjectForKey:@"savingsDataCurrentSavings"];
+		self.currentTrip = [decoder decodeObjectForKey:@"savingsDataCurrentTrip"];
+		self.savingsArray = [decoder decodeObjectForKey:@"savingsDataSavingsArray"];
+		self.tripArray = [decoder decodeObjectForKey:@"savingsDataTripArray"];
 	}
 	return self;
 }
@@ -37,14 +44,18 @@ static SavingsData *sharedSavingsData;
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
 	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
-	[encoder encodeObject:self.savingsCalculation forKey:@"savingsDataSavingsCalculation"];
-	[encoder encodeObject:self.savedCalculations forKey:@"savingsDataSavedCalculations"];
+	[encoder encodeObject:self.currentSavings forKey:@"savingsDataCurrentSavings"];
+	[encoder encodeObject:self.currentTrip forKey:@"savingsDataCurrentTrip"];
+	[encoder encodeObject:self.savingsArray forKey:@"savingsDataSavingsArray"];
+	[encoder encodeObject:self.tripArray forKey:@"savingsDataTripArray"];
 }
 
 - (void)dealloc
 {
-	[savingsCalculation_ release];
-	[savedCalculations_ release];
+	[currentSavings_ release];
+	[currentTrip_ release];
+	[savingsArray_ release];
+	[tripArray_ release];
 	[super dealloc];
 }
 

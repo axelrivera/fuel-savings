@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FuelSavingsHelpers.h"
 
-@interface Vehicle : NSObject <NSCoding,NSCopying> {
+@interface Vehicle : NSObject <NSCoding, NSCopying> {
     
 }
 

@@ -10,7 +10,6 @@
 #import "FileHelpers.h"
 #import "RLCoreDataObject.h"
 #import "SavingsData.h"
-#import "TripData.h"
 #import "FuelSavingsViewController.h"
 #import "TripViewController.h"
 #import "MySavingsViewController.h"
@@ -30,20 +29,15 @@
 	NSString *savingsDataPath = [self savingsDataFilePath];
 	SavingsData *savingsData = [NSKeyedUnarchiver unarchiveObjectWithFile:savingsDataPath];
 	
-	if (savingsData == nil)
+	NSLog(@"%@", savingsData.savingsArray);
+	
+	if (savingsData == nil) {
 		[SavingsData sharedSavingsData];
-	
-	NSString *tripDataPath = [self tripDataFielPath];
-	TripData *tripData = [NSKeyedUnarchiver unarchiveObjectWithFile:tripDataPath];
-	
-	if (tripData == nil) {
-		[TripData sharedTripData];
 	}
-	
 	NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:5];
 	
 	FuelSavingsViewController *fuelSavingViewController = [[FuelSavingsViewController alloc] initWithTabBar];
-	fuelSavingViewController.currentSavings = savingsData.savingsCalculation;
+	fuelSavingViewController.currentSavings = savingsData.currentSavings;
 	UINavigationController *fuelSavingNavigationController = [[UINavigationController alloc] initWithRootViewController:fuelSavingViewController];
 	
 	[viewControllers addObject:fuelSavingNavigationController];
@@ -52,6 +46,7 @@
 	[fuelSavingNavigationController release];
 	
 	TripViewController *tripViewController = [[TripViewController alloc] initWithTabBar];
+	tripViewController.currentTrip = savingsData.currentTrip;
 	UINavigationController *tripNavigationController = [[UINavigationController alloc] initWithRootViewController:tripViewController];
 	
 	[viewControllers addObject:tripNavigationController];
@@ -111,7 +106,6 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
 	[self archiveSavingsData];
-	[self archiveTripData];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -132,7 +126,6 @@
 {
 	[self.coreDataObject saveContext];
 	[self archiveSavingsData];
-	[self archiveTripData];
 }
 
 - (NSString *)savingsDataFilePath
@@ -144,17 +137,6 @@
 {
 	NSString *savingsDataPath = [self savingsDataFilePath];
 	[NSKeyedArchiver archiveRootObject:[SavingsData sharedSavingsData] toFile:savingsDataPath];
-}
-
-- (NSString *)tripDataFielPath
-{
-	return pathInDocumentDirectory(@"tripData.data");
-}
-
-- (void)archiveTripData
-{
-	NSString *tripDataPath = [self tripDataFielPath];
-	[NSKeyedArchiver archiveRootObject:[TripData sharedTripData] toFile:tripDataPath];
 }
 
 - (void)dealloc

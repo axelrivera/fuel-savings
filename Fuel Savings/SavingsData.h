@@ -8,11 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "Savings.h"
+#import "Trip.h"
 
 @interface SavingsData : NSObject <NSCoding>
 
-@property (nonatomic, retain) Savings *savingsCalculation;
-@property (nonatomic, retain) NSMutableArray *savedCalculations; 
+@property (nonatomic, retain) Savings *currentSavings;
+@property (nonatomic, retain) Trip *currentTrip;
+@property (nonatomic, retain) NSMutableArray *savingsArray;
+@property (nonatomic, retain) NSMutableArray *tripArray;
 
 + (SavingsData *)sharedSavingsData;
 

@@ -19,7 +19,4 @@
 - (NSString *)savingsDataFilePath;
 - (void)archiveSavingsData;
 
-- (NSString *)tripDataFielPath;
-- (void)archiveTripData;
-
 @end

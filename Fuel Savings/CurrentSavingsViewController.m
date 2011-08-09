@@ -122,20 +122,20 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		NSArray *informationArray = [[self informationArray] retain];
 		NSArray *vehicle1Array = [[self vehicleArrayWithKey:vehicle1Key] retain]; 
 		
-		[self.newData addObject:informationArray];
-		[self.newData addObject:vehicle1Array];
+		[newData_ addObject:informationArray];
+		[newData_ addObject:vehicle1Array];
 		
 		[informationArray release];
 		[vehicle1Array release];
 		
 		if ([self.currentSavings.vehicle2 hasDataReady]) {
 			NSArray *vehicle2Array = [[self vehicleArrayWithKey:vehicle2Key] retain];
-			[self.newData addObject:vehicle2Array];
+			[newData_ addObject:vehicle2Array];
 			[vehicle2Array release];
 		}
 	}
 	
-	[self.newTable reloadData];	
+	[newTable_ reloadData];	
 }
 
 #pragma mark - Custom Actions
@@ -183,7 +183,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	NSInteger sections = [self.newData count];
+	NSInteger sections = [newData_ count];
 	if (sections == 2) {
 		sections++;
 	}
@@ -193,17 +193,17 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	NSInteger rows = 0;
-	if (section == 2 && [self.newData count] == 2) {
+	if (section == 2 && [newData_ count] == 2) {
 		rows = 1;
 	} else {
-		rows = [[self.newData objectAtIndex:section] count];
+		rows = [[newData_ objectAtIndex:section] count];
 	}
 	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 2 && [self.newData count] == 2) {
+	if (indexPath.section == 2 && [newData_ count] == 2) {
 		static NSString *AddCellIdentifier = @"AddCell";
 		
 		UITableViewCell *addCell = [tableView dequeueReusableCellWithIdentifier:AddCellIdentifier];
@@ -219,7 +219,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		return addCell;
 	}
 	
-	NSDictionary *dictionary = [[self.newData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
 	if (indexPath.section > 0 && indexPath.row == 0) {
 		static NSString *TitleCellIdentifier = @"TitleCell";
@@ -266,8 +266,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	if (indexPath.section == 2 && [self.newData count] == 2) {
-		[self.newData addObject:[self vehicleArrayWithKey:vehicle2Key]];
+	if (indexPath.section == 2 && [newData_ count] == 2) {
+		[newData_ addObject:[self vehicleArrayWithKey:vehicle2Key]];
 				
 		[tableView beginUpdates];
 		
@@ -276,7 +276,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		
 		[tableView endUpdates];
 		
-		NSInteger lastRow = [[self.newData objectAtIndex:2] count] - 1;
+		NSInteger lastRow = [[newData_ objectAtIndex:2] count] - 1;
 		NSIndexPath *lastCell = [NSIndexPath indexPathForRow:lastRow inSection:2];
 		
 		[tableView scrollToRowAtIndexPath:lastCell atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -286,7 +286,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	UIViewController *viewController = nil;
 	
-	NSDictionary *dictionary = [[self.newData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	NSString *key = [dictionary objectForKey:dictionaryKey];
 	
 	if (indexPath.section == 0) {

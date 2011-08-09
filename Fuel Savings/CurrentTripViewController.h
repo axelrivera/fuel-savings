@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TripData.h"
 #import "Trip.h"
 #import "PriceInputViewController.h"
 #import "DistanceInputViewController.h"
@@ -20,13 +19,13 @@
 @interface CurrentTripViewController : UITableViewController
 	<PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, NameInputViewControllerDelegate,
 	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
-{
-	TripData *tripData_; 
-}
 
 @property (nonatomic, assign) id <CurrentTripViewControllerDelegate> delegate;
+@property (nonatomic, retain) Trip *currentTrip;
 @property (nonatomic, retain) NSMutableArray *newData;
 @property (nonatomic) BOOL isEditingTrip;
+
+- (id)initWithTrip:(Trip *)trip;
 
 @end
 
