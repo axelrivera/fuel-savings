@@ -71,23 +71,23 @@
 {
     [super viewDidLoad];
 	
+	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																				target:self
+																				action:@selector(editAction)];
+	self.navigationItem.rightBarButtonItem = editButton;
+	[editButton release];
+	
 	if (self.showButtons) {
-		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																					target:self
-																					action:@selector(editAction)];
-		self.navigationItem.rightBarButtonItem = editButton;
-		[editButton release];
-		
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
 																	 action:@selector(newCheckAction)];
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
-	}
-	
-	if (![savingsData_.currentTrip isTripEmpty]) {
-		self.currentTrip = savingsData_.currentTrip;
+		
+		if (![savingsData_.currentTrip isTripEmpty]) {
+			self.currentTrip = savingsData_.currentTrip;
+		}
 	}
 }
 
@@ -102,11 +102,9 @@
 {
 	[super viewWillAppear:animated];
 	
-	if (self.showButtons) {
-		self.navigationItem.rightBarButtonItem.enabled = NO;
-		if (![self.currentTrip isTripEmpty]) {
-			self.navigationItem.rightBarButtonItem.enabled = YES;
-		}
+	self.navigationItem.rightBarButtonItem.enabled = NO;
+	if (![self.currentTrip isTripEmpty]) {
+		self.navigationItem.rightBarButtonItem.enabled = YES;
 	}
 	[self.tableView reloadData];
 }
@@ -182,7 +180,7 @@
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 	
-	inputViewController.currentName = [NSString stringWithFormat:@"Untitled %@", [dateFormatter stringFromDate:[NSDate date]]];
+	inputViewController.currentName = [NSString stringWithFormat:@"Trip %@", [dateFormatter stringFromDate:[NSDate date]]];
 	
 	[dateFormatter release];
 	
@@ -238,7 +236,7 @@
 - (void)currentTripViewControllerDelegateDidFinish:(CurrentTripViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		self.currentTrip = controller.currentTrip;
+		[self saveCurrentTrip:controller.currentTrip];
 	}
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -302,8 +300,10 @@
 		totalCell.totalView.text1Label.text = text1LabelStr;
 		totalCell.totalView.detail1Label.text = detail1LabelStr;
 		
-		totalCell.totalView.text1Label.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
-		totalCell.totalView.detail1Label.textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
+		UIColor *textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
+		
+		totalCell.totalView.text1Label.textColor = textColor;
+		totalCell.totalView.detail1Label.textColor = textColor;
 		
 		return totalCell;
 	}

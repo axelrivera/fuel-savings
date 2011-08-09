@@ -43,7 +43,7 @@
 	if (self) {
 		self.title = @"Savings";
 		self.navigationItem.title = @"Compare Savings";
-		self.tabBarItem.image = [UIImage imageNamed:@"savings_tab.png"];
+		self.tabBarItem.image = [UIImage imageNamed:@"piggy_tab.png"];
 		self.showButtons = YES;
 	}
 	return self;
@@ -71,23 +71,23 @@
 {
     [super viewDidLoad];
 	
+	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																				target:self
+																				action:@selector(editAction)];
+	self.navigationItem.rightBarButtonItem = editButton;
+	[editButton release];
+	
 	if (self.showButtons) {
-		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																					target:self
-																					action:@selector(editAction)];
-		self.navigationItem.rightBarButtonItem = editButton;
-		[editButton release];
-		
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
 																	 action:@selector(newCheckAction)];
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
-	}
-	
-	if (![savingsData_.currentSavings isSavingsEmpty]) {
-		self.currentSavings = savingsData_.currentSavings;
+		
+		if (![savingsData_.currentSavings isSavingsEmpty]) {
+			self.currentSavings = savingsData_.currentSavings;
+		}
 	}
 }
 
@@ -102,11 +102,9 @@
 {
 	[super viewWillAppear:animated];
 	
-	if (self.showButtons) {
-		self.navigationItem.rightBarButtonItem.enabled = NO;
-		if (![self.currentSavings isSavingsEmpty]) {
-			self.navigationItem.rightBarButtonItem.enabled = YES;
-		}
+	self.navigationItem.rightBarButtonItem.enabled = NO;
+	if (![self.currentSavings isSavingsEmpty]) {
+		self.navigationItem.rightBarButtonItem.enabled = YES;
 	}
 	[self.tableView reloadData];
 }
@@ -183,7 +181,7 @@
 	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
 	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 	
-	inputViewController.currentName = [NSString stringWithFormat:@"Untitled %@", [dateFormatter stringFromDate:[NSDate date]]];
+	inputViewController.currentName = [NSString stringWithFormat:@"Savings %@", [dateFormatter stringFromDate:[NSDate date]]];
 	
 	[dateFormatter release];
 	

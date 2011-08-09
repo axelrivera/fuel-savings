@@ -29,7 +29,7 @@
 {
 	self = [super initWithNibName:@"MySavingsViewController" bundle:nil];
 	if (self) {
-		// Initialization Code
+		selectedIndex_ = 0;
 	}
 	return self;
 }
@@ -82,7 +82,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	[self.segmentedControl setSelectedSegmentIndex:0];
+	[self.segmentedControl setSelectedSegmentIndex:selectedIndex_];
 	[self reloadTableData];
 }
 
@@ -90,7 +90,8 @@
 
 - (void)changedSegmentedControlAction
 {
-	if ([self.segmentedControl selectedSegmentIndex] == 0) {
+	selectedIndex_ = [self.segmentedControl selectedSegmentIndex];
+	if (selectedIndex_ == 0) {
 		self.tableData =  [[SavingsData sharedSavingsData] savingsArray];
 	} else {
 		self.tableData = [[SavingsData sharedSavingsData] tripArray];
@@ -237,6 +238,17 @@
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+	
+	UIImage *iconImage = nil;
+	if ([self.segmentedControl selectedSegmentIndex] == 0) {
+		iconImage = [UIImage imageNamed:@"tags.png"];
+	} else {
+		iconImage = [UIImage imageNamed:@"navigation.png"];
+	}
+	
+	cell.imageView.image = iconImage;
+	
+	cell.textLabel.font = [UIFont systemFontOfSize:16.0];
 	cell.textLabel.text = textLabelString;
 	
 	return cell;
@@ -288,7 +300,7 @@
 	inputViewController.delegate = self;
 	inputViewController.currentName = name;
 	
-	selectedIndex_ = indexPath.row;
+	selectedRow_ = indexPath.row;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
 	
@@ -329,7 +341,7 @@
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		[[self.tableData objectAtIndex:selectedIndex_] setName:controller.currentName];
+		[[self.tableData objectAtIndex:selectedRow_] setName:controller.currentName];
 		[self reloadTableData];
 	}
 	[self dismissModalViewControllerAnimated:YES];

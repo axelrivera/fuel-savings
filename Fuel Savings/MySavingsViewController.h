@@ -10,6 +10,7 @@
 #import "NameInputViewController.h"
 
 @interface MySavingsViewController : UITableViewController <NameInputViewControllerDelegate, UIActionSheetDelegate> {
+	NSInteger selectedRow_;
 	NSInteger selectedIndex_;
 }
 

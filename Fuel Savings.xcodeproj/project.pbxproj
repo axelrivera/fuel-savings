@@ -67,6 +67,14 @@
 		1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */; };
 		167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E52C513C4EF070024CA9A /* RatioInputViewController.m */; };
 		167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 167E52C713C4EF330024CA9A /* RatioInputViewController.xib */; };
+		16807DFC13F1EFCE00D1F51D /* piggy_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF613F1EFCE00D1F51D /* piggy_tab.png */; };
+		16807DFD13F1EFCE00D1F51D /* piggy_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */; };
+		16807E0F13F1F59100D1F51D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E0D13F1F59100D1F51D /* Icon.png */; };
+		16807E1013F1F59100D1F51D /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E0E13F1F59100D1F51D /* Icon@2x.png */; };
+		16807E1713F1F68900D1F51D /* tags.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1313F1F68900D1F51D /* tags.png */; };
+		16807E1813F1F68900D1F51D /* tags@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1413F1F68900D1F51D /* tags@2x.png */; };
+		16807E1B13F1F9A200D1F51D /* navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1913F1F9A200D1F51D /* navigation.png */; };
+		16807E1C13F1F9A200D1F51D /* navigation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1A13F1F9A200D1F51D /* navigation@2x.png */; };
 		16807F5913BE9E430036F89E /* TripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16807F5813BE9E430036F89E /* TripViewController.m */; };
 		16807F5C13BE9E660036F89E /* TripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5B13BE9E660036F89E /* TripViewController.xib */; };
 		16807F6313BEA0AE0036F89E /* compare_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5D13BEA0AE0036F89E /* compare_tab.png */; };
@@ -83,8 +91,6 @@
 		16B5F7EB13BB81FD00DEE869 /* DistanceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */; };
 		16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */; };
 		16B5F7F013BB9D8100DEE869 /* OwnerInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */; };
-		16C97B2913C20F6E0059F6F9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16C97B2713C20F6E0059F6F9 /* Icon.png */; };
-		16C97B2A13C20F6E0059F6F9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16C97B2813C20F6E0059F6F9 /* Icon@2x.png */; };
 		16C9E31E13E83E71001809B2 /* TotalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C9E31D13E83E71001809B2 /* TotalView.m */; };
 		16CBB87813D0805F00E8BD05 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87713D0805F00E8BD05 /* Trip.m */; };
 		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
@@ -175,6 +181,14 @@
 		167E52C413C4EF070024CA9A /* RatioInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatioInputViewController.h; sourceTree = "<group>"; };
 		167E52C513C4EF070024CA9A /* RatioInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatioInputViewController.m; sourceTree = "<group>"; };
 		167E52C713C4EF330024CA9A /* RatioInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatioInputViewController.xib; sourceTree = "<group>"; };
+		16807DF613F1EFCE00D1F51D /* piggy_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggy_tab.png; sourceTree = "<group>"; };
+		16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piggy_tab@2x.png"; sourceTree = "<group>"; };
+		16807E0D13F1F59100D1F51D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		16807E0E13F1F59100D1F51D /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		16807E1313F1F68900D1F51D /* tags.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tags.png; sourceTree = "<group>"; };
+		16807E1413F1F68900D1F51D /* tags@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tags@2x.png"; sourceTree = "<group>"; };
+		16807E1913F1F9A200D1F51D /* navigation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigation.png; sourceTree = "<group>"; };
+		16807E1A13F1F9A200D1F51D /* navigation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigation@2x.png"; sourceTree = "<group>"; };
 		16807F5713BE9E430036F89E /* TripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripViewController.h; sourceTree = "<group>"; };
 		16807F5813BE9E430036F89E /* TripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripViewController.m; sourceTree = "<group>"; };
 		16807F5B13BE9E660036F89E /* TripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripViewController.xib; sourceTree = "<group>"; };
@@ -197,8 +211,6 @@
 		16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OwnerInputViewController.h; sourceTree = "<group>"; };
 		16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OwnerInputViewController.m; sourceTree = "<group>"; };
 		16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OwnerInputViewController.xib; sourceTree = "<group>"; };
-		16C97B2713C20F6E0059F6F9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		16C97B2813C20F6E0059F6F9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		16C9E31C13E83E71001809B2 /* TotalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalView.h; sourceTree = "<group>"; };
 		16C9E31D13E83E71001809B2 /* TotalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalView.m; sourceTree = "<group>"; };
 		16CBB87613D0805F00E8BD05 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
@@ -274,6 +286,12 @@
 		165ACFB113B937A500A2AD3E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				16807E1913F1F9A200D1F51D /* navigation.png */,
+				16807E1A13F1F9A200D1F51D /* navigation@2x.png */,
+				16807E1313F1F68900D1F51D /* tags.png */,
+				16807E1413F1F68900D1F51D /* tags@2x.png */,
+				16807DF613F1EFCE00D1F51D /* piggy_tab.png */,
+				16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */,
 				1641350313ECA5ED00BFD3DD /* add.png */,
 				1641350413ECA5ED00BFD3DD /* add@2x.png */,
 				161100A513EA035D00D2D2FC /* chart.png */,
@@ -346,10 +364,10 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				16807E0D13F1F59100D1F51D /* Icon.png */,
+				16807E0E13F1F59100D1F51D /* Icon@2x.png */,
 				1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */,
 				162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */,
-				16C97B2713C20F6E0059F6F9 /* Icon.png */,
-				16C97B2813C20F6E0059F6F9 /* Icon@2x.png */,
 				165ACFB113B937A500A2AD3E /* images */,
 				1666FD0913B8FAC500FC97F1 /* Icon-72.png */,
 				1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */,
@@ -518,8 +536,6 @@
 				16807F6613BEA0AE0036F89E /* saved_tab@2x.png in Resources */,
 				16807F6713BEA0AE0036F89E /* trip_tab.png in Resources */,
 				16807F6813BEA0AE0036F89E /* trip_tab@2x.png in Resources */,
-				16C97B2913C20F6E0059F6F9 /* Icon.png in Resources */,
-				16C97B2A13C20F6E0059F6F9 /* Icon@2x.png in Resources */,
 				167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */,
 				1654418E13CC88690060D1C3 /* savings_tab.png in Resources */,
 				1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */,
@@ -533,6 +549,14 @@
 				161100AC13EA035D00D2D2FC /* money@2x.png in Resources */,
 				1641350513ECA5ED00BFD3DD /* add.png in Resources */,
 				1641350613ECA5ED00BFD3DD /* add@2x.png in Resources */,
+				16807DFC13F1EFCE00D1F51D /* piggy_tab.png in Resources */,
+				16807DFD13F1EFCE00D1F51D /* piggy_tab@2x.png in Resources */,
+				16807E0F13F1F59100D1F51D /* Icon.png in Resources */,
+				16807E1013F1F59100D1F51D /* Icon@2x.png in Resources */,
+				16807E1713F1F68900D1F51D /* tags.png in Resources */,
+				16807E1813F1F68900D1F51D /* tags@2x.png in Resources */,
+				16807E1B13F1F9A200D1F51D /* navigation.png in Resources */,
+				16807E1C13F1F9A200D1F51D /* navigation@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
