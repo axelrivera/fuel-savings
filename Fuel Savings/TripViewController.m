@@ -16,6 +16,7 @@
 
 @implementation TripViewController
 
+@synthesize showButtons = showButtons_;
 @synthesize newTrip	= newTrip_;
 @synthesize currentTrip = currentTrip_;
 
@@ -27,11 +28,11 @@
 		currencyFormatter_ = [[NSNumberFormatter alloc] init];
 		[currencyFormatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
 		[currencyFormatter_ setMaximumFractionDigits:0];
+		self.showButtons = NO;
 		self.newTrip = nil;
-		self.currentTrip = nil;
+		self.currentTrip = [Trip emptyTrip];
 		isNewTrip_ = NO;
 		showNewAction_ = NO;
-		hasTabBar_ = NO;
 	}
 	return self;
 }
@@ -43,7 +44,7 @@
 		self.title = @"Trip";
 		self.navigationItem.title = @"Analyze Trip";
 		self.tabBarItem.image = [UIImage imageNamed:@"trip_tab.png"];
-		hasTabBar_ = YES;
+		self.showButtons = YES;
 	}
 	return self;
 }
@@ -70,7 +71,7 @@
 {
     [super viewDidLoad];
 	
-	if (hasTabBar_) {
+	if (self.showButtons) {
 		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
 																					target:self
 																					action:@selector(editAction)];
@@ -83,6 +84,10 @@
 																	 action:@selector(newCheckAction)];
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
+	}
+	
+	if (![savingsData_.currentTrip isTripEmpty]) {
+		self.currentTrip = savingsData_.currentTrip;
 	}
 }
 
@@ -97,10 +102,11 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.navigationItem.rightBarButtonItem.enabled = NO;
-	
-	if (self.currentTrip) {
-		self.navigationItem.rightBarButtonItem.enabled = YES;
+	if (self.showButtons) {
+		self.navigationItem.rightBarButtonItem.enabled = NO;
+		if (![self.currentTrip isTripEmpty]) {
+			self.navigationItem.rightBarButtonItem.enabled = YES;
+		}
 	}
 	[self.tableView reloadData];
 }
@@ -119,7 +125,7 @@
 
 - (void)newCheckAction
 {
-	if (self.currentTrip == nil) {
+	if ([self.currentTrip isTripEmpty]) {
 		[self performSelector:@selector(newAction)];
 	} else {
 		[self performSelector:@selector(newOptionsAction:)];
@@ -161,7 +167,7 @@
 
 - (void)deleteAction
 {
-	self.currentTrip = nil;
+	[self saveCurrentTrip:[Trip emptyTrip]];
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 	[self.tableView reloadData];
 }
@@ -217,6 +223,16 @@
 	[actionSheet release];	
 }
 
+#pragma mark - Custom Methods
+
+- (void)saveCurrentTrip:(Trip *)trip
+{
+	self.currentTrip = trip;
+	if (self.showButtons) {
+		savingsData_.currentTrip = trip;
+	}
+}
+
 #pragma mark - View Controller Delegates
 
 - (void)currentTripViewControllerDelegateDidFinish:(CurrentTripViewController *)controller save:(BOOL)save
@@ -246,11 +262,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if (self.currentTrip == nil) {
+	if ([self.currentTrip isTripEmpty]) {
 		return 0;
 	}
 	NSInteger sections = 2;
-	if (hasTabBar_) {
+	if (self.showButtons) {
 		sections = sections + 1;
 	}
 	return sections;
@@ -412,17 +428,6 @@
 -(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
 {
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-#pragma mark - Custom Setter
-
-- (void)setCurrentTrip:(Trip *)currentTrip
-{
-	[currentTrip_ autorelease];
-	currentTrip_ = [currentTrip copy];
-	if (hasTabBar_) {
-		savingsData_.currentTrip = [currentTrip copy];
-	}
 }
 
 #pragma mark - UIActionSheet Delegate

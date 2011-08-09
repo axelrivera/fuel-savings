@@ -29,15 +29,15 @@
 	NSString *savingsDataPath = [self savingsDataFilePath];
 	SavingsData *savingsData = [NSKeyedUnarchiver unarchiveObjectWithFile:savingsDataPath];
 	
-	NSLog(@"%@", savingsData.savingsArray);
-	
 	if (savingsData == nil) {
 		[SavingsData sharedSavingsData];
 	}
+
+//	SavingsData *savingsData = [SavingsData sharedSavingsData];
+	
 	NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:5];
 	
 	FuelSavingsViewController *fuelSavingViewController = [[FuelSavingsViewController alloc] initWithTabBar];
-	fuelSavingViewController.currentSavings = savingsData.currentSavings;
 	UINavigationController *fuelSavingNavigationController = [[UINavigationController alloc] initWithRootViewController:fuelSavingViewController];
 	
 	[viewControllers addObject:fuelSavingNavigationController];
@@ -46,7 +46,6 @@
 	[fuelSavingNavigationController release];
 	
 	TripViewController *tripViewController = [[TripViewController alloc] initWithTabBar];
-	tripViewController.currentTrip = savingsData.currentTrip;
 	UINavigationController *tripNavigationController = [[UINavigationController alloc] initWithRootViewController:tripViewController];
 	
 	[viewControllers addObject:tripNavigationController];

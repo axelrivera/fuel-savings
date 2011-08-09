@@ -12,7 +12,7 @@
 @interface Savings : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic) EfficiencyType type;
+@property (nonatomic, assign) EfficiencyType type;
 @property (nonatomic, copy) NSDecimalNumber *fuelPrice;
 @property (nonatomic, copy) NSNumber *cityRatio;
 @property (nonatomic, copy) NSNumber *highwayRatio;
@@ -21,7 +21,8 @@
 @property (nonatomic, copy) Vehicle *vehicle1;
 @property (nonatomic, copy) Vehicle *vehicle2;
 
-+ (id)calculation;
++ (Savings *)calculation;
++ (Savings *)emptySavings;
 
 - (NSString *)stringForCurrentType;
 
@@ -30,5 +31,10 @@
 
 - (NSNumber *)annualCostForVehicle2;
 - (NSNumber *)totalCostForVehicle2;
+
+- (void)setRatioForCity:(NSNumber *)city highway:(NSNumber *)highway;
+- (void)setDefaultValues;
+
+- (BOOL)isSavingsEmpty;
 
 @end

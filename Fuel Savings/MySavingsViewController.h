@@ -7,11 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SavingsData.h"
 #import "NameInputViewController.h"
 
 @interface MySavingsViewController : UITableViewController <NameInputViewControllerDelegate, UIActionSheetDelegate> {
-	SavingsData *savingsData_;
 	NSInteger selectedIndex_;
 }
 

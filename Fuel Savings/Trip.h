@@ -16,8 +16,12 @@
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) Vehicle *vehicle;
 
-+ (id)calculation;
++ (Trip *)calculation;
++ (Trip *)emptyTrip;
 
 - (NSNumber *)tripCost;
+- (void)setDefaultValues;
+
+- (BOOL)isTripEmpty;
 
 @end

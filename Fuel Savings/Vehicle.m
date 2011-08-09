@@ -26,6 +26,16 @@
 	return [[[Vehicle alloc] initWithName:name] autorelease];
 }
 
++ (Vehicle *)emptyVehicle
+{
+	Vehicle *vehicle = [Vehicle vehicle];
+	vehicle.name = @"";
+	vehicle.avgEfficiency = [NSNumber numberWithInteger:0];
+	vehicle.cityEfficiency = [NSNumber numberWithInteger:0];
+	vehicle.highwayEfficiency = [NSNumber numberWithInteger:0];
+	return vehicle;
+}
+
 - (id)init
 {
 	self = [super init];
@@ -97,6 +107,29 @@
 		return YES;
 	}
 	return NO;
+}
+
+- (BOOL)isVehicleEmpty
+{
+	NSInteger nameLength = [self.name length];
+	NSInteger avgValue = [self.avgEfficiency integerValue];
+	NSInteger cityValue = [self.cityEfficiency integerValue];
+	NSInteger highwayValue = [self.highwayEfficiency integerValue];
+	
+	if (nameLength == 0 && avgValue == 0 && cityValue == 0 && highwayValue == 0) {
+		return YES;
+	}
+	return NO;
+}
+
+- (NSString *)description
+{
+	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, City: %@, Highway: %@, Combined: %@",
+								self.name,
+								[self.cityEfficiency stringValue],
+								[self.highwayEfficiency stringValue],
+								[self.avgEfficiency stringValue]];
+	return descriptionStr;
 }
 
 @end

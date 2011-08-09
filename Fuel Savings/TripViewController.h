@@ -18,12 +18,14 @@
 	NSNumberFormatter *currencyFormatter_;
 	BOOL isNewTrip_;
 	BOOL showNewAction_;
-	BOOL hasTabBar_;
 }
 
+@property (nonatomic, assign) BOOL showButtons;
 @property (nonatomic, copy) Trip *newTrip;
 @property (nonatomic, copy) Trip *currentTrip;
 
 - (id)initWithTabBar;
+
+- (void)saveCurrentTrip:(Trip *)trip;
 
 @end

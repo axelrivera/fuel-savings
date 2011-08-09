@@ -19,14 +19,14 @@
 	NSNumberFormatter *currencyFormatter_;
 	BOOL isNewSavings_;
 	BOOL showNewAction_;
-	BOOL hasTabBar_;
 }
 
-@property (nonatomic, retain) Savings *newSavings;
-@property (nonatomic, retain, readonly) Savings *currentSavings;
+@property (nonatomic, assign) BOOL showButtons;
+@property (nonatomic, copy) Savings *newSavings;
+@property (nonatomic, copy) Savings *currentSavings;
 
 - (id)initWithTabBar;
 
-- (void)setCurrentSavings:(Savings *)currentSavings;
+- (void)saveCurrentSavings:(Savings *)savings;
 
 @end

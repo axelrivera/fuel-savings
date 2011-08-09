@@ -7,6 +7,7 @@
 //
 
 #import "MySavingsViewController.h"
+#import "SavingsData.h"
 #import "Savings.h"
 #import "Trip.h"
 #import "FuelSavingsViewController.h"
@@ -37,7 +38,6 @@
 {
 	self = [self init];
 	if (self) {
-		savingsData_ = [SavingsData sharedSavingsData];
 		self.title = @"Saved";
 		self.navigationItem.title = @"Saved";
 		self.tabBarItem.image = [UIImage imageNamed:@"saved_tab.png"];
@@ -67,7 +67,6 @@
 	
 	[self setupSegmentedControl];
 	self.navigationItem.titleView = self.segmentedControl;
-	[self.segmentedControl setSelectedSegmentIndex:0];
 	
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -83,6 +82,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	[self.segmentedControl setSelectedSegmentIndex:0];
 	[self reloadTableData];
 }
 
@@ -91,9 +91,9 @@
 - (void)changedSegmentedControlAction
 {
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
-		self.tableData = savingsData_.savingsArray;
+		self.tableData =  [[SavingsData sharedSavingsData] savingsArray];
 	} else {
-		self.tableData = savingsData_.tripArray;
+		self.tableData = [[SavingsData sharedSavingsData] tripArray];
 	}
 	[self reloadTableData];
 }

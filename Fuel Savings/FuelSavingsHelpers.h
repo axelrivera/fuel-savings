@@ -8,6 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum { EfficiencyTypeAverage, EfficiencyTypeCombined } EfficiencyType;
+typedef enum { EfficiencyTypeAverage, EfficiencyTypeCombined, EfficiencyTypeNone } EfficiencyType;
 
 NSString *efficiencyTypeStringValue(EfficiencyType type);

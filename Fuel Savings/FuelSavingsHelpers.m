@@ -10,6 +10,8 @@ NSString *efficiencyTypeStringValue(EfficiencyType type)
 {
 	if (type == EfficiencyTypeAverage) {
 		return @"Average MPG";
+	} else if (type == EfficiencyTypeCombined) {
+		return @"City / Highway MPG";
 	}
-	return @"City / Highway MPG";
+	return @"EfficiencyTypeNone";
 }

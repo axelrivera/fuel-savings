@@ -16,6 +16,7 @@
 
 @implementation FuelSavingsViewController
 
+@synthesize showButtons = showButtons_;
 @synthesize newSavings = newSavings_;
 @synthesize currentSavings = currentSavings_;
 
@@ -27,11 +28,11 @@
 		currencyFormatter_ = [[NSNumberFormatter alloc] init];
 		[currencyFormatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
 		[currencyFormatter_ setMaximumFractionDigits:0];
+		self.showButtons = NO;
 		self.newSavings = nil;
-		self.currentSavings = nil;
+		self.currentSavings = [Savings emptySavings];
 		isNewSavings_ = NO;
 		showNewAction_ = NO;
-		hasTabBar_ = NO;
 	}
 	return self;
 }
@@ -43,7 +44,7 @@
 		self.title = @"Savings";
 		self.navigationItem.title = @"Compare Savings";
 		self.tabBarItem.image = [UIImage imageNamed:@"savings_tab.png"];
-		hasTabBar_ = YES;
+		self.showButtons = YES;
 	}
 	return self;
 }
@@ -70,7 +71,7 @@
 {
     [super viewDidLoad];
 	
-	if (hasTabBar_) {
+	if (self.showButtons) {
 		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
 																					target:self
 																					action:@selector(editAction)];
@@ -85,13 +86,9 @@
 		[newButton release];
 	}
 	
-	//	if (hasTabBar_) {
-	//		
-	//	} else {
-	//		if (self.currentSavings == nil) {
-	//			[self.navigationController popToRootViewControllerAnimated:YES];
-	//		}
-	//	}
+	if (![savingsData_.currentSavings isSavingsEmpty]) {
+		self.currentSavings = savingsData_.currentSavings;
+	}
 }
 
 - (void)viewDidUnload
@@ -105,10 +102,11 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.navigationItem.rightBarButtonItem.enabled = NO;
-	
-	if (self.currentSavings) {
-		self.navigationItem.rightBarButtonItem.enabled = YES;
+	if (self.showButtons) {
+		self.navigationItem.rightBarButtonItem.enabled = NO;
+		if (![self.currentSavings isSavingsEmpty]) {
+			self.navigationItem.rightBarButtonItem.enabled = YES;
+		}
 	}
 	[self.tableView reloadData];
 }
@@ -127,7 +125,7 @@
 
 - (void)newCheckAction
 {
-	if (self.currentSavings == nil) {
+	if ([self.currentSavings isSavingsEmpty]) {
 		[self performSelector:@selector(newAction)];
 	} else {
 		[self performSelector:@selector(newOptionsAction:)];
@@ -150,9 +148,7 @@
 
 - (void)editAction
 {
-	Savings *savings = [currentSavings_ copy];
-	self.newSavings = savings;
-	[savings release];
+	self.newSavings = self.currentSavings;
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
 	currentSavingsViewController.delegate = self;
 	currentSavingsViewController.isEditingSavings = YES;
@@ -172,7 +168,7 @@
 
 - (void)deleteAction
 {
-	self.currentSavings = nil;
+	[self saveCurrentSavings:[Savings emptySavings]];
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 	[self.tableView reloadData];
 }
@@ -230,14 +226,22 @@
 	[actionSheet release];	
 }
 
+#pragma mark - Custom Methods
+
+- (void)saveCurrentSavings:(Savings *)savings
+{
+	self.currentSavings = savings;
+	if (self.showButtons) {
+		savingsData_.currentSavings = savings;
+	}
+}
+
 #pragma mark - View Controller Delegates
 
 - (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		Savings *savings = [controller.currentSavings copy];
-		self.currentSavings = savings;
-		[savings release];
+		[self saveCurrentSavings:controller.currentSavings];
 	}
 	[self dismissModalViewControllerAnimated:YES];
 }
@@ -261,11 +265,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if (self.currentSavings == nil) {
+	if ([self.currentSavings isSavingsEmpty]) {
 		return 0;
 	}
 	NSInteger sections = 3;
-	if (hasTabBar_) {
+	if (self.showButtons) {
 		sections = sections + 1;
 	}
 	return sections;
@@ -544,17 +548,6 @@
 -(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
 {
     return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-#pragma mark - Custom Setter
-
-- (void)setCurrentSavings:(Savings *)currentSavings
-{
-	[currentSavings_ autorelease];
-	currentSavings_ = [currentSavings retain];
-	if (hasTabBar_) {
-		savingsData_.currentSavings = [currentSavings retain];
-	}
 }
 
 #pragma mark - UIActionSheet Delegate

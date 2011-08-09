@@ -20,9 +20,11 @@
 
 + (Vehicle *)vehicle;
 + (Vehicle *)vehicleWithName:(NSString *)name;
++ (Vehicle *)emptyVehicle;
 
 - (id)initWithName:(NSString *)name;
 
 - (BOOL)hasDataReady;
+- (BOOL)isVehicleEmpty;
 
 @end

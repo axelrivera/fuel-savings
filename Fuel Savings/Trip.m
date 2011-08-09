@@ -15,19 +15,26 @@
 @synthesize distance = distance_;
 @synthesize vehicle = vehicle_;
 
-+ (id)calculation
++ (Trip *)calculation
 {
 	return [[[Trip alloc] init] autorelease];
+}
+
++ (Trip *)emptyTrip
+{
+	Trip *trip = [Trip calculation];
+	trip.name = @"";
+	trip.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+	trip.distance = [NSNumber numberWithInteger:0];
+	trip.vehicle = [Vehicle emptyVehicle];
+	return trip;
 }
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
-		self.name = @"";
-		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
-		self.distance = [NSNumber numberWithInteger:100];
-		self.vehicle = [Vehicle vehicleWithName:@"Your Car"];
+		[self setDefaultValues];
 	}
 	return self;
 }
@@ -79,6 +86,27 @@
 	float trip = 0.0;
 	trip = [self.fuelPrice floatValue] * ([self.distance floatValue] / [self.vehicle.avgEfficiency floatValue]);
 	return [NSNumber numberWithFloat:trip];
+}
+
+- (void)setDefaultValues
+{
+	self.name = @"";
+	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
+	self.distance = [NSNumber numberWithInteger:100];
+	self.vehicle = [Vehicle vehicleWithName:@"Your Car"];
+}
+
+- (BOOL)isTripEmpty
+{
+	NSInteger nameLength = [self.name length];
+	CGFloat fuelValue = [self.fuelPrice floatValue];
+	NSInteger distanceValue = [self.distance integerValue];
+	BOOL vehicleValue = [self.vehicle isVehicleEmpty];
+	
+	if (nameLength == 0 && fuelValue == 0.0 && distanceValue == 0 && vehicleValue == YES) {
+		return YES;
+	}
+	return NO;
 }
 
 @end

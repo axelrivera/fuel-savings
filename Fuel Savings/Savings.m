@@ -27,26 +27,32 @@
 @synthesize vehicle1 = vehicle1_;
 @synthesize vehicle2 = vehicle2_;
 
-+ (id)calculation
++ (Savings *)calculation
 {
 	return [[[Savings alloc] init] autorelease];
 }
 
-#pragma mark - Class Methods
++ (Savings *)emptySavings
+{
+	Savings *savings = [Savings calculation];
+	savings.name = @"";
+	savings.type = EfficiencyTypeNone;
+	savings.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
+	savings.cityRatio = [NSNumber numberWithFloat:0.0];
+	savings.highwayRatio = [NSNumber numberWithFloat:0.0];
+	savings.distance = [NSNumber numberWithInteger:0];
+	savings.carOwnership = [NSNumber numberWithInteger:0];
+	savings.vehicle1 = [Vehicle emptyVehicle];
+	savings.vehicle2 = [Vehicle emptyVehicle];
+	return savings;
+}
+
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
-		self.name = @"";
-		self.type = EfficiencyTypeAverage;
-		self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
-		// The cityRatio Setter will also set highwayRatio
-		self.cityRatio = [NSNumber numberWithFloat:0.55];
-		self.distance = [NSNumber numberWithInteger:15000];
-		self.carOwnership = [NSNumber numberWithInteger:5];
-		self.vehicle1 = [Vehicle vehicleWithName:@"Car 1"];
-		self.vehicle2 = [Vehicle vehicleWithName:@"Car 2"];
+		[self setDefaultValues];
 	}
 	return self;
 }
@@ -59,6 +65,7 @@
 		self.type = [decoder decodeIntForKey:@"savingsType"];
 		self.fuelPrice = [decoder decodeObjectForKey:@"savingsFuelPrice"];
 		self.cityRatio = [decoder decodeObjectForKey:@"savingsCityRatio"];
+		self.highwayRatio = [decoder decodeObjectForKey:@"savingsHighwayRatio"];
 		self.distance = [decoder decodeObjectForKey:@"savingsDistance"];
 		self.carOwnership = [decoder decodeObjectForKey:@"savingsCarOwnership"];
 		self.vehicle1 = [decoder decodeObjectForKey:@"savingsVehicle1"];
@@ -74,6 +81,7 @@
 	[encoder encodeInt:self.type forKey:@"savingsType"];
 	[encoder encodeObject:self.fuelPrice forKey:@"savingsFuelPrice"];
 	[encoder encodeObject:self.cityRatio forKey:@"savingsCityRatio"];
+	[encoder encodeObject:self.highwayRatio forKey:@"savingsHighwayRatio"];
 	[encoder encodeObject:self.distance forKey:@"savingsDistance"];
 	[encoder encodeObject:self.carOwnership forKey:@"savingsCarOwnership"];
 	[encoder encodeObject:self.vehicle1 forKey:@"savingsVehicle1"];
@@ -86,6 +94,8 @@
 	newSavings.name = self.name;
 	newSavings.type = self.type;
 	newSavings.fuelPrice = self.fuelPrice;
+	newSavings.cityRatio = self.cityRatio;
+	newSavings.highwayRatio = self.highwayRatio;
 	newSavings.distance = self.distance;
 	newSavings.carOwnership = self.carOwnership;
 	newSavings.vehicle1 = self.vehicle1;
@@ -97,6 +107,8 @@
 {
 	[name_ release];
 	[fuelPrice_ release];
+	[cityRatio_ release];
+	[highwayRatio_ release];
 	[distance_ release];
 	[carOwnership_ release];
 	[vehicle1_ release];
@@ -131,36 +143,6 @@
 	return [self totalCostForVehicle:self.vehicle2];
 }
 
-#pragma mark - Custom Setters
-
-- (void)setCityRatio:(NSNumber *)ratio
-{
-	NSAssert([ratio floatValue] <= 1.0, @"Invalid Ratio");
-	if (cityRatio_ != nil) {
-		[cityRatio_ release];
-	}
-	cityRatio_ = [ratio copy];
-	
-	if (highwayRatio_ != nil) {
-		[highwayRatio_ release];
-	}
-	highwayRatio_  = [[NSNumber alloc] initWithFloat:1 - [ratio floatValue]];
-}
-
-- (void)setHighwayRatio:(NSNumber *)ratio
-{
-	NSAssert([ratio floatValue] <= 1.0, @"Invalid Ratio");
-	if (highwayRatio_ != nil) {
-		[highwayRatio_ release];
-	}
-	highwayRatio_ = [ratio copy];
-	
-	if (cityRatio_ != nil) {
-		[cityRatio_ release];
-	}
-	cityRatio_ = [[NSNumber alloc] initWithFloat:1 - [ratio floatValue]];
-}
-
 #pragma mark - Private Methods
 
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
@@ -179,6 +161,71 @@
 - (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle
 {
 	return [NSNumber numberWithFloat:[self.carOwnership floatValue] * [[self annualCostForVehicle:vehicle] floatValue]];
+}
+
+- (void)setRatioForCity:(NSNumber *)city highway:(NSNumber *)highway
+{
+	if (city) {
+		NSAssert([city floatValue] <= 1.0, @"Invalid City Ratio");
+		self.cityRatio = city;
+		self.highwayRatio = [NSNumber numberWithFloat:1 - [city floatValue]];
+		return;
+	}
+	
+	if (highway) {
+		NSAssert([highway floatValue] <= 1.0, @"Invalid Ratio");
+		self.highwayRatio = highway;
+		self.cityRatio = [NSNumber numberWithFloat:1 - [highway floatValue]];
+		return;
+	}
+}
+
+- (void)setDefaultValues
+{
+	self.name = @"";
+	self.type = EfficiencyTypeAverage;
+	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
+	self.cityRatio = [NSNumber numberWithFloat:0.55];
+	self.highwayRatio = [NSNumber numberWithFloat:0.45];
+	self.distance = [NSNumber numberWithInteger:15000];
+	self.carOwnership = [NSNumber numberWithInteger:5];
+	self.vehicle1 = [Vehicle vehicleWithName:@"Car 1"];
+	self.vehicle2 = [Vehicle vehicleWithName:@"Car 2"];
+}
+
+- (BOOL)isSavingsEmpty
+{
+	NSInteger nameLength = [self.name length];
+	CGFloat fuelValue = [self.fuelPrice floatValue];
+	CGFloat cityValue = [self.cityRatio floatValue];
+	CGFloat highwayValue = [self.highwayRatio floatValue];
+	NSInteger distanceValue = [self.distance integerValue];
+	NSInteger ownershipValue = [self.carOwnership integerValue];
+	BOOL vehicle1Value = [self.vehicle1 isVehicleEmpty];
+	BOOL vehicle2Value = [self.vehicle2 isVehicleEmpty];
+	
+	if (nameLength == 0 && self.type == EfficiencyTypeNone && fuelValue == 0.0 && cityValue == 0.0 && highwayValue == 0.0 &&
+		distanceValue == 0 && ownershipValue == 0 && vehicle1Value == YES && vehicle2Value == YES)
+	{
+		return YES;
+	}
+	return NO;
+}
+
+- (NSString *)description
+{	
+	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, Type: %@, Price: %@, City Ratio: %@, "
+								@"Highway Ratio: %@, Distance: %@, Ownership: %@ Vehicle 1: (%@) Vehicle 2: (%@)",
+								self.name,
+								[self stringForCurrentType],
+								[self.fuelPrice stringValue],
+								[self.cityRatio stringValue],
+								[self.highwayRatio stringValue],
+								[self.distance stringValue],
+								[self.carOwnership stringValue],
+								[self.vehicle1 description],
+								[self.vehicle2 description]];
+	return descriptionStr;
 }
 
 @end

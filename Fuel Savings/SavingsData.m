@@ -21,8 +21,8 @@ static SavingsData *sharedSavingsData;
 {
 	self = [super init];
 	if (self) {
-		self.currentSavings = nil;
-		self.currentTrip = nil;
+		self.currentSavings = [Savings emptySavings];
+		self.currentTrip = [Trip emptyTrip];
 		self.savingsArray = [NSMutableArray arrayWithCapacity:0];
 		self.tripArray = [NSMutableArray arrayWithCapacity:0];
 	}
@@ -62,24 +62,41 @@ static SavingsData *sharedSavingsData;
 #pragma mark -
 #pragma mark Singleton Methods
 
-+ (SavingsData *)sharedSavingsData {
-    if (!sharedSavingsData) {
-        sharedSavingsData = [[[self class] alloc] init];
-	}
++ (SavingsData *)sharedSavingsData
+{
+    if (sharedSavingsData == nil) {
+        sharedSavingsData = [[super allocWithZone:NULL] init];
+    }
     return sharedSavingsData;
 }
 
-+ (id)allocWithZone:(NSZone *)zone {
-    if (!sharedSavingsData) {
-        sharedSavingsData = [super allocWithZone:zone];
-        return sharedSavingsData;
-    } else {
-        return nil;
-    }
++ (id)allocWithZone:(NSZone *)zone
+{
+    return [[self sharedSavingsData] retain];
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(NSZone *)zone
+{
     return self;
 }
 
+- (id)retain
+{
+    return self;
+}
+
+- (NSUInteger)retainCount
+{
+    return NSUIntegerMax;  //denotes an object that cannot be released
+}
+
+- (void)release
+{
+    //do nothing
+}
+
+- (id)autorelease
+{
+    return self;
+}
 @end
