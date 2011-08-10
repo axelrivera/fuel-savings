@@ -294,6 +294,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentType = self.currentSavings.type;
+			inputViewController.footerText = @"You can calculate the cost of fuel by selecting one of these options.";
 			viewController = inputViewController;
 		} else if ([key isEqualToString:fuelPriceKey]) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
@@ -304,17 +305,21 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentDistance = self.currentSavings.distance;
+			inputViewController.distanceSuffix = @"miles/year";
+			inputViewController.footerText = @"On average, how much do you drive your car every year?";
 			viewController = inputViewController;
 		} else if ([key isEqualToString:ratioKey]) {
 			RatioInputViewController *inputViewcontroller = [[RatioInputViewController alloc] init];
 			inputViewcontroller.delegate = self;
 			inputViewcontroller.currentCityRatio = self.currentSavings.cityRatio;
 			inputViewcontroller.currentHighwayRatio = self.currentSavings.highwayRatio;
+			inputViewcontroller.footerText = @"On average, how much do you drive in the city and highway?";
 			viewController = inputViewcontroller;
 		} else {
 			OwnerInputViewController *inputViewController = [[OwnerInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentOwnership = self.currentSavings.carOwnership;
+			inputViewController.footerText = @"How long do you plan to own your car?";
 			viewController = inputViewController;
 		}
 	} else {
@@ -579,7 +584,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	if (self.currentSavings.type == EfficiencyTypeAverage) {
 		NSString *combinedStr = [NSString stringWithFormat:efficiencyFormatString, [vehicle.avgEfficiency stringValue]];
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
-													text:@"Combined MPG"
+													text:@"Average MPG"
 												  detail:combinedStr];
 		[array addObject:dictionary];
 	} else {

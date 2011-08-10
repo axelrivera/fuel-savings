@@ -119,7 +119,8 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	[textField resignFirstResponder];
+	[self performSelector:@selector(saveAction)];
+	//[textField resignFirstResponder];
 	return NO;
 }
 

@@ -8,12 +8,19 @@
 
 #import "OwnerInputViewController.h"
 
+@interface OwnerInputViewController (Private)
+
+- (NSString *)suffixForYear:(NSInteger)year;
+
+@end
+
 @implementation OwnerInputViewController
 
 @synthesize delegate = delegate_;
-@synthesize inputLabel = inputLabel_;
+@synthesize ownerTable = ownerTable_;
 @synthesize inputPicker = inputPicker_;
 @synthesize currentOwnership = currentOwnership_;
+@synthesize footerText = footerText_;
 
 - (id)init
 {
@@ -36,9 +43,10 @@
 - (void)dealloc
 {
 	[inputData_ release];
-	[inputLabel_ release];
+	[ownerTable_ release];
 	[inputPicker_ release];
 	[currentOwnership_ release];
+	[footerText_ release];
     [super dealloc];
 }
 
@@ -63,6 +71,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.ownerTable = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,14 +79,6 @@
 	[super viewWillAppear:animated];
 	
 	NSInteger initialRow = [self.currentOwnership integerValue] - 1;
-	
-	NSString *yearString;
-	if (initialRow == 0) {
-		yearString = @"year";
-	} else {
-		yearString = @"years";
-	}
-	self.inputLabel.text = [NSString stringWithFormat:@"%@ %@", [self.currentOwnership stringValue], yearString];
 	[self.inputPicker selectRow:initialRow inComponent:0 animated:NO];
 }
 
@@ -86,6 +87,66 @@
 	[super viewWillDisappear:animated];
 	[self.delegate ownerInputViewControllerDidFinish:self save:YES];
 }
+
+#pragma mark - Private Methods
+
+- (NSString *)suffixForYear:(NSInteger)year
+{
+	NSString *suffixStr;
+	if (year == 1) {
+		suffixStr = @"year";
+	} else {
+		suffixStr = @"years";
+	}
+	return suffixStr;
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.textLabel.textAlignment = UITextAlignmentCenter;
+	cell.textLabel.font = [UIFont systemFontOfSize:18.0];
+	
+	NSString *suffixStr = [self suffixForYear:[self.currentOwnership integerValue]];
+	NSString *textLabelStr = [NSString stringWithFormat:@"%@ %@", self.currentOwnership, suffixStr];
+	
+	cell.textLabel.text = textLabelStr;
+	
+    return cell;
+}
+
+#pragma mark - Table view delegate methods
+
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 35.0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	return self.footerText;
+}
+
 
 # pragma mark - UIPickerView Data Source
 
@@ -114,13 +175,7 @@
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
 	self.currentOwnership = [inputData_ objectAtIndex:row];
-	NSString *yearString;
-	if (row == 0) {
-		yearString = @"year";
-	} else {
-		yearString = @"years";
-	}
-	self.inputLabel.text = [NSString stringWithFormat:@"%@ %@", [self.currentOwnership stringValue], yearString];
+	[self.ownerTable reloadData];
 }
 
 @end

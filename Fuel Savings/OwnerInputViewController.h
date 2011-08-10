@@ -15,9 +15,10 @@
 }
 
 @property (nonatomic, assign) id <OwnerInputViewControllerDelegate> delegate;
-@property (nonatomic, retain) IBOutlet UILabel *inputLabel;
+@property (nonatomic, retain) IBOutlet UITableView *ownerTable;
 @property (nonatomic, retain) IBOutlet UIPickerView *inputPicker;
 @property (nonatomic, copy) NSNumber *currentOwnership;
+@property (nonatomic, copy) NSString *footerText;
 
 @end
 

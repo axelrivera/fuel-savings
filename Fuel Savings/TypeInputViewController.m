@@ -13,18 +13,21 @@
 
 @synthesize delegate = delegate_;
 @synthesize currentType = currentType_;
+@synthesize footerText = footerText_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"TypeInputViewController" bundle:nil];
 	if (self) {
 		self.currentType = 0;
+		self.footerText = nil;
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[footerText_ release];
     [super dealloc];
 }
 
@@ -91,6 +94,11 @@
 }
 
 #pragma mark - Table view delegate
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	return self.footerText;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

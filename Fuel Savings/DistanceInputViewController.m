@@ -15,6 +15,8 @@
 
 @interface DistanceInputViewController (Private)
 
+- (void)saveDistance:(NSNumber *)distance updatePicker:(BOOL)updatePicker animated:(BOOL)animated;
+- (void)resetPickerAnimated:(BOOL)animated;
 - (void)setInputPickerWithNumber:(NSNumber *)number animated:(BOOL)animated;
 
 @end
@@ -22,11 +24,14 @@
 @implementation DistanceInputViewController
 
 @synthesize delegate = delegate_;
-@synthesize inputLabel = inputLabel_;
+@synthesize distanceTable = distanceTable_;
 @synthesize inputPicker = inputPicker_;
 @synthesize addButton = addButton_;
-@synthesize substractButton = substractButton_;
+@synthesize subtractButton = subtractButton_;
+@synthesize resetButton = resetButton_;
 @synthesize currentDistance = currentDistance_;
+@synthesize distanceSuffix = distanceSuffix_;
+@synthesize footerText = footerText_;
 
 - (id)init
 {
@@ -54,7 +59,9 @@
 		type_ = DistanceInputTypeSavings;
 		distanceFactor_ = SAVINGS_FACTOR;
 		
-		self.currentDistance = [NSNumber numberWithInteger:15000];
+		self.currentDistance = nil;
+		self.distanceSuffix = nil;
+		self.footerText = nil;
 	}
 	return self;
 }
@@ -75,11 +82,13 @@
 {
 	[inputData_ release];
 	[numberFormatter_ release];
-	[inputLabel_ release];
+	[distanceTable_ release];
 	[inputPicker_ release];
 	[addButton_ release];
-	[substractButton_ release];
+	[subtractButton_ release];
+	[resetButton_ release];
 	[currentDistance_ release];
+	[distanceSuffix_ release];
     [super dealloc];
 }
 
@@ -98,22 +107,12 @@
     [super viewDidLoad];
 	self.title = @"Change Distance";
 	
-	[self.addButton addTarget:self
-					   action:@selector(addAction)
-			 forControlEvents:UIControlEventTouchDown];
-	
-	
+
 	NSNumber *numberFactor = [NSNumber numberWithInteger:distanceFactor_];
-	
-	[self.addButton setTitle:[NSString stringWithFormat:@"Add %@", [numberFormatter_ stringFromNumber:numberFactor]]
-					forState:UIControlStateNormal];
-	
-	[self.substractButton addTarget:self
-							 action:@selector(substractAction)
-				   forControlEvents:UIControlEventTouchDown];
-	
-	[self.substractButton setTitle:[NSString stringWithFormat:@"Substract %@", [numberFormatter_ stringFromNumber:numberFactor]]
-						  forState:UIControlStateNormal];
+
+	self.addButton.title = [NSString stringWithFormat:@"Add %@", [numberFormatter_ stringFromNumber:numberFactor]];
+	self.subtractButton.title = [NSString stringWithFormat:@"Subtract %@", [numberFormatter_ stringFromNumber:numberFactor]];
+	self.resetButton.title = @"Reset";
 }
 
 - (void)viewDidUnload
@@ -121,17 +120,22 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	self.inputLabel = nil;
+	self.distanceTable = nil;
 	self.inputPicker = nil;
 	self.addButton = nil;
-	self.substractButton = nil;
+	self.subtractButton = nil;
+	self.resetButton = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
 	
-	[self setInputPickerWithNumber:self.currentDistance animated:NO];
+	if (self.currentDistance) {
+		[self setInputPickerWithNumber:self.currentDistance animated:NO];
+	} else {
+		[self resetPickerAnimated:NO];
+	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -142,28 +146,40 @@
 
 # pragma mark - Custom Actions
 
-- (void)addAction
+- (IBAction)addAction:(id)sender
 {
 	NSInteger result = [self.currentDistance integerValue] + distanceFactor_;
 	
 	if (result > MAX_DISTANCE) {
 		result = MAX_DISTANCE;
 	}
-	
-	self.currentDistance = [NSNumber numberWithInteger:result];
-	[self setInputPickerWithNumber:self.currentDistance animated:YES];
+	[self saveDistance:[NSNumber numberWithInteger:result] updatePicker:YES animated:YES];
 }
 
-- (void)substractAction
+- (IBAction)subtractAction:(id)sender
 {
 	NSInteger result = [self.currentDistance integerValue] - distanceFactor_;
 	
 	if (result < MIN_DISTANCE) {
 		result = MIN_DISTANCE;
 	}
-	
-	self.currentDistance = [NSNumber numberWithInteger:result];
-	[self setInputPickerWithNumber:self.currentDistance animated:YES];
+	[self saveDistance:[NSNumber numberWithInteger:result] updatePicker:YES animated:YES];
+}
+
+- (IBAction)resetAction:(id)sender
+{
+	[self resetPickerAnimated:YES];
+}
+
+#pragma mark - Custom Methods
+
+- (void)saveDistance:(NSNumber *)distance updatePicker:(BOOL)updatePicker animated:(BOOL)animated
+{
+	if (updatePicker) {
+		[self setInputPickerWithNumber:distance animated:animated];
+	}
+	self.currentDistance = distance;
+	[self.distanceTable reloadData];
 }
 
 #pragma mark - Private Methods
@@ -176,7 +192,6 @@
 	[stringFormatter setFormatWidth:5];
 	[stringFormatter setPaddingCharacter:@"0"];
 	
-	
 	NSString *numberString = [stringFormatter stringFromNumber:number];
 	
 	[stringFormatter release];
@@ -186,8 +201,67 @@
 		NSNumber *tmpNumber = [numberFormatter_ numberFromString:string];
 		NSInteger position =  [tmpNumber integerValue];
 		[self.inputPicker selectRow:position inComponent:i animated:animated];
-		self.inputLabel.text = [NSString stringWithFormat:@"%@ miles/year", [numberFormatter_ stringFromNumber:number]];
 	}
+}
+
+- (void)resetPickerAnimated:(BOOL)animated
+{
+	NSNumber *number = nil;
+	if (type_ == DistanceInputTypeSavings) {
+		number = [NSNumber numberWithInteger:15000];
+	} else {
+		number = [NSNumber numberWithInteger:100];
+	}
+	[self saveDistance:number updatePicker:YES animated:animated];
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Return the number of rows in the section.
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    }
+    
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.textLabel.textAlignment = UITextAlignmentCenter;
+	cell.textLabel.font = [UIFont systemFontOfSize:18.0];
+	
+	NSMutableString *textLabelStr = [NSMutableString stringWithFormat:@"%@", [numberFormatter_ stringFromNumber:self.currentDistance]];
+	
+	if (self.distanceSuffix) {
+		[textLabelStr appendFormat:@" %@", self.distanceSuffix];
+	}
+	
+	cell.textLabel.text = textLabelStr;
+	
+    return cell;
+}
+
+#pragma mark - Table view delegate methods
+
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
+{
+    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 35.0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	return self.footerText;
 }
 
 # pragma mark - UIPickerView Data Source
@@ -224,9 +298,7 @@
 		NSNumber *number = [array objectAtIndex:[pickerView selectedRowInComponent:i]];
 		distanceString = [distanceString stringByAppendingFormat:@"%@", [number stringValue]];
 	}
-	
-	self.currentDistance = [numberFormatter_ numberFromString:distanceString];
-	self.inputLabel.text = [NSString stringWithFormat:@"%@ miles/year", [numberFormatter_ stringFromNumber:self.currentDistance]];
+	[self saveDistance:[numberFormatter_ numberFromString:distanceString] updatePicker:NO animated:NO];
 }
 
 @end

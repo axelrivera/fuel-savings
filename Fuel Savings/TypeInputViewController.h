@@ -13,7 +13,8 @@
 @interface TypeInputViewController : UITableViewController
 
 @property (nonatomic, assign) id <TypeInputViewControllerDelegate> delegate;
-@property (nonatomic) NSInteger currentType;
+@property (nonatomic, assign) NSInteger currentType;
+@property (nonatomic, copy) NSString *footerText;
 
 @end
 

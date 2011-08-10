@@ -13,10 +13,19 @@
 @synthesize delegate = delegate_;
 @synthesize currentCityRatio = currentCityRatio_;
 @synthesize currentHighwayRatio = currentHighwayRatio_;
-@synthesize citySlider = citySlider_;
+@synthesize footerText = footerText_;
+@synthesize cityTitleLabel = cityTitleLabel_;
 @synthesize cityLabel = cityLabel_;
-@synthesize highwaySlider = highwaySlider_;
+@synthesize highwayTitleLabel = highwayTitleLabel_;
 @synthesize highwayLabel = highwayLabel_;
+@synthesize footerTextLabel = footerTextLabel_;
+@synthesize cityAddButton = cityAddButton_;
+@synthesize citySubtractButton = citySubtractButton_;
+@synthesize highwayAddButton = highwayAddButton_;
+@synthesize highwaySubtractButton = highwaySubtractButton_;
+@synthesize highwaySlider = highwaySlider_;
+@synthesize citySlider = citySlider_;
+
 
 - (id)init
 {
@@ -28,6 +37,7 @@
 		
 		self.currentCityRatio = [NSNumber numberWithFloat:0.5];
 		self.currentHighwayRatio = [NSNumber numberWithFloat:0.5];
+		self.footerText = nil;
 	}
 	return self;
 }
@@ -36,10 +46,18 @@
 {
 	[currentCityRatio_ release];
 	[currentHighwayRatio_ release];
-	[citySlider_ release];
+	[footerText_ release];
+	[cityTitleLabel_ release];
 	[cityLabel_ release];
-	[highwaySlider_ release];
+	[highwayTitleLabel_ release];
 	[highwayLabel_ release];
+	[footerTextLabel_ release];
+	[cityAddButton_ release];
+	[citySubtractButton_ release];
+	[highwayAddButton_ release];
+	[highwaySubtractButton_ release];
+	[citySlider_ release];
+	[highwaySlider_ release];
     [super dealloc];
 }
 
@@ -57,6 +75,34 @@
 {
     [super viewDidLoad];	
 	self.title = @"Driving Ratio";
+	
+	UIColor *gray = [UIColor darkGrayColor];
+	UIColor *white = [UIColor whiteColor];
+	UIColor *blue = [UIColor colorWithRed:57.0/255.0 green:85.0/255.0 blue:135.0/255.0 alpha:1.0];
+	CGSize shadowSize = CGSizeMake(0.0, 1.0);
+	
+	self.cityTitleLabel.textColor = gray;
+	self.cityTitleLabel.shadowColor = white;
+	self.cityTitleLabel.shadowOffset = shadowSize;
+	self.cityTitleLabel.text = @"City Ratio";
+	
+	self.cityLabel.textColor = blue;
+	self.cityLabel.shadowColor = white;
+	self.cityLabel.shadowOffset = shadowSize;
+	
+	self.highwayTitleLabel.textColor = gray;
+	self.highwayTitleLabel.shadowColor = white;
+	self.highwayTitleLabel.shadowOffset = shadowSize;
+	self.highwayTitleLabel.text = @"Highway Ratio";
+	
+	self.highwayLabel.textColor = blue;
+	self.highwayLabel.shadowColor = white;
+	self.highwayLabel.shadowOffset = shadowSize;
+	
+	self.footerTextLabel.textColor = gray;
+	self.footerTextLabel.shadowColor = white;
+	self.footerTextLabel.shadowOffset = shadowSize;
+	self.footerTextLabel.text = self.footerText;
 }
 
 - (void)viewDidUnload
@@ -64,10 +110,17 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-	self.citySlider = nil;
+	self.cityTitleLabel = nil;
 	self.cityLabel = nil;
-	self.highwaySlider = nil;
+	self.highwayTitleLabel = nil;
 	self.highwayLabel = nil;
+	self.footerTextLabel = nil;
+	self.cityAddButton = nil;
+	self.citySubtractButton = nil;
+	self.highwayAddButton = nil;
+	self.highwaySubtractButton = nil;
+	self.citySlider = nil;
+	self.highwaySlider = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -88,6 +141,26 @@
 }
 
 #pragma mark - Custom Actions
+
+- (IBAction)cityAddButtonAction:(id)sender
+{
+	
+}
+
+- (IBAction)citySubtractButtonAction:(id)sender
+{
+	
+}
+
+- (IBAction)highwayAddButtonAction:(id)sender
+{
+	
+}
+
+- (IBAction)highwaySubtractButtonAction:(id)sender
+{
+	
+}
 
 - (IBAction)citySliderAction:(id)sender
 {

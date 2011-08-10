@@ -20,13 +20,20 @@ typedef enum { DistanceInputTypeSavings, DistanceInputTypeTrip } DistanceInputTy
 }
 
 @property (nonatomic, assign) id <DistanceInputViewControllerDelegate> delegate;
-@property (nonatomic, retain) IBOutlet UILabel *inputLabel;
+@property (nonatomic, retain) IBOutlet UITableView *distanceTable;
 @property (nonatomic, retain) IBOutlet UIPickerView *inputPicker;
-@property (nonatomic, retain) IBOutlet UIButton *addButton;
-@property (nonatomic, retain) IBOutlet UIButton *substractButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *addButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *subtractButton;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem *resetButton;
 @property (nonatomic, copy) NSNumber *currentDistance;
+@property (nonatomic, copy) NSString *distanceSuffix;
+@property (nonatomic, copy) NSString *footerText;
 
 - (id)initWithType:(DistanceInputType)type;
+
+- (IBAction)addAction:(id)sender;
+- (IBAction)subtractAction:(id)sender;
+- (IBAction)resetAction:(id)sender;
 
 @end
 
