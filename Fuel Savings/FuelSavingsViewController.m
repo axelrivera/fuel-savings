@@ -174,6 +174,7 @@
 - (void)displayNameAction
 {
 	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	inputViewController.footerText = @"Enter a name for the Current Savings";
 	inputViewController.delegate = self;
 	
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -331,15 +332,15 @@
 				totalCell.totalView.text2Label.text = text2LabelStr;
 				totalCell.totalView.detail2Label.text = detail2LabelStr;
 				
-				UIColor *red = [UIColor redColor];
+				UIColor *highlightColor = [UIColor colorWithRed:245.0/255.0 green:121.0/255.0 blue:0.0 alpha:1.0];
 				
 				NSComparisonResult compareCost = [cost1 compare:cost2];
-				if (compareCost == NSOrderedDescending) {
-					totalCell.totalView.text1Label.textColor = red;
-					totalCell.totalView.detail1Label.textColor = red;
-				} else if (compareCost == NSOrderedAscending) {
-					totalCell.totalView.text2Label.textColor = red;
-					totalCell.totalView.detail2Label.textColor = red;
+				if (compareCost == NSOrderedAscending) {
+					totalCell.totalView.text1Label.textColor = highlightColor;
+					totalCell.totalView.detail1Label.textColor = highlightColor;
+				} else if (compareCost == NSOrderedDescending) {
+					totalCell.totalView.text2Label.textColor = highlightColor;
+					totalCell.totalView.detail2Label.textColor = highlightColor;
 				}
 			}
 

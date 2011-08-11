@@ -113,6 +113,8 @@
 	self.addButton.title = [NSString stringWithFormat:@"Add %@", [numberFormatter_ stringFromNumber:numberFactor]];
 	self.subtractButton.title = [NSString stringWithFormat:@"Subtract %@", [numberFormatter_ stringFromNumber:numberFactor]];
 	self.resetButton.title = @"Reset";
+	
+	self.distanceTable.sectionHeaderHeight = 35.0;
 }
 
 - (void)viewDidUnload
@@ -248,16 +250,6 @@
 }
 
 #pragma mark - Table view delegate methods
-
--(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	return 35.0;
-}
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {

@@ -64,6 +64,8 @@
 {
     [super viewDidLoad];
 	self.title = @"Change Ownership";
+	
+	self.ownerTable.sectionHeaderHeight = 35.0;
 }
 
 - (void)viewDidUnload
@@ -132,21 +134,10 @@
 
 #pragma mark - Table view delegate methods
 
--(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	return 35.0;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	return self.footerText;
 }
-
 
 # pragma mark - UIPickerView Data Source
 

@@ -22,7 +22,7 @@
 		formatter_ = [[NSNumberFormatter alloc] init];
 		[formatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
 		
-		currencyScale_ = -1 * [formatter_ maximumFractionDigits];
+		currencyScale_ = -1;
 		self.currentPrice = [NSDecimalNumber zero];
 	}
 	return self;

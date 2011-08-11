@@ -7,6 +7,18 @@
 //
 
 #import "RatioInputViewController.h"
+#import <math.h>
+
+#define RATIO_SCALE 0.01
+
+@interface RatioInputViewController (Private)
+
+- (void)changeCityRatioValue:(NSNumber *)ratio;
+- (void)changeHighwayRatioValue:(NSNumber *)ratio;
+
+- (NSNumber *)roundedNumberFromFloatValue:(CGFloat)value;
+
+@end
 
 @implementation RatioInputViewController
 
@@ -31,9 +43,9 @@
 {
 	self = [super initWithNibName:@"RatioInputViewController" bundle:nil];
 	if (self) {
-		numberFormatter_ = [[NSNumberFormatter alloc] init];
-		[numberFormatter_ setNumberStyle:NSNumberFormatterPercentStyle];
-		[numberFormatter_ setMaximumFractionDigits:0];
+		percentFormatter_ = [[NSNumberFormatter alloc] init];
+		[percentFormatter_ setNumberStyle:NSNumberFormatterPercentStyle];
+		[percentFormatter_ setMaximumFractionDigits:0];
 		
 		self.currentCityRatio = [NSNumber numberWithFloat:0.5];
 		self.currentHighwayRatio = [NSNumber numberWithFloat:0.5];
@@ -44,6 +56,7 @@
 
 - (void)dealloc
 {
+	[percentFormatter_ release];
 	[currentCityRatio_ release];
 	[currentHighwayRatio_ release];
 	[footerText_ release];
@@ -127,11 +140,11 @@
 {
 	[super viewWillAppear:animated];
 	
-	[self.citySlider setValue:[self.currentCityRatio floatValue] animated:NO];
-	self.cityLabel.text = [numberFormatter_ stringFromNumber:self.currentCityRatio];
+	[self.citySlider setValue:[self.currentCityRatio floatValue] / RATIO_SCALE animated:NO];
+	self.cityLabel.text = [percentFormatter_ stringFromNumber:self.currentCityRatio];
 	
-	[self.highwaySlider setValue:[self.currentHighwayRatio floatValue] animated:NO];
-	self.highwayLabel.text = [numberFormatter_ stringFromNumber:self.currentHighwayRatio];
+	[self.highwaySlider setValue:[self.currentHighwayRatio floatValue] / RATIO_SCALE animated:NO];
+	self.highwayLabel.text = [percentFormatter_ stringFromNumber:self.currentHighwayRatio];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -144,42 +157,87 @@
 
 - (IBAction)cityAddButtonAction:(id)sender
 {
-	
+	NSNumber *number = [self roundedNumberFromFloatValue:[self.citySlider value]];
+	CGFloat result = [number floatValue] + 1.0;
+	if (result <= [self.citySlider maximumValue]) {
+		[self.citySlider setValue:result animated:YES];
+		[self changeCityRatioValue:[NSNumber numberWithFloat:result]];
+	}
 }
 
 - (IBAction)citySubtractButtonAction:(id)sender
 {
-	
+	NSNumber *number = [self roundedNumberFromFloatValue:[self.citySlider value]];
+	CGFloat result = [number floatValue] - 1.0;
+	if (result >= [self.citySlider minimumValue]) {
+		[self.citySlider setValue:result animated:YES];
+		[self changeCityRatioValue:[NSNumber numberWithFloat:result]];
+	}
 }
 
 - (IBAction)highwayAddButtonAction:(id)sender
 {
-	
+	NSNumber *number = [self roundedNumberFromFloatValue:[self.highwaySlider value]];
+	CGFloat result = [number floatValue] + 1.0;
+	if (result <= [self.highwaySlider maximumValue]) {
+		[self.highwaySlider setValue:result animated:YES];
+		[self changeHighwayRatioValue:[NSNumber numberWithFloat:result]];
+	}
 }
 
 - (IBAction)highwaySubtractButtonAction:(id)sender
 {
-	
+	NSNumber *number = [self roundedNumberFromFloatValue:[self.highwaySlider value]];
+	CGFloat result = [number floatValue] - 1.0;
+	if (result >= [self.highwaySlider minimumValue]) {
+		[self.highwaySlider setValue:result animated:YES];
+		[self changeHighwayRatioValue:[NSNumber numberWithFloat:result]];
+	}
 }
 
 - (IBAction)citySliderAction:(id)sender
 {
-	self.currentCityRatio = [NSNumber numberWithFloat:[self.citySlider value]];
-	self.cityLabel.text = [numberFormatter_ stringFromNumber:currentCityRatio_];
-	
-	self.currentHighwayRatio = [NSNumber numberWithFloat:1 - [self.currentCityRatio floatValue]];
-	[self.highwaySlider setValue:[self.currentHighwayRatio floatValue] animated:YES];
-	self.highwayLabel.text = [numberFormatter_ stringFromNumber:self.currentHighwayRatio];
+	[self changeCityRatioValue:[self roundedNumberFromFloatValue:[self.citySlider value]]];
 }
 
 - (IBAction)highwaySliderAction:(id)sender
 {
-	self.currentHighwayRatio = [NSNumber numberWithFloat:[self.highwaySlider value]];
-	self.highwayLabel.text = [numberFormatter_ stringFromNumber:self.currentHighwayRatio];
+	[self changeHighwayRatioValue:[self roundedNumberFromFloatValue:[self.highwaySlider value]]];
+}
+
+#pragma mark - Private Methods
+
+- (void)changeCityRatioValue:(NSNumber *)ratio
+{
+	self.currentCityRatio = [NSNumber numberWithFloat:[ratio floatValue] * RATIO_SCALE];
+	self.cityLabel.text = [percentFormatter_ stringFromNumber:self.currentCityRatio];
 	
-	self.currentCityRatio = [NSNumber numberWithFloat:1 - [self.currentHighwayRatio floatValue]];
-	[self.citySlider setValue:[self.currentCityRatio floatValue] animated:YES];
-	self.cityLabel.text = [numberFormatter_ stringFromNumber:self.currentCityRatio];
+	self.currentHighwayRatio = [NSNumber numberWithFloat:([self.highwaySlider maximumValue] - [ratio floatValue]) * RATIO_SCALE];
+	[self.highwaySlider setValue:[self.currentHighwayRatio floatValue] / RATIO_SCALE animated:YES];
+	self.highwayLabel.text = [percentFormatter_ stringFromNumber:self.currentHighwayRatio];
+}
+
+- (void)changeHighwayRatioValue:(NSNumber *)ratio
+{
+	self.currentHighwayRatio = [NSNumber numberWithFloat:[ratio floatValue] * RATIO_SCALE];
+	self.highwayLabel.text = [percentFormatter_ stringFromNumber:self.currentHighwayRatio];
+	
+	self.currentCityRatio = [NSNumber numberWithFloat:([self.citySlider maximumValue] - [ratio floatValue]) * RATIO_SCALE];
+	[self.citySlider setValue:[self.currentCityRatio floatValue] / RATIO_SCALE animated:YES];
+	self.cityLabel.text = [percentFormatter_ stringFromNumber:self.currentCityRatio];
+}
+
+- (NSNumber *)roundedNumberFromFloatValue:(CGFloat)value
+{
+	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+	[formatter setMaximumFractionDigits:0];
+	
+	NSString *numberStr = [formatter stringFromNumber:[NSNumber numberWithFloat:value]];
+	
+	NSNumber *result = [formatter numberFromString:numberStr];
+	[formatter release];
+	return result;
 }
 
 @end

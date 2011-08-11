@@ -11,7 +11,7 @@
 @protocol RatioInputViewControllerDelegate;
 
 @interface RatioInputViewController : UIViewController {
-    NSNumberFormatter *numberFormatter_;
+    NSNumberFormatter *percentFormatter_;
 }
 
 @property (nonatomic, assign) id <RatioInputViewControllerDelegate> delegate;

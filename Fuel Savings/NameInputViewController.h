@@ -17,6 +17,7 @@
 @property (nonatomic, assign) id <NameInputViewControllerDelegate> delegate;
 @property (nonatomic, copy) NSString *key;
 @property (nonatomic, copy) NSString *currentName;
+@property (nonatomic, copy) NSString *footerText;
 
 - (id)initWithNavigationButtons;
 

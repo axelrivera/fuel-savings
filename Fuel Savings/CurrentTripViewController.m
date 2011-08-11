@@ -279,7 +279,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	if (save) {
 		NSDictionary *info = controller.mpgDatabaseInfo;
 		self.currentTrip.vehicle.name = [NSString stringWithFormat:@"%@ %@",
-										 [info objectForKey:@"make"],
+										 [info objectForKey:@"year"],
 										 [info objectForKey:@"model"]];
 		self.currentTrip.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
 		self.currentTrip.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];

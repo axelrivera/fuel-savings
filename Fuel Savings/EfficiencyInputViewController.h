@@ -16,14 +16,16 @@ typedef enum {
 	EfficiencyInputTypeHighway
 } EfficiencyInputType;
 
-@interface EfficiencyInputViewController : UIViewController
+@interface EfficiencyInputViewController : UITableViewController <UITextFieldDelegate> {
+	UITextField *efficiencyTextField_;
+}
 
 @property (nonatomic, assign) id <EfficiencyInputViewControllerDelegate> delegate;
+@property (nonatomic, assign) EfficiencyInputType currentType;
 @property (nonatomic, copy) NSString *key;
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSNumber *currentEfficiency;
-@property (nonatomic) EfficiencyInputType currentType;
-@property (nonatomic, retain) IBOutlet UITextField *efficiencyTextField;
+@property (nonatomic, copy) NSString *footerText;
 
 @end
 

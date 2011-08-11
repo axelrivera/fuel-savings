@@ -13,14 +13,16 @@
 @synthesize delegate = delegate_;
 @synthesize key = key_;
 @synthesize currentName = currentName_;
+@synthesize footerText = footerText_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"NameInputViewController" bundle:nil];
 	if (self) {
-		self.title = @"Enter Name";
+		self.title = @"Name";
 		self.key = @"";
 		self.currentName = @"";
+		self.footerText = nil;
 	}
 	return self;
 }
@@ -47,6 +49,7 @@
 {
 	[key_ release];
 	[currentName_ release];
+	[footerText_ release];
     [super dealloc];
 }
 
@@ -76,6 +79,8 @@
 	nameTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	nameTextField_.clearButtonMode = YES;
 	nameTextField_.delegate = self;
+	
+	self.tableView.sectionHeaderHeight = 35.0;
 }
 
 - (void)viewDidUnload
@@ -115,15 +120,6 @@
 	[self.delegate nameInputViewControllerDidFinish:self save:NO];
 }
 
-#pragma mark - Textfield Delegate
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-	[self performSelector:@selector(saveAction)];
-	//[textField resignFirstResponder];
-	return NO;
-}
-
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -145,6 +141,21 @@
     cell.accessoryView = nameTextField_;
 	
     return cell;
+}
+
+#pragma mark - Table view delegate methods
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	return self.footerText;
+}
+
+#pragma mark - Textfield Delegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+	[self performSelector:@selector(saveAction)];
+	return NO;
 }
 
 @end
