@@ -10,15 +10,15 @@
 
 @protocol PriceInputViewControllerDelegate;
 
-@interface PriceInputViewController : UIViewController {
+@interface PriceInputViewController : UITableViewController <UITextFieldDelegate> {
 	NSNumberFormatter *formatter_;
-    NSInteger currencyScale_;
+	UITextField *inputTextField_;
 }
 
 @property (nonatomic, assign) id <PriceInputViewControllerDelegate> delegate;
-@property (nonatomic, retain) IBOutlet UITextField *inputTextField;
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSDecimalNumber *currentPrice;
+@property (nonatomic, copy) NSString *footerText;
 
 @end
 

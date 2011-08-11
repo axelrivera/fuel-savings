@@ -173,6 +173,7 @@
 - (void)displayNameAction
 {
 	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	inputViewController.footerText = @"Enter a name for the Current Trip.";
 	inputViewController.delegate = self;
 	
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

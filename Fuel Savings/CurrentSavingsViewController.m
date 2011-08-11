@@ -300,6 +300,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentPrice = self.currentSavings.fuelPrice;
+			inputViewController.footerText = @"Enter the Price per gallon of fuel.";
 			viewController = inputViewController;
 		} else if ([key isEqualToString:distanceKey]) {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
@@ -337,7 +338,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.key = vehicleKey;
-			inputViewController.footerText = @"Enter the Vehicle Name";
+			inputViewController.footerText = @"Enter the Vehicle Name.";
 			inputViewController.currentName = vehicle.name;
 			viewController = inputViewController;
 		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
@@ -346,7 +347,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			inputViewController.key = vehicleKey;
 			inputViewController.currentEfficiency = vehicle.avgEfficiency;
 			inputViewController.currentType = EfficiencyInputTypeAverage;
-			inputViewController.footerText = @"Average Fuel Efficiency in MPG";
+			inputViewController.footerText = @"Average Fuel Efficiency in MPG.";
 			viewController = inputViewController;
 		} else if ([key isEqualToString:vehicleCityEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
@@ -354,7 +355,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			inputViewController.key = vehicleKey;
 			inputViewController.currentEfficiency = vehicle.cityEfficiency;
 			inputViewController.currentType = EfficiencyInputTypeCity;
-			inputViewController.footerText = @"City Fuel Efficiency in MPG";
+			inputViewController.footerText = @"City Fuel Efficiency in MPG.";
 			viewController = inputViewController;
 		} else if ([key isEqualToString:vehicleHighwayEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
@@ -362,7 +363,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			inputViewController.key = vehicleKey;
 			inputViewController.currentEfficiency = vehicle.highwayEfficiency;
 			inputViewController.currentType = EfficiencyInputTypeHighway;
-			inputViewController.footerText = @"Highway Fuel Efficiency in MPG";
+			inputViewController.footerText = @"Highway Fuel Efficiency in MPG.";
 			viewController = inputViewController;
 		}
 	}

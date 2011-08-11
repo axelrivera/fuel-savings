@@ -174,7 +174,7 @@
 - (void)displayNameAction
 {
 	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
-	inputViewController.footerText = @"Enter a name for the Current Savings";
+	inputViewController.footerText = @"Enter a name for the Current Savings.";
 	inputViewController.delegate = self;
 	
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

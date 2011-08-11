@@ -246,11 +246,14 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentPrice = self.currentTrip.fuelPrice;
+			inputViewController.footerText = @"Enter the Price per gallon of fuel.";
 			viewController = inputViewController;
 		} else {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] initWithType:DistanceInputTypeTrip];
 			inputViewController.delegate = self;
 			inputViewController.currentDistance = self.currentTrip.distance;
+			inputViewController.distanceSuffix = @"miles";
+			inputViewController.footerText = @"On average, how much will you drive?";
 			viewController = inputViewController;
 		}
 	} else {
@@ -258,12 +261,14 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentName = self.currentTrip.vehicle.name;
+			inputViewController.footerText = @"Enter the Vehicle Name.";
 			viewController = inputViewController;
 		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentEfficiency = self.currentTrip.vehicle.avgEfficiency;
 			inputViewController.currentType	= EfficiencyInputTypeAverage;
+			inputViewController.footerText = @"Fuel Efficiency in MPG.";
 			viewController = inputViewController;
 		}
 	}
