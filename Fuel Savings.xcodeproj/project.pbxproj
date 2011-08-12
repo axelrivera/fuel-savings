@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		160203A013F5E26400749F1C /* DetailSummaryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */; };
+		160203A513F5E4E900749F1C /* car.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A113F5E4E900749F1C /* car.png */; };
+		160203A613F5E4E900749F1C /* car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A213F5E4E900749F1C /* car@2x.png */; };
+		160203A713F5E4E900749F1C /* details.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A313F5E4E900749F1C /* details.png */; };
+		160203A813F5E4E900749F1C /* details@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A413F5E4E900749F1C /* details@2x.png */; };
 		160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 160ED0B813CA41E5001021F7 /* FileHelpers.m */; };
 		161100A913EA035D00D2D2FC /* chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A513EA035D00D2D2FC /* chart.png */; };
 		161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A613EA035D00D2D2FC /* chart@2x.png */; };
@@ -28,6 +33,8 @@
 		1628039C13F0361F00848A31 /* NSDictionary+Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 1628039B13F0361F00848A31 /* NSDictionary+Section.m */; };
 		1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */; };
 		1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */; };
+		16376D8413F5B961002E0036 /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16376D8313F5B961002E0036 /* DetailView.m */; };
+		16376D8813F5C690002E0036 /* DetailSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16376D8713F5C690002E0036 /* DetailSummaryView.m */; };
 		1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */; };
 		1640EC1A13BE13A7008190C1 /* EfficiencyInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */; };
 		1641350513ECA5ED00BFD3DD /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350313ECA5ED00BFD3DD /* add.png */; };
@@ -65,8 +72,6 @@
 		1666FD3713B911A400FC97F1 /* FuelSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */; };
 		1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */; };
 		1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */; };
-		167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 167E52C513C4EF070024CA9A /* RatioInputViewController.m */; };
-		167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 167E52C713C4EF330024CA9A /* RatioInputViewController.xib */; };
 		16807DFC13F1EFCE00D1F51D /* piggy_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF613F1EFCE00D1F51D /* piggy_tab.png */; };
 		16807DFD13F1EFCE00D1F51D /* piggy_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */; };
 		16807E0F13F1F59100D1F51D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E0D13F1F59100D1F51D /* Icon.png */; };
@@ -98,6 +103,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1602039E13F5E26400749F1C /* DetailSummaryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailSummaryViewCell.h; sourceTree = "<group>"; };
+		1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailSummaryViewCell.m; sourceTree = "<group>"; };
+		160203A113F5E4E900749F1C /* car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = car.png; sourceTree = "<group>"; };
+		160203A213F5E4E900749F1C /* car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@2x.png"; sourceTree = "<group>"; };
+		160203A313F5E4E900749F1C /* details.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = details.png; sourceTree = "<group>"; };
+		160203A413F5E4E900749F1C /* details@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details@2x.png"; sourceTree = "<group>"; };
 		160ED0B713CA41E5001021F7 /* FileHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHelpers.h; sourceTree = "<group>"; };
 		160ED0B813CA41E5001021F7 /* FileHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHelpers.m; sourceTree = "<group>"; };
 		161100A513EA035D00D2D2FC /* chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chart.png; sourceTree = "<group>"; };
@@ -128,6 +139,10 @@
 		1635AFD613D0C549005FC8EB /* CurrentTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentTripViewController.h; sourceTree = "<group>"; };
 		1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentTripViewController.m; sourceTree = "<group>"; };
 		1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentTripViewController.xib; sourceTree = "<group>"; };
+		16376D8213F5B961002E0036 /* DetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailView.h; sourceTree = "<group>"; };
+		16376D8313F5B961002E0036 /* DetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailView.m; sourceTree = "<group>"; };
+		16376D8613F5C690002E0036 /* DetailSummaryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailSummaryView.h; sourceTree = "<group>"; };
+		16376D8713F5C690002E0036 /* DetailSummaryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailSummaryView.m; sourceTree = "<group>"; };
 		1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EfficiencyInputViewController.h; sourceTree = "<group>"; };
 		1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EfficiencyInputViewController.m; sourceTree = "<group>"; };
 		1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EfficiencyInputViewController.xib; sourceTree = "<group>"; };
@@ -178,9 +193,6 @@
 		1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySavingsViewController.xib; sourceTree = "<group>"; };
 		1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		1677C05913C64A9F0013CDD3 /* FuelSavingsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsHelpers.h; sourceTree = "<group>"; };
-		167E52C413C4EF070024CA9A /* RatioInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatioInputViewController.h; sourceTree = "<group>"; };
-		167E52C513C4EF070024CA9A /* RatioInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatioInputViewController.m; sourceTree = "<group>"; };
-		167E52C713C4EF330024CA9A /* RatioInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RatioInputViewController.xib; sourceTree = "<group>"; };
 		16807DF613F1EFCE00D1F51D /* piggy_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggy_tab.png; sourceTree = "<group>"; };
 		16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piggy_tab@2x.png"; sourceTree = "<group>"; };
 		16807E0D13F1F59100D1F51D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -246,8 +258,6 @@
 				161F956B13BA474B00DE5E5C /* PriceInputViewController.m */,
 				16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */,
 				16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */,
-				167E52C413C4EF070024CA9A /* RatioInputViewController.h */,
-				167E52C513C4EF070024CA9A /* RatioInputViewController.m */,
 				16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */,
 				16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */,
 				1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */,
@@ -262,7 +272,6 @@
 				16A707AE13BA057D00A0E93F /* NameInputViewController.xib */,
 				161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */,
 				161F956D13BA479300DE5E5C /* PriceInputViewController.xib */,
-				167E52C713C4EF330024CA9A /* RatioInputViewController.xib */,
 				16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */,
 				16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */,
 				1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */,
@@ -279,6 +288,12 @@
 				16C9E31D13E83E71001809B2 /* TotalView.m */,
 				1643A65813E9B8F9005F2F1F /* TotalDetailViewCell.h */,
 				1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */,
+				16376D8213F5B961002E0036 /* DetailView.h */,
+				16376D8313F5B961002E0036 /* DetailView.m */,
+				16376D8613F5C690002E0036 /* DetailSummaryView.h */,
+				16376D8713F5C690002E0036 /* DetailSummaryView.m */,
+				1602039E13F5E26400749F1C /* DetailSummaryViewCell.h */,
+				1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -286,6 +301,10 @@
 		165ACFB113B937A500A2AD3E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				160203A113F5E4E900749F1C /* car.png */,
+				160203A213F5E4E900749F1C /* car@2x.png */,
+				160203A313F5E4E900749F1C /* details.png */,
+				160203A413F5E4E900749F1C /* details@2x.png */,
 				16807E1913F1F9A200D1F51D /* navigation.png */,
 				16807E1A13F1F9A200D1F51D /* navigation@2x.png */,
 				16807E1313F1F68900D1F51D /* tags.png */,
@@ -536,7 +555,6 @@
 				16807F6613BEA0AE0036F89E /* saved_tab@2x.png in Resources */,
 				16807F6713BEA0AE0036F89E /* trip_tab.png in Resources */,
 				16807F6813BEA0AE0036F89E /* trip_tab@2x.png in Resources */,
-				167E52C813C4EF330024CA9A /* RatioInputViewController.xib in Resources */,
 				1654418E13CC88690060D1C3 /* savings_tab.png in Resources */,
 				1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */,
 				1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */,
@@ -557,6 +575,10 @@
 				16807E1813F1F68900D1F51D /* tags@2x.png in Resources */,
 				16807E1B13F1F9A200D1F51D /* navigation.png in Resources */,
 				16807E1C13F1F9A200D1F51D /* navigation@2x.png in Resources */,
+				160203A513F5E4E900749F1C /* car.png in Resources */,
+				160203A613F5E4E900749F1C /* car@2x.png in Resources */,
+				160203A713F5E4E900749F1C /* details.png in Resources */,
+				160203A813F5E4E900749F1C /* details@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,7 +606,6 @@
 				16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */,
 				1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */,
 				16807F5913BE9E430036F89E /* TripViewController.m in Sources */,
-				167E52C613C4EF070024CA9A /* RatioInputViewController.m in Sources */,
 				160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */,
 				16CBB87813D0805F00E8BD05 /* Trip.m in Sources */,
 				16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */,
@@ -598,6 +619,9 @@
 				16C9E31E13E83E71001809B2 /* TotalView.m in Sources */,
 				1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */,
 				1628039C13F0361F00848A31 /* NSDictionary+Section.m in Sources */,
+				16376D8413F5B961002E0036 /* DetailView.m in Sources */,
+				16376D8813F5C690002E0036 /* DetailSummaryView.m in Sources */,
+				160203A013F5E26400749F1C /* DetailSummaryViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

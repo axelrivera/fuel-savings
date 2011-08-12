@@ -12,7 +12,6 @@
 #import "TypeInputViewController.h"
 #import "PriceInputViewController.h"
 #import "DistanceInputViewController.h"
-#import "RatioInputViewController.h"
 #import "OwnerInputViewController.h"
 #import "NameInputViewController.h"
 #import "EfficiencyInputViewController.h"
@@ -22,9 +21,8 @@
 @protocol CurrentSavingsViewControllerDelegate;
 
 @interface CurrentSavingsViewController : UIViewController
-	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
-	RatioInputViewControllerDelegate, OwnerInputViewControllerDelegate, NameInputViewControllerDelegate,
-	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
+	<TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, OwnerInputViewControllerDelegate,
+	NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
 {
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;

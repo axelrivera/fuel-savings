@@ -14,7 +14,6 @@
 static NSString * const typeKey = @"TypeKey";
 static NSString * const fuelPriceKey = @"PriceKey";
 static NSString * const distanceKey = @"DistanceKey";
-static NSString * const ratioKey = @"RatioKey";
 static NSString * const carOwnershipKey = @"CarOwnershipKey";
 
 static NSString * const vehicle1Key = @"Vehicle1Key";
@@ -294,7 +293,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			TypeInputViewController *inputViewController = [[TypeInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentType = self.currentSavings.type;
-			inputViewController.footerText = @"You can calculate the cost of fuel by selecting one of these options.";
+			inputViewController.currentCityRatio = self.currentSavings.cityRatio;
+			inputViewController.currentHighwayRatio = self.currentSavings.highwayRatio;
 			viewController = inputViewController;
 		} else if ([key isEqualToString:fuelPriceKey]) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
@@ -309,13 +309,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			inputViewController.distanceSuffix = @"miles/year";
 			inputViewController.footerText = @"On average, how much do you drive your car every year?";
 			viewController = inputViewController;
-		} else if ([key isEqualToString:ratioKey]) {
-			RatioInputViewController *inputViewcontroller = [[RatioInputViewController alloc] init];
-			inputViewcontroller.delegate = self;
-			inputViewcontroller.currentCityRatio = self.currentSavings.cityRatio;
-			inputViewcontroller.currentHighwayRatio = self.currentSavings.highwayRatio;
-			inputViewcontroller.footerText = @"On average, how much do you drive in both city and highway?";
-			viewController = inputViewcontroller;
 		} else {
 			OwnerInputViewController *inputViewController = [[OwnerInputViewController alloc] init];
 			inputViewController.delegate = self;
@@ -380,6 +373,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 {
 	if (save) {
 		self.currentSavings.type = controller.currentType;
+		self.currentSavings.cityRatio = controller.currentCityRatio;
+		self.currentSavings.highwayRatio = controller.currentHighwayRatio;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -396,15 +391,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 {
 	if (save) {
 		self.currentSavings.distance = controller.currentDistance;
-	}
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)ratioInputViewControllerDidFinish:(RatioInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		self.currentSavings.cityRatio = controller.currentCityRatio;
-		self.currentSavings.highwayRatio = controller.currentHighwayRatio;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -517,22 +503,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 												text:@"Distance"
 											  detail:[NSString stringWithFormat:@"%@ miles/year", distanceStr]];
 	[array addObject:dictionary];
-	
-	if (self.currentSavings.type == EfficiencyTypeCombined) {
-		NSNumberFormatter *ratioFormatter = [[NSNumberFormatter alloc] init];
-		[ratioFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-		[ratioFormatter setMaximumFractionDigits:0];
-		
-		NSString *ratioStr = [NSString stringWithFormat:@"%@ City / %@ Highway",
-							  [ratioFormatter stringFromNumber:self.currentSavings.cityRatio],
-							  [ratioFormatter stringFromNumber:self.currentSavings.highwayRatio]];
-		[ratioFormatter release];
-		
-		dictionary = [NSDictionary textDictionaryWithKey:ratioKey
-													text:@"Ratio"
-												  detail:ratioStr];
-		[array addObject:dictionary];
-	}
 	
 	NSString *ownershipStr = nil;
 	

@@ -1,0 +1,104 @@
+//
+//  DetailView.m
+//  Fuel Savings
+//
+//  Created by Axel Rivera on 8/12/11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import "DetailView.h"
+
+@implementation DetailView
+
+@synthesize text = text_;
+@synthesize detail = detail_;
+@synthesize textLabel = textLabel_;
+@synthesize detailTextLabel = detailTextLabel_;
+
+- (id)initWithText:(NSString *)text detail:(NSString *)detail
+{
+	self = [super initWithFrame:CGRectZero];
+	if (self) {
+		self.opaque = YES;
+		
+		textFont_ = [[UIFont boldSystemFontOfSize:14.0] retain];
+		detailFont_ = [[UIFont systemFontOfSize:14.0] retain];
+		
+		text_ = [text retain];
+		detail_ = [detail retain];
+		
+		textLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
+		textLabel_.font = textFont_;
+		textLabel_.backgroundColor = [UIColor clearColor];
+		textLabel_.textColor = [UIColor blackColor];
+		textLabel_.textAlignment = UITextAlignmentLeft;
+		textLabel_.lineBreakMode = UILineBreakModeTailTruncation;
+		textLabel_.adjustsFontSizeToFitWidth = NO;
+		textLabel_.text = text_;
+		
+		[self addSubview:textLabel_];
+		
+		detailTextLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
+		detailTextLabel_.font = detailFont_;
+		detailTextLabel_.backgroundColor = [UIColor clearColor];
+		detailTextLabel_.textColor = [UIColor darkGrayColor];
+		detailTextLabel_.textAlignment = UITextAlignmentRight;
+		detailTextLabel_.lineBreakMode = UILineBreakModeHeadTruncation;
+		detailTextLabel_.adjustsFontSizeToFitWidth = NO;
+		detailTextLabel_.text = detail_;
+		
+		[self addSubview:detailTextLabel_];
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+	[textFont_ release];
+	[detailFont_ release];
+	[text_ release];
+	[detail_ release];
+	[textLabel_ release];
+	[detailTextLabel_ release];
+	[super dealloc];
+}
+
+- (void)layoutSubviews
+{
+#define HEIGHT 17.0
+#define PADDING 3.0
+#define HORIZONTAL_OFFSET 2.0
+
+	CGSize textLabelSize = [text_ sizeWithFont:textFont_];
+	
+	if (textLabelSize.width >= self.frame.size.width) {
+		textLabelSize.width = (self.frame.size.width / 2.0) - HORIZONTAL_OFFSET;
+	}
+	
+	self.frame = CGRectMake(self.frame.origin.x,
+							self.frame.origin.y,
+							self.superview.frame.size.width,
+							PADDING + HEIGHT + PADDING);
+	
+	textLabel_.frame = CGRectMake(PADDING,
+								  PADDING,
+								  textLabelSize.width,
+								  HEIGHT - (PADDING + PADDING));
+	
+	detailTextLabel_.frame = CGRectMake(PADDING + textLabelSize.width + HORIZONTAL_OFFSET,
+										PADDING,
+										self.frame.size.width - (PADDING + textLabelSize.width + HORIZONTAL_OFFSET + PADDING),
+										HEIGHT);
+}
+
+- (void)setText:(NSString *)text detail:(NSString *)detail
+{
+	[text_ autorelease];
+	text_ = [text retain];
+	
+	[detail_ autorelease];
+	detail_ = [detail_ retain];
+	[self setNeedsDisplay];
+}
+
+@end

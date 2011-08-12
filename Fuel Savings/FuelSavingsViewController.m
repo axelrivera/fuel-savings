@@ -10,6 +10,8 @@
 #import "TotalView.h"
 #import "TotalViewCell.h"
 #import "TotalDetailViewCell.h"
+#import "DetailSummaryView.h"
+#import "DetailSummaryViewCell.h"
 
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_DELETE_TAG 2
@@ -406,6 +408,22 @@
 			
 			return detailCell;
 		}
+	} else if (indexPath.section == 2) {
+		
+		static NSString *DetailCellIdentifier = @"DetailCell";
+		
+		DetailSummaryViewCell *detailCell = (DetailSummaryViewCell *)[tableView dequeueReusableCellWithIdentifier:DetailCellIdentifier];
+		
+		if (detailCell == nil) {
+			detailCell = [[[DetailSummaryViewCell alloc] initWithLabels:[NSArray arrayWithObjects:@"Title One", @"Title Two", nil]
+																details:[NSArray arrayWithObjects:@"Description One", @"Description Two", nil] reuseIdentifier:DetailCellIdentifier] autorelease];
+		}
+		
+		
+		detailCell.summaryView.imageView.image = [UIImage imageNamed:@"details.png"];
+		detailCell.summaryView.titleLabel.text = @"Details";
+		
+		return detailCell;
 	}
 	
 	static NSString *CellIdentifier = @"Cell";
@@ -424,51 +442,51 @@
 	CGFloat contentWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
 	
 	if (indexPath.section == 2) {
-		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		textLabel.lineBreakMode = UILineBreakModeWordWrap;
-		textLabel.numberOfLines = 3;
-		textLabel.textAlignment = UITextAlignmentCenter;
-		textLabel.backgroundColor = [UIColor clearColor];
-		textLabel.textColor = [UIColor darkGrayColor];
-		textLabel.font = [UIFont systemFontOfSize:14.0];
-		textLabel.shadowColor = [UIColor whiteColor];
-		textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		
-		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-		
-		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-		
-		NSString *fuelStr = [formatter stringFromNumber:self.currentSavings.fuelPrice];
-		
-		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[formatter setMaximumFractionDigits:0];
-		
-		NSString *distanceStr = [formatter stringFromNumber:self.currentSavings.distance];
-		
-		NSInteger years = [self.currentSavings.carOwnership integerValue];
-		
-		NSString *yearsStr = nil;
-		
-		if (years == 1) {
-			yearsStr = [NSString stringWithFormat:@"%i year", years];
-		} else {
-			yearsStr = [NSString stringWithFormat:@"%i years", years];
-		}
-		
-		textLabel.text = [NSString stringWithFormat:
-						  @"Fuel Price - %@ /gallon\n"
-						  @"Distance - %@ miles/year\n"
-						  @"Ownership - %@",
-						  fuelStr,
-						  distanceStr,
-						  yearsStr];
-		
-		textLabel.frame = CGRectMake(10.0, 0.0, contentWidth, 66.0);
-		
-		cell.accessoryView = textLabel;
-		
-		[textLabel release];
-		[formatter release];
+//		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+//		textLabel.lineBreakMode = UILineBreakModeWordWrap;
+//		textLabel.numberOfLines = 3;
+//		textLabel.textAlignment = UITextAlignmentCenter;
+//		textLabel.backgroundColor = [UIColor clearColor];
+//		textLabel.textColor = [UIColor darkGrayColor];
+//		textLabel.font = [UIFont systemFontOfSize:14.0];
+//		textLabel.shadowColor = [UIColor whiteColor];
+//		textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+//		
+//		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+//		
+//		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+//		
+//		NSString *fuelStr = [formatter stringFromNumber:self.currentSavings.fuelPrice];
+//		
+//		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+//		[formatter setMaximumFractionDigits:0];
+//		
+//		NSString *distanceStr = [formatter stringFromNumber:self.currentSavings.distance];
+//		
+//		NSInteger years = [self.currentSavings.carOwnership integerValue];
+//		
+//		NSString *yearsStr = nil;
+//		
+//		if (years == 1) {
+//			yearsStr = [NSString stringWithFormat:@"%i year", years];
+//		} else {
+//			yearsStr = [NSString stringWithFormat:@"%i years", years];
+//		}
+//		
+//		textLabel.text = [NSString stringWithFormat:
+//						  @"Fuel Price - %@ /gallon\n"
+//						  @"Distance - %@ miles/year\n"
+//						  @"Ownership - %@",
+//						  fuelStr,
+//						  distanceStr,
+//						  yearsStr];
+//		
+//		textLabel.frame = CGRectMake(10.0, 0.0, contentWidth, 66.0);
+//		
+//		cell.accessoryView = textLabel;
+//		
+//		[textLabel release];
+//		[formatter release];
 	} else {
 		UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
 		[leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
@@ -526,6 +544,8 @@
 {
     if (section == 0) {
 		return 13.0;
+	} else if (section == 2) {
+		return 54.0;
 	}
     return 1.0;
 }
