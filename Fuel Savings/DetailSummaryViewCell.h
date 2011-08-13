@@ -13,7 +13,9 @@
 
 @property (nonatomic, retain) DetailSummaryView *summaryView;
 
-- (id)initWithLabels:(NSArray *)labels details:(NSArray *)details reuseIdentifier:(NSString *)reuseIdentifier;
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
+
+- (void)setSummaryView:(DetailSummaryView *)summaryView;
 - (void)redisplay;
 
 @end

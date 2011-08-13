@@ -481,40 +481,19 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	dictionary = [NSDictionary textDictionaryWithKey:typeKey text:@"Using" detail:typeStr];
 	[array addObject:dictionary];
 	
-	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
-	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-	
-	NSString *priceStr = [priceFormatter stringFromNumber:self.currentSavings.fuelPrice];
-	[priceFormatter release];
-	
 	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
 												text:@"Fuel Price"
-											  detail:[NSString stringWithFormat:@"%@ /gallon", priceStr]];
+											  detail:[self.currentSavings stringForFuelPrice]];
 	[array addObject:dictionary];
-	
-	NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
-	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	[distanceFormatter setMaximumFractionDigits:0];
-	
-	NSString *distanceStr = [distanceFormatter stringFromNumber:self.currentSavings.distance];
-	[distanceFormatter release];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
 												text:@"Distance"
-											  detail:[NSString stringWithFormat:@"%@ miles/year", distanceStr]];
+											  detail:[self.currentSavings stringForDistance]];
 	[array addObject:dictionary];
-	
-	NSString *ownershipStr = nil;
-	
-	if ([self.currentSavings.carOwnership integerValue] > 1) {
-		ownershipStr = [NSString stringWithFormat:@"%@ years", [self.currentSavings.carOwnership stringValue]];
-	} else {
-		ownershipStr = [NSString stringWithFormat:@"%@ year", [self.currentSavings.carOwnership stringValue]];					
-	}
 	
 	dictionary = [NSDictionary textDictionaryWithKey:carOwnershipKey
 												text:@"Ownership"
-											  detail:ownershipStr];
+											  detail:[self.currentSavings stringForCarOwnership]];
 	[array addObject:dictionary];
 	
 	return array;
@@ -548,31 +527,26 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	[array addObject:dictionary];
 	
-	NSString *nameStr = [NSString stringWithString:vehicle.name];
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
 												text:@"Name"
-											  detail:nameStr];
+											  detail:[vehicle stringForName]];
 	[array addObject:dictionary];
 	
-	NSString *efficiencyFormatString = @"%@ MPG";
 	
 	if (self.currentSavings.type == EfficiencyTypeAverage) {
-		NSString *combinedStr = [NSString stringWithFormat:efficiencyFormatString, [vehicle.avgEfficiency stringValue]];
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
 													text:@"Average MPG"
-												  detail:combinedStr];
+												  detail:[vehicle stringForAvgEfficiency]];
 		[array addObject:dictionary];
 	} else {
-		NSString *cityStr = [NSString stringWithFormat:efficiencyFormatString, [vehicle.cityEfficiency stringValue]];
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleCityEfficiencyKey
 													text:@"City MPG"
-												  detail:cityStr];
+												  detail:[vehicle stringForCityEfficiency]];
 		[array addObject:dictionary];
 		
-		NSString *highwayStr = [NSString stringWithFormat:efficiencyFormatString, [vehicle.highwayEfficiency stringValue]];
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleHighwayEfficiencyKey
 													text:@"Highway MPG"
-												  detail:highwayStr];
+												  detail:[vehicle stringForHighwayEfficiency]];
 		[array addObject:dictionary];
 	}
 	

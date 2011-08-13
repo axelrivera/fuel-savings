@@ -10,6 +10,7 @@
 #import "CurrentSavingsViewController.h"
 #import "SavingsData.h"
 #import "Savings.h"
+#import "DetailSummaryView.h"
 #import "NameInputViewController.h"
 
 @interface FuelSavingsViewController : UITableViewController <UIActionSheetDelegate, CurrentSavingsViewControllerDelegate,
@@ -19,6 +20,9 @@
 	NSNumberFormatter *currencyFormatter_;
 	BOOL isNewSavings_;
 	BOOL showNewAction_;
+	DetailSummaryView *infoSummary_;
+	DetailSummaryView *car1Summary_;
+	DetailSummaryView *car2Summary_;
 }
 
 @property (nonatomic, assign) BOOL showButtons;

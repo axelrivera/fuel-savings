@@ -24,6 +24,11 @@
 
 - (id)initWithName:(NSString *)name;
 
+- (NSString *)stringForName;
+- (NSString *)stringForAvgEfficiency;
+- (NSString *)stringForCityEfficiency;
+- (NSString *)stringForHighwayEfficiency;
+
 - (BOOL)hasDataReady;
 - (BOOL)isVehicleEmpty;
 

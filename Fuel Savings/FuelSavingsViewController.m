@@ -10,11 +10,18 @@
 #import "TotalView.h"
 #import "TotalViewCell.h"
 #import "TotalDetailViewCell.h"
-#import "DetailSummaryView.h"
 #import "DetailSummaryViewCell.h"
 
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_DELETE_TAG 2
+
+@interface FuelSavingsViewController (Private)
+
+- (void)setInfoSummary:(DetailSummaryView *)summary;
+- (void)setCar1Summary:(DetailSummaryView *)summary;
+- (void)setCar2Summary:(DetailSummaryView *)summary;
+
+@end
 
 @implementation FuelSavingsViewController
 
@@ -73,13 +80,13 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																				target:self
-																				action:@selector(editAction)];
-	self.navigationItem.rightBarButtonItem = editButton;
-	[editButton release];
-	
 	if (self.showButtons) {
+		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																					target:self
+																					action:@selector(editAction)];
+		self.navigationItem.rightBarButtonItem = editButton;
+		[editButton release];
+		
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
@@ -91,6 +98,9 @@
 			self.currentSavings = savingsData_.currentSavings;
 		}
 	}
+	
+	self.tableView.sectionHeaderHeight = 10.0;
+	self.tableView.sectionFooterHeight = 10.0;
 }
 
 - (void)viewDidUnload
@@ -107,6 +117,92 @@
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 	if (![self.currentSavings isSavingsEmpty]) {
 		self.navigationItem.rightBarButtonItem.enabled = YES;
+		
+		NSMutableArray *infoLabels = [[NSMutableArray alloc] initWithCapacity:0];
+		NSMutableArray *infoDetails = [[NSMutableArray alloc] initWithCapacity:0];
+		
+		[infoLabels addObject:@"Using"];
+		[infoDetails addObject:[self.currentSavings stringForCurrentType]];
+		
+		[infoLabels addObject:@"Fuel Price"];
+		[infoDetails addObject:[self.currentSavings stringForFuelPrice]];
+		
+		[infoLabels addObject:@"Distance"];
+		[infoDetails addObject:[self.currentSavings stringForDistance]];
+		
+		if (self.currentSavings.type == EfficiencyTypeCombined) {
+			[infoLabels addObject:@"City Drive Ratio"];
+			[infoDetails addObject:[self.currentSavings stringForCityRatio]];
+			
+			[infoLabels addObject:@"Highway Drive Ratio"];
+			[infoDetails addObject:[self.currentSavings stringForHighwayRatio]];
+		}
+		
+		[infoLabels addObject:@"Ownership"];
+		[infoDetails addObject:[self.currentSavings stringForCarOwnership]];
+		
+		DetailSummaryView *infoView = [[DetailSummaryView alloc] initWithLabels:infoLabels details:infoDetails];
+		infoView.titleLabel.text = @"Details";
+		infoView.imageView.image = [UIImage imageNamed:@"details.png"];
+		[self setInfoSummary:infoView];
+		[infoView release];
+		
+		[infoLabels release];
+		[infoDetails release];
+		
+		NSMutableArray *car1Labels = [[NSMutableArray alloc] initWithCapacity:0];
+		NSMutableArray *car1Details = [[NSMutableArray alloc] initWithCapacity:0];
+		
+		[car1Labels addObject:@"Name"];
+		[car1Details addObject:[self.currentSavings.vehicle1 stringForName]];
+		
+		if (self.currentSavings.type == EfficiencyTypeAverage) {
+			[car1Labels addObject:@"Average MPG"];
+			[car1Details addObject:[self.currentSavings.vehicle1 stringForAvgEfficiency]];
+		} else {
+			[car1Labels addObject:@"City MPG"];
+			[car1Details addObject:[self.currentSavings.vehicle1 stringForCityEfficiency]];
+			
+			[car1Labels addObject:@"Highway MPG"];
+			[car1Details addObject:[self.currentSavings.vehicle1 stringForHighwayEfficiency]];
+		}
+		
+		DetailSummaryView *car1View = [[DetailSummaryView alloc] initWithLabels:car1Labels details:car1Details];
+		car1View.titleLabel.text = @"Car 1";
+		car1View.imageView.image = [UIImage imageNamed:@"car.png"];
+		[self setCar1Summary:car1View];
+		[car1View release];
+		
+		[car1Labels release];
+		[car1Details release];
+		
+		if ([self.currentSavings.vehicle2 hasDataReady]) {
+			NSMutableArray *car2Labels = [[NSMutableArray alloc] initWithCapacity:0];
+			NSMutableArray *car2Details = [[NSMutableArray alloc] initWithCapacity:0];
+			
+			[car2Labels addObject:@"Name"];
+			[car2Details addObject:[self.currentSavings.vehicle2 stringForName]];
+			
+			if (self.currentSavings.type == EfficiencyTypeAverage) {
+				[car2Labels addObject:@"Average MPG"];
+				[car2Details addObject:[self.currentSavings.vehicle2 stringForAvgEfficiency]];
+			} else {
+				[car2Labels addObject:@"City MPG"];
+				[car2Details addObject:[self.currentSavings.vehicle2 stringForCityEfficiency]];
+				
+				[car2Labels addObject:@"Highway MPG"];
+				[car2Details addObject:[self.currentSavings.vehicle2 stringForHighwayEfficiency]];
+			}
+			
+			DetailSummaryView *car2View = [[DetailSummaryView alloc] initWithLabels:car2Labels details:car2Details];
+			car2View.titleLabel.text = @"Car 2";
+			car2View.imageView.image = [UIImage imageNamed:@"car.png"];
+			[self setCar2Summary:car2View];
+			[car2View release];
+			
+			[car2Labels release];
+			[car2Details release];
+		}
 	}
 	[self.tableView reloadData];
 }
@@ -237,6 +333,26 @@
 	}
 }
 
+#pragma mark - Private Methods
+
+- (void)setInfoSummary:(DetailSummaryView *)summary
+{
+	[infoSummary_ autorelease];
+	infoSummary_ = [summary retain];
+}
+
+- (void)setCar1Summary:(DetailSummaryView *)summary
+{
+	[car1Summary_ autorelease];
+	car1Summary_ = [summary retain];
+}
+
+- (void)setCar2Summary:(DetailSummaryView *)summary
+{
+	[car2Summary_ autorelease];
+	car2Summary_ = [summary retain];
+}
+
 #pragma mark - View Controller Delegates
 
 - (void)currentSavingsViewControllerDelegateDidFinish:(CurrentSavingsViewController *)controller save:(BOOL)save
@@ -269,17 +385,17 @@
 	if ([self.currentSavings isSavingsEmpty]) {
 		return 0;
 	}
-	NSInteger sections = 3;
-	if (self.showButtons) {
-		sections = sections + 1;
-	}
-	return sections;
+	return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	NSInteger rows = 1;
 	if (section <= 1 && [self.currentSavings.vehicle2 hasDataReady]) {
+		rows = 2;
+	} else if (section == 2 && [self.currentSavings.vehicle2 hasDataReady]) {
+		rows = 3;
+	} else if (section == 2 && ![self.currentSavings.vehicle2 hasDataReady]) {
 		rows = 2;
 	}
 	return rows;
@@ -408,123 +524,34 @@
 			
 			return detailCell;
 		}
-	} else if (indexPath.section == 2) {
-		
-		static NSString *DetailCellIdentifier = @"DetailCell";
-		
-		DetailSummaryViewCell *detailCell = (DetailSummaryViewCell *)[tableView dequeueReusableCellWithIdentifier:DetailCellIdentifier];
-		
-		if (detailCell == nil) {
-			detailCell = [[[DetailSummaryViewCell alloc] initWithLabels:[NSArray arrayWithObjects:@"Title One", @"Title Two", nil]
-																details:[NSArray arrayWithObjects:@"Description One", @"Description Two", nil] reuseIdentifier:DetailCellIdentifier] autorelease];
-		}
-		
-		
-		detailCell.summaryView.imageView.image = [UIImage imageNamed:@"details.png"];
-		detailCell.summaryView.titleLabel.text = @"Details";
-		
-		return detailCell;
 	}
 	
-	static NSString *CellIdentifier = @"Cell";
+	DetailSummaryView *summary = nil;
 	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	
-	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-	}
-	
-	UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-	cell.backgroundColor = [UIColor clearColor];
-	cell.backgroundView = backView;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	CGFloat contentWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
-	
-	if (indexPath.section == 2) {
-//		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-//		textLabel.lineBreakMode = UILineBreakModeWordWrap;
-//		textLabel.numberOfLines = 3;
-//		textLabel.textAlignment = UITextAlignmentCenter;
-//		textLabel.backgroundColor = [UIColor clearColor];
-//		textLabel.textColor = [UIColor darkGrayColor];
-//		textLabel.font = [UIFont systemFontOfSize:14.0];
-//		textLabel.shadowColor = [UIColor whiteColor];
-//		textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-//		
-//		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-//		
-//		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-//		
-//		NSString *fuelStr = [formatter stringFromNumber:self.currentSavings.fuelPrice];
-//		
-//		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-//		[formatter setMaximumFractionDigits:0];
-//		
-//		NSString *distanceStr = [formatter stringFromNumber:self.currentSavings.distance];
-//		
-//		NSInteger years = [self.currentSavings.carOwnership integerValue];
-//		
-//		NSString *yearsStr = nil;
-//		
-//		if (years == 1) {
-//			yearsStr = [NSString stringWithFormat:@"%i year", years];
-//		} else {
-//			yearsStr = [NSString stringWithFormat:@"%i years", years];
-//		}
-//		
-//		textLabel.text = [NSString stringWithFormat:
-//						  @"Fuel Price - %@ /gallon\n"
-//						  @"Distance - %@ miles/year\n"
-//						  @"Ownership - %@",
-//						  fuelStr,
-//						  distanceStr,
-//						  yearsStr];
-//		
-//		textLabel.frame = CGRectMake(10.0, 0.0, contentWidth, 66.0);
-//		
-//		cell.accessoryView = textLabel;
-//		
-//		[textLabel release];
-//		[formatter release];
+	if (indexPath.row == 0) {
+		summary = infoSummary_;
+	} else if (indexPath.row == 1) {
+		summary = car1Summary_;
 	} else {
-		UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
-		
-		UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[rightButton setTitle:@"Delete" forState:UIControlStateNormal];
-		
-		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectZero];
-		buttonView.frame = CGRectMake(20.0, 0.0, contentWidth, 44.0);
-		
-		leftButton.frame = CGRectMake(0.0,
-									  0.0,
-									  (contentWidth / 2.0) - 5.0,
-									  44.0);
-		
-		rightButton.frame = CGRectMake((contentWidth / 2.0) + 5.0,
-									  0.0,
-									  (contentWidth / 2.0) - 5.0,
-									  44.0);
-		
-		[buttonView addSubview:leftButton];
-		[buttonView addSubview:rightButton];
-		
-		cell.accessoryView = buttonView;
-		
-		[leftButton release];
-		[rightButton release];
-		[buttonView release];
+		summary = car2Summary_;
 	}
 	
-	return cell;
+	NSString *SummaryCellIdentifier = [NSString stringWithFormat:@"SummaryCell%i", [summary.detailViews count]];
+	
+	DetailSummaryViewCell *summaryCell = (DetailSummaryViewCell *)[tableView dequeueReusableCellWithIdentifier:SummaryCellIdentifier];
+	
+	if (summaryCell == nil) {
+		summaryCell = [[[DetailSummaryViewCell alloc] initWithReuseIdentifier:SummaryCellIdentifier] autorelease];
+	}
+	
+	[summaryCell setSummaryView:summary];
+	
+	return summaryCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSInteger height = 44.0;
+	CGFloat height = 44.0;
 	if (indexPath.section <= 1) {
 		if (indexPath.row < 1) {
 			height = 66.0;
@@ -535,38 +562,67 @@
 			height = 46.0;
 		}
 	} else if (indexPath.section == 2) {
-		height = 66.0;
+		if (indexPath.row == 0) {
+			if (self.currentSavings.type == EfficiencyTypeAverage) {
+				height = 117.0;
+			} else {
+				height = 151.0;
+			}
+		} else {
+			if (self.currentSavings.type == EfficiencyTypeAverage) {
+				height = 83.0;
+			} else {
+				height = 100.0;
+			}
+		}
 	}
 	return height;
 }
 
--(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
-		return 13.0;
-	} else if (section == 2) {
-		return 54.0;
+	if (section == 2 && self.navigationItem.rightBarButtonItem != nil) {
+		CGFloat contentWidth = [UIScreen mainScreen].bounds.size.width;
+		
+		UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
+		
+		UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[rightButton setTitle:@"Delete" forState:UIControlStateNormal];
+		
+		UIView *buttonView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+		//buttonView.frame = CGRectMake(0.0, 0.0, contentWidth, 84.0);
+		
+		leftButton.frame = CGRectMake(10.0,
+									  20.0,
+									  (contentWidth / 2.0) - (10.0 + 5.0),
+									  44.0);
+		
+		rightButton.frame = CGRectMake((contentWidth / 2.0) + 5.0,
+									   20.0,
+									   (contentWidth / 2.0) - (10.0 + 5.0),
+									   44.0);
+		
+		[buttonView addSubview:leftButton];
+		[buttonView addSubview:rightButton];
+		
+		
+		[leftButton release];
+		[rightButton release];
+		
+		return buttonView;
 	}
-    return 1.0;
+	return nil;
 }
 
--(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-	NSInteger height = 13.0;
-	if (section == 1 || section == 2) {
-		height = 1.0;
+	if (section == 2) {
+		return 84.0;
 	}
-    return height;
-}
-
--(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
--(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
-{
-    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+	return 10.0;
 }
 
 #pragma mark - UIActionSheet Delegate

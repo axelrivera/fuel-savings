@@ -25,9 +25,10 @@
 		NSAssert([labels count] == [details count], @"Labels and Details must have the same size");
 		
 		self.opaque = YES;
+		self.tag = DETAIL_SUMMARY_VIEW_TAG;
 		
-		self.oddColor = [UIColor clearColor];
-		self.evenColor = [UIColor lightGrayColor];
+		self.oddColor = [UIColor whiteColor];
+		self.evenColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:236.0/255.0 alpha:1.0];
 		
 		labels_ = [labels retain];
 		details_ = [details retain];
@@ -35,6 +36,11 @@
 		imageView_ = [[UIImageView alloc] initWithFrame:CGRectZero];
 		imageView_.contentMode = UIViewContentModeScaleAspectFit;
 		[self addSubview:imageView_];
+		
+		titleLabel_  = [[UILabel alloc] initWithFrame:CGRectZero];
+		titleLabel_.font = [UIFont systemFontOfSize:20.0];
+		titleLabel_.backgroundColor = [UIColor whiteColor];
+		[self addSubview:titleLabel_];
 		
 		NSInteger totalViews = [labels count];
 		
@@ -71,8 +77,7 @@
 
 - (void)layoutSubviews
 {
-#define VERTICAL_OFFSET 5.0
-	CGFloat detailY = 15.0;
+	CGFloat detailY = 39.0;
 	
 	self.imageView.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
 	
@@ -91,7 +96,7 @@
 									  self.bounds.size.width - (10.0 + 10.0),
 									  detailView.frame.size.height);
 		
-		detailY = detailY + detailView.frame.size.height + VERTICAL_OFFSET;
+		detailY = detailY + DETAIL_VIEW_HEIGHT;
 	}
 }
 

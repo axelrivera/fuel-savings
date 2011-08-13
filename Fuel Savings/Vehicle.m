@@ -99,6 +99,26 @@
 
 #pragma mark - Custom Methods
 
+- (NSString *)stringForName
+{
+	return self.name;
+}
+
+- (NSString *)stringForAvgEfficiency
+{
+	return [NSString stringWithFormat:@"%@ MPG", [self.avgEfficiency stringValue]];
+}
+
+- (NSString *)stringForCityEfficiency
+{
+	return [NSString stringWithFormat:@"%@ MPG", [self.cityEfficiency stringValue]];
+}
+
+- (NSString *)stringForHighwayEfficiency
+{
+	return [NSString stringWithFormat:@"%@ MPG", [self.highwayEfficiency stringValue]];
+}
+
 - (BOOL)hasDataReady
 {
 	if ([self.avgEfficiency integerValue] > 0 &&

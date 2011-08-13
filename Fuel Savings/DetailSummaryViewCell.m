@@ -12,15 +12,11 @@
 
 @synthesize summaryView = summaryView_;
 
-- (id)initWithLabels:(NSArray *)labels details:(NSArray *)details reuseIdentifier:(NSString *)reuseIdentifier
+- (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     if (self) {
-        CGRect tvFrame = CGRectMake(0.0, 0.0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
-		summaryView_ = [[DetailSummaryView alloc] initWithLabels:labels details:details];
-		summaryView_.frame = tvFrame;
-		summaryView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		[self.contentView addSubview:summaryView_];
+       // Initialization Code
     }
     return self;
 }
@@ -29,6 +25,15 @@
 {
 	[summaryView_ release];
 	[super dealloc];
+}
+
+- (void)setSummaryView:(DetailSummaryView *)summaryView
+{
+	CGRect tvFrame = CGRectMake(0.0, 0.0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
+	summaryView_ = [summaryView retain];
+	summaryView_.frame = tvFrame;
+	summaryView_.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	[self.contentView addSubview:summaryView_];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

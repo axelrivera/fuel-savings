@@ -24,7 +24,13 @@
 + (Savings *)calculation;
 + (Savings *)emptySavings;
 
+- (NSString *)stringForName;
 - (NSString *)stringForCurrentType;
+- (NSString *)stringForFuelPrice;
+- (NSString *)stringForCityRatio;
+- (NSString *)stringForHighwayRatio;
+- (NSString *)stringForDistance;
+- (NSString *)stringForCarOwnership;
 
 - (NSNumber *)annualCostForVehicle1;
 - (NSNumber *)totalCostForVehicle1;

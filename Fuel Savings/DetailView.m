@@ -21,8 +21,8 @@
 	if (self) {
 		self.opaque = YES;
 		
-		textFont_ = [[UIFont boldSystemFontOfSize:14.0] retain];
-		detailFont_ = [[UIFont systemFontOfSize:14.0] retain];
+		textFont_ = [[UIFont systemFontOfSize:12.0] retain];
+		detailFont_ = [[UIFont systemFontOfSize:12.0] retain];
 		
 		text_ = [text retain];
 		detail_ = [detail retain];
@@ -65,7 +65,6 @@
 
 - (void)layoutSubviews
 {
-#define HEIGHT 17.0
 #define PADDING 3.0
 #define HORIZONTAL_OFFSET 2.0
 
@@ -77,18 +76,18 @@
 	
 	self.frame = CGRectMake(self.frame.origin.x,
 							self.frame.origin.y,
-							self.superview.frame.size.width,
-							PADDING + HEIGHT + PADDING);
+							self.superview.frame.size.width - (10.0 + 10.0),
+							DETAIL_VIEW_HEIGHT);
 	
 	textLabel_.frame = CGRectMake(PADDING,
-								  PADDING,
+								  0.0,
 								  textLabelSize.width,
-								  HEIGHT - (PADDING + PADDING));
+								  DETAIL_VIEW_HEIGHT);
 	
 	detailTextLabel_.frame = CGRectMake(PADDING + textLabelSize.width + HORIZONTAL_OFFSET,
-										PADDING,
+										0.0,
 										self.frame.size.width - (PADDING + textLabelSize.width + HORIZONTAL_OFFSET + PADDING),
-										HEIGHT);
+										DETAIL_VIEW_HEIGHT);
 }
 
 - (void)setText:(NSString *)text detail:(NSString *)detail
@@ -97,7 +96,7 @@
 	text_ = [text retain];
 	
 	[detail_ autorelease];
-	detail_ = [detail_ retain];
+	detail_ = [detail retain];
 	[self setNeedsDisplay];
 }
 

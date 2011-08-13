@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define DETAIL_VIEW_HEIGHT 17.0
+
 @interface DetailView : UIView {
 	UIFont *textFont_;
 	UIFont *detailFont_;

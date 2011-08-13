@@ -10,8 +10,6 @@
 		160203A013F5E26400749F1C /* DetailSummaryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */; };
 		160203A513F5E4E900749F1C /* car.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A113F5E4E900749F1C /* car.png */; };
 		160203A613F5E4E900749F1C /* car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A213F5E4E900749F1C /* car@2x.png */; };
-		160203A713F5E4E900749F1C /* details.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A313F5E4E900749F1C /* details.png */; };
-		160203A813F5E4E900749F1C /* details@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A413F5E4E900749F1C /* details@2x.png */; };
 		160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 160ED0B813CA41E5001021F7 /* FileHelpers.m */; };
 		161100A913EA035D00D2D2FC /* chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A513EA035D00D2D2FC /* chart.png */; };
 		161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A613EA035D00D2D2FC /* chart@2x.png */; };
@@ -31,6 +29,8 @@
 		162535D013E32B4000162B7A /* RLCoreDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 162535CE13E32B4000162B7A /* RLCoreDataObject.m */; };
 		162535D413E32B9200162B7A /* MPGDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */; };
 		1628039C13F0361F00848A31 /* NSDictionary+Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 1628039B13F0361F00848A31 /* NSDictionary+Section.m */; };
+		1631568F13F6DD740032210F /* details.png in Resources */ = {isa = PBXBuildFile; fileRef = 1631568D13F6DD740032210F /* details.png */; };
+		1631569013F6DD740032210F /* details@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1631568E13F6DD740032210F /* details@2x.png */; };
 		1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */; };
 		1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */; };
 		16376D8413F5B961002E0036 /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16376D8313F5B961002E0036 /* DetailView.m */; };
@@ -107,8 +107,6 @@
 		1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailSummaryViewCell.m; sourceTree = "<group>"; };
 		160203A113F5E4E900749F1C /* car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = car.png; sourceTree = "<group>"; };
 		160203A213F5E4E900749F1C /* car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@2x.png"; sourceTree = "<group>"; };
-		160203A313F5E4E900749F1C /* details.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = details.png; sourceTree = "<group>"; };
-		160203A413F5E4E900749F1C /* details@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details@2x.png"; sourceTree = "<group>"; };
 		160ED0B713CA41E5001021F7 /* FileHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHelpers.h; sourceTree = "<group>"; };
 		160ED0B813CA41E5001021F7 /* FileHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHelpers.m; sourceTree = "<group>"; };
 		161100A513EA035D00D2D2FC /* chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chart.png; sourceTree = "<group>"; };
@@ -136,6 +134,8 @@
 		162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MPGDatabase.xcdatamodel; sourceTree = "<group>"; };
 		1628039A13F0361F00848A31 /* NSDictionary+Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Section.h"; sourceTree = "<group>"; };
 		1628039B13F0361F00848A31 /* NSDictionary+Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Section.m"; sourceTree = "<group>"; };
+		1631568D13F6DD740032210F /* details.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = details.png; sourceTree = "<group>"; };
+		1631568E13F6DD740032210F /* details@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details@2x.png"; sourceTree = "<group>"; };
 		1635AFD613D0C549005FC8EB /* CurrentTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentTripViewController.h; sourceTree = "<group>"; };
 		1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentTripViewController.m; sourceTree = "<group>"; };
 		1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentTripViewController.xib; sourceTree = "<group>"; };
@@ -301,10 +301,10 @@
 		165ACFB113B937A500A2AD3E /* images */ = {
 			isa = PBXGroup;
 			children = (
+				1631568D13F6DD740032210F /* details.png */,
+				1631568E13F6DD740032210F /* details@2x.png */,
 				160203A113F5E4E900749F1C /* car.png */,
 				160203A213F5E4E900749F1C /* car@2x.png */,
-				160203A313F5E4E900749F1C /* details.png */,
-				160203A413F5E4E900749F1C /* details@2x.png */,
 				16807E1913F1F9A200D1F51D /* navigation.png */,
 				16807E1A13F1F9A200D1F51D /* navigation@2x.png */,
 				16807E1313F1F68900D1F51D /* tags.png */,
@@ -577,8 +577,8 @@
 				16807E1C13F1F9A200D1F51D /* navigation@2x.png in Resources */,
 				160203A513F5E4E900749F1C /* car.png in Resources */,
 				160203A613F5E4E900749F1C /* car@2x.png in Resources */,
-				160203A713F5E4E900749F1C /* details.png in Resources */,
-				160203A813F5E4E900749F1C /* details@2x.png in Resources */,
+				1631568F13F6DD740032210F /* details.png in Resources */,
+				1631569013F6DD740032210F /* details@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

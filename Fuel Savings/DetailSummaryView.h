@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define DETAIL_SUMMARY_VIEW_TAG 1
+
 @interface DetailSummaryView : UIView {
 	NSMutableArray *detailViews_;
 }

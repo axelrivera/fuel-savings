@@ -118,9 +118,74 @@
 
 #pragma mark - Custom Methods
 
+- (NSString *)stringForName
+{
+	return self.name;
+}
+
 - (NSString *)stringForCurrentType
 {
 	return efficiencyTypeStringValue(self.type);
+}
+
+- (NSString *)stringForFuelPrice
+{
+	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
+	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	NSString *priceStr = [priceFormatter stringFromNumber:self.fuelPrice];
+	[priceFormatter release];
+	
+	return [NSString stringWithFormat:@"%@ /gallon", priceStr];
+}
+
+- (NSString *)stringForCityRatio
+{
+	NSNumberFormatter *percentFormatter = [[NSNumberFormatter alloc] init];
+	[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+	[percentFormatter setMaximumFractionDigits:0];
+	
+	NSString *cityStr = [percentFormatter stringFromNumber:self.cityRatio];
+	[percentFormatter release];
+	
+	return cityStr;
+}
+
+- (NSString *)stringForHighwayRatio
+{
+	NSNumberFormatter *percentFormatter = [[NSNumberFormatter alloc] init];
+	[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+	[percentFormatter setMaximumFractionDigits:0];
+	
+	NSString *highwayStr = [percentFormatter stringFromNumber:self.highwayRatio];
+	[percentFormatter release];
+	
+	return highwayStr;
+}
+
+- (NSString *)stringForDistance
+{
+	NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
+	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+	[distanceFormatter setMaximumFractionDigits:0];
+	
+	NSString *distanceStr = [distanceFormatter stringFromNumber:self.distance];
+	[distanceFormatter release];
+	
+	return [NSString stringWithFormat:@"%@ miles/year", distanceStr];
+}
+
+- (NSString *)stringForCarOwnership
+{
+	NSString *ownershipStr = nil;
+	
+	if ([self.carOwnership integerValue] > 1) {
+		ownershipStr = [NSString stringWithFormat:@"%@ years", [self.carOwnership stringValue]];
+	} else {
+		ownershipStr = [NSString stringWithFormat:@"%@ year", [self.carOwnership stringValue]];					
+	}
+	
+	return ownershipStr;	
 }
 
 - (NSNumber *)annualCostForVehicle1
