@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SavingsData.h"
+#import "DetailSummaryView.h"
 #import "CurrentTripViewController.h"
 #import "NameInputViewController.h"
 

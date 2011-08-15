@@ -86,6 +86,11 @@
 	} else {
 		inputTextField_.text = @"";
 	}
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
 	[inputTextField_ becomeFirstResponder];
 }
 

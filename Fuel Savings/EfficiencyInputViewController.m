@@ -88,6 +88,11 @@
 	} else {
 		efficiencyTextField_.text = @"";
 	}
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
 	[efficiencyTextField_ becomeFirstResponder];
 }
 

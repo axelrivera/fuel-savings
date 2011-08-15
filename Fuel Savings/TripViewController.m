@@ -10,6 +10,7 @@
 #import "TotalView.h"
 #import "TotalViewCell.h"
 #import "TotalDetailViewCell.h"
+#import "DetailSummaryViewCell.h"
 
 #define TRIP_NEW_TAG 1
 #define TRIP_DELETE_TAG 2

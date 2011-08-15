@@ -15,19 +15,16 @@
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_DELETE_TAG 2
 
-@interface FuelSavingsViewController (Private)
-
-- (void)setInfoSummary:(DetailSummaryView *)summary;
-- (void)setCar1Summary:(DetailSummaryView *)summary;
-- (void)setCar2Summary:(DetailSummaryView *)summary;
-
-@end
-
 @implementation FuelSavingsViewController
 
+@synthesize savingsTable = savingsTable_;
+@synthesize instructionsLabel = instructionsLabel_;
 @synthesize showButtons = showButtons_;
 @synthesize newSavings = newSavings_;
 @synthesize currentSavings = currentSavings_;
+@synthesize infoSummary = infoSummary_;
+@synthesize car1Summary = car1Summary_;
+@synthesize car2Summary = car2Summary_;
 
 - (id)init
 {
@@ -51,7 +48,6 @@
 	self = [self init];
 	if (self) {
 		self.title = @"Savings";
-		self.navigationItem.title = @"Compare Savings";
 		self.tabBarItem.image = [UIImage imageNamed:@"piggy_tab.png"];
 		self.showButtons = YES;
 	}
@@ -61,8 +57,13 @@
 - (void)dealloc
 {
 	[currencyFormatter_ release];
+	[savingsTable_ release];
+	[instructionsLabel_ release];
 	[newSavings_ release];
 	[currentSavings_ release];
+	[infoSummary_ release];
+	[car1Summary_ release];
+	[car2Summary_ release];
     [super dealloc];
 }
 
@@ -97,10 +98,14 @@
 		if (![savingsData_.currentSavings isSavingsEmpty]) {
 			self.currentSavings = savingsData_.currentSavings;
 		}
+		
+		self.instructionsLabel.font = [UIFont systemFontOfSize:15.0];
+		self.instructionsLabel.text = @"Tap the New button to create a New Savings. You have the option to calculate "
+										@"fuel savings for one or two cars.";
 	}
 	
-	self.tableView.sectionHeaderHeight = 10.0;
-	self.tableView.sectionFooterHeight = 10.0;
+	self.savingsTable.sectionHeaderHeight = 10.0;
+	self.savingsTable.sectionFooterHeight = 10.0;
 }
 
 - (void)viewDidUnload
@@ -108,14 +113,148 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.savingsTable = nil;
+	self.instructionsLabel = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	[self reloadTable];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
 	
-	self.navigationItem.rightBarButtonItem.enabled = NO;
-	if (![self.currentSavings isSavingsEmpty]) {
+	if (showNewAction_ == YES) {
+		showNewAction_ = NO;
+		[self performSelector:@selector(newAction)];
+	}
+}
+
+#pragma mark - Custom Actions
+
+- (void)newCheckAction
+{
+	if ([self.currentSavings isSavingsEmpty]) {
+		[self performSelector:@selector(newAction)];
+	} else {
+		[self performSelector:@selector(newOptionsAction:)];
+	}
+}
+
+- (void)newAction
+{
+	self.newSavings = [Savings calculation];
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
+	currentSavingsViewController.delegate = self;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[currentSavingsViewController release];
+	[navController release];
+}
+
+- (void)editAction
+{
+	self.newSavings = self.currentSavings;
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
+	currentSavingsViewController.delegate = self;
+	currentSavingsViewController.isEditingSavings = YES;
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[currentSavingsViewController release];
+	[navController release];
+}
+
+- (void)saveAction
+{
+	[self performSelector:@selector(displayNameAction)];
+}
+
+- (void)deleteAction
+{
+	[self saveCurrentSavings:[Savings emptySavings]];
+	[self reloadTable];
+}
+
+- (void)displayNameAction
+{
+	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	inputViewController.footerText = @"Enter a name for the Current Savings.";
+	inputViewController.delegate = self;
+	
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+	
+	inputViewController.currentName = [NSString stringWithFormat:@"Savings %@", [dateFormatter stringFromDate:[NSDate date]]];
+	
+	[dateFormatter release];
+	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
+	
+	[inputViewController release];
+	
+	[self presentModalViewController:navController animated:YES];
+	
+	[navController release];
+}
+
+- (void)newOptionsAction:(id)sender {	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]
+								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Delete Current"
+								  otherButtonTitles:@"Save Current As...", nil];
+	
+	actionSheet.tag = SAVINGS_NEW_TAG;
+	
+	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	[actionSheet release];	
+}
+
+- (void)deleteOptionsAction:(id)sender {
+	// open a dialog with two custom buttons	
+	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]
+								  initWithTitle:@"Are you sure? The information on your Current Savings will be lost."
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Delete Current"
+								  otherButtonTitles:nil];
+	
+	actionSheet.tag = SAVINGS_DELETE_TAG;
+	
+	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	[actionSheet release];	
+}
+
+#pragma mark - Custom Methods
+
+- (void)saveCurrentSavings:(Savings *)savings
+{
+	self.currentSavings = savings;
+	if (self.showButtons) {
+		savingsData_.currentSavings = savings;
+	}
+}
+
+- (void)reloadTable
+{
+	if ([self.currentSavings isSavingsEmpty]) {
+		self.savingsTable.hidden = YES;
+		self.navigationItem.rightBarButtonItem.enabled = NO;
+	} else {
+		self.savingsTable.hidden = NO;
 		self.navigationItem.rightBarButtonItem.enabled = YES;
 		
 		NSMutableArray *infoLabels = [[NSMutableArray alloc] initWithCapacity:0];
@@ -204,153 +343,7 @@
 			[car2Details release];
 		}
 	}
-	[self.tableView reloadData];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-	
-	if (showNewAction_ == YES) {
-		showNewAction_ = NO;
-		[self performSelector:@selector(newAction)];
-	}
-}
-
-#pragma mark - Custom Actions
-
-- (void)newCheckAction
-{
-	if ([self.currentSavings isSavingsEmpty]) {
-		[self performSelector:@selector(newAction)];
-	} else {
-		[self performSelector:@selector(newOptionsAction:)];
-	}
-}
-
-- (void)newAction
-{
-	self.newSavings = [Savings calculation];
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
-	currentSavingsViewController.delegate = self;
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
-	
-	[self presentModalViewController:navController animated:YES];
-	
-	[currentSavingsViewController release];
-	[navController release];
-}
-
-- (void)editAction
-{
-	self.newSavings = self.currentSavings;
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
-	currentSavingsViewController.delegate = self;
-	currentSavingsViewController.isEditingSavings = YES;
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
-	
-	[self presentModalViewController:navController animated:YES];
-	
-	[currentSavingsViewController release];
-	[navController release];
-}
-
-- (void)saveAction
-{
-	[self performSelector:@selector(displayNameAction)];
-}
-
-- (void)deleteAction
-{
-	[self saveCurrentSavings:[Savings emptySavings]];
-	self.navigationItem.rightBarButtonItem.enabled = NO;
-	[self.tableView reloadData];
-}
-
-- (void)displayNameAction
-{
-	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
-	inputViewController.footerText = @"Enter a name for the Current Savings.";
-	inputViewController.delegate = self;
-	
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	[dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-	
-	inputViewController.currentName = [NSString stringWithFormat:@"Savings %@", [dateFormatter stringFromDate:[NSDate date]]];
-	
-	[dateFormatter release];
-	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
-	
-	[inputViewController release];
-	
-	[self presentModalViewController:navController animated:YES];
-	
-	[navController release];
-}
-
-- (void)newOptionsAction:(id)sender {	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:@"Save Current As...", nil];
-	
-	actionSheet.tag = SAVINGS_NEW_TAG;
-	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
-	[actionSheet release];	
-}
-
-- (void)deleteOptionsAction:(id)sender {
-	// open a dialog with two custom buttons	
-	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:@"Are you sure? The information on your Current Savings will be lost."
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:nil];
-	
-	actionSheet.tag = SAVINGS_DELETE_TAG;
-	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
-	[actionSheet release];	
-}
-
-#pragma mark - Custom Methods
-
-- (void)saveCurrentSavings:(Savings *)savings
-{
-	self.currentSavings = savings;
-	if (self.showButtons) {
-		savingsData_.currentSavings = savings;
-	}
-}
-
-#pragma mark - Private Methods
-
-- (void)setInfoSummary:(DetailSummaryView *)summary
-{
-	[infoSummary_ autorelease];
-	infoSummary_ = [summary retain];
-}
-
-- (void)setCar1Summary:(DetailSummaryView *)summary
-{
-	[car1Summary_ autorelease];
-	car1Summary_ = [summary retain];
-}
-
-- (void)setCar2Summary:(DetailSummaryView *)summary
-{
-	[car2Summary_ autorelease];
-	car2Summary_ = [summary retain];
+	[self.savingsTable reloadData];
 }
 
 #pragma mark - View Controller Delegates
@@ -543,6 +536,8 @@
 	if (summaryCell == nil) {
 		summaryCell = [[[DetailSummaryViewCell alloc] initWithReuseIdentifier:SummaryCellIdentifier] autorelease];
 	}
+	
+	summaryCell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	[summaryCell setSummaryView:summary];
 	

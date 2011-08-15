@@ -96,6 +96,11 @@
 {
     [super viewWillAppear:animated];
 	nameTextField_.text = self.currentName;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
 	[nameTextField_ becomeFirstResponder];
 }
 
