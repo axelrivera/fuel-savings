@@ -90,10 +90,50 @@
 
 - (void)setDefaultValues
 {
-	self.name = @"";
+	self.name = @"My Trip";
 	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
 	self.distance = [NSNumber numberWithInteger:100];
-	self.vehicle = [Vehicle vehicleWithName:@"Your Car"];
+	self.vehicle = [Vehicle vehicleWithName:@"My Car"];
+}
+
+- (NSString *)stringForName
+{
+	return self.name;
+}
+
+- (NSString *)stringForFuelPrice
+{
+	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
+	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	
+	NSString *priceStr = [priceFormatter stringFromNumber:self.fuelPrice];
+	[priceFormatter release];
+	
+	return [NSString stringWithFormat:@"%@ /gallon", priceStr];
+}
+
+- (NSString *)stringForDistance
+{
+	NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
+	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+	[distanceFormatter setMaximumFractionDigits:0];
+	
+	NSString *distanceStr = [distanceFormatter stringFromNumber:self.distance];
+	[distanceFormatter release];
+	
+	return [NSString stringWithFormat:@"%@ miles", distanceStr];
+}
+
+- (NSString *)stringForTripCost
+{
+	NSNumberFormatter *currencyFormatter_ = [[NSNumberFormatter alloc] init];
+	[currencyFormatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
+	[currencyFormatter_ setMaximumFractionDigits:0];
+	
+	NSString *costStr = [currencyFormatter_ stringFromNumber:[self tripCost]];
+	[currencyFormatter_ release];
+	
+	return costStr;
 }
 
 - (BOOL)isTripEmpty

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Vehicle.h"
 
-@interface Savings : NSObject <NSCoding, NSCopying>
+@interface Savings : NSObject <NSCoding, NSCopying> 
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) EfficiencyType type;
@@ -37,6 +37,15 @@
 
 - (NSNumber *)annualCostForVehicle2;
 - (NSNumber *)totalCostForVehicle2;
+
+- (NSString *)stringForAnnualCostForVehicle1;
+- (NSString *)stringForTotalCostForVehicle1;
+
+- (NSString *)stringForAnnualCostForVehicle2;
+- (NSString *)stringForTotalCostForVehicle2;
+
+- (NSString *)annualCostCompareString;
+- (NSString *)totalCostCompareString;
 
 - (void)setRatioForCity:(NSNumber *)city highway:(NSNumber *)highway;
 - (void)setDefaultValues;

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>DistanceUnits</key>
+	<dict>
+		<key>miles</key>
+		<dict>
+			<key>unit</key>
+			<string>mi</string>
+			<key>alias</key>
+			<string>miles</string>
+			<key>name</key>
+			<string>Miles</string>
+			<key>order</key>
+			<integer>0</integer>
+		</dict>
+		<key>kilometers</key>
+		<dict>
+			<key>unit</key>
+			<string>km</string>
+			<key>alias</key>
+			<string>km</string>
+			<key>name</key>
+			<string>Kilometers</string>
+			<key>order</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

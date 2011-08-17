@@ -59,8 +59,7 @@ static SavingsData *sharedSavingsData;
 	[super dealloc];
 }
 
-#pragma mark -
-#pragma mark Singleton Methods
+#pragma mark - Singleton Methods
 
 + (SavingsData *)sharedSavingsData
 {

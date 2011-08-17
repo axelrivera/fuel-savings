@@ -13,24 +13,20 @@
 
 @synthesize oddColor = oddColor_;
 @synthesize evenColor = evenColor_;
-@synthesize labels = labels_;
 @synthesize details = details_;
 @synthesize imageView = imageView_;
 @synthesize titleLabel = titleLabel_;
 
-- (id)initWithLabels:(NSArray *)labels details:(NSArray *)details
+- (id)initWithDetails:(NSArray *)details
 {
 	self = [super initWithFrame:CGRectZero];
 	if (self) {
-		NSAssert([labels count] == [details count], @"Labels and Details must have the same size");
-		
 		self.opaque = YES;
 		self.tag = DETAIL_SUMMARY_VIEW_TAG;
 		
 		self.oddColor = [UIColor whiteColor];
 		self.evenColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:236.0/255.0 alpha:1.0];
 		
-		labels_ = [labels retain];
 		details_ = [details retain];
 		
 		imageView_ = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -42,13 +38,12 @@
 		titleLabel_.backgroundColor = [UIColor whiteColor];
 		[self addSubview:titleLabel_];
 		
-		NSInteger totalViews = [labels count];
+		NSInteger totalViews = [details count];
 		
 		detailViews_ = [[NSMutableArray alloc] initWithCapacity:totalViews];
 		
 		for (NSInteger i = 0; i < totalViews; i++) {
-			DetailView *detailsView = [[[DetailView alloc] initWithText:[labels_ objectAtIndex:i]
-															  detail:[details_ objectAtIndex:i]] autorelease];
+			DetailView *detailsView = [[[DetailView alloc] initWithDictionary:[details objectAtIndex:i]] autorelease];
 			
 			if ((i % 2) == 0) {
 				detailsView.backgroundColor = evenColor_;
@@ -67,7 +62,6 @@
 {
 	[oddColor_ release];
 	[evenColor_ release];
-	[labels_ release];
 	[details_ release];
 	[imageView_ release];
 	[titleLabel_ release];

@@ -40,6 +40,8 @@
 		1641350513ECA5ED00BFD3DD /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350313ECA5ED00BFD3DD /* add.png */; };
 		1641350613ECA5ED00BFD3DD /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350413ECA5ED00BFD3DD /* add@2x.png */; };
 		1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */; };
+		1646C6AC13FAF743006571C1 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1646C6AB13FAF743006571C1 /* Settings.m */; };
+		1647C90113F9829100302930 /* DoubleButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1647C90013F9829100302930 /* DoubleButtonView.m */; };
 		1654418E13CC88690060D1C3 /* savings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418C13CC88690060D1C3 /* savings_tab.png */; };
 		1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418D13CC88690060D1C3 /* savings_tab@2x.png */; };
 		1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* CurrentSavingsViewController.m */; };
@@ -96,6 +98,13 @@
 		16B5F7EB13BB81FD00DEE869 /* DistanceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */; };
 		16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */; };
 		16B5F7F013BB9D8100DEE869 /* OwnerInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */; };
+		16C27BB913FC4F110084C2F5 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C27BB713FC4F110084C2F5 /* AboutViewController.m */; };
+		16C27BBA13FC4F110084C2F5 /* AboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16C27BB813FC4F110084C2F5 /* AboutViewController.xib */; };
+		16C27BBF13FC4F320084C2F5 /* UnitsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C27BBD13FC4F320084C2F5 /* UnitsViewController.m */; };
+		16C27BC013FC4F320084C2F5 /* UnitsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16C27BBE13FC4F320084C2F5 /* UnitsViewController.xib */; };
+		16C27BC513FC58290084C2F5 /* DistanceUnits.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C27BC413FC58290084C2F5 /* DistanceUnits.plist */; };
+		16C27BC713FC5A720084C2F5 /* VolumeUnits.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C27BC613FC5A720084C2F5 /* VolumeUnits.plist */; };
+		16C27BC913FC5BDF0084C2F5 /* EfficiencyUnits.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16C27BC813FC5BDF0084C2F5 /* EfficiencyUnits.plist */; };
 		16C9E31E13E83E71001809B2 /* TotalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C9E31D13E83E71001809B2 /* TotalView.m */; };
 		16CBB87813D0805F00E8BD05 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87713D0805F00E8BD05 /* Trip.m */; };
 		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
@@ -150,6 +159,10 @@
 		1641350413ECA5ED00BFD3DD /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		1643A65813E9B8F9005F2F1F /* TotalDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalDetailViewCell.h; sourceTree = "<group>"; };
 		1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalDetailViewCell.m; sourceTree = "<group>"; };
+		1646C6AA13FAF743006571C1 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		1646C6AB13FAF743006571C1 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
+		1647C8FF13F9829100302930 /* DoubleButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleButtonView.h; sourceTree = "<group>"; };
+		1647C90013F9829100302930 /* DoubleButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleButtonView.m; sourceTree = "<group>"; };
 		1654418C13CC88690060D1C3 /* savings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = savings_tab.png; sourceTree = "<group>"; };
 		1654418D13CC88690060D1C3 /* savings_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "savings_tab@2x.png"; sourceTree = "<group>"; };
 		1658291113B9262100BC5219 /* CurrentSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentSavingsViewController.h; sourceTree = "<group>"; };
@@ -223,6 +236,15 @@
 		16B5F7EC13BB9D4D00DEE869 /* OwnerInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OwnerInputViewController.h; sourceTree = "<group>"; };
 		16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OwnerInputViewController.m; sourceTree = "<group>"; };
 		16B5F7EF13BB9D8100DEE869 /* OwnerInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OwnerInputViewController.xib; sourceTree = "<group>"; };
+		16C27BB613FC4F110084C2F5 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		16C27BB713FC4F110084C2F5 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		16C27BB813FC4F110084C2F5 /* AboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutViewController.xib; sourceTree = "<group>"; };
+		16C27BBC13FC4F320084C2F5 /* UnitsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitsViewController.h; sourceTree = "<group>"; };
+		16C27BBD13FC4F320084C2F5 /* UnitsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnitsViewController.m; sourceTree = "<group>"; };
+		16C27BBE13FC4F320084C2F5 /* UnitsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UnitsViewController.xib; sourceTree = "<group>"; };
+		16C27BC413FC58290084C2F5 /* DistanceUnits.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DistanceUnits.plist; sourceTree = "<group>"; };
+		16C27BC613FC5A720084C2F5 /* VolumeUnits.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = VolumeUnits.plist; sourceTree = "<group>"; };
+		16C27BC813FC5BDF0084C2F5 /* EfficiencyUnits.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = EfficiencyUnits.plist; sourceTree = "<group>"; };
 		16C9E31C13E83E71001809B2 /* TotalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalView.h; sourceTree = "<group>"; };
 		16C9E31D13E83E71001809B2 /* TotalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalView.m; sourceTree = "<group>"; };
 		16CBB87613D0805F00E8BD05 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
@@ -294,6 +316,8 @@
 				16376D8713F5C690002E0036 /* DetailSummaryView.m */,
 				1602039E13F5E26400749F1C /* DetailSummaryViewCell.h */,
 				1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */,
+				1647C8FF13F9829100302930 /* DoubleButtonView.h */,
+				1647C90013F9829100302930 /* DoubleButtonView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -397,6 +421,9 @@
 				1666FCF813B8FA8B00FC97F1 /* InfoPlist.strings */,
 				1666FCFB13B8FA8B00FC97F1 /* Fuel Savings-Prefix.pch */,
 				1666FCFC13B8FA8B00FC97F1 /* main.m */,
+				16C27BC413FC58290084C2F5 /* DistanceUnits.plist */,
+				16C27BC613FC5A720084C2F5 /* VolumeUnits.plist */,
+				16C27BC813FC5BDF0084C2F5 /* EfficiencyUnits.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -420,6 +447,10 @@
 				1620147213E32ECD00EDFF2B /* VehicleDetailsViewController.m */,
 				1620147313E32ECD00EDFF2B /* VehicleSelectViewController.h */,
 				1620147413E32ECD00EDFF2B /* VehicleSelectViewController.m */,
+				16C27BBC13FC4F320084C2F5 /* UnitsViewController.h */,
+				16C27BBD13FC4F320084C2F5 /* UnitsViewController.m */,
+				16C27BB613FC4F110084C2F5 /* AboutViewController.h */,
+				16C27BB713FC4F110084C2F5 /* AboutViewController.m */,
 				1635AFD313D0C496005FC8EB /* Input */,
 			);
 			name = Controllers;
@@ -455,6 +486,8 @@
 				16CBB87713D0805F00E8BD05 /* Trip.m */,
 				1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */,
 				1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */,
+				1646C6AA13FAF743006571C1 /* Settings.h */,
+				1646C6AB13FAF743006571C1 /* Settings.m */,
 			);
 			name = "Model+Data";
 			sourceTree = "<group>";
@@ -471,6 +504,8 @@
 				1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */,
 				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
 				1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */,
+				16C27BBE13FC4F320084C2F5 /* UnitsViewController.xib */,
+				16C27BB813FC4F110084C2F5 /* AboutViewController.xib */,
 				1635AFD513D0C4D3005FC8EB /* Input */,
 			);
 			name = Views;
@@ -579,6 +614,11 @@
 				160203A613F5E4E900749F1C /* car@2x.png in Resources */,
 				1631568F13F6DD740032210F /* details.png in Resources */,
 				1631569013F6DD740032210F /* details@2x.png in Resources */,
+				16C27BBA13FC4F110084C2F5 /* AboutViewController.xib in Resources */,
+				16C27BC013FC4F320084C2F5 /* UnitsViewController.xib in Resources */,
+				16C27BC513FC58290084C2F5 /* DistanceUnits.plist in Resources */,
+				16C27BC713FC5A720084C2F5 /* VolumeUnits.plist in Resources */,
+				16C27BC913FC5BDF0084C2F5 /* EfficiencyUnits.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,6 +662,10 @@
 				16376D8413F5B961002E0036 /* DetailView.m in Sources */,
 				16376D8813F5C690002E0036 /* DetailSummaryView.m in Sources */,
 				160203A013F5E26400749F1C /* DetailSummaryViewCell.m in Sources */,
+				1647C90113F9829100302930 /* DoubleButtonView.m in Sources */,
+				1646C6AC13FAF743006571C1 /* Settings.m in Sources */,
+				16C27BB913FC4F110084C2F5 /* AboutViewController.m in Sources */,
+				16C27BBF13FC4F320084C2F5 /* UnitsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,10 +8,16 @@
 
 #import "Savings.h"
 
+static NSNumberFormatter *percentFormatter_;
+static NSNumberFormatter *currencyFormatter_;
+
 @interface Savings (Private)
 
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle;
 - (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle;
+
++ (NSNumberFormatter *)percentFormatter;
++ (NSNumberFormatter *)currencyFormatter;
 
 @end
 
@@ -140,31 +146,17 @@
 }
 
 - (NSString *)stringForCityRatio
-{
-	NSNumberFormatter *percentFormatter = [[NSNumberFormatter alloc] init];
-	[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-	[percentFormatter setMaximumFractionDigits:0];
-	
-	NSString *cityStr = [percentFormatter stringFromNumber:self.cityRatio];
-	[percentFormatter release];
-	
-	return cityStr;
+{	
+	return [[Savings percentFormatter] stringFromNumber:self.cityRatio];;
 }
 
 - (NSString *)stringForHighwayRatio
 {
-	NSNumberFormatter *percentFormatter = [[NSNumberFormatter alloc] init];
-	[percentFormatter setNumberStyle:NSNumberFormatterPercentStyle];
-	[percentFormatter setMaximumFractionDigits:0];
-	
-	NSString *highwayStr = [percentFormatter stringFromNumber:self.highwayRatio];
-	[percentFormatter release];
-	
-	return highwayStr;
+	return [[Savings percentFormatter] stringFromNumber:self.highwayRatio];
 }
 
 - (NSString *)stringForDistance
-{
+{	
 	NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
 	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	[distanceFormatter setMaximumFractionDigits:0];
@@ -178,13 +170,11 @@
 - (NSString *)stringForCarOwnership
 {
 	NSString *ownershipStr = nil;
-	
 	if ([self.carOwnership integerValue] > 1) {
 		ownershipStr = [NSString stringWithFormat:@"%@ years", [self.carOwnership stringValue]];
 	} else {
 		ownershipStr = [NSString stringWithFormat:@"%@ year", [self.carOwnership stringValue]];					
 	}
-	
 	return ownershipStr;	
 }
 
@@ -208,24 +198,77 @@
 	return [self totalCostForVehicle:self.vehicle2];
 }
 
-#pragma mark - Private Methods
-
-- (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
+- (NSString *)stringForAnnualCostForVehicle1
 {
-	float annual = 0.0;
-	if (self.type == EfficiencyTypeAverage) {
-		annual = [self.fuelPrice floatValue] * ([self.distance floatValue] / [vehicle.avgEfficiency floatValue]);
-	} else {
-		annual = ((([self.distance floatValue] / [vehicle.cityEfficiency floatValue]) * 
-				   [self.fuelPrice floatValue]) * ([self.cityRatio floatValue])) + 
-		((([self.distance floatValue] / [vehicle.highwayEfficiency floatValue]) * [self.fuelPrice floatValue]) * [self.highwayRatio floatValue]);
-	}
-	return [NSNumber numberWithFloat:annual];
+	return [[Savings currencyFormatter] stringFromNumber:[self annualCostForVehicle1]];
 }
 
-- (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle
+- (NSString *)stringForTotalCostForVehicle1
 {
-	return [NSNumber numberWithFloat:[self.carOwnership floatValue] * [[self annualCostForVehicle:vehicle] floatValue]];
+	return [[Savings currencyFormatter] stringFromNumber:[self totalCostForVehicle1]];
+}
+
+- (NSString *)stringForAnnualCostForVehicle2
+{
+	return [[Savings currencyFormatter] stringFromNumber:[self annualCostForVehicle2]];
+}
+
+- (NSString *)stringForTotalCostForVehicle2
+{
+	return [[Savings currencyFormatter] stringFromNumber:[self totalCostForVehicle2]];
+}
+
+- (NSString *)annualCostCompareString
+{	
+	NSString *compareStr = nil;
+	
+	NSNumber *vehicle1AnnualCost = [self annualCostForVehicle1];
+	NSNumber *vehicle2AnnualCost = [self annualCostForVehicle2];
+	
+	NSComparisonResult result = [vehicle1AnnualCost compare:vehicle2AnnualCost];
+	
+	if (result == NSOrderedSame) {
+		compareStr = @"Fuel cost is the same.";
+	} else if (result == NSOrderedDescending) {
+		NSNumber *savings = [NSNumber numberWithFloat:[vehicle1AnnualCost floatValue] - [vehicle2AnnualCost floatValue]];
+		compareStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
+						self.vehicle2.name,
+						[[Savings currencyFormatter] stringFromNumber:savings]];
+	} else {
+		NSNumber *savings = [NSNumber numberWithFloat:[vehicle2AnnualCost floatValue] - [vehicle1AnnualCost floatValue]];
+		compareStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
+						self.vehicle1.name,
+						[[Savings currencyFormatter] stringFromNumber:savings]];
+	}
+	return compareStr;
+}
+
+- (NSString *)totalCostCompareString
+{	
+	NSString *compareStr = nil;
+	NSNumber *vehicle1TotalCost = [self totalCostForVehicle1];
+	NSNumber *vehicle2TotalCost = [self totalCostForVehicle2];
+	
+	NSComparisonResult result = [vehicle1TotalCost compare:vehicle2TotalCost];
+	
+	NSInteger years = [self.carOwnership integerValue];
+	
+	if (result == NSOrderedSame) {
+		compareStr = [NSString stringWithFormat:@"Fuel cost is the same over %i years.", years];
+	} else if (result == NSOrderedDescending) {
+		NSNumber *savings = [NSNumber numberWithFloat:[vehicle1TotalCost floatValue] - [vehicle2TotalCost floatValue]];
+		compareStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
+						self.vehicle2.name,
+						[[Savings currencyFormatter] stringFromNumber:savings],
+						years];
+	} else {
+		NSNumber *savings = [NSNumber numberWithFloat:[vehicle2TotalCost floatValue] - [vehicle1TotalCost floatValue]];
+		compareStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
+						self.vehicle1.name,
+						[[Savings currencyFormatter] stringFromNumber:savings],
+						years];
+	}
+	return compareStr;
 }
 
 - (void)setRatioForCity:(NSNumber *)city highway:(NSNumber *)highway
@@ -275,6 +318,46 @@
 		return YES;
 	}
 	return NO;
+}
+
+#pragma mark - Private Methods
+
+- (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
+{
+	float annual = 0.0;
+	if (self.type == EfficiencyTypeAverage) {
+		annual = [self.fuelPrice floatValue] * ([self.distance floatValue] / [vehicle.avgEfficiency floatValue]);
+	} else {
+		annual = ((([self.distance floatValue] / [vehicle.cityEfficiency floatValue]) * 
+				   [self.fuelPrice floatValue]) * ([self.cityRatio floatValue])) + 
+		((([self.distance floatValue] / [vehicle.highwayEfficiency floatValue]) * [self.fuelPrice floatValue]) * [self.highwayRatio floatValue]);
+	}
+	return [NSNumber numberWithFloat:annual];
+}
+
+- (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle
+{
+	return [NSNumber numberWithFloat:[self.carOwnership floatValue] * [[self annualCostForVehicle:vehicle] floatValue]];
+}
+
++ (NSNumberFormatter *)percentFormatter
+{
+	if (percentFormatter_ == nil) {
+		percentFormatter_ = [[NSNumberFormatter alloc] init];
+		[percentFormatter_ setNumberStyle:NSNumberFormatterPercentStyle];
+		[percentFormatter_ setMaximumFractionDigits:0];
+	}
+	return percentFormatter_;
+}
+
++ (NSNumberFormatter *)currencyFormatter
+{
+	if (currencyFormatter_ == nil) {
+		currencyFormatter_ = [[NSNumberFormatter alloc] init];
+		[currencyFormatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
+		[currencyFormatter_ setMaximumFractionDigits:0];
+	}
+	return currencyFormatter_;
 }
 
 - (NSString *)description

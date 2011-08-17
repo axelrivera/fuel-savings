@@ -8,12 +8,34 @@
 
 #import "DetailView.h"
 
+NSString * const kDetailViewTextKey = @"DetailSummaryViewTextKey";
+NSString * const kDetailViewDetailKey = @"DetailSummaryViewDetailKey";
+
 @implementation DetailView
 
 @synthesize text = text_;
 @synthesize detail = detail_;
 @synthesize textLabel = textLabel_;
 @synthesize detailTextLabel = detailTextLabel_;
+
++ (NSDictionary *)detailDictionaryWithText:(NSString *)text detail:(NSString *)detail
+{
+	NSDictionary *details = [NSDictionary dictionaryWithObjectsAndKeys:
+							 text, kDetailViewTextKey,
+							 detail, kDetailViewDetailKey,
+							 nil];
+	return details;
+}
+
+- (id)initWithDictionary:(NSDictionary *)dictionary
+{
+	self = [self initWithText:[dictionary objectForKey:kDetailViewTextKey]
+					   detail:[dictionary objectForKey:kDetailViewDetailKey]];
+	if	(self) {
+		// Initialization Code
+	}
+	return self;
+}
 
 - (id)initWithText:(NSString *)text detail:(NSString *)detail
 {
@@ -98,6 +120,11 @@
 	[detail_ autorelease];
 	detail_ = [detail retain];
 	[self setNeedsDisplay];
+}
+
+- (NSDictionary *)detailDictionary
+{
+	return [DetailView detailDictionaryWithText:self.text detail:self.detail];
 }
 
 @end

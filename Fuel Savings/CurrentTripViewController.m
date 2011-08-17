@@ -11,6 +11,7 @@
 #import "VehicleSelectViewController.h"
 #import "Fuel_SavingsAppDelegate.h"
 
+static NSString * const tripNameKey = @"TripNameKey";
 static NSString * const fuelPriceKey = @"PriceKey";
 static NSString * const distanceKey = @"DistanceKey";
 
@@ -158,7 +159,11 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		self.currentTrip.vehicle.name = controller.currentName;
+		if ([controller.key isEqualToString:tripNameKey]) {
+			self.currentTrip.name = controller.currentName;
+		} else {
+			self.currentTrip.vehicle.name = controller.currentName;
+		}
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -242,7 +247,14 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	NSString *key = [dictionary objectForKey:dictionaryKey];
     
 	if (indexPath.section == 0) {
-		if ([key isEqualToString:fuelPriceKey]) {
+		if ([key isEqualToString:tripNameKey]) {
+			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentName = self.currentTrip.name;
+			inputViewController.key = tripNameKey;
+			inputViewController.footerText = @"Enter a Name for the Trip.";
+			viewController = inputViewController;
+		} else if ([key isEqualToString:fuelPriceKey]) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentPrice = self.currentTrip.fuelPrice;
@@ -302,27 +314,20 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	NSDictionary *dictionary = nil;
 	
-	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
-	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	dictionary = [NSDictionary textDictionaryWithKey:tripNameKey
+												text:@"Trip Name"
+											  detail:[self.currentTrip stringForName]];
 	
-	NSString *priceStr = [priceFormatter stringFromNumber:self.currentTrip.fuelPrice];
-	[priceFormatter release];
+	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
 												text:@"Fuel Price"
-											  detail:[NSString stringWithFormat:@"%@ /gallon", priceStr]];
+											  detail:[self.currentTrip stringForFuelPrice]];
 	[array addObject:dictionary];
-	
-	NSNumberFormatter *distanceFormatter = [[NSNumberFormatter alloc] init];
-	[distanceFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	[distanceFormatter setMaximumFractionDigits:0];
-	
-	NSString *distanceStr = [distanceFormatter stringFromNumber:self.currentTrip.distance];
-	[distanceFormatter release];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
 												text:@"Distance"
-											  detail:[NSString stringWithFormat:@"%@ miles", distanceStr]];
+											  detail:[self.currentTrip stringForDistance]];
 	[array addObject:dictionary];
 	
 	return array;
@@ -335,7 +340,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	NSDictionary *dictionary = nil;
 	
 	dictionary = [NSDictionary buttonDictionaryWithKey:vehicleKey
-												  text:@"Your Car"];
+												  text:@"My Car"];
 	
 	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
 	[button addTarget:self action:@selector(selectCarAction) forControlEvents:UIControlEventTouchDown];
@@ -344,13 +349,12 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
 												text:@"Name"
-											  detail:self.currentTrip.vehicle.name];
+											  detail:[self.currentTrip.vehicle stringForName]];
 	[array addObject:dictionary];
 	
-	NSString *combinedStr = [NSString stringWithFormat:@"%@ MPG", [self.currentTrip.vehicle.avgEfficiency stringValue]];
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
 												text:@"Fuel Efficiency"
-											  detail:combinedStr];
+											  detail:[self.currentTrip.vehicle stringForAvgEfficiency]];
 	[array addObject:dictionary];
 	
 	return array;

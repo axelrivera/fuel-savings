@@ -229,10 +229,10 @@
 	
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		Savings *calculation = [self.tableData objectAtIndex:indexPath.row];
-		textLabelString = calculation.name;
+		textLabelString = [calculation stringForName];
 	} else {
 		Trip *calculation = [self.tableData objectAtIndex:indexPath.row];
-		textLabelString = calculation.name;
+		textLabelString = [calculation stringForName];
 	}
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -267,7 +267,7 @@
 		
 		Savings *calculation = [self.tableData objectAtIndex:indexPath.row];
 		
-		fuelSavingsViewController.title	= calculation.name;
+		fuelSavingsViewController.title	= [calculation stringForName];
 		fuelSavingsViewController.currentSavings = calculation;
 		
 		currentController = fuelSavingsViewController;
@@ -276,7 +276,7 @@
 		
 		Trip *calculation = [self.tableData objectAtIndex:indexPath.row];
 		
-		tripViewController.title = calculation.name;
+		tripViewController.title = [calculation stringForName];
 		tripViewController.currentTrip = calculation;
 		
 		currentController = tripViewController;

@@ -12,19 +12,19 @@
 #import "Savings.h"
 #import "DetailSummaryView.h"
 #import "NameInputViewController.h"
+#import "DoubleButtonView.h"
 
 @interface FuelSavingsViewController : UIViewController <UIActionSheetDelegate, CurrentSavingsViewControllerDelegate,
 	NameInputViewControllerDelegate>
 {
 	SavingsData *savingsData_;
-	NSNumberFormatter *currencyFormatter_;
 	BOOL isNewSavings_;
 	BOOL showNewAction_;
+	DoubleButtonView *buttonView_;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *savingsTable;
 @property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
-@property (nonatomic, assign) BOOL showButtons;
 @property (nonatomic, copy) Savings *newSavings;
 @property (nonatomic, copy) Savings *currentSavings;
 @property (nonatomic, retain) DetailSummaryView *infoSummary;

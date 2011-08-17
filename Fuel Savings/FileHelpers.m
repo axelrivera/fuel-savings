@@ -18,6 +18,11 @@ NSString *pathInDocumentDirectory(NSString *fileName)
 	return [documentDirectory stringByAppendingPathComponent:fileName];
 }
 
+NSString *pathInMainBundle(NSString *fileName)
+{
+	return [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:fileName];
+}
+
 NSURL *applicationDocumentsDirectory(void)
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];

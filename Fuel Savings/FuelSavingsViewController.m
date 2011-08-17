@@ -10,16 +10,24 @@
 #import "TotalView.h"
 #import "TotalViewCell.h"
 #import "TotalDetailViewCell.h"
+#import "DetailView.h"
 #import "DetailSummaryViewCell.h"
+#import "DoubleButtonView.h"
 
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_DELETE_TAG 2
+
+@interface FuelSavingsViewController (Private)
+
+- (NSArray *)infoDetails;
+- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle;
+
+@end
 
 @implementation FuelSavingsViewController
 
 @synthesize savingsTable = savingsTable_;
 @synthesize instructionsLabel = instructionsLabel_;
-@synthesize showButtons = showButtons_;
 @synthesize newSavings = newSavings_;
 @synthesize currentSavings = currentSavings_;
 @synthesize infoSummary = infoSummary_;
@@ -31,14 +39,11 @@
 	self = [super initWithNibName:@"FuelSavingsViewController" bundle:nil];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
-		currencyFormatter_ = [[NSNumberFormatter alloc] init];
-		[currencyFormatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
-		[currencyFormatter_ setMaximumFractionDigits:0];
-		self.showButtons = NO;
 		self.newSavings = nil;
 		self.currentSavings = [Savings emptySavings];
 		isNewSavings_ = NO;
 		showNewAction_ = NO;
+		buttonView_ = nil;
 	}
 	return self;
 }
@@ -49,15 +54,22 @@
 	if (self) {
 		self.title = @"Savings";
 		self.tabBarItem.image = [UIImage imageNamed:@"piggy_tab.png"];
-		self.showButtons = YES;
+		
+		buttonView_ = [[DoubleButtonView alloc] initWithButtonType:UIButtonTypeRoundedRect frame:CGRectZero];
+		
+		[buttonView_.leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[buttonView_.leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
+		
+		[buttonView_.rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[buttonView_.rightButton setTitle:@"Delete" forState:UIControlStateNormal];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[currencyFormatter_ release];
 	[savingsTable_ release];
+	[buttonView_ release];
 	[instructionsLabel_ release];
 	[newSavings_ release];
 	[currentSavings_ release];
@@ -81,13 +93,7 @@
 {
     [super viewDidLoad];
 	
-	if (self.showButtons) {
-		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																					target:self
-																					action:@selector(editAction)];
-		self.navigationItem.rightBarButtonItem = editButton;
-		[editButton release];
-		
+	if (buttonView_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
@@ -95,11 +101,17 @@
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
 		
+		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																					target:self
+																					action:@selector(editAction)];
+		self.navigationItem.rightBarButtonItem = editButton;
+		[editButton release];
+		
 		if (![savingsData_.currentSavings isSavingsEmpty]) {
 			self.currentSavings = savingsData_.currentSavings;
 		}
 		
-		self.instructionsLabel.font = [UIFont systemFontOfSize:15.0];
+		self.instructionsLabel.font = [UIFont systemFontOfSize:14.0];
 		self.instructionsLabel.text = @"Tap the New button to create a New Savings. You have the option to calculate "
 										@"fuel savings for one or two cars.";
 	}
@@ -243,7 +255,7 @@
 - (void)saveCurrentSavings:(Savings *)savings
 {
 	self.currentSavings = savings;
-	if (self.showButtons) {
+	if (buttonView_) {
 		savingsData_.currentSavings = savings;
 	}
 }
@@ -257,93 +269,63 @@
 		self.savingsTable.hidden = NO;
 		self.navigationItem.rightBarButtonItem.enabled = YES;
 		
-		NSMutableArray *infoLabels = [[NSMutableArray alloc] initWithCapacity:0];
-		NSMutableArray *infoDetails = [[NSMutableArray alloc] initWithCapacity:0];
-		
-		[infoLabels addObject:@"Using"];
-		[infoDetails addObject:[self.currentSavings stringForCurrentType]];
-		
-		[infoLabels addObject:@"Fuel Price"];
-		[infoDetails addObject:[self.currentSavings stringForFuelPrice]];
-		
-		[infoLabels addObject:@"Distance"];
-		[infoDetails addObject:[self.currentSavings stringForDistance]];
-		
-		if (self.currentSavings.type == EfficiencyTypeCombined) {
-			[infoLabels addObject:@"City Drive Ratio"];
-			[infoDetails addObject:[self.currentSavings stringForCityRatio]];
-			
-			[infoLabels addObject:@"Highway Drive Ratio"];
-			[infoDetails addObject:[self.currentSavings stringForHighwayRatio]];
-		}
-		
-		[infoLabels addObject:@"Ownership"];
-		[infoDetails addObject:[self.currentSavings stringForCarOwnership]];
-		
-		DetailSummaryView *infoView = [[DetailSummaryView alloc] initWithLabels:infoLabels details:infoDetails];
+		DetailSummaryView *infoView = [[DetailSummaryView alloc] initWithDetails:[self infoDetails]];
 		infoView.titleLabel.text = @"Details";
 		infoView.imageView.image = [UIImage imageNamed:@"details.png"];
 		[self setInfoSummary:infoView];
 		[infoView release];
 		
-		[infoLabels release];
-		[infoDetails release];
-		
-		NSMutableArray *car1Labels = [[NSMutableArray alloc] initWithCapacity:0];
-		NSMutableArray *car1Details = [[NSMutableArray alloc] initWithCapacity:0];
-		
-		[car1Labels addObject:@"Name"];
-		[car1Details addObject:[self.currentSavings.vehicle1 stringForName]];
-		
-		if (self.currentSavings.type == EfficiencyTypeAverage) {
-			[car1Labels addObject:@"Average MPG"];
-			[car1Details addObject:[self.currentSavings.vehicle1 stringForAvgEfficiency]];
-		} else {
-			[car1Labels addObject:@"City MPG"];
-			[car1Details addObject:[self.currentSavings.vehicle1 stringForCityEfficiency]];
-			
-			[car1Labels addObject:@"Highway MPG"];
-			[car1Details addObject:[self.currentSavings.vehicle1 stringForHighwayEfficiency]];
-		}
-		
-		DetailSummaryView *car1View = [[DetailSummaryView alloc] initWithLabels:car1Labels details:car1Details];
+		DetailSummaryView *car1View = [[DetailSummaryView alloc] initWithDetails:[self carDetailsForVehicle:self.currentSavings.vehicle1]];
 		car1View.titleLabel.text = @"Car 1";
 		car1View.imageView.image = [UIImage imageNamed:@"car.png"];
 		[self setCar1Summary:car1View];
 		[car1View release];
 		
-		[car1Labels release];
-		[car1Details release];
-		
 		if ([self.currentSavings.vehicle2 hasDataReady]) {
-			NSMutableArray *car2Labels = [[NSMutableArray alloc] initWithCapacity:0];
-			NSMutableArray *car2Details = [[NSMutableArray alloc] initWithCapacity:0];
-			
-			[car2Labels addObject:@"Name"];
-			[car2Details addObject:[self.currentSavings.vehicle2 stringForName]];
-			
-			if (self.currentSavings.type == EfficiencyTypeAverage) {
-				[car2Labels addObject:@"Average MPG"];
-				[car2Details addObject:[self.currentSavings.vehicle2 stringForAvgEfficiency]];
-			} else {
-				[car2Labels addObject:@"City MPG"];
-				[car2Details addObject:[self.currentSavings.vehicle2 stringForCityEfficiency]];
-				
-				[car2Labels addObject:@"Highway MPG"];
-				[car2Details addObject:[self.currentSavings.vehicle2 stringForHighwayEfficiency]];
-			}
-			
-			DetailSummaryView *car2View = [[DetailSummaryView alloc] initWithLabels:car2Labels details:car2Details];
+			DetailSummaryView *car2View = [[DetailSummaryView alloc] initWithDetails:[self carDetailsForVehicle:self.currentSavings.vehicle2]];
 			car2View.titleLabel.text = @"Car 2";
 			car2View.imageView.image = [UIImage imageNamed:@"car.png"];
 			[self setCar2Summary:car2View];
 			[car2View release];
-			
-			[car2Labels release];
-			[car2Details release];
 		}
 	}
 	[self.savingsTable reloadData];
+}
+
+#pragma mark - Private Methods
+
+- (NSArray *)infoDetails
+{
+	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
+	
+	[details addObject:[DetailView detailDictionaryWithText:@"Using" detail:[self.currentSavings stringForCurrentType]]];
+	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[self.currentSavings stringForFuelPrice]]];
+	[details addObject:[DetailView detailDictionaryWithText:@"Distance" detail:[self.currentSavings stringForDistance]]];
+	
+	if (self.currentSavings.type == EfficiencyTypeCombined) {
+		[details addObject:[DetailView detailDictionaryWithText:@"City Drive Ratio" detail:[self.currentSavings stringForCityRatio]]];
+		[details addObject:[DetailView detailDictionaryWithText:@"Highway Drive Ratio" detail:[self.currentSavings stringForHighwayRatio]]];
+	}
+	
+	[details addObject:[DetailView detailDictionaryWithText:@"Ownership" detail:[self.currentSavings stringForCarOwnership]]];
+	
+	return details;
+}
+
+- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle
+{	
+	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
+	
+	[details addObject:[DetailView detailDictionaryWithText:@"Name" detail:[vehicle stringForName]]];
+	
+	if (self.currentSavings.type == EfficiencyTypeAverage) {
+		[details addObject:[DetailView detailDictionaryWithText:@"Average MPG" detail:[vehicle stringForAvgEfficiency]]];
+	} else {
+		[details addObject:[DetailView detailDictionaryWithText:@"City MPG" detail:[vehicle stringForCityEfficiency]]];
+		[details addObject:[DetailView detailDictionaryWithText:@"Highway MPG" detail:[vehicle stringForHighwayEfficiency]]];
+	}
+	
+	return details;
 }
 
 #pragma mark - View Controller Delegates
@@ -413,26 +395,20 @@
 			NSString *detail1LabelStr = nil;
 			NSString *detail2LabelStr = nil;
 			
-			NSNumber *cost1 = nil;
-			NSNumber *cost2 = nil;
+			text1LabelStr = self.currentSavings.vehicle1.name;
+			text2LabelStr = self.currentSavings.vehicle2.name;
 			
 			if (indexPath.section == 0) {
 				imageStr = @"money.png";
 				titleStr = @"Annual Fuel Cost";
-				cost1 = [self.currentSavings annualCostForVehicle1];
-				cost2 = [self.currentSavings annualCostForVehicle2];
+				detail1LabelStr = [self.currentSavings stringForAnnualCostForVehicle1];
+				detail2LabelStr = [self.currentSavings stringForAnnualCostForVehicle2];
 			} else {
 				imageStr = @"chart.png";
 				titleStr = @"Total Fuel Cost";
-				cost1 = [self.currentSavings totalCostForVehicle1];
-				cost2 = [self.currentSavings totalCostForVehicle2];
+				detail1LabelStr = [self.currentSavings stringForTotalCostForVehicle1];
+				detail2LabelStr = [self.currentSavings stringForTotalCostForVehicle2];
 			}
-			
-			text1LabelStr = self.currentSavings.vehicle1.name;
-			text2LabelStr = self.currentSavings.vehicle2.name;
-			
-			detail1LabelStr = [currencyFormatter_ stringFromNumber:cost1];
-			detail2LabelStr = [currencyFormatter_ stringFromNumber:cost2];
 			
 			totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
 			totalCell.totalView.titleLabel.text = titleStr;
@@ -443,9 +419,16 @@
 				totalCell.totalView.text2Label.text = text2LabelStr;
 				totalCell.totalView.detail2Label.text = detail2LabelStr;
 				
+				NSComparisonResult compareCost;
+				
+				if (indexPath.section == 0) {
+					compareCost = [[self.currentSavings annualCostForVehicle1] compare:[self.currentSavings annualCostForVehicle2]];
+				} else {
+					compareCost = [[self.currentSavings totalCostForVehicle1] compare:[self.currentSavings totalCostForVehicle2]];
+				}
+				
 				UIColor *highlightColor = [UIColor colorWithRed:245.0/255.0 green:121.0/255.0 blue:0.0 alpha:1.0];
 				
-				NSComparisonResult compareCost = [cost1 compare:cost2];
 				if (compareCost == NSOrderedAscending) {
 					totalCell.totalView.text1Label.textColor = highlightColor;
 					totalCell.totalView.detail1Label.textColor = highlightColor;
@@ -470,47 +453,9 @@
 			NSString *textLabelStr = nil;
 			
 			if (indexPath.section == 0) {
-				NSNumber *vehicle1AnnualCost = [self.currentSavings annualCostForVehicle1];
-				NSNumber *vehicle2AnnualCost = [self.currentSavings annualCostForVehicle2];
-				
-				NSComparisonResult result = [vehicle1AnnualCost compare:vehicle2AnnualCost];
-				
-				if (result == NSOrderedSame) {
-					textLabelStr = @"Fuel cost is the same.";
-				} else if (result == NSOrderedDescending) {
-					NSNumber *savings = [NSNumber numberWithFloat:[vehicle1AnnualCost floatValue] - [vehicle2AnnualCost floatValue]];
-					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-									self.currentSavings.vehicle2.name,
-									[currencyFormatter_ stringFromNumber:savings]];
-				} else {
-					NSNumber *savings = [NSNumber numberWithFloat:[vehicle2AnnualCost floatValue] - [vehicle1AnnualCost floatValue]];
-					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-									self.currentSavings.vehicle1.name,
-									[currencyFormatter_ stringFromNumber:savings]];
-				}
+				textLabelStr = [self.currentSavings annualCostCompareString];
 			} else {
-				NSNumber *vehicle1TotalCost = [self.currentSavings totalCostForVehicle1];
-				NSNumber *vehicle2TotalCost = [self.currentSavings totalCostForVehicle2];
-				
-				NSComparisonResult result = [vehicle1TotalCost compare:vehicle2TotalCost];
-				
-				NSInteger years = [self.currentSavings.carOwnership integerValue];
-				
-				if (result == NSOrderedSame) {
-					textLabelStr = [NSString stringWithFormat:@"Fuel cost is the same over %i years.", years];
-				} else if (result == NSOrderedDescending) {
-					NSNumber *savings = [NSNumber numberWithFloat:[vehicle1TotalCost floatValue] - [vehicle2TotalCost floatValue]];
-					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-									self.currentSavings.vehicle2.name,
-									[currencyFormatter_ stringFromNumber:savings],
-									years];
-				} else {
-					NSNumber *savings = [NSNumber numberWithFloat:[vehicle2TotalCost floatValue] - [vehicle1TotalCost floatValue]];
-					textLabelStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-									self.currentSavings.vehicle1.name,
-									[currencyFormatter_ stringFromNumber:savings],
-									years];
-				}
+				textLabelStr = [self.currentSavings totalCostCompareString];
 			}
 			
 			detailCell.textLabel.text = textLabelStr;
@@ -576,38 +521,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-	if (section == 2 && self.navigationItem.rightBarButtonItem != nil) {
-		CGFloat contentWidth = [UIScreen mainScreen].bounds.size.width;
-		
-		UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
-		
-		UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[rightButton setTitle:@"Delete" forState:UIControlStateNormal];
-		
-		UIView *buttonView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-		//buttonView.frame = CGRectMake(0.0, 0.0, contentWidth, 84.0);
-		
-		leftButton.frame = CGRectMake(10.0,
-									  20.0,
-									  (contentWidth / 2.0) - (10.0 + 5.0),
-									  44.0);
-		
-		rightButton.frame = CGRectMake((contentWidth / 2.0) + 5.0,
-									   20.0,
-									   (contentWidth / 2.0) - (10.0 + 5.0),
-									   44.0);
-		
-		[buttonView addSubview:leftButton];
-		[buttonView addSubview:rightButton];
-		
-		
-		[leftButton release];
-		[rightButton release];
-		
-		return buttonView;
+	if (section == 2 && buttonView_) {
+		return buttonView_;
 	}
 	return nil;
 }

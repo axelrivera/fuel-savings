@@ -10,30 +10,38 @@
 #import "TotalView.h"
 #import "TotalViewCell.h"
 #import "TotalDetailViewCell.h"
+#import "DetailView.h"
 #import "DetailSummaryViewCell.h"
 
 #define TRIP_NEW_TAG 1
 #define TRIP_DELETE_TAG 2
 
+@interface TripViewController (Private)
+
+- (NSArray *)infoDetails;
+- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle;
+
+@end
+
 @implementation TripViewController
 
-@synthesize showButtons = showButtons_;
+@synthesize tripTable = tripTable_;
+@synthesize instructionsLabel = instructionsLabel_;
 @synthesize newTrip	= newTrip_;
 @synthesize currentTrip = currentTrip_;
+@synthesize infoSummary = infoSummary_;
+@synthesize carSummary = carSummary_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"TripViewController" bundle:nil];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
-		currencyFormatter_ = [[NSNumberFormatter alloc] init];
-		[currencyFormatter_ setNumberStyle:NSNumberFormatterCurrencyStyle];
-		[currencyFormatter_ setMaximumFractionDigits:0];
-		self.showButtons = NO;
 		self.newTrip = nil;
 		self.currentTrip = [Trip emptyTrip];
 		isNewTrip_ = NO;
 		showNewAction_ = NO;
+		buttonView_ = nil;
 	}
 	return self;
 }
@@ -45,14 +53,22 @@
 		self.title = @"Trip";
 		self.navigationItem.title = @"Analyze Trip";
 		self.tabBarItem.image = [UIImage imageNamed:@"trip_tab.png"];
-		self.showButtons = YES;
+		
+		buttonView_ = [[DoubleButtonView alloc] initWithButtonType:UIButtonTypeRoundedRect frame:CGRectZero];
+		
+		[buttonView_.leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
+		[buttonView_.leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
+		
+		[buttonView_.rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		[buttonView_.rightButton setTitle:@"Delete" forState:UIControlStateNormal];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[currencyFormatter_ release];
+	[tripTable_ release];
+	[instructionsLabel_ release];
 	[newTrip_ release];
 	[currentTrip_ release];
     [super dealloc];
@@ -72,13 +88,7 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																				target:self
-																				action:@selector(editAction)];
-	self.navigationItem.rightBarButtonItem = editButton;
-	[editButton release];
-	
-	if (self.showButtons) {
+	if (buttonView_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
@@ -86,9 +96,18 @@
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
 		
+		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
+																					target:self
+																					action:@selector(editAction)];
+		self.navigationItem.rightBarButtonItem = editButton;
+		[editButton release];
+		
 		if (![savingsData_.currentTrip isTripEmpty]) {
 			self.currentTrip = savingsData_.currentTrip;
 		}
+		
+		self.instructionsLabel.font = [UIFont systemFontOfSize:14.0];
+		self.instructionsLabel.text = @"Tap the New button to create a New Trip.";
 	}
 }
 
@@ -97,17 +116,14 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.tripTable = nil;
+	self.instructionsLabel = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	self.navigationItem.rightBarButtonItem.enabled = NO;
-	if (![self.currentTrip isTripEmpty]) {
-		self.navigationItem.rightBarButtonItem.enabled = YES;
-	}
-	[self.tableView reloadData];
+	[self reloadTable];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -168,7 +184,7 @@
 {
 	[self saveCurrentTrip:[Trip emptyTrip]];
 	self.navigationItem.rightBarButtonItem.enabled = NO;
-	[self.tableView reloadData];
+	[self reloadTable];
 }
 
 - (void)displayNameAction
@@ -177,14 +193,18 @@
 	inputViewController.footerText = @"Enter a name for the Current Trip.";
 	inputViewController.delegate = self;
 	
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-	[dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-	[dateFormatter setDateStyle:NSDateFormatterShortStyle];
-	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
-	
-	inputViewController.currentName = [NSString stringWithFormat:@"Trip %@", [dateFormatter stringFromDate:[NSDate date]]];
-	
-	[dateFormatter release];
+	if (![self.currentTrip.name isEqualToString:@""]) {
+		inputViewController.currentName = self.currentTrip.name;
+	} else {
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
+		[dateFormatter setDateStyle:NSDateFormatterShortStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
+		
+		inputViewController.currentName = [NSString stringWithFormat:@"Trip %@", [dateFormatter stringFromDate:[NSDate date]]];
+		
+		[dateFormatter release];
+	}
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
 	[self presentModalViewController:navController animated:YES];
@@ -228,9 +248,56 @@
 - (void)saveCurrentTrip:(Trip *)trip
 {
 	self.currentTrip = trip;
-	if (self.showButtons) {
+	if (buttonView_) {
 		savingsData_.currentTrip = trip;
 	}
+}
+
+- (void)reloadTable
+{
+	if ([self.currentTrip isTripEmpty]) {
+		self.tripTable.hidden = YES;
+		self.navigationItem.rightBarButtonItem.enabled = NO;
+	} else {
+		self.tripTable.hidden = NO;
+		self.navigationItem.rightBarButtonItem.enabled = YES;
+		
+		DetailSummaryView *infoView = [[DetailSummaryView alloc] initWithDetails:[self infoDetails]];
+		infoView.titleLabel.text = @"Details";
+		infoView.imageView.image = [UIImage imageNamed:@"details.png"];
+		[self setInfoSummary:infoView];
+		[infoView release];
+		
+		DetailSummaryView *carView = [[DetailSummaryView alloc] initWithDetails:[self carDetailsForVehicle:self.currentTrip.vehicle]];
+		carView.titleLabel.text = @"My Car";
+		carView.imageView.image = [UIImage imageNamed:@"car.png"];
+		[self setCarSummary:carView];
+		[carView release];
+	}
+	[self.tripTable reloadData];
+}
+
+#pragma mark - Private Methods
+
+- (NSArray *)infoDetails
+{
+	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
+	
+	[details addObject:[DetailView detailDictionaryWithText:@"Trip Name" detail:[self.currentTrip stringForName]]];
+	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[self.currentTrip stringForFuelPrice]]];
+	[details addObject:[DetailView detailDictionaryWithText:@"Distance" detail:[self.currentTrip stringForDistance]]];
+	
+	return details;
+}
+
+- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle
+{	
+	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
+	
+	[details addObject:[DetailView detailDictionaryWithText:@"Name" detail:[vehicle stringForName]]];
+	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Efficiency" detail:[vehicle stringForAvgEfficiency]]];
+	
+	return details;
 }
 
 #pragma mark - View Controller Delegates
@@ -265,16 +332,15 @@
 	if ([self.currentTrip isTripEmpty]) {
 		return 0;
 	}
-	NSInteger sections = 2;
-	if (self.showButtons) {
-		sections = sections + 1;
-	}
-	return sections;
+	return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 1;
+	if (section == 0) {
+		return 1;
+	}
+	return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -292,10 +358,9 @@
 		
 		NSString *imageStr = @"money.png";
 		NSString *titleStr = @"Trip Cost";
-		NSString *text1LabelStr = self.currentTrip.vehicle.name;
+		NSString *text1LabelStr = [self.currentTrip stringForName];
 		
-		NSNumber *cost = [self.currentTrip tripCost];
-		NSString *detail1LabelStr = [currencyFormatter_ stringFromNumber:cost];
+		NSString *detail1LabelStr = [self.currentTrip stringForTripCost];
 		
 		totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
 		totalCell.totalView.titleLabel.text = titleStr;
@@ -308,128 +373,60 @@
 		totalCell.totalView.detail1Label.textColor = textColor;
 		
 		return totalCell;
-	}
+	} 
 	
-	static NSString *CellIdentifier = @"Cell";
+	DetailSummaryView *summary = nil;
 	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	
-	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-	}
-	
-	UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-	cell.backgroundColor = [UIColor clearColor];
-	cell.backgroundView = backView;
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	
-	CGFloat contentWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
-	
-	if (indexPath.section == 1) {
-		UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		textLabel.lineBreakMode = UILineBreakModeWordWrap;
-		textLabel.numberOfLines = 2;
-		textLabel.textAlignment = UITextAlignmentCenter;
-		textLabel.backgroundColor = [UIColor clearColor];
-		textLabel.textColor = [UIColor darkGrayColor];
-		textLabel.font = [UIFont systemFontOfSize:14.0];
-		textLabel.shadowColor = [UIColor whiteColor];
-		textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-		
-		NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-		
-		[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-		
-		NSString *fuelStr = [formatter stringFromNumber:self.currentTrip.fuelPrice];
-		
-		[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-		[formatter setMaximumFractionDigits:0];
-		
-		NSString *distanceStr = [formatter stringFromNumber:self.currentTrip.distance];
-		
-		textLabel.text = [NSString stringWithFormat:
-						  @"Fuel Price - %@ /gallon\n"
-						  @"Distance - %@ miles\n",
-						  fuelStr,
-						  distanceStr];
-		
-		textLabel.frame = CGRectMake(10.0, 0.0, contentWidth, 34.0);
-		
-		cell.accessoryView = textLabel;
-		
-		[textLabel release];
-		[formatter release];
+	if (indexPath.row == 0) {
+		summary = infoSummary_;
 	} else {
-		UIButton *leftButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
-		
-		UIButton *rightButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[rightButton setTitle:@"Delete" forState:UIControlStateNormal];
-		
-		UIView *buttonView = [[UIView alloc] initWithFrame:CGRectZero];
-		buttonView.frame = CGRectMake(20.0, 0.0, contentWidth, 44.0);
-		
-		leftButton.frame = CGRectMake(0.0,
-									  0.0,
-									  (contentWidth / 2.0) - 5.0,
-									  44.0);
-		
-		rightButton.frame = CGRectMake((contentWidth / 2.0) + 5.0,
-									   0.0,
-									   (contentWidth / 2.0) - 5.0,
-									   44.0);
-		
-		[buttonView addSubview:leftButton];
-		[buttonView addSubview:rightButton];
-		
-		cell.accessoryView = buttonView;
-		
-		[leftButton release];
-		[rightButton release];
-		[buttonView release];
+		summary = carSummary_;
 	}
 	
-	return cell;
+	NSString *SummaryCellIdentifier = [NSString stringWithFormat:@"SummaryCell%i", [summary.detailViews count]];
+	
+	DetailSummaryViewCell *summaryCell = (DetailSummaryViewCell *)[tableView dequeueReusableCellWithIdentifier:SummaryCellIdentifier];
+	
+	if (summaryCell == nil) {
+		summaryCell = [[[DetailSummaryViewCell alloc] initWithReuseIdentifier:SummaryCellIdentifier] autorelease];
+	}
+	
+	summaryCell.selectionStyle = UITableViewCellSelectionStyleNone;
+	
+	[summaryCell setSummaryView:summary];
+	
+	return summaryCell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	CGFloat height = 44.0;
+	NSInteger height = 0.0;
 	if (indexPath.section == 0) {
 		height = 66.0;
-	} else if (indexPath.section == 1) {
-		height = 34.0;
+	} else {
+		if (indexPath.row == 0) {
+			height = 100.0;
+		} else {
+			height = 83.0;
+		}
 	}
 	return height;
 }
 
--(CGFloat)tableView:(UITableView*)tableView heightForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-    if (section == 0) {
-		return 13.0;
+	if (section == 1 && buttonView_) {
+		return buttonView_;
 	}
-    return 1.0;
+	return nil;
 }
 
--(CGFloat)tableView:(UITableView*)tableView heightForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-	NSInteger height = 13.0;
-	if (section == 0 && section == 1) {
-		height = 1.0;
+	if (section == 1) {
+		return 84.0;
 	}
-    return height;
-}
-
--(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
--(UIView*)tableView:(UITableView*)tableView viewForFooterInSection:(NSInteger)section
-{
-    return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+	return 10.0;
 }
 
 #pragma mark - UIActionSheet Delegate

@@ -22,6 +22,12 @@
 - (NSNumber *)tripCost;
 - (void)setDefaultValues;
 
+- (NSString *)stringForName;
+- (NSString *)stringForFuelPrice;
+- (NSString *)stringForDistance;
+
+- (NSString *)stringForTripCost;
+
 - (BOOL)isTripEmpty;
 
 @end

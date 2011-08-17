@@ -16,9 +16,12 @@
 }
 
 @property (nonatomic, assign) id <PriceInputViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UIToolbar *inputToolbar;
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSDecimalNumber *currentPrice;
 @property (nonatomic, copy) NSString *footerText;
+
+- (IBAction)clearButtonAction:(id)sender;
 
 @end
 

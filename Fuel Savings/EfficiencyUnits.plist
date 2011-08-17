@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EfficiencyUnits</key>
+	<dict>
+		<key>miles_per_gallon</key>
+		<dict>
+			<key>unit</key>
+			<string>MPG</string>
+			<key>alias</key>
+			<string>MPG</string>
+			<key>name</key>
+			<string>Miles per gallon</string>
+			<key>order</key>
+			<integer>0</integer>
+		</dict>
+		<key>miles_per_imperial_gallon</key>
+		<dict>
+			<key>unit</key>
+			<string>MPG</string>
+			<key>alias</key>
+			<string>MPG</string>
+			<key>name</key>
+			<string>Miles per imperial gallon</string>
+			<key>order</key>
+			<integer>1</integer>
+		</dict>
+		<key>liters_per_100_kilometers</key>
+		<dict>
+			<key>unit</key>
+			<string>L/100 km</string>
+			<key>alias</key>
+			<string>L/100 km</string>
+			<key>name</key>
+			<string>Liters per 100 Kilometers</string>
+			<key>order</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>

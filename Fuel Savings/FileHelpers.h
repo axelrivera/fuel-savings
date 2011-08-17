@@ -7,4 +7,5 @@
 #import <Foundation/Foundation.h>
 
 NSString *pathInDocumentDirectory(NSString *fileName);
+NSString *pathInMainBundle(NSString *fileName);
 NSURL *applicationDocumentsDirectory(void);

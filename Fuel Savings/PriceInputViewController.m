@@ -14,6 +14,7 @@
 @implementation PriceInputViewController
 
 @synthesize delegate = delegate_;
+@synthesize inputToolbar = inputToolbar_;
 @synthesize enteredDigits = enteredDigits_;
 @synthesize currentPrice = currentPrice_;
 @synthesize footerText = footerText_;
@@ -34,6 +35,7 @@
 - (void)dealloc
 {
 	[inputTextField_ release];
+	[inputToolbar_ release];
 	[enteredDigits_ release];
 	[currentPrice_ release];
 	[footerText_ release];
@@ -55,6 +57,9 @@
     [super viewDidLoad];
 	self.title = @"Change Price";
 	
+	UIBarButtonItem *clearButton = [[self.inputToolbar items] objectAtIndex:1];
+	clearButton.title = @"Clear";
+		
 	inputTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(0.0, 7.0, 280.0, 30.0)];
 	inputTextField_.font = [UIFont systemFontOfSize:18.0];
 	inputTextField_.adjustsFontSizeToFitWidth = NO;
@@ -62,7 +67,8 @@
 	inputTextField_.keyboardType = UIKeyboardTypeNumberPad;
 	inputTextField_.textAlignment = UITextAlignmentCenter;
 	inputTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	inputTextField_.clearButtonMode = YES;
+	inputTextField_.clearButtonMode = NO;
+	inputTextField_.inputAccessoryView = self.inputToolbar;
 	inputTextField_.delegate = self;
 	
 	self.tableView.sectionHeaderHeight = 35.0;
@@ -75,6 +81,7 @@
     // e.g. self.myOutlet = nil;
 	[inputTextField_ release];
 	inputTextField_ = nil;
+	self.inputToolbar = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,6 +105,15 @@
 {
 	[super viewWillDisappear:animated];
 	[self.delegate priceInputViewControllerDidFinish:self save:YES];
+}
+
+#pragma mark - Custom Actions
+
+- (IBAction)clearButtonAction:(id)sender
+{
+	self.currentPrice = [NSDecimalNumber zero];
+	self.enteredDigits = @"";
+	inputTextField_.text = @"";
 }
 
 #pragma mark - Table view data source
@@ -181,14 +197,6 @@
 	//NSLog(@"Current Efficiency (change end): %@", self.currentPrice);
 	
     return NO;  
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-	self.currentPrice = [NSDecimalNumber zero];
-	self.enteredDigits = @"";
-	inputTextField_.text = @"";
-	return NO;
 }
 
 @end

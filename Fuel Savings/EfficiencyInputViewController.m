@@ -13,6 +13,7 @@
 @implementation EfficiencyInputViewController
 
 @synthesize delegate = delegate_;
+@synthesize inputToolbar = inputToolbar_;
 @synthesize currentType = currentType_;
 @synthesize key = key_;
 @synthesize enteredDigits = enteredDigits_;
@@ -35,6 +36,7 @@
 {
 	[efficiencyTextField_ release];
 	[key_ release];
+	[inputToolbar_ release];
 	[enteredDigits_ release];
 	[currentEfficiency_ release];
 	[footerText_ release];
@@ -57,6 +59,9 @@
 		
 	self.title = @"Fuel Efficiency";
 	
+	UIBarButtonItem *clearButton = [[self.inputToolbar items] objectAtIndex:1];
+	clearButton.title = @"Clear";
+	
 	efficiencyTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(0.0, 7.0, 280.0, 30.0)];
 	efficiencyTextField_.font = [UIFont systemFontOfSize:18.0];
 	efficiencyTextField_.adjustsFontSizeToFitWidth = NO;
@@ -64,7 +69,8 @@
 	efficiencyTextField_.keyboardType = UIKeyboardTypeNumberPad;
 	efficiencyTextField_.textAlignment = UITextAlignmentCenter;
 	efficiencyTextField_.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	efficiencyTextField_.clearButtonMode = YES;
+	efficiencyTextField_.clearButtonMode = NO;
+	efficiencyTextField_.inputAccessoryView = self.inputToolbar;
 	efficiencyTextField_.delegate = self;
 	
 	self.tableView.sectionHeaderHeight = 35.0;
@@ -77,6 +83,7 @@
     // e.g. self.myOutlet = nil;
 	[efficiencyTextField_ release];
 	efficiencyTextField_ = nil;
+	self.inputToolbar = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -100,6 +107,15 @@
 {
 	[super viewWillDisappear:animated];
 	[self.delegate efficiencyInputViewControllerDidFinish:self save:YES];
+}
+
+#pragma mark - Custom Actions
+
+- (IBAction)clearButtonAction:(id)sender
+{
+	self.currentEfficiency = [NSNumber numberWithInteger:0];
+	self.enteredDigits = @"";
+	efficiencyTextField_.text = @"";
 }
 
 #pragma mark - Table view data source
@@ -182,13 +198,6 @@
 	//NSLog(@"Current Efficiency (change end): %@", self.currentEfficiency);
 	
     return NO;  
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField
-{
-	self.currentEfficiency = [NSNumber numberWithInteger:0];
-	self.enteredDigits = @"";
-	return YES;
 }
 
 @end

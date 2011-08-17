@@ -13,6 +13,9 @@
     
 }
 
+@property (nonatomic, retain) IBOutlet UITableView *settingsTable;
+@property (nonatomic, retain) NSArray *settingsData;
+
 - (id)initWithTabBar;
 
 @end

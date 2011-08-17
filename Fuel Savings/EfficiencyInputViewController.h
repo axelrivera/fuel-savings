@@ -21,11 +21,14 @@ typedef enum {
 }
 
 @property (nonatomic, assign) id <EfficiencyInputViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UIToolbar *inputToolbar;
 @property (nonatomic, assign) EfficiencyInputType currentType;
 @property (nonatomic, copy) NSString *key;
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSNumber *currentEfficiency;
 @property (nonatomic, copy) NSString *footerText;
+
+- (IBAction)clearButtonAction:(id)sender;
 
 @end
 
