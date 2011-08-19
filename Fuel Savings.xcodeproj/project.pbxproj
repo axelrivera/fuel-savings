@@ -42,6 +42,7 @@
 		1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */; };
 		1646C6AC13FAF743006571C1 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1646C6AB13FAF743006571C1 /* Settings.m */; };
 		1647C90113F9829100302930 /* DoubleButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1647C90013F9829100302930 /* DoubleButtonView.m */; };
+		164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E1E8613FDB05E00095044 /* NSNumber+Units.m */; };
 		1654418E13CC88690060D1C3 /* savings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418C13CC88690060D1C3 /* savings_tab.png */; };
 		1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418D13CC88690060D1C3 /* savings_tab@2x.png */; };
 		1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* CurrentSavingsViewController.m */; };
@@ -90,6 +91,10 @@
 		16807F6613BEA0AE0036F89E /* saved_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F6013BEA0AE0036F89E /* saved_tab@2x.png */; };
 		16807F6713BEA0AE0036F89E /* trip_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F6113BEA0AE0036F89E /* trip_tab.png */; };
 		16807F6813BEA0AE0036F89E /* trip_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F6213BEA0AE0036F89E /* trip_tab@2x.png */; };
+		168A425B13FD3E6D0044E421 /* CurrencySymbols.plist in Resources */ = {isa = PBXBuildFile; fileRef = 168A425A13FD3E6D0044E421 /* CurrencySymbols.plist */; };
+		168A425F13FD607F0044E421 /* NSDictionary+OrderKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 168A425E13FD607F0044E421 /* NSDictionary+OrderKey.m */; };
+		168A426A13FD8DB70044E421 /* CountriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168A426813FD8DB60044E421 /* CountriesViewController.m */; };
+		168A426B13FD8DB70044E421 /* CountriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 168A426913FD8DB70044E421 /* CountriesViewController.xib */; };
 		16A707AC13B9FFE600A0E93F /* NameInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707AB13B9FFE600A0E93F /* NameInputViewController.m */; };
 		16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16A707AE13BA057D00A0E93F /* NameInputViewController.xib */; };
 		16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */; };
@@ -109,6 +114,7 @@
 		16CBB87813D0805F00E8BD05 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87713D0805F00E8BD05 /* Trip.m */; };
 		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
 		16D590A413E822B80095EAC3 /* TotalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D590A313E822B80095EAC3 /* TotalViewCell.m */; };
+		16D73AD713FE967000F01035 /* CountriesAvailable.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D73AD613FE967000F01035 /* CountriesAvailable.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -163,6 +169,8 @@
 		1646C6AB13FAF743006571C1 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		1647C8FF13F9829100302930 /* DoubleButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleButtonView.h; sourceTree = "<group>"; };
 		1647C90013F9829100302930 /* DoubleButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleButtonView.m; sourceTree = "<group>"; };
+		164E1E8513FDB05E00095044 /* NSNumber+Units.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Units.h"; sourceTree = "<group>"; };
+		164E1E8613FDB05E00095044 /* NSNumber+Units.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Units.m"; sourceTree = "<group>"; };
 		1654418C13CC88690060D1C3 /* savings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = savings_tab.png; sourceTree = "<group>"; };
 		1654418D13CC88690060D1C3 /* savings_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "savings_tab@2x.png"; sourceTree = "<group>"; };
 		1658291113B9262100BC5219 /* CurrentSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentSavingsViewController.h; sourceTree = "<group>"; };
@@ -223,6 +231,12 @@
 		16807F6013BEA0AE0036F89E /* saved_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saved_tab@2x.png"; sourceTree = "<group>"; };
 		16807F6113BEA0AE0036F89E /* trip_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trip_tab.png; sourceTree = "<group>"; };
 		16807F6213BEA0AE0036F89E /* trip_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trip_tab@2x.png"; sourceTree = "<group>"; };
+		168A425A13FD3E6D0044E421 /* CurrencySymbols.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CurrencySymbols.plist; sourceTree = "<group>"; };
+		168A425D13FD607F0044E421 /* NSDictionary+OrderKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+OrderKey.h"; sourceTree = "<group>"; };
+		168A425E13FD607F0044E421 /* NSDictionary+OrderKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+OrderKey.m"; sourceTree = "<group>"; };
+		168A426713FD8DB60044E421 /* CountriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountriesViewController.h; sourceTree = "<group>"; };
+		168A426813FD8DB60044E421 /* CountriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountriesViewController.m; sourceTree = "<group>"; };
+		168A426913FD8DB70044E421 /* CountriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountriesViewController.xib; sourceTree = "<group>"; };
 		16A707AA13B9FFE600A0E93F /* NameInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NameInputViewController.h; sourceTree = "<group>"; };
 		16A707AB13B9FFE600A0E93F /* NameInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NameInputViewController.m; sourceTree = "<group>"; };
 		16A707AE13BA057D00A0E93F /* NameInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NameInputViewController.xib; sourceTree = "<group>"; };
@@ -252,6 +266,8 @@
 		16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuelSavingsHelpers.m; sourceTree = "<group>"; };
 		16D590A213E822B80095EAC3 /* TotalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalViewCell.h; sourceTree = "<group>"; };
 		16D590A313E822B80095EAC3 /* TotalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalViewCell.m; sourceTree = "<group>"; };
+		16D73AD613FE967000F01035 /* CountriesAvailable.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountriesAvailable.plist; sourceTree = "<group>"; };
+		16D73AD913FEA9C100F01035 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -424,6 +440,8 @@
 				16C27BC413FC58290084C2F5 /* DistanceUnits.plist */,
 				16C27BC613FC5A720084C2F5 /* VolumeUnits.plist */,
 				16C27BC813FC5BDF0084C2F5 /* EfficiencyUnits.plist */,
+				168A425A13FD3E6D0044E421 /* CurrencySymbols.plist */,
+				16D73AD613FE967000F01035 /* CountriesAvailable.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -449,6 +467,8 @@
 				1620147413E32ECD00EDFF2B /* VehicleSelectViewController.m */,
 				16C27BBC13FC4F320084C2F5 /* UnitsViewController.h */,
 				16C27BBD13FC4F320084C2F5 /* UnitsViewController.m */,
+				168A426713FD8DB60044E421 /* CountriesViewController.h */,
+				168A426813FD8DB60044E421 /* CountriesViewController.m */,
 				16C27BB613FC4F110084C2F5 /* AboutViewController.h */,
 				16C27BB713FC4F110084C2F5 /* AboutViewController.m */,
 				1635AFD313D0C496005FC8EB /* Input */,
@@ -459,6 +479,7 @@
 		1666FD1813B8FAEE00FC97F1 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				16D73AD913FEA9C100F01035 /* Constants.h */,
 				1677C05913C64A9F0013CDD3 /* FuelSavingsHelpers.h */,
 				16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */,
 				160ED0B713CA41E5001021F7 /* FileHelpers.h */,
@@ -467,6 +488,10 @@
 				16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */,
 				1628039A13F0361F00848A31 /* NSDictionary+Section.h */,
 				1628039B13F0361F00848A31 /* NSDictionary+Section.m */,
+				168A425D13FD607F0044E421 /* NSDictionary+OrderKey.h */,
+				168A425E13FD607F0044E421 /* NSDictionary+OrderKey.m */,
+				164E1E8513FDB05E00095044 /* NSNumber+Units.h */,
+				164E1E8613FDB05E00095044 /* NSNumber+Units.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -505,6 +530,7 @@
 				1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */,
 				1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */,
 				16C27BBE13FC4F320084C2F5 /* UnitsViewController.xib */,
+				168A426913FD8DB70044E421 /* CountriesViewController.xib */,
 				16C27BB813FC4F110084C2F5 /* AboutViewController.xib */,
 				1635AFD513D0C4D3005FC8EB /* Input */,
 			);
@@ -619,6 +645,9 @@
 				16C27BC513FC58290084C2F5 /* DistanceUnits.plist in Resources */,
 				16C27BC713FC5A720084C2F5 /* VolumeUnits.plist in Resources */,
 				16C27BC913FC5BDF0084C2F5 /* EfficiencyUnits.plist in Resources */,
+				168A425B13FD3E6D0044E421 /* CurrencySymbols.plist in Resources */,
+				168A426B13FD8DB70044E421 /* CountriesViewController.xib in Resources */,
+				16D73AD713FE967000F01035 /* CountriesAvailable.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +695,9 @@
 				1646C6AC13FAF743006571C1 /* Settings.m in Sources */,
 				16C27BB913FC4F110084C2F5 /* AboutViewController.m in Sources */,
 				16C27BBF13FC4F320084C2F5 /* UnitsViewController.m in Sources */,
+				168A425F13FD607F0044E421 /* NSDictionary+OrderKey.m in Sources */,
+				168A426A13FD8DB70044E421 /* CountriesViewController.m in Sources */,
+				164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

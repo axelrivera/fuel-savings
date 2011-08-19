@@ -7,22 +7,34 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSDictionary+OrderKey.h"
 
-extern NSString * const kSettingsUnitUnitKey;
-extern NSString * const kSettingsUnitAliasKey;
-extern NSString * const kSettingsUnitNameKey;
-extern NSString * const kSettingsUnitOrderKey;
+#define kSettingsUnitUnitKey @"unit"
+#define kSettingsUnitAliasKey @"alias"
+#define kSettingsUnitNameKey @"name"
+#define kSettingsUnitOrderKey kNSDictionaryOrderKey
 
 @interface Settings : NSObject
+
+@property (nonatomic, retain) NSString *defaultDistanceUnit;
+@property (nonatomic, retain) NSString *defaultVolumeUnit;
+@property (nonatomic, retain) NSString *defaultEfficiencyUnit;
+@property (nonatomic, retain) NSString *defaultCurrencySymbol;
+@property (nonatomic, retain) NSString *defaultCountry;
+
 
 + (Settings *)sharedSettings;
 
 + (NSDictionary *)distanceUnits;
 + (NSDictionary *)volumeUnits;
 + (NSDictionary *)efficiencyUnits;
++ (NSDictionary *)currencySymbols;
++ (NSDictionary *)countries;
 
-+ (NSArray *)sortedDistanceUnits;
-+ (NSArray *)sortedVolumeUnits;
-+ (NSArray *)sortedEfficiencyUnits;
++ (NSArray *)orderedDistanceUnits;
++ (NSArray *)orderedVolumeUnits;
++ (NSArray *)orderedEfficiencyUnits;
++ (NSArray *)orderedCurrencySymbols;
++ (NSArray *)orderedCountries;
 
 @end

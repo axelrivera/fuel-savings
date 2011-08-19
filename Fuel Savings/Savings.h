@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSNumber *carOwnership;
 @property (nonatomic, copy) Vehicle *vehicle1;
 @property (nonatomic, copy) Vehicle *vehicle2;
+@property (nonatomic, copy) NSString *country;
 
 + (Savings *)calculation;
 + (Savings *)emptySavings;

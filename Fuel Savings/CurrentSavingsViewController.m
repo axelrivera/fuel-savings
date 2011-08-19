@@ -29,6 +29,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (NSArray *)informationArray;
 - (NSArray *)vehicleArrayWithKey:(NSString *)key;
 
+- (BOOL)validateControllerData;
 - (void)displayErrorWithMessage:(NSString *)message;
 
 @end
@@ -48,6 +49,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		self.currentSavings = nil;
 		isCar1Selected_ = NO;
 		isCar2Selected_ = NO;
+		car2SectionAvailable = NO;
 	}
 	return self;
 }
@@ -127,7 +129,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		[informationArray release];
 		[vehicle1Array release];
 		
-		if ([self.currentSavings.vehicle2 hasDataReady]) {
+		if (car2SectionAvailable == YES) {
 			NSArray *vehicle2Array = [[self vehicleArrayWithKey:vehicle2Key] retain];
 			[newData_ addObject:vehicle2Array];
 			[vehicle2Array release];
@@ -141,6 +143,10 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (void)saveAction
 {
+	if (![self validateControllerData]) {
+		[self displayErrorWithMessage:@"Error. You should select the fuel efficiency for the shown cars."];
+		return;
+	}
 	[self.delegate currentSavingsViewControllerDelegateDidFinish:self save:YES];
 }
 
@@ -176,6 +182,141 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	[inputViewController release];
 	[navController release];
+}
+
+#pragma mark - Private Methods
+
+- (NSArray *)informationArray
+{	
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
+	
+	NSDictionary *dictionary = nil;
+	
+	NSString *typeStr = [NSString stringWithString:[self.currentSavings stringForCurrentType]];
+	dictionary = [NSDictionary textDictionaryWithKey:typeKey text:@"Using" detail:typeStr];
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
+												text:@"Fuel Price"
+											  detail:[self.currentSavings stringForFuelPrice]];
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
+												text:@"Distance"
+											  detail:[self.currentSavings stringForDistance]];
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:carOwnershipKey
+												text:@"Ownership"
+											  detail:[self.currentSavings stringForCarOwnership]];
+	[array addObject:dictionary];
+	
+	return array;
+}
+
+- (NSArray *)vehicleArrayWithKey:(NSString *)key
+{
+	Vehicle *vehicle = nil;
+	NSString *titleText = nil;
+	NSString *emptyStr = @"";
+	SEL titleSelector;
+	
+	if ([key isEqualToString:vehicle1Key]) {
+		vehicle = self.currentSavings.vehicle1;
+		titleText = @"Car 1";
+		titleSelector = @selector(selectCar1Action);
+	} else {
+		vehicle = self.currentSavings.vehicle2;
+		titleText = @"Car 2";
+		titleSelector = @selector(selectCar2Action);
+		emptyStr = @"optional";
+	}
+	
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
+	
+	NSDictionary *dictionary = nil;
+	
+	dictionary = [NSDictionary buttonDictionaryWithKey:key
+												  text:titleText];
+	
+	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
+	[button addTarget:self action:titleSelector forControlEvents:UIControlEventTouchDown];
+	
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
+												text:@"Name"
+											  detail:[vehicle stringForName]];
+	[array addObject:dictionary];
+	
+	
+	if (self.currentSavings.type == EfficiencyTypeAverage) {
+		NSString *avgEfficiencyStr = emptyStr;
+		if ([vehicle.avgEfficiency integerValue] > 0) {
+			avgEfficiencyStr = [vehicle stringForAvgEfficiency];
+		}
+		dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
+													text:@"Average MPG"
+												  detail:avgEfficiencyStr];
+		[array addObject:dictionary];
+	} else {
+		NSString *cityEfficiencyStr = emptyStr;
+		if ([vehicle.cityEfficiency integerValue] > 0) {
+			cityEfficiencyStr = [vehicle stringForCityEfficiency];
+		}
+		dictionary = [NSDictionary textDictionaryWithKey:vehicleCityEfficiencyKey
+													text:@"City MPG"
+												  detail:cityEfficiencyStr];
+		[array addObject:dictionary];
+		
+		NSString *highwayEfficiencyStr = emptyStr;
+		if ([vehicle.highwayEfficiency integerValue] > 0) {
+			highwayEfficiencyStr = [vehicle stringForHighwayEfficiency];
+		}
+		dictionary = [NSDictionary textDictionaryWithKey:vehicleHighwayEfficiencyKey
+													text:@"Highway MPG"
+												  detail:highwayEfficiencyStr];
+		[array addObject:dictionary];
+	}
+	
+	return array;
+}
+
+- (BOOL)validateControllerData
+{
+	if (self.currentSavings.type == EfficiencyInputTypeAverage) {
+		if ([self.currentSavings.vehicle1.avgEfficiency integerValue] < 1) {
+			return NO;
+		}
+		return YES;
+	}
+	
+	NSInteger vehicle1CityEfficiencyValue = [self.currentSavings.vehicle1.cityEfficiency integerValue];
+	NSInteger vehicle1HighwayEfficiencyValue = [self.currentSavings.vehicle1.highwayEfficiency integerValue];
+	
+	if (vehicle1CityEfficiencyValue < 1 || vehicle1HighwayEfficiencyValue < 1) {
+		return NO;
+	} else {
+		if (car2SectionAvailable) {
+			NSInteger vehicle2CityEfficiencyValue = [self.currentSavings.vehicle2.cityEfficiency integerValue];
+			NSInteger vehicle2HighwayEfficiencyValue = [self.currentSavings.vehicle2.highwayEfficiency integerValue];
+			if (vehicle2CityEfficiencyValue < 1 || vehicle2HighwayEfficiencyValue < 1) {
+				return NO;
+			}
+		}
+	}
+	return YES;
+}
+
+- (void)displayErrorWithMessage:(NSString *)message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
+													message:message
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
 }
 
 #pragma mark - UITableView Data Source
@@ -253,8 +394,19 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
 	cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
 	
-	cell.textLabel.text = [dictionary objectForKey:dictionaryTextKey];
-	cell.detailTextLabel.text = [dictionary objectForKey:dictionaryDetailKey];
+	NSString *textLabelStr = [dictionary objectForKey:dictionaryTextKey];
+	NSString *detailTextStr = [dictionary objectForKey:dictionaryDetailKey];
+	
+	UIColor *textLabelColor = [UIColor blackColor];
+	
+	if ([detailTextStr isEqualToString:@""]) {
+		textLabelColor = [UIColor redColor];
+	}
+	
+	cell.textLabel.textColor = textLabelColor;
+	
+	cell.textLabel.text = textLabelStr;
+	cell.detailTextLabel.text = detailTextStr;
 	
 	return cell;
 }
@@ -280,6 +432,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		
 		[tableView scrollToRowAtIndexPath:lastCell atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 		
+		car2SectionAvailable = YES;
+		
 		return;
 	}
 	
@@ -300,7 +454,12 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentPrice = self.currentSavings.fuelPrice;
-			inputViewController.footerText = @"Enter the Price per gallon of fuel.";
+			
+			NSString *unitStr = kVolumeUnitsGallonKey;
+			if ([self.currentSavings.country isEqualToString:kCountriesAvailablePuertoRico]) {
+				unitStr = kVolumeUnitsLiterKey;
+			}
+			inputViewController.footerText = [NSString stringWithFormat:@"Enter the Price per %@ of fuel.", unitStr];
 			viewController = inputViewController;
 		} else if ([key isEqualToString:distanceKey]) {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
@@ -365,6 +524,36 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	if (section == 2 && car2SectionAvailable == YES) {
+		UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+		
+		sectionView.backgroundColor = [UIColor cyanColor];
+		
+		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+		[button addTarget:self action:@selector(removeCar2Action) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Delete Car 2" forState:UIControlStateNormal];
+		button.frame = CGRectMake(10.0,
+								  20.0,
+								  tableView.bounds.size.width - 20.0,
+								  44.0);
+		
+		[sectionView addSubview:button];
+		[button release];
+		return sectionView;
+	}
+	return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	if (section == 2 && car2SectionAvailable == YES) {
+		return 84.0;
+	}
+	return 10.0;
 }
 
 #pragma mark - View Controller Delegates
@@ -467,101 +656,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	isCar1Selected_ = NO;
 	isCar2Selected_ = NO;
 	[self dismissModalViewControllerAnimated:YES];
-}
-
-#pragma mark - Private Methods
-
-- (NSArray *)informationArray
-{	
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
-	
-	NSDictionary *dictionary = nil;
-	
-	NSString *typeStr = [NSString stringWithString:[self.currentSavings stringForCurrentType]];
-	dictionary = [NSDictionary textDictionaryWithKey:typeKey text:@"Using" detail:typeStr];
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
-												text:@"Fuel Price"
-											  detail:[self.currentSavings stringForFuelPrice]];
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
-												text:@"Distance"
-											  detail:[self.currentSavings stringForDistance]];
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:carOwnershipKey
-												text:@"Ownership"
-											  detail:[self.currentSavings stringForCarOwnership]];
-	[array addObject:dictionary];
-	
-	return array;
-}
-
-- (NSArray *)vehicleArrayWithKey:(NSString *)key
-{
-	Vehicle *vehicle = nil;
-	NSString *titleText = nil;
-	SEL titleSelector;
-	
-	if ([key isEqualToString:vehicle1Key]) {
-		vehicle = self.currentSavings.vehicle1;
-		titleText = @"Car 1";
-		titleSelector = @selector(selectCar1Action);
-	} else {
-		vehicle = self.currentSavings.vehicle2;
-		titleText = @"Car 2";
-		titleSelector = @selector(selectCar2Action);
-	}
-	
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
-	
-	NSDictionary *dictionary = nil;
-	
-	dictionary = [NSDictionary buttonDictionaryWithKey:key
-												  text:titleText];
-	
-	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
-	[button addTarget:self action:titleSelector forControlEvents:UIControlEventTouchDown];
-	
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
-												text:@"Name"
-											  detail:[vehicle stringForName]];
-	[array addObject:dictionary];
-	
-	
-	if (self.currentSavings.type == EfficiencyTypeAverage) {
-		dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
-													text:@"Average MPG"
-												  detail:[vehicle stringForAvgEfficiency]];
-		[array addObject:dictionary];
-	} else {
-		dictionary = [NSDictionary textDictionaryWithKey:vehicleCityEfficiencyKey
-													text:@"City MPG"
-												  detail:[vehicle stringForCityEfficiency]];
-		[array addObject:dictionary];
-		
-		dictionary = [NSDictionary textDictionaryWithKey:vehicleHighwayEfficiencyKey
-													text:@"Highway MPG"
-												  detail:[vehicle stringForHighwayEfficiency]];
-		[array addObject:dictionary];
-	}
-	
-	return array;
-}
-
-- (void)displayErrorWithMessage:(NSString *)message
-{
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
-													message:message
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles: nil];
-	[alert show];	
-	[alert release];
 }
 
 @end

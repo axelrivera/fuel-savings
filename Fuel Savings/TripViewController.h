@@ -25,10 +25,10 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *tripTable;
 @property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
-@property (nonatomic, copy) Trip *newTrip;
 @property (nonatomic, copy) Trip *currentTrip;
 @property (nonatomic, retain) DetailSummaryView *infoSummary;
 @property (nonatomic, retain) DetailSummaryView *carSummary;
+@property (nonatomic, copy) NSString *currentCountry;
 
 - (id)initWithTabBar;
 

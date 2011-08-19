@@ -12,6 +12,7 @@
 #import "TotalDetailViewCell.h"
 #import "DetailView.h"
 #import "DetailSummaryViewCell.h"
+#import "Settings.h"
 
 #define TRIP_NEW_TAG 1
 #define TRIP_DELETE_TAG 2
@@ -27,21 +28,21 @@
 
 @synthesize tripTable = tripTable_;
 @synthesize instructionsLabel = instructionsLabel_;
-@synthesize newTrip	= newTrip_;
 @synthesize currentTrip = currentTrip_;
 @synthesize infoSummary = infoSummary_;
 @synthesize carSummary = carSummary_;
+@synthesize currentCountry = currentCountry_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"TripViewController" bundle:nil];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
-		self.newTrip = nil;
 		self.currentTrip = [Trip emptyTrip];
 		isNewTrip_ = NO;
 		showNewAction_ = NO;
 		buttonView_ = nil;
+		self.currentCountry = nil;
 	}
 	return self;
 }
@@ -69,8 +70,8 @@
 {
 	[tripTable_ release];
 	[instructionsLabel_ release];
-	[newTrip_ release];
 	[currentTrip_ release];
+	[currentCountry_ release];
     [super dealloc];
 }
 
@@ -106,8 +107,9 @@
 			self.currentTrip = savingsData_.currentTrip;
 		}
 		
-		self.instructionsLabel.font = [UIFont systemFontOfSize:14.0];
-		self.instructionsLabel.text = @"Tap the New button to create a New Trip.";
+		self.instructionsLabel.font = [UIFont systemFontOfSize:18.0];
+		self.instructionsLabel.text = @"Tap the New button to create a New Trip. "
+									@"You can calculate the cost of a trip based on distance.";
 	}
 }
 
@@ -149,28 +151,36 @@
 
 - (void)newAction
 {
-	self.newTrip = [Trip calculation];
-	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:newTrip_];
+	Trip *newTrip = [[Trip calculation] retain];
+	newTrip.country = [Settings sharedSettings].defaultCountry;
+	[newTrip setDefaultValues];
+	
+	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:newTrip];
 	currentTripViewController.delegate = self;
 	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentTripViewController];
-	[self presentModalViewController:navController animated:YES];
+	[newTrip release];
 	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentTripViewController];
 	[currentTripViewController release];
+
+	[self presentModalViewController:navController animated:YES];	
 	[navController release];
 }
 
 - (void)editAction
 {
-	self.newTrip = self.currentTrip;
-	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:newTrip_];
+	Trip *editTrip = [self.currentTrip retain];
+	
+	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:editTrip];
 	currentTripViewController.delegate = self;
 	currentTripViewController.isEditingTrip = YES;
 	
-	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentTripViewController];
-	[self presentModalViewController:navController animated:YES];
+	[editTrip release];
 	
+	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentTripViewController];
 	[currentTripViewController release];
+	
+	[self presentModalViewController:navController animated:YES];
 	[navController release];
 }
 
@@ -255,6 +265,12 @@
 
 - (void)reloadTable
 {
+	if (buttonView_ && [self.currentTrip isTripEmpty]) {
+		self.currentCountry = [Settings sharedSettings].defaultCountry;
+	} else {
+		self.currentCountry = self.currentTrip.country;
+	}
+	
 	if ([self.currentTrip isTripEmpty]) {
 		self.tripTable.hidden = YES;
 		self.navigationItem.rightBarButtonItem.enabled = NO;

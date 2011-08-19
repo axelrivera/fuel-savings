@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Settings.h"
 
-@interface UnitsViewController : UIViewController
+@interface UnitsViewController : UITableViewController {
+	Settings *settings_;
+	NSArray *distanceUnits_;
+	NSArray *volumeUnits_;
+	NSArray *efficiencyUnits_;
+}
+
+@property (nonatomic, retain) NSArray *tableData;
+@property (nonatomic, assign) NSInteger currentDistance;
+@property (nonatomic, assign) NSInteger currentVolume;
+@property (nonatomic, assign) NSInteger currentEfficiency;
 
 @end

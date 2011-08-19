@@ -7,6 +7,7 @@
 //
 
 #import "Trip.h"
+#import "NSNumber+Units.h"
 
 @implementation Trip
 
@@ -14,6 +15,7 @@
 @synthesize fuelPrice = fuelPrice_;
 @synthesize distance = distance_;
 @synthesize vehicle = vehicle_;
+@synthesize country = country_;
 
 + (Trip *)calculation
 {
@@ -27,6 +29,7 @@
 	trip.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
 	trip.distance = [NSNumber numberWithInteger:0];
 	trip.vehicle = [Vehicle emptyVehicle];
+	trip.country = nil;
 	return trip;
 }
 
@@ -34,6 +37,7 @@
 {
 	self = [super init];
 	if (self) {
+		self.country = kCountriesAvailableUnitedStates;
 		[self setDefaultValues];
 	}
 	return self;
@@ -47,6 +51,7 @@
 		self.fuelPrice = [decoder decodeObjectForKey:@"tripFuelPrice"];
 		self.distance = [decoder decodeObjectForKey:@"tripDistance"];
 		self.vehicle = [decoder decodeObjectForKey:@"tripVehicle"];
+		self.country = [decoder decodeObjectForKey:@"tripCountry"];
 	}
 	return self;
 }
@@ -58,6 +63,7 @@
 	[encoder encodeObject:self.fuelPrice forKey:@"tripFuelPrice"];
 	[encoder encodeObject:self.distance forKey:@"tripDistance"];
 	[encoder encodeObject:self.vehicle forKey:@"tripVehicle"];
+	[encoder encodeObject:self.country forKey:@"tripCountry"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -67,6 +73,7 @@
 	newTrip.fuelPrice = self.fuelPrice;
 	newTrip.distance = self.distance;
 	newTrip.vehicle = self.vehicle;
+	newTrip.country = self.country;
 	return newTrip;
 }
 
@@ -76,22 +83,37 @@
 	[fuelPrice_ release];
 	[distance_ release];
 	[vehicle_ release];
+	[country_ release];
 	[super dealloc];
 }
 
 #pragma mark - Custom Methods
 
 - (NSNumber *)tripCost
-{
-	float trip = 0.0;
-	trip = [self.fuelPrice floatValue] * ([self.distance floatValue] / [self.vehicle.avgEfficiency floatValue]);
-	return [NSNumber numberWithFloat:trip];
+{	
+	NSNumber *distance = nil;
+	NSNumber *efficiency = nil;
+	
+	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+		distance = [self.distance milesToKilometers];
+		efficiency = [self.vehicle.avgEfficiency milesPerGallonToKilometersPerLiter];
+	} else {
+		distance = self.distance;
+		efficiency = self.vehicle.avgEfficiency;
+	}
+	return [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:efficiency];
 }
 
 - (void)setDefaultValues
 {
 	self.name = @"My Trip";
-	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
+	
+	NSString *priceStr = @"3.65";
+	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+		priceStr = @"0.89";
+	}
+	
+	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:priceStr];
 	self.distance = [NSNumber numberWithInteger:100];
 	self.vehicle = [Vehicle vehicleWithName:@"My Car"];
 }
@@ -109,7 +131,12 @@
 	NSString *priceStr = [priceFormatter stringFromNumber:self.fuelPrice];
 	[priceFormatter release];
 	
-	return [NSString stringWithFormat:@"%@ /gallon", priceStr];
+	NSString *unitStr = kVolumeUnitsGallonKey;
+	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+		unitStr = kVolumeUnitsLiterKey;
+	}
+	
+	return [NSString stringWithFormat:@"%@ /%@", priceStr, unitStr];
 }
 
 - (NSString *)stringForDistance

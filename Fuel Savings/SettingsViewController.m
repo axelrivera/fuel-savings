@@ -7,8 +7,7 @@
 //
 
 #import "SettingsViewController.h"
-#import "Settings.h"
-#import "UnitsViewController.h"
+#import "CountriesViewController.h"
 #import "AboutViewController.h"
 
 @implementation SettingsViewController
@@ -119,7 +118,7 @@
 	UIViewController *viewController = nil;
 	
 	if (indexPath.section == 0) {
-		UnitsViewController *controller = [[UnitsViewController alloc] init];
+		CountriesViewController *controller = [[CountriesViewController alloc] init];
 		viewController = controller;
 	} else {
 		AboutViewController *controller = [[AboutViewController alloc] init];

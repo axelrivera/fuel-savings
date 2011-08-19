@@ -7,6 +7,7 @@
 //
 
 #import "Savings.h"
+#import "NSNumber+Units.h"
 
 static NSNumberFormatter *percentFormatter_;
 static NSNumberFormatter *currencyFormatter_;
@@ -32,6 +33,7 @@ static NSNumberFormatter *currencyFormatter_;
 @synthesize carOwnership = carOwnership_;
 @synthesize vehicle1 = vehicle1_;
 @synthesize vehicle2 = vehicle2_;
+@synthesize country = country_;
 
 + (Savings *)calculation
 {
@@ -50,6 +52,7 @@ static NSNumberFormatter *currencyFormatter_;
 	savings.carOwnership = [NSNumber numberWithInteger:0];
 	savings.vehicle1 = [Vehicle emptyVehicle];
 	savings.vehicle2 = [Vehicle emptyVehicle];
+	savings.country = nil;
 	return savings;
 }
 
@@ -58,6 +61,7 @@ static NSNumberFormatter *currencyFormatter_;
 {
 	self = [super init];
 	if (self) {
+		self.country = kCountriesAvailableUnitedStates;
 		[self setDefaultValues];
 	}
 	return self;
@@ -76,6 +80,7 @@ static NSNumberFormatter *currencyFormatter_;
 		self.carOwnership = [decoder decodeObjectForKey:@"savingsCarOwnership"];
 		self.vehicle1 = [decoder decodeObjectForKey:@"savingsVehicle1"];
 		self.vehicle2 = [decoder decodeObjectForKey:@"savingsVehicle2"];
+		self.country = [decoder decodeObjectForKey:@"savingsCountry"];
 	}
 	return self;
 }
@@ -92,6 +97,7 @@ static NSNumberFormatter *currencyFormatter_;
 	[encoder encodeObject:self.carOwnership forKey:@"savingsCarOwnership"];
 	[encoder encodeObject:self.vehicle1 forKey:@"savingsVehicle1"];
 	[encoder encodeObject:self.vehicle2 forKey:@"savingsVehicle2"];
+	[encoder encodeObject:self.country forKey:@"savingsCountry"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -106,6 +112,7 @@ static NSNumberFormatter *currencyFormatter_;
 	newSavings.carOwnership = self.carOwnership;
 	newSavings.vehicle1 = self.vehicle1;
 	newSavings.vehicle2 = self.vehicle2;
+	newSavings.country = self.country;
 	return newSavings;
 }
 
@@ -119,6 +126,7 @@ static NSNumberFormatter *currencyFormatter_;
 	[carOwnership_ release];
 	[vehicle1_ release];
 	[vehicle2_ release];
+	[country_ release];
 	[super dealloc];
 }
 
@@ -142,7 +150,12 @@ static NSNumberFormatter *currencyFormatter_;
 	NSString *priceStr = [priceFormatter stringFromNumber:self.fuelPrice];
 	[priceFormatter release];
 	
-	return [NSString stringWithFormat:@"%@ /gallon", priceStr];
+	NSString *unitStr = kVolumeUnitsGallonKey;
+	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+		unitStr = kVolumeUnitsLiterKey;
+	}
+	
+	return [NSString stringWithFormat:@"%@ /%@", priceStr, unitStr];
 }
 
 - (NSString *)stringForCityRatio
@@ -292,7 +305,13 @@ static NSNumberFormatter *currencyFormatter_;
 {
 	self.name = @"";
 	self.type = EfficiencyTypeAverage;
-	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"3.65"];
+	
+	NSString *priceStr = @"3.65";
+	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+		priceStr = @"0.89";
+	}
+	
+	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:priceStr];
 	self.cityRatio = [NSNumber numberWithFloat:0.55];
 	self.highwayRatio = [NSNumber numberWithFloat:0.45];
 	self.distance = [NSNumber numberWithInteger:15000];
@@ -324,14 +343,38 @@ static NSNumberFormatter *currencyFormatter_;
 
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
 {
-	float annual = 0.0;
 	if (self.type == EfficiencyTypeAverage) {
-		annual = [self.fuelPrice floatValue] * ([self.distance floatValue] / [vehicle.avgEfficiency floatValue]);
-	} else {
-		annual = ((([self.distance floatValue] / [vehicle.cityEfficiency floatValue]) * 
-				   [self.fuelPrice floatValue]) * ([self.cityRatio floatValue])) + 
-		((([self.distance floatValue] / [vehicle.highwayEfficiency floatValue]) * [self.fuelPrice floatValue]) * [self.highwayRatio floatValue]);
+		NSNumber *distance = nil;
+		NSNumber *efficiency = nil;
+		
+		if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+			distance = [self.distance milesToKilometers];
+			efficiency = [vehicle.avgEfficiency milesPerGallonToKilometersPerLiter];
+		} else {
+			distance = self.distance;
+			efficiency = vehicle.avgEfficiency;
+		}
+		return [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:efficiency];
 	}
+	
+	NSNumber *distance = nil;
+	NSNumber *cityEfficiency = nil;
+	NSNumber *highwayEfficiency = nil;
+	
+	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+		distance = [self.distance milesToKilometers];
+		cityEfficiency = [vehicle.cityEfficiency milesPerGallonToKilometersPerLiter];
+		highwayEfficiency = [vehicle.highwayEfficiency milesPerGallonToKilometersPerLiter];
+	} else {
+		distance = self.distance;
+		cityEfficiency = vehicle.cityEfficiency;
+		highwayEfficiency = vehicle.highwayEfficiency;
+	}
+	
+	NSNumber *cityFuelCost = [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:cityEfficiency];
+	NSNumber *highwayFuelCost = [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:highwayEfficiency];
+	
+	CGFloat annual = ([cityFuelCost floatValue] * [self.cityRatio floatValue]) + ([highwayFuelCost floatValue] * [self.highwayRatio floatValue]);
 	return [NSNumber numberWithFloat:annual];
 }
 

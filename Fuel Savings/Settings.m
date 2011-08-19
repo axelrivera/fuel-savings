@@ -9,34 +9,71 @@
 #import "Settings.h"
 #import "FileHelpers.h"
 
-NSString * const kSettingsUnitUnitKey = @"units";
-NSString * const kSettingsUnitAliasKey = @"alias";
-NSString * const kSettingsUnitNameKey = @"name";
-NSString * const kSettingsUnitOrderKey = @"order";
+// Local Constants
+
+NSString * const kSettingsDistanceUnitKey = @"SettingsDistanceUnitKey";
+NSString * const kSettingsVolumeUnitKey = @"SettingsVolumeUnitKey";
+NSString * const kSettingsEfficiencyUnitKey = @"SettingsEfficiencyUnitKey";
+NSString * const kSettingsCurrencySymbolKey = @"SettingsCurrencySymbolKey";
+NSString * const kSettingsCountriesAvailableKey = @"SettingsCountriesAvailableKey";
+
+NSString * const kSettingsDefaultDistanceUnit = kDistanceUnitsMileKey;
+NSString * const kSettingsDefaultVolumeUnit = kVolumeUnitsGallonKey;
+NSString * const kSettingsDefaultEfficiencyUnit = kEfficiencyUnitsMilesPerGallonKey;
+NSString * const kSettingsDefaultCurrencySymbol = kCurrencySymbolsDollarKey;
+NSString * const kSettingsDefaultCountry = kCountriesAvailableUnitedStates;
+
+// Local Variables
 
 static Settings *sharedSettings;
 
 static NSDictionary *distanceUnits;
 static NSDictionary *volumeUnits;
 static NSDictionary *efficiencyUnits;
-
-@interface Settings (Private)
-
-+ (NSArray *)sortedUnitsFromDictionary:(NSDictionary *)dictionary;
-
-@end
+static NSDictionary *currencySymbols;
+static NSDictionary *countries;
 
 @implementation Settings
+
+@synthesize defaultDistanceUnit = defaultDistanceUnit_;
+@synthesize defaultVolumeUnit = defaultVolumeUnit_;
+@synthesize defaultEfficiencyUnit = defaultEfficiencyUnit_;
+@synthesize defaultCurrencySymbol = defaultCurrencySymbol_;
+@synthesize defaultCountry = defaultCountry_;
 
 - (id)init
 {
     self = [super init];
-    if (self) {
-//		NSString *countryStr = [[NSUserDefaults standardUserDefaults] objectForKey:@""];
-//		if (countryStr == nil) {
-//			countryStr = kDefaultContry;
-//		}
-//		self.currentCountry = countryStr;
+    if (self) {		
+		NSString *distanceStr = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingsDistanceUnitKey];
+		if (distanceStr == nil) {
+			distanceStr = kSettingsDefaultDistanceUnit;
+		}
+		self.defaultDistanceUnit = distanceStr;
+		
+		NSString *volumeStr = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingsVolumeUnitKey];
+		if (volumeStr == nil) {
+			volumeStr = kSettingsDefaultVolumeUnit;
+		}
+		self.defaultVolumeUnit = volumeStr;
+		
+		NSString *efficiencyStr = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingsEfficiencyUnitKey];
+		if (efficiencyStr == nil) {
+			efficiencyStr = kSettingsDefaultEfficiencyUnit;
+		}
+		self.defaultEfficiencyUnit = efficiencyStr;
+		
+		NSString *currencyStr = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingsCurrencySymbolKey];
+		if (currencyStr == nil) {
+			currencyStr = kSettingsDefaultCurrencySymbol;
+		}
+		self.defaultCurrencySymbol = currencyStr;
+		
+		NSString *countryStr = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingsCountriesAvailableKey];
+		if (countryStr == nil) {
+			countryStr = kSettingsDefaultCountry;
+		}
+		self.defaultCountry = countryStr;
     }
     
     return self;
@@ -44,6 +81,11 @@ static NSDictionary *efficiencyUnits;
 
 - (void)dealloc
 {
+	[defaultDistanceUnit_ release];
+	[defaultVolumeUnit_ release];
+	[defaultEfficiencyUnit_ release];
+	[defaultCurrencySymbol_ release];
+	[defaultCountry_ release];
 	[super dealloc];
 }
 
@@ -76,50 +118,89 @@ static NSDictionary *efficiencyUnits;
 	return efficiencyUnits;
 }
 
-#pragma mark - Custom Methods
-
-+ (NSArray *)sortedDistanceUnits
++ (NSDictionary *)currencySymbols
 {
-	return [Settings sortedUnitsFromDictionary:[Settings distanceUnits]];
+	if (currencySymbols == nil) {
+		NSString *filePath = pathInMainBundle(@"CurrencySymbols.plist");
+		currencySymbols = [[NSDictionary dictionaryWithContentsOfFile:filePath] retain];
+	}
+	return currencySymbols;
 }
 
-+ (NSArray *)sortedVolumeUnits
++ (NSDictionary *)countries
 {
-	return [Settings sortedUnitsFromDictionary:[Settings volumeUnits]];
+	if (countries == nil) {
+		NSString *filePath = pathInMainBundle(@"CountriesAvailable.plist");
+		countries = [[NSDictionary dictionaryWithContentsOfFile:filePath] retain];
+	}
+	return countries;
 }
 
-+ (NSArray *)sortedEfficiencyUnits
++ (NSArray *)orderedDistanceUnits
 {
-	return [Settings sortedUnitsFromDictionary:[Settings efficiencyUnits]];
+	return [[Settings distanceUnits] orderedKeys];
+}
+
++ (NSArray *)orderedVolumeUnits
+{
+	return [[Settings volumeUnits] orderedKeys];
+}
+
++ (NSArray *)orderedEfficiencyUnits
+{
+	return [[Settings efficiencyUnits] orderedKeys];
+}
+
++ (NSArray *)orderedCurrencySymbols
+{
+	return [[Settings currencySymbols] orderedKeys];
+}
+
++ (NSArray *)orderedCountries
+{
+	return [[Settings countries] orderedKeys];
 }
 
 #pragma mark - Custom Setters
 
-//- (void)setCurrentCountry:(NSString *)currentCountry
-//{
-//	[currentCountry_ autorelease];
-//	currentCountry_ = [currentCountry retain];
-//	[[NSUserDefaults standardUserDefaults] setObject:currentCountry forKey:kAvailableCountriesKey];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-//}
-
-#pragma mark - Private Methods
-
-+ (NSArray *)sortedUnitsFromDictionary:(NSDictionary *)dictionary
+- (void)setDefaultDistanceUnit:(NSString *)defaultDistanceUnit
 {
-	NSArray *sortedArray =
-	[dictionary keysSortedByValueUsingComparator:
-	 ^(id obj1, id obj2) {
-		 if ([[obj1 objectForKey:kSettingsUnitOrderKey] integerValue] > [[obj2 objectForKey:kSettingsUnitOrderKey] integerValue]) {
-			 return (NSComparisonResult)NSOrderedDescending;
-		 }
-		 
-		 if ([[obj1 objectForKey:kSettingsUnitOrderKey] integerValue] < [[obj2 objectForKey:kSettingsUnitOrderKey] integerValue]) {
-			 return (NSComparisonResult)NSOrderedAscending;
-		 }
-		 return (NSComparisonResult)NSOrderedSame;
-	 }];
-	return sortedArray;
+	[defaultDistanceUnit_ autorelease];
+	defaultDistanceUnit_ = [defaultDistanceUnit retain];
+	[[NSUserDefaults standardUserDefaults] setObject:defaultDistanceUnit forKey:kSettingsDistanceUnitKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setDefaultVolumeUnit:(NSString *)defaultVolumeUnit
+{
+	[defaultVolumeUnit_ autorelease];
+	defaultVolumeUnit_ = [defaultVolumeUnit retain];
+	[[NSUserDefaults standardUserDefaults] setObject:defaultVolumeUnit forKey:kSettingsVolumeUnitKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setDefaultEfficiencyUnit:(NSString *)defaultEfficiencyUnit
+{
+	[defaultEfficiencyUnit_ autorelease];
+	defaultEfficiencyUnit_ = [defaultEfficiencyUnit retain];
+	[[NSUserDefaults standardUserDefaults] setObject:defaultEfficiencyUnit forKey:kSettingsEfficiencyUnitKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setDefaultCurrencySymbol:(NSString *)defaultCurrencySymbol
+{
+	[defaultCurrencySymbol_ autorelease];
+	defaultCurrencySymbol_ = [defaultCurrencySymbol retain];
+	[[NSUserDefaults standardUserDefaults] setObject:defaultCurrencySymbol forKey:kSettingsCurrencySymbolKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setDefaultCountry:(NSString *)defaultCountry
+{
+	[defaultCountry_ autorelease];
+	defaultCountry_ = [defaultCountry retain];
+	[[NSUserDefaults standardUserDefaults] setObject:defaultCountry forKey:kSettingsCountriesAvailableKey];
+	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Singleton Methods

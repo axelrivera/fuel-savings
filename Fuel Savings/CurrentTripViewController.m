@@ -10,6 +10,7 @@
 #import "NSDictionary+Section.h"
 #import "VehicleSelectViewController.h"
 #import "Fuel_SavingsAppDelegate.h"
+#import "Settings.h"
 
 static NSString * const tripNameKey = @"TripNameKey";
 static NSString * const fuelPriceKey = @"PriceKey";
@@ -23,6 +24,10 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 
 - (NSArray *)informationArray;
 - (NSArray *)vehicleArray;
+
+- (BOOL)validateControllerData;
+- (void)displayErrorWithMessage:(NSString *)message;
+
 
 @end
 
@@ -115,6 +120,10 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 
 - (void)saveAction
 {
+	if (![self validateControllerData]) {
+		[self displayErrorWithMessage:@"Error. You should select the fuel efficiency for My Car."];
+		return;
+	}
 	[self.delegate currentTripViewControllerDelegateDidFinish:self save:YES];
 }
 
@@ -136,6 +145,85 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	[inputViewController release];
 	[navController release];
+}
+
+#pragma mark - Private Methods
+
+- (NSArray *)informationArray
+{	
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
+	
+	NSDictionary *dictionary = nil;
+	
+	dictionary = [NSDictionary textDictionaryWithKey:tripNameKey
+												text:@"Trip Name"
+											  detail:[self.currentTrip stringForName]];
+	
+	[array addObject:dictionary];
+	
+	
+	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
+												text:@"Fuel Price"
+											  detail:[self.currentTrip stringForFuelPrice]];
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
+												text:@"Distance"
+											  detail:[self.currentTrip stringForDistance]];
+	[array addObject:dictionary];
+	
+	return array;
+}
+
+- (NSArray *)vehicleArray
+{	
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
+	
+	NSDictionary *dictionary = nil;
+	
+	dictionary = [NSDictionary buttonDictionaryWithKey:vehicleKey
+												  text:@"My Car"];
+	
+	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
+	[button addTarget:self action:@selector(selectCarAction) forControlEvents:UIControlEventTouchDown];
+	
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
+												text:@"Name"
+											  detail:[self.currentTrip.vehicle stringForName]];
+	[array addObject:dictionary];
+	
+	NSString *efficiencyStr = @"";
+	if ([self.currentTrip.vehicle.avgEfficiency integerValue] > 0) {
+		efficiencyStr = [self.currentTrip.vehicle stringForAvgEfficiency];
+	}
+	
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
+												text:@"Fuel Efficiency"
+											  detail:efficiencyStr];
+	[array addObject:dictionary];
+	
+	return array;
+}
+
+- (BOOL)validateControllerData
+{
+	if ([self.currentTrip.vehicle.avgEfficiency integerValue] < 1) {
+		return NO;
+	}
+	return YES;
+}
+
+- (void)displayErrorWithMessage:(NSString *)message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
+													message:message
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
 }
 
 #pragma mark - UIViewController Delegates
@@ -229,8 +317,19 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
 	cell.detailTextLabel.font = [UIFont systemFontOfSize:15.0];
 	
-	cell.textLabel.text = [dictionary objectForKey:dictionaryTextKey];
-	cell.detailTextLabel.text = [dictionary objectForKey:dictionaryDetailKey];
+	NSString *textLabelStr = [dictionary objectForKey:dictionaryTextKey];
+	NSString *detailTextStr = [dictionary objectForKey:dictionaryDetailKey];
+	
+	UIColor *textLabelColor = [UIColor blackColor];
+	
+	if ([detailTextStr isEqualToString:@""]) {
+		textLabelColor = [UIColor redColor];
+	}
+	
+	cell.textLabel.textColor = textLabelColor;
+	
+	cell.textLabel.text = textLabelStr;
+	cell.detailTextLabel.text = detailTextStr;
 	
 	return cell;
 }
@@ -258,7 +357,12 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentPrice = self.currentTrip.fuelPrice;
-			inputViewController.footerText = @"Enter the Price per gallon of fuel.";
+			
+			NSString *unitStr = kVolumeUnitsGallonKey;
+			if ([self.currentTrip.country isEqualToString:kCountriesAvailablePuertoRico]) {
+				unitStr = kVolumeUnitsLiterKey;
+			}
+			inputViewController.footerText = [NSString stringWithFormat:@"Enter the Price per %@ of fuel.", unitStr];
 			viewController = inputViewController;
 		} else {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] initWithType:DistanceInputTypeTrip];
@@ -303,61 +407,6 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		self.currentTrip.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];
 	}
 	[self dismissModalViewControllerAnimated:YES];
-}
-
-
-#pragma mark - Private Methods
-
-- (NSArray *)informationArray
-{	
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
-	
-	NSDictionary *dictionary = nil;
-	
-	dictionary = [NSDictionary textDictionaryWithKey:tripNameKey
-												text:@"Trip Name"
-											  detail:[self.currentTrip stringForName]];
-	
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
-												text:@"Fuel Price"
-											  detail:[self.currentTrip stringForFuelPrice]];
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
-												text:@"Distance"
-											  detail:[self.currentTrip stringForDistance]];
-	[array addObject:dictionary];
-	
-	return array;
-}
-
-- (NSArray *)vehicleArray
-{	
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:0];
-	
-	NSDictionary *dictionary = nil;
-	
-	dictionary = [NSDictionary buttonDictionaryWithKey:vehicleKey
-												  text:@"My Car"];
-	
-	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
-	[button addTarget:self action:@selector(selectCarAction) forControlEvents:UIControlEventTouchDown];
-	
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
-												text:@"Name"
-											  detail:[self.currentTrip.vehicle stringForName]];
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
-												text:@"Fuel Efficiency"
-											  detail:[self.currentTrip.vehicle stringForAvgEfficiency]];
-	[array addObject:dictionary];
-	
-	return array;
 }
 
 @end

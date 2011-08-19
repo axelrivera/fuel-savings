@@ -15,6 +15,7 @@
 @property (nonatomic, copy) NSDecimalNumber *fuelPrice;
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) Vehicle *vehicle;
+@property (nonatomic, copy) NSString *country;
 
 + (Trip *)calculation;
 + (Trip *)emptyTrip;

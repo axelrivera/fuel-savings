@@ -13,6 +13,7 @@
 #import "DetailView.h"
 #import "DetailSummaryViewCell.h"
 #import "DoubleButtonView.h"
+#import "Settings.h"
 
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_DELETE_TAG 2
@@ -28,18 +29,17 @@
 
 @synthesize savingsTable = savingsTable_;
 @synthesize instructionsLabel = instructionsLabel_;
-@synthesize newSavings = newSavings_;
 @synthesize currentSavings = currentSavings_;
 @synthesize infoSummary = infoSummary_;
 @synthesize car1Summary = car1Summary_;
 @synthesize car2Summary = car2Summary_;
+@synthesize currentCountry = currentCountry_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"FuelSavingsViewController" bundle:nil];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
-		self.newSavings = nil;
 		self.currentSavings = [Savings emptySavings];
 		isNewSavings_ = NO;
 		showNewAction_ = NO;
@@ -71,11 +71,11 @@
 	[savingsTable_ release];
 	[buttonView_ release];
 	[instructionsLabel_ release];
-	[newSavings_ release];
 	[currentSavings_ release];
 	[infoSummary_ release];
 	[car1Summary_ release];
 	[car2Summary_ release];
+	[currentCountry_ release];
     [super dealloc];
 }
 
@@ -111,7 +111,7 @@
 			self.currentSavings = savingsData_.currentSavings;
 		}
 		
-		self.instructionsLabel.font = [UIFont systemFontOfSize:14.0];
+		self.instructionsLabel.font = [UIFont systemFontOfSize:18.0];
 		self.instructionsLabel.text = @"Tap the New button to create a New Savings. You have the option to calculate "
 										@"fuel savings for one or two cars.";
 	}
@@ -158,30 +158,36 @@
 
 - (void)newAction
 {
-	self.newSavings = [Savings calculation];
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
+	Savings *newSavings = [[Savings calculation] retain];
+	newSavings.country = [Settings sharedSettings].defaultCountry;
+	[newSavings setDefaultValues];
+	
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings];
 	currentSavingsViewController.delegate = self;
 	
+	[newSavings release];
+	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
+	[currentSavingsViewController release];
 	
 	[self presentModalViewController:navController animated:YES];
-	
-	[currentSavingsViewController release];
 	[navController release];
 }
 
 - (void)editAction
 {
-	self.newSavings = self.currentSavings;
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings_];
+	Savings *editSavings = [self.currentSavings retain];
+	
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:editSavings];
 	currentSavingsViewController.delegate = self;
 	currentSavingsViewController.isEditingSavings = YES;
 	
+	[editSavings release];
+	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
+	[currentSavingsViewController release];
 	
 	[self presentModalViewController:navController animated:YES];
-	
-	[currentSavingsViewController release];
 	[navController release];
 }
 
@@ -262,6 +268,12 @@
 
 - (void)reloadTable
 {
+	if (buttonView_ && [self.currentSavings isSavingsEmpty]) {
+		self.currentCountry = [Settings sharedSettings].defaultCountry;
+	} else {
+		self.currentCountry = self.currentSavings.country;
+	}
+	
 	if ([self.currentSavings isSavingsEmpty]) {
 		self.savingsTable.hidden = YES;
 		self.navigationItem.rightBarButtonItem.enabled = NO;
