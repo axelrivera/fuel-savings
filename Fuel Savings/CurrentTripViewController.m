@@ -194,7 +194,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 											  detail:[self.currentTrip.vehicle stringForName]];
 	[array addObject:dictionary];
 	
-	NSString *efficiencyStr = @"";
+	NSString *efficiencyStr = @"required";
 	if ([self.currentTrip.vehicle.avgEfficiency integerValue] > 0) {
 		efficiencyStr = [self.currentTrip.vehicle stringForAvgEfficiency];
 	}
@@ -253,7 +253,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 			self.currentTrip.vehicle.name = controller.currentName;
 		}
 	}
-	[self.navigationController popViewControllerAnimated:YES];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 - (void)efficiencyInputViewControllerDidFinish:(EfficiencyInputViewController *)controller save:(BOOL)save
@@ -264,6 +264,20 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		self.currentTrip.vehicle.highwayEfficiency = controller.currentEfficiency;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)vehicleDetailsViewControllerDidFinish:(VehicleDetailsViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		NSDictionary *info = controller.mpgDatabaseInfo;
+		self.currentTrip.vehicle.name = [NSString stringWithFormat:@"%@ %@",
+										 [info objectForKey:@"year"],
+										 [info objectForKey:@"model"]];
+		self.currentTrip.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
+		self.currentTrip.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];
+		self.currentTrip.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];
+	}
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark - Table view data source
@@ -320,13 +334,17 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	NSString *textLabelStr = [dictionary objectForKey:dictionaryTextKey];
 	NSString *detailTextStr = [dictionary objectForKey:dictionaryDetailKey];
 	
-	UIColor *textLabelColor = [UIColor blackColor];
+	UIColor *textColor = [UIColor blackColor];
+	UIColor *detailTextColor = [UIColor colorWithRed:57.0/255.0 green:85.0/255.0 blue:135.0/255.0 alpha:1.0];
 	
-	if ([detailTextStr isEqualToString:@""]) {
-		textLabelColor = [UIColor redColor];
+	if ([detailTextStr isEqualToString:@"required"]) {
+		textColor = [UIColor redColor];
+		detailTextColor = [UIColor redColor];
+		
 	}
 	
-	cell.textLabel.textColor = textLabelColor;
+	cell.textLabel.textColor = textColor;
+	cell.detailTextLabel.textColor = detailTextColor;
 	
 	cell.textLabel.text = textLabelStr;
 	cell.detailTextLabel.text = detailTextStr;
@@ -374,12 +392,21 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		}
 	} else {
 		if ([key isEqualToString:vehicleNameKey]) {
-			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
-			inputViewController.delegate = self;
-			inputViewController.currentName = self.currentTrip.vehicle.name;
-			inputViewController.footerText = @"Enter the Vehicle Name.";
-			viewController = inputViewController;
-		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
+			NameInputViewController *nameViewController = [[NameInputViewController alloc] init];
+			nameViewController.delegate = self;
+			nameViewController.currentName = self.currentTrip.vehicle.name;
+			nameViewController.footerText = @"Enter the Vehicle Name.";
+			
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:nameViewController];
+			[nameViewController release];
+			
+			[self presentModalViewController:navController animated:YES];
+			[navController release];
+			
+			return;
+		}
+		
+		if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentEfficiency = self.currentTrip.vehicle.avgEfficiency;
@@ -393,20 +420,6 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
-}
-
-- (void)vehicleDetailsViewControllerDidFinish:(VehicleDetailsViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		NSDictionary *info = controller.mpgDatabaseInfo;
-		self.currentTrip.vehicle.name = [NSString stringWithFormat:@"%@ %@",
-										 [info objectForKey:@"year"],
-										 [info objectForKey:@"model"]];
-		self.currentTrip.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
-		self.currentTrip.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];
-		self.currentTrip.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];
-	}
-	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

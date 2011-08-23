@@ -26,6 +26,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 @interface CurrentSavingsViewController (Private)
 
+- (void)reloadTableData;
+
 - (NSArray *)informationArray;
 - (NSArray *)vehicleArrayWithKey:(NSString *)key;
 
@@ -49,7 +51,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		self.currentSavings = nil;
 		isCar1Selected_ = NO;
 		isCar2Selected_ = NO;
-		car2SectionAvailable = NO;
 	}
 	return self;
 }
@@ -117,25 +118,9 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		self.title = @"New Savings";
 	}
 	
-	self.newData = [NSMutableArray arrayWithCapacity:0];
-	
 	if (self.currentSavings) {
-		NSArray *informationArray = [[self informationArray] retain];
-		NSArray *vehicle1Array = [[self vehicleArrayWithKey:vehicle1Key] retain]; 
-		
-		[newData_ addObject:informationArray];
-		[newData_ addObject:vehicle1Array];
-		
-		[informationArray release];
-		[vehicle1Array release];
-		
-		if (car2SectionAvailable == YES) {
-			NSArray *vehicle2Array = [[self vehicleArrayWithKey:vehicle2Key] retain];
-			[newData_ addObject:vehicle2Array];
-			[vehicle2Array release];
-		}
+		[self reloadTableData];
 	}
-	
 	[newTable_ reloadData];	
 }
 
@@ -184,7 +169,34 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[navController release];
 }
 
+- (void)resetCar2Action
+{
+	self.currentSavings.vehicle2.name = @"Car 2";
+	self.currentSavings.vehicle2.avgEfficiency = [NSNumber numberWithInteger:0];
+	self.currentSavings.vehicle2.cityEfficiency = [NSNumber numberWithInteger:0];
+	self.currentSavings.vehicle2.highwayEfficiency = [NSNumber numberWithInteger:0];
+	[self reloadTableData];
+	[newTable_ reloadData];
+}
+
 #pragma mark - Private Methods
+
+- (void)reloadTableData
+{
+	NSArray *informationArray = [[self informationArray] retain];
+	NSArray *vehicle1Array = [[self vehicleArrayWithKey:vehicle1Key] retain]; 
+	NSArray *vehicle2Array = [[self vehicleArrayWithKey:vehicle2Key] retain];
+
+	self.newData = [NSMutableArray arrayWithCapacity:0];
+	
+	[newData_ addObject:informationArray];
+	[newData_ addObject:vehicle1Array];
+	[newData_ addObject:vehicle2Array];
+
+	[informationArray release];
+	[vehicle1Array release];
+	[vehicle2Array release];
+}
 
 - (NSArray *)informationArray
 {	
@@ -218,7 +230,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 {
 	Vehicle *vehicle = nil;
 	NSString *titleText = nil;
-	NSString *emptyStr = @"";
+	NSString *emptyStr = @"required";
 	SEL titleSelector;
 	
 	if ([key isEqualToString:vehicle1Key]) {
@@ -261,7 +273,18 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		[array addObject:dictionary];
 	} else {
 		NSString *cityEfficiencyStr = emptyStr;
-		if ([vehicle.cityEfficiency integerValue] > 0) {
+		NSString *highwayEfficiencyStr = emptyStr;
+		
+		NSInteger cityValue = [vehicle.cityEfficiency integerValue];
+		NSInteger highwayValue = [vehicle.highwayEfficiency integerValue];
+		
+		if (cityValue == 0 && highwayValue > 0) {
+			cityEfficiencyStr = @"required";
+		} else if (cityValue > 0 & highwayValue == 0) {
+			highwayEfficiencyStr = @"required";
+		}
+		
+		if (cityValue > 0) {
 			cityEfficiencyStr = [vehicle stringForCityEfficiency];
 		}
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleCityEfficiencyKey
@@ -269,8 +292,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 												  detail:cityEfficiencyStr];
 		[array addObject:dictionary];
 		
-		NSString *highwayEfficiencyStr = emptyStr;
-		if ([vehicle.highwayEfficiency integerValue] > 0) {
+		
+		if (highwayValue > 0) {
 			highwayEfficiencyStr = [vehicle stringForHighwayEfficiency];
 		}
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleHighwayEfficiencyKey
@@ -285,27 +308,40 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (BOOL)validateControllerData
 {
 	if (self.currentSavings.type == EfficiencyInputTypeAverage) {
-		if ([self.currentSavings.vehicle1.avgEfficiency integerValue] < 1) {
-			return NO;
+		if ([self.currentSavings.vehicle1.avgEfficiency integerValue] > 0) {
+			return YES;
 		}
+		return NO;
+	}
+	
+	BOOL isVehicle1Ready = NO;
+	BOOL isVehicle2Ready = NO;
+	
+	NSInteger vehicle1CityValue = [self.currentSavings.vehicle1.cityEfficiency integerValue];
+	NSInteger vehicle1HighwayValue = [self.currentSavings.vehicle1.highwayEfficiency integerValue];
+	NSInteger vehicle2CityValue = [self.currentSavings.vehicle2.cityEfficiency integerValue];
+	NSInteger vehicle2HighwayValue = [self.currentSavings.vehicle2.highwayEfficiency integerValue];
+	
+	if (vehicle1CityValue == 0 && vehicle1HighwayValue > 0) {
+		isVehicle1Ready = NO;
+	} else if (vehicle1CityValue > 0 && vehicle1HighwayValue == 0) {
+		isVehicle1Ready = NO;
+	} else {
+		isVehicle1Ready = YES;
+	}
+	
+	if (vehicle2CityValue == 0 && vehicle2HighwayValue > 0) {
+		isVehicle2Ready = NO;
+	} else if (vehicle2CityValue > 0 && vehicle2HighwayValue == 0) {
+		isVehicle2Ready = NO;
+	} else {
+		isVehicle2Ready = YES;
+	}
+	
+	if (isVehicle1Ready && isVehicle2Ready) {
 		return YES;
 	}
-	
-	NSInteger vehicle1CityEfficiencyValue = [self.currentSavings.vehicle1.cityEfficiency integerValue];
-	NSInteger vehicle1HighwayEfficiencyValue = [self.currentSavings.vehicle1.highwayEfficiency integerValue];
-	
-	if (vehicle1CityEfficiencyValue < 1 || vehicle1HighwayEfficiencyValue < 1) {
-		return NO;
-	} else {
-		if (car2SectionAvailable) {
-			NSInteger vehicle2CityEfficiencyValue = [self.currentSavings.vehicle2.cityEfficiency integerValue];
-			NSInteger vehicle2HighwayEfficiencyValue = [self.currentSavings.vehicle2.highwayEfficiency integerValue];
-			if (vehicle2CityEfficiencyValue < 1 || vehicle2HighwayEfficiencyValue < 1) {
-				return NO;
-			}
-		}
-	}
-	return YES;
+	return NO;
 }
 
 - (void)displayErrorWithMessage:(NSString *)message
@@ -319,46 +355,122 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[alert release];
 }
 
+#pragma mark - View Controller Delegates
+
+- (void)typeInputViewControllerDidFinish:(TypeInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		self.currentSavings.type = controller.currentType;
+		self.currentSavings.cityRatio = controller.currentCityRatio;
+		self.currentSavings.highwayRatio = controller.currentHighwayRatio;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		self.currentSavings.fuelPrice = controller.currentPrice;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)distanceInputViewControllerDidFinish:(DistanceInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		self.currentSavings.distance = controller.currentDistance;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)ownerInputViewControllerDidFinish:(OwnerInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		self.currentSavings.carOwnership = controller.currentOwnership;
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
+{	
+	if (save) {
+		Vehicle *vehicle = nil;
+		if ([controller.key isEqualToString:vehicle1Key]) {
+			vehicle = self.currentSavings.vehicle1;
+		} else {
+			vehicle = self.currentSavings.vehicle2;
+		}
+		vehicle.name = controller.currentName;
+	}
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)efficiencyInputViewControllerDidFinish:(EfficiencyInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		Vehicle *vehicle = nil;
+		if ([controller.key isEqualToString:vehicle1Key]) {
+			vehicle = self.currentSavings.vehicle1;
+		} else {
+			vehicle = self.currentSavings.vehicle2;
+		}
+		
+		if (controller.currentType == EfficiencyInputTypeAverage) {
+			vehicle.avgEfficiency = controller.currentEfficiency;
+			vehicle.cityEfficiency = vehicle.avgEfficiency;
+			vehicle.highwayEfficiency = vehicle.avgEfficiency;
+		} else {
+			if (controller.currentType == EfficiencyInputTypeCity) {
+				vehicle.cityEfficiency = controller.currentEfficiency;
+			} else {
+				vehicle.highwayEfficiency = controller.currentEfficiency;
+			}
+			NSInteger average = ([vehicle.cityEfficiency integerValue] + [vehicle.highwayEfficiency integerValue]) / 2;
+			vehicle.avgEfficiency = [NSNumber numberWithInteger:average];
+		}
+	}
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)vehicleDetailsViewControllerDidFinish:(VehicleDetailsViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		NSDictionary *info = controller.mpgDatabaseInfo;
+		if (isCar1Selected_ == YES) {
+			self.currentSavings.vehicle1.name = [NSString stringWithFormat:@"%@ %@",
+												 [info objectForKey:@"year"],
+												 [info objectForKey:@"model"]];
+			self.currentSavings.vehicle1.avgEfficiency = [info objectForKey:@"mpgAverage"];
+			self.currentSavings.vehicle1.cityEfficiency = [info objectForKey:@"mpgCity"];
+			self.currentSavings.vehicle1.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
+		} else {
+			self.currentSavings.vehicle2.name = [NSString stringWithFormat:@"%@ %@",
+												 [info objectForKey:@"year"],
+												 [info objectForKey:@"model"]];
+			self.currentSavings.vehicle2.avgEfficiency = [info objectForKey:@"mpgAverage"];
+			self.currentSavings.vehicle2.cityEfficiency = [info objectForKey:@"mpgCity"];
+			self.currentSavings.vehicle2.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
+		}
+	}
+	isCar1Selected_ = NO;
+	isCar2Selected_ = NO;
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - UITableView Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	NSInteger sections = [newData_ count];
-	if (sections == 2) {
-		sections++;
-	}
-	return sections;
+	return [newData_ count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSInteger rows = 0;
-	if (section == 2 && [newData_ count] == 2) {
-		rows = 1;
-	} else {
-		rows = [[newData_ objectAtIndex:section] count];
-	}
-	return rows;
+	return [[newData_ objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (indexPath.section == 2 && [newData_ count] == 2) {
-		static NSString *AddCellIdentifier = @"AddCell";
-		
-		UITableViewCell *addCell = [tableView dequeueReusableCellWithIdentifier:AddCellIdentifier];
-		
-		if (addCell == nil) {
-			addCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AddCellIdentifier] autorelease];
-		}
-	
-		addCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		addCell.imageView.image = [UIImage imageNamed:@"add.png"];
-		addCell.textLabel.text = @"Add Car 2 (Optional)";
-		
-		return addCell;
-	}
-	
+{	
 	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
 	if (indexPath.section > 0 && indexPath.row == 0) {
@@ -397,13 +509,17 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	NSString *textLabelStr = [dictionary objectForKey:dictionaryTextKey];
 	NSString *detailTextStr = [dictionary objectForKey:dictionaryDetailKey];
 	
-	UIColor *textLabelColor = [UIColor blackColor];
+	UIColor *textColor = [UIColor blackColor];
+	UIColor *detailTextColor = [UIColor colorWithRed:57.0/255.0 green:85.0/255.0 blue:135.0/255.0 alpha:1.0];
 	
-	if ([detailTextStr isEqualToString:@""]) {
-		textLabelColor = [UIColor redColor];
+	if ([detailTextStr isEqualToString:@"required"]) {
+		textColor = [UIColor redColor];
+		detailTextColor = [UIColor redColor];
+		
 	}
 	
-	cell.textLabel.textColor = textLabelColor;
+	cell.textLabel.textColor = textColor;
+	cell.detailTextLabel.textColor = detailTextColor;
 	
 	cell.textLabel.text = textLabelStr;
 	cell.detailTextLabel.text = detailTextStr;
@@ -416,26 +532,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-	if (indexPath.section == 2 && [newData_ count] == 2) {
-		[newData_ addObject:[self vehicleArrayWithKey:vehicle2Key]];
-				
-		[tableView beginUpdates];
-		
-		[tableView deleteSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-		[tableView insertSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationTop];
-		
-		[tableView endUpdates];
-		
-		NSInteger lastRow = [[newData_ objectAtIndex:2] count] - 1;
-		NSIndexPath *lastCell = [NSIndexPath indexPathForRow:lastRow inSection:2];
-		
-		[tableView scrollToRowAtIndexPath:lastCell atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-		
-		car2SectionAvailable = YES;
-		
-		return;
-	}
 	
 	UIViewController *viewController = nil;
 	
@@ -487,13 +583,22 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		}
 		
 		if ([key isEqualToString:vehicleNameKey]) {
-			NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
-			inputViewController.delegate = self;
-			inputViewController.key = vehicleKey;
-			inputViewController.footerText = @"Enter the Vehicle Name.";
-			inputViewController.currentName = vehicle.name;
-			viewController = inputViewController;
-		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
+			NameInputViewController *nameViewController = [[NameInputViewController alloc] init];
+			nameViewController.delegate = self;
+			nameViewController.key = vehicleKey;
+			nameViewController.footerText = @"Enter the Vehicle Name.";
+			nameViewController.currentName = vehicle.name;
+			
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:nameViewController];
+			[nameViewController release];
+			
+			[self presentModalViewController:navController animated:YES];
+			[navController release];
+			
+			return;
+		}
+		
+		if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.key = vehicleKey;
@@ -526,18 +631,24 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	}
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	if (section == 2) {
+		return @"Optional";
+	}
+	return nil;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-	if (section == 2 && car2SectionAvailable == YES) {
+	if (section == 2) {
 		UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 		
-		sectionView.backgroundColor = [UIColor cyanColor];
-		
 		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[button addTarget:self action:@selector(removeCar2Action) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Delete Car 2" forState:UIControlStateNormal];
+		[button addTarget:self action:@selector(resetCar2Action) forControlEvents:UIControlEventTouchDown];
+		[button setTitle:@"Reset Car 2" forState:UIControlStateNormal];
 		button.frame = CGRectMake(10.0,
-								  20.0,
+								  10.0,
 								  tableView.bounds.size.width - 20.0,
 								  44.0);
 		
@@ -550,112 +661,10 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-	if (section == 2 && car2SectionAvailable == YES) {
-		return 84.0;
+	if (section == 2) {
+		return 64.0;
 	}
 	return 10.0;
-}
-
-#pragma mark - View Controller Delegates
-
-- (void)typeInputViewControllerDidFinish:(TypeInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		self.currentSavings.type = controller.currentType;
-		self.currentSavings.cityRatio = controller.currentCityRatio;
-		self.currentSavings.highwayRatio = controller.currentHighwayRatio;
-	}
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		self.currentSavings.fuelPrice = controller.currentPrice;
-	}
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)distanceInputViewControllerDidFinish:(DistanceInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		self.currentSavings.distance = controller.currentDistance;
-	}
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)ownerInputViewControllerDidFinish:(OwnerInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		self.currentSavings.carOwnership = controller.currentOwnership;
-	}
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		Vehicle *vehicle = nil;
-		if ([controller.key isEqualToString:vehicle1Key]) {
-			vehicle = self.currentSavings.vehicle1;
-		} else {
-			vehicle = self.currentSavings.vehicle2;
-		}
-		vehicle.name = controller.currentName;
-	}
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)efficiencyInputViewControllerDidFinish:(EfficiencyInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		Vehicle *vehicle = nil;
-		if ([controller.key isEqualToString:vehicle1Key]) {
-			vehicle = self.currentSavings.vehicle1;
-		} else {
-			vehicle = self.currentSavings.vehicle2;
-		}
-		
-		if (controller.currentType == EfficiencyInputTypeAverage) {
-			vehicle.avgEfficiency = controller.currentEfficiency;
-			vehicle.cityEfficiency = vehicle.avgEfficiency;
-			vehicle.highwayEfficiency = vehicle.avgEfficiency;
-		} else {
-			if (controller.currentType == EfficiencyInputTypeCity) {
-				vehicle.cityEfficiency = controller.currentEfficiency;
-			} else {
-				vehicle.highwayEfficiency = controller.currentEfficiency;
-			}
-			NSInteger average = ([vehicle.cityEfficiency integerValue] + [vehicle.highwayEfficiency integerValue]) / 2;
-			vehicle.avgEfficiency = [NSNumber numberWithInteger:average];
-		}
-	}
-	[self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)vehicleDetailsViewControllerDidFinish:(VehicleDetailsViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		NSDictionary *info = controller.mpgDatabaseInfo;
-		if (isCar1Selected_ == YES) {
-			self.currentSavings.vehicle1.name = [NSString stringWithFormat:@"%@ %@",
-															 [info objectForKey:@"year"],
-															 [info objectForKey:@"model"]];
-			self.currentSavings.vehicle1.avgEfficiency = [info objectForKey:@"mpgAverage"];
-			self.currentSavings.vehicle1.cityEfficiency = [info objectForKey:@"mpgCity"];
-			self.currentSavings.vehicle1.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
-		} else {
-			self.currentSavings.vehicle2.name = [NSString stringWithFormat:@"%@ %@",
-															 [info objectForKey:@"year"],
-															 [info objectForKey:@"model"]];
-			self.currentSavings.vehicle2.avgEfficiency = [info objectForKey:@"mpgAverage"];
-			self.currentSavings.vehicle2.cityEfficiency = [info objectForKey:@"mpgCity"];
-			self.currentSavings.vehicle2.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
-		}
-	}
-	isCar1Selected_ = NO;
-	isCar2Selected_ = NO;
-	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

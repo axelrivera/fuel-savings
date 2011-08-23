@@ -26,7 +26,6 @@
 {
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;
-	BOOL car2SectionAvailable;
 }
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;

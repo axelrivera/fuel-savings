@@ -106,7 +106,11 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	[self.delegate efficiencyInputViewControllerDidFinish:self save:YES];
+	BOOL save = YES;
+	if ([self.currentEfficiency integerValue] == 0) {
+		save = NO;
+	}
+	[self.delegate efficiencyInputViewControllerDidFinish:self save:save];
 }
 
 #pragma mark - Custom Actions

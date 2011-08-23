@@ -143,7 +143,11 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	[self.delegate distanceInputViewControllerDidFinish:self save:YES];
+	BOOL save = YES;
+	if ([self.currentDistance integerValue] == 0) {
+		save = NO;
+	}
+	[self.delegate distanceInputViewControllerDidFinish:self save:save];
 }
 
 # pragma mark - Custom Actions

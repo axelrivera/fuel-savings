@@ -204,7 +204,7 @@
 
 - (void)displayNameAction
 {
-	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
 	inputViewController.footerText = @"Enter a name for the Current Savings.";
 	inputViewController.delegate = self;
 	
@@ -542,7 +542,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
 	if (section == 2) {
-		return 84.0;
+		return 74.0;
 	}
 	return 10.0;
 }

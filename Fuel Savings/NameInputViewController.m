@@ -8,6 +8,12 @@
 
 #import "NameInputViewController.h"
 
+@interface NameInputViewController (Private)
+
+- (void)displayErrorWithMessage:(NSString *)message;
+
+@end
+
 @implementation NameInputViewController
 
 @synthesize delegate = delegate_;
@@ -23,24 +29,6 @@
 		self.key = @"";
 		self.currentName = @"";
 		self.footerText = nil;
-	}
-	return self;
-}
-
-- (id)initWithNavigationButtons {
-	self = [self init];
-	if (self) {
-		UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-																					target:self
-																					action:@selector(saveAction)];
-		self.navigationItem.rightBarButtonItem = saveButton;
-		[saveButton release];
-		
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(cancelAction)];
-		self.navigationItem.leftBarButtonItem = cancelButton;
-		[cancelButton release];
 	}
 	return self;
 }
@@ -66,6 +54,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+																				target:self
+																				action:@selector(saveAction)];
+	self.navigationItem.rightBarButtonItem = saveButton;
+	[saveButton release];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																				  target:self
+																				  action:@selector(cancelAction)];
+	self.navigationItem.leftBarButtonItem = cancelButton;
+	[cancelButton release];
 
 	nameTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(0.0, 7.0, 280.0, 30.0)];
 	nameTextField_.font = [UIFont systemFontOfSize:16.0];
@@ -104,25 +104,42 @@
 	[nameTextField_ becomeFirstResponder];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-	if (self.navigationItem.rightBarButtonItem == nil) {
-		[self performSelector:@selector(saveAction)];
-	}
-}
-
 #pragma mark - Custom Actions
 
 - (void)saveAction
 {
 	self.currentName = nameTextField_.text;
+	
+	self.currentName = [self.currentName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	if ([self.currentName isEqualToString:@""]) {
+		[self displayNameError];
+		return;
+	}
+	
 	[self.delegate nameInputViewControllerDidFinish:self save:YES];
 }
 
 - (void)cancelAction
 {
 	[self.delegate nameInputViewControllerDidFinish:self save:NO];
+}
+
+#pragma mark - Private Methods
+
+- (void)displayNameError
+{
+	[self displayErrorWithMessage:@"The Name cannot be empty."];
+}
+
+- (void)displayErrorWithMessage:(NSString *)message
+{
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
+													message:message
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles: nil];
+	[alert show];	
+	[alert release];
 }
 
 #pragma mark - Table view data source

@@ -296,7 +296,7 @@
 		name = calculation.name;
 	}
 	
-	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
 	inputViewController.delegate = self;
 	inputViewController.currentName = name;
 	

@@ -19,7 +19,7 @@
 @property (nonatomic, copy) NSString *currentName;
 @property (nonatomic, copy) NSString *footerText;
 
-- (id)initWithNavigationButtons;
+- (void)displayNameError;
 
 @end
 

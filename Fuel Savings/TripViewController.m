@@ -199,7 +199,7 @@
 
 - (void)displayNameAction
 {
-	NameInputViewController *inputViewController = [[NameInputViewController alloc] initWithNavigationButtons];
+	NameInputViewController *inputViewController = [[NameInputViewController alloc] init];
 	inputViewController.footerText = @"Enter a name for the Current Trip.";
 	inputViewController.delegate = self;
 	
@@ -440,7 +440,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
 	if (section == 1) {
-		return 84.0;
+		return 74.0;
 	}
 	return 10.0;
 }

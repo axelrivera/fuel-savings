@@ -104,7 +104,11 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	[self.delegate priceInputViewControllerDidFinish:self save:YES];
+	BOOL save = YES;
+	if ([self.currentPrice floatValue] == 0.0) {
+		save = NO;
+	}
+	[self.delegate priceInputViewControllerDidFinish:self save:save];
 }
 
 #pragma mark - Custom Actions
