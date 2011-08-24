@@ -7,6 +7,7 @@
 //
 
 #import "NSDictionary+Section.h"
+#import "RLCustomButton+Default.h"
 
 NSString * const dictionaryKey = @"DictionaryKey";
 NSString * const dictionaryTextKey = @"DictionaryTextKey";
@@ -27,8 +28,7 @@ NSString * const dictionaryButtonKey = @"DictionaryButtonKey";
 
 + (NSDictionary *)buttonDictionaryWithKey:(NSString *)key text:(NSString *)text;
 {
-	UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-	[button setTitle:@"Select Car" forState:UIControlStateNormal];
+	RLCustomButton *button = [[RLCustomButton selectCarButton] retain];
 	button.frame = CGRectMake(0.0, 0.0, 110.0, 28.0);
 	
 	NSDictionary *dictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:

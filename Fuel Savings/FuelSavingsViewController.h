@@ -12,7 +12,6 @@
 #import "Savings.h"
 #import "DetailSummaryView.h"
 #import "NameInputViewController.h"
-#import "DoubleButtonView.h"
 
 @interface FuelSavingsViewController : UIViewController <UIActionSheetDelegate, CurrentSavingsViewControllerDelegate,
 	NameInputViewControllerDelegate>
@@ -20,9 +19,10 @@
 	SavingsData *savingsData_;
 	BOOL isNewSavings_;
 	BOOL showNewAction_;
-	DoubleButtonView *buttonView_;
+	BOOL hasButtons_;
 }
 
+@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *savingsTable;
 @property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
 @property (nonatomic, copy) Savings *currentSavings;
@@ -31,7 +31,7 @@
 @property (nonatomic, retain) DetailSummaryView *car2Summary;
 @property (nonatomic, copy) NSString *currentCountry;
 
-- (id)initWithTabBar;
+- (id)initWithTabBar:(BOOL)tab buttons:(BOOL)buttons;
 
 - (void)saveCurrentSavings:(Savings *)savings;
 - (void)reloadTable;

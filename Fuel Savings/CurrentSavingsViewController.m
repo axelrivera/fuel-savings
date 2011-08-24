@@ -9,6 +9,7 @@
 #import "CurrentSavingsViewController.h"
 #import "NSMutableArray+Vehicle.h"
 #import "NSDictionary+Section.h"
+#import "RLCustomButton+Default.h"
 #import "Fuel_SavingsAppDelegate.h"
 
 static NSString * const typeKey = @"TypeKey";
@@ -177,6 +178,20 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	self.currentSavings.vehicle2.highwayEfficiency = [NSNumber numberWithInteger:0];
 	[self reloadTableData];
 	[newTable_ reloadData];
+}
+
+- (void)resetCar2OptionsAction:(id)sender {
+	// open a dialog with two custom buttons	
+	
+	UIActionSheet *actionSheet = [[UIActionSheet alloc]
+								  initWithTitle:@"Reset Car 2 to its default settings."
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Reset Car 2"
+								  otherButtonTitles:nil];
+	
+	[actionSheet showInView:self.view];
+	[actionSheet release];	
 }
 
 #pragma mark - Private Methods
@@ -631,6 +646,26 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	}
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	CGFloat height = 5.0;
+	if (section == 0) {
+		height = 10.0;
+	} else if (section ==2) {
+		height = 34.0;
+	}
+	return height;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	CGFloat height = 5.0;
+	if (section == 2) {
+		height = 64.0;
+	}
+	return height;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if (section == 2) {
@@ -644,9 +679,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	if (section == 2) {
 		UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 		
-		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		[button addTarget:self action:@selector(resetCar2Action) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Reset Car 2" forState:UIControlStateNormal];
+		RLCustomButton *button = [[RLCustomButton resetCar2Button] retain];
+		[button addTarget:self action:@selector(resetCar2OptionsAction:) forControlEvents:UIControlEventTouchDown];
 		button.frame = CGRectMake(10.0,
 								  10.0,
 								  tableView.bounds.size.width - 20.0,
@@ -656,15 +690,24 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		[button release];
 		return sectionView;
 	}
-	return nil;
+	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+	UIView *view = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 	if (section == 2) {
-		return 64.0;
+		view = nil;
 	}
-	return 10.0;
+	return view;
+}
+
+#pragma mark - UIActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+		[self performSelector:@selector(resetCar2Action)];
+	} 
 }
 
 @end

@@ -55,7 +55,7 @@
 {
     [super viewDidLoad];
 	
-	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
 																				target:self
 																				action:@selector(saveAction)];
 	self.navigationItem.rightBarButtonItem = saveButton;
@@ -72,7 +72,7 @@
 	nameTextField_.adjustsFontSizeToFitWidth = YES;
 	nameTextField_.placeholder = @"Name";
 	nameTextField_.keyboardType = UIKeyboardTypeDefault;
-	nameTextField_.returnKeyType = UIReturnKeyDone;
+	nameTextField_.returnKeyType = UIReturnKeyDefault;
 	nameTextField_.autocorrectionType = UITextAutocorrectionTypeNo;
 	nameTextField_.autocapitalizationType = UITextAutocapitalizationTypeWords;
 	nameTextField_.textAlignment = UITextAlignmentLeft;

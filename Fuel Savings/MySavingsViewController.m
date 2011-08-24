@@ -12,6 +12,7 @@
 #import "Trip.h"
 #import "FuelSavingsViewController.h"
 #import "TripViewController.h"
+#import "RLCustomButton+Default.h"
 
 @interface MySavingsViewController (Private)
 
@@ -155,13 +156,9 @@
 {
 	// Always call super implementation of this method, it needs to do some work
 	[super setEditing:flag animated:animated];
+
+	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 	
-	// We need to insert/remove a new row in to table view to say "Add New Item..."
-	if (flag && [self.tableData count] > 0) {
-		[self.tableView insertSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-	} else if (!flag && [self.tableData count] > 0) {
-		[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-	}
 	self.segmentedControl.enabled = !self.segmentedControl.enabled;
 }
 
@@ -173,9 +170,6 @@
 		return 0;
 	}
 	NSInteger sections = 1;
-	if ([self isEditing]) {
-		sections = 2;
-	}
 	return sections;
 }
 
@@ -188,35 +182,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-	if (indexPath.section == 1) {
-		static NSString *ButtonCellIdentifier = @"ButtonCell";
-		
-		UITableViewCell *buttonCell = [tableView dequeueReusableCellWithIdentifier:ButtonCellIdentifier];
-		
-		if (buttonCell == nil) {
-			buttonCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ButtonCellIdentifier] autorelease];
-		}
-		
-		UIView *backView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-		buttonCell.backgroundColor = [UIColor clearColor];
-		buttonCell.backgroundView = backView;
-		buttonCell.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		UIButton *button = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-		CGFloat buttonWidth = [UIScreen mainScreen].bounds.size.width - 20.0;
-		button.frame = CGRectMake(0.0, 0.0, buttonWidth, 44.0);
-		
-		[button addTarget:self action:@selector(deleteAllOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[button setTitle:@"Delete All" forState:UIControlStateNormal];
-		
-		buttonCell.editingAccessoryView = button;
-		
-		[button release];
-		
-		return buttonCell;
-	}
-	
+{	
 	static NSString *CellIdentifier = @"Cell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -225,26 +191,22 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
+	UIImage *iconImage = nil;
 	NSString *textLabelString = nil;
 	
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		Savings *calculation = [self.tableData objectAtIndex:indexPath.row];
+		iconImage = [UIImage imageNamed:@"tags.png"];
 		textLabelString = [calculation stringForName];
 	} else {
 		Trip *calculation = [self.tableData objectAtIndex:indexPath.row];
 		textLabelString = [calculation stringForName];
+		iconImage = [UIImage imageNamed:@"navigation.png"];
 	}
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-	
-	UIImage *iconImage = nil;
-	if ([self.segmentedControl selectedSegmentIndex] == 0) {
-		iconImage = [UIImage imageNamed:@"tags.png"];
-	} else {
-		iconImage = [UIImage imageNamed:@"navigation.png"];
-	}
 	
 	cell.imageView.image = iconImage;
 	
@@ -313,11 +275,6 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath 
 {		
-	if ([self isEditing] && indexPath.section == 1) {
-		// During editing...
-		// The last row during editing will show an insert style button
-		return UITableViewCellEditingStyleNone;
-	}
 	return UITableViewCellEditingStyleDelete;
 }
 
@@ -334,6 +291,44 @@
 	if ([self.tableData count] == 0) {
 		[self setEditing:NO animated:YES];
 	}
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 10.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	CGFloat height = 10.0;
+	if (self.editing) {
+		height = 64.0;
+	}
+	return height;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	if (self.editing) {
+		UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+		
+		RLCustomButton *button = [[RLCustomButton deleteAllButton] retain];
+		[button addTarget:self action:@selector(deleteAllOptionsAction:) forControlEvents:UIControlEventTouchDown];
+		button.frame = CGRectMake(10.0,
+								  10.0,
+								  tableView.bounds.size.width - 20.0,
+								  44.0);
+		
+		[sectionView addSubview:button];
+		[button release];
+		return sectionView;
+	}
+	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
 
 #pragma mark - View Controller Delegates

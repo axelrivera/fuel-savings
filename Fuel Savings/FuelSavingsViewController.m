@@ -12,11 +12,10 @@
 #import "TotalDetailViewCell.h"
 #import "DetailView.h"
 #import "DetailSummaryViewCell.h"
-#import "DoubleButtonView.h"
 #import "Settings.h"
 
 #define SAVINGS_NEW_TAG 1
-#define SAVINGS_DELETE_TAG 2
+#define SAVINGS_ACTION_TAG 2
 
 @interface FuelSavingsViewController (Private)
 
@@ -27,6 +26,7 @@
 
 @implementation FuelSavingsViewController
 
+@synthesize contentView = contentView_;
 @synthesize savingsTable = savingsTable_;
 @synthesize instructionsLabel = instructionsLabel_;
 @synthesize currentSavings = currentSavings_;
@@ -40,36 +40,32 @@
 	self = [super initWithNibName:@"FuelSavingsViewController" bundle:nil];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
-		self.currentSavings = [Savings emptySavings];
 		isNewSavings_ = NO;
 		showNewAction_ = NO;
-		buttonView_ = nil;
+		hasButtons_ = NO;
+		self.currentSavings = [Savings emptySavings];
 	}
 	return self;
 }
 
-- (id)initWithTabBar
+- (id)initWithTabBar:(BOOL)tab buttons:(BOOL)buttons
 {
 	self = [self init];
 	if (self) {
-		self.title = @"Savings";
-		self.tabBarItem.image = [UIImage imageNamed:@"piggy_tab.png"];
+		if (tab) {
+			self.title = @"Savings";
+			self.tabBarItem.image = [UIImage imageNamed:@"piggy_tab.png"];
+		}
+		hasButtons_ = buttons; 
 		
-		buttonView_ = [[DoubleButtonView alloc] initWithButtonType:UIButtonTypeRoundedRect frame:CGRectZero];
-		
-		[buttonView_.leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[buttonView_.leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
-		
-		[buttonView_.rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[buttonView_.rightButton setTitle:@"Delete" forState:UIControlStateNormal];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
+	[contentView_ release];
 	[savingsTable_ release];
-	[buttonView_ release];
 	[instructionsLabel_ release];
 	[currentSavings_ release];
 	[infoSummary_ release];
@@ -93,7 +89,7 @@
 {
     [super viewDidLoad];
 	
-	if (buttonView_) {
+	if (hasButtons_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
@@ -101,11 +97,11 @@
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
 		
-		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																					target:self
-																					action:@selector(editAction)];
-		self.navigationItem.rightBarButtonItem = editButton;
-		[editButton release];
+		UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+																					  target:self
+																					  action:@selector(actionOptionsAction:)];
+		self.navigationItem.rightBarButtonItem = actionButton;
+		[actionButton release];
 		
 		if (![savingsData_.currentSavings isSavingsEmpty]) {
 			self.currentSavings = savingsData_.currentSavings;
@@ -115,9 +111,6 @@
 		self.instructionsLabel.text = @"Tap the New button to create a New Savings. You have the option to calculate "
 										@"fuel savings for one or two cars.";
 	}
-	
-	self.savingsTable.sectionHeaderHeight = 10.0;
-	self.savingsTable.sectionFooterHeight = 10.0;
 }
 
 - (void)viewDidUnload
@@ -125,6 +118,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.contentView = nil;
 	self.savingsTable = nil;
 	self.instructionsLabel = nil;
 }
@@ -231,28 +225,40 @@
 								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
 								  delegate:self
 								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:@"Save Current As...", nil];
+								  destructiveButtonTitle:nil
+								  otherButtonTitles:@"Save Current As...", @"Delete Current", nil];
+	
+	actionSheet.destructiveButtonIndex = 1;
 	
 	actionSheet.tag = SAVINGS_NEW_TAG;
 	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	UIView *view = self.view;
+	if (hasButtons_) {
+		view = self.tabBarController.view;
+	}
+	[actionSheet showInView:view];
 	[actionSheet release];	
 }
 
-- (void)deleteOptionsAction:(id)sender {
+- (void)actionOptionsAction:(id)sender {
 	// open a dialog with two custom buttons	
 	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:@"Are you sure? The information on your Current Savings will be lost."
+								  initWithTitle:nil
 								  delegate:self
 								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:nil];
+								  destructiveButtonTitle:nil
+								  otherButtonTitles:@"Edit Current", @"Save Current As...", @"Delete Current", nil];
 	
-	actionSheet.tag = SAVINGS_DELETE_TAG;
+	actionSheet.destructiveButtonIndex = 2;
 	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	actionSheet.tag = SAVINGS_ACTION_TAG;
+	
+	UIView *view = self.view;
+	if (hasButtons_) {
+		view = self.tabBarController.view;
+	}
+	[actionSheet showInView:view];
 	[actionSheet release];	
 }
 
@@ -261,14 +267,14 @@
 - (void)saveCurrentSavings:(Savings *)savings
 {
 	self.currentSavings = savings;
-	if (buttonView_) {
+	if (hasButtons_) {
 		savingsData_.currentSavings = savings;
 	}
 }
 
 - (void)reloadTable
 {
-	if (buttonView_ && [self.currentSavings isSavingsEmpty]) {
+	if (hasButtons_ && [self.currentSavings isSavingsEmpty]) {
 		self.currentCountry = [Settings sharedSettings].defaultCountry;
 	} else {
 		self.currentCountry = self.currentSavings.country;
@@ -531,20 +537,32 @@
 	return height;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-	if (section == 2 && buttonView_) {
-		return buttonView_;
+	CGFloat height = 5.0;
+	if (section == 0) {
+		height = 10.0;
 	}
-	return nil;
+	return height;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+	CGFloat height = 5.0;
 	if (section == 2) {
-		return 74.0;
+		height = 10.0;
 	}
-	return 10.0;
+	return height;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
 
 #pragma mark - UIActionSheet Delegate
@@ -552,13 +570,17 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == SAVINGS_NEW_TAG) {
 		if (buttonIndex == 0) {
-			[self performSelector:@selector(newAction)];
-		} else if (buttonIndex == 1) {
 			isNewSavings_ = YES;
 			[self performSelector:@selector(saveAction)];
+		} else if (buttonIndex == 1) {
+			[self performSelector:@selector(newAction)];
 		}
 	} else {
 		if (buttonIndex == 0) {
+			[self performSelector:@selector(editAction)];
+		} else if (buttonIndex == 1) {
+			[self performSelector:@selector(saveAction)];
+		} else if (buttonIndex == 2) {
 			[self performSelector:@selector(deleteAction)];
 		}
 	}

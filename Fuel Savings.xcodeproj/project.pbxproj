@@ -41,7 +41,6 @@
 		1641350613ECA5ED00BFD3DD /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350413ECA5ED00BFD3DD /* add@2x.png */; };
 		1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */; };
 		1646C6AC13FAF743006571C1 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1646C6AB13FAF743006571C1 /* Settings.m */; };
-		1647C90113F9829100302930 /* DoubleButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1647C90013F9829100302930 /* DoubleButtonView.m */; };
 		164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E1E8613FDB05E00095044 /* NSNumber+Units.m */; };
 		1654418E13CC88690060D1C3 /* savings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418C13CC88690060D1C3 /* savings_tab.png */; };
 		1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418D13CC88690060D1C3 /* savings_tab@2x.png */; };
@@ -115,6 +114,9 @@
 		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
 		16D590A413E822B80095EAC3 /* TotalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D590A313E822B80095EAC3 /* TotalViewCell.m */; };
 		16D73AD713FE967000F01035 /* CountriesAvailable.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D73AD613FE967000F01035 /* CountriesAvailable.plist */; };
+		16F0C2C81404753500E3E108 /* RLCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F0C2C71404753500E3E108 /* RLCustomButton.m */; };
+		16F0C2CC1404769400E3E108 /* RLCustomButton+Default.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F0C2CB1404769400E3E108 /* RLCustomButton+Default.m */; };
+		16F0C2CE14047CD300E3E108 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F0C2CD14047CD300E3E108 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -167,8 +169,6 @@
 		1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalDetailViewCell.m; sourceTree = "<group>"; };
 		1646C6AA13FAF743006571C1 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		1646C6AB13FAF743006571C1 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
-		1647C8FF13F9829100302930 /* DoubleButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleButtonView.h; sourceTree = "<group>"; };
-		1647C90013F9829100302930 /* DoubleButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleButtonView.m; sourceTree = "<group>"; };
 		164E1E8513FDB05E00095044 /* NSNumber+Units.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Units.h"; sourceTree = "<group>"; };
 		164E1E8613FDB05E00095044 /* NSNumber+Units.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Units.m"; sourceTree = "<group>"; };
 		1654418C13CC88690060D1C3 /* savings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = savings_tab.png; sourceTree = "<group>"; };
@@ -268,6 +268,11 @@
 		16D590A313E822B80095EAC3 /* TotalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalViewCell.m; sourceTree = "<group>"; };
 		16D73AD613FE967000F01035 /* CountriesAvailable.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountriesAvailable.plist; sourceTree = "<group>"; };
 		16D73AD913FEA9C100F01035 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		16F0C2C61404753500E3E108 /* RLCustomButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLCustomButton.h; sourceTree = "<group>"; };
+		16F0C2C71404753500E3E108 /* RLCustomButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLCustomButton.m; sourceTree = "<group>"; };
+		16F0C2CA1404769400E3E108 /* RLCustomButton+Default.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RLCustomButton+Default.h"; sourceTree = "<group>"; };
+		16F0C2CB1404769400E3E108 /* RLCustomButton+Default.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RLCustomButton+Default.m"; sourceTree = "<group>"; };
+		16F0C2CD14047CD300E3E108 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16F0C2CE14047CD300E3E108 /* QuartzCore.framework in Frameworks */,
 				1620147013E32DDA00EDFF2B /* CoreData.framework in Frameworks */,
 				1666FCF013B8FA8B00FC97F1 /* UIKit.framework in Frameworks */,
 				1666FCF213B8FA8B00FC97F1 /* Foundation.framework in Frameworks */,
@@ -332,8 +338,8 @@
 				16376D8713F5C690002E0036 /* DetailSummaryView.m */,
 				1602039E13F5E26400749F1C /* DetailSummaryViewCell.h */,
 				1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */,
-				1647C8FF13F9829100302930 /* DoubleButtonView.h */,
-				1647C90013F9829100302930 /* DoubleButtonView.m */,
+				16F0C2C61404753500E3E108 /* RLCustomButton.h */,
+				16F0C2C71404753500E3E108 /* RLCustomButton.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -397,6 +403,7 @@
 		1666FCEE13B8FA8B00FC97F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16F0C2CD14047CD300E3E108 /* QuartzCore.framework */,
 				1620146F13E32DDA00EDFF2B /* CoreData.framework */,
 				1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */,
 				1666FCF113B8FA8B00FC97F1 /* Foundation.framework */,
@@ -492,6 +499,8 @@
 				168A425E13FD607F0044E421 /* NSDictionary+OrderKey.m */,
 				164E1E8513FDB05E00095044 /* NSNumber+Units.h */,
 				164E1E8613FDB05E00095044 /* NSNumber+Units.m */,
+				16F0C2CA1404769400E3E108 /* RLCustomButton+Default.h */,
+				16F0C2CB1404769400E3E108 /* RLCustomButton+Default.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -691,13 +700,14 @@
 				16376D8413F5B961002E0036 /* DetailView.m in Sources */,
 				16376D8813F5C690002E0036 /* DetailSummaryView.m in Sources */,
 				160203A013F5E26400749F1C /* DetailSummaryViewCell.m in Sources */,
-				1647C90113F9829100302930 /* DoubleButtonView.m in Sources */,
 				1646C6AC13FAF743006571C1 /* Settings.m in Sources */,
 				16C27BB913FC4F110084C2F5 /* AboutViewController.m in Sources */,
 				16C27BBF13FC4F320084C2F5 /* UnitsViewController.m in Sources */,
 				168A425F13FD607F0044E421 /* NSDictionary+OrderKey.m in Sources */,
 				168A426A13FD8DB70044E421 /* CountriesViewController.m in Sources */,
 				164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */,
+				16F0C2C81404753500E3E108 /* RLCustomButton.m in Sources */,
+				16F0C2CC1404769400E3E108 /* RLCustomButton+Default.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,6 @@
 #import "CurrentTripViewController.h"
 #import "NameInputViewController.h"
 #import "DetailSummaryView.h"
-#import "DoubleButtonView.h"
 
 @interface TripViewController : UIViewController <UIActionSheetDelegate, CurrentTripViewControllerDelegate,
 	NameInputViewControllerDelegate>
@@ -20,7 +19,7 @@
     SavingsData *savingsData_;
 	BOOL isNewTrip_;
 	BOOL showNewAction_;
-	DoubleButtonView *buttonView_;
+	BOOL hasButtons_;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *tripTable;
@@ -30,7 +29,7 @@
 @property (nonatomic, retain) DetailSummaryView *carSummary;
 @property (nonatomic, copy) NSString *currentCountry;
 
-- (id)initWithTabBar;
+- (id)initWithTabBar:(BOOL)tab buttons:(BOOL)buttons;
 
 - (void)saveCurrentTrip:(Trip *)trip;
 - (void)reloadTable;

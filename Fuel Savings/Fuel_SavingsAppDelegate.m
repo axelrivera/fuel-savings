@@ -37,7 +37,7 @@
 	
 	NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:5];
 	
-	FuelSavingsViewController *fuelSavingViewController = [[FuelSavingsViewController alloc] initWithTabBar];
+	FuelSavingsViewController *fuelSavingViewController = [[FuelSavingsViewController alloc] initWithTabBar:YES buttons:YES];
 	UINavigationController *fuelSavingNavigationController = [[UINavigationController alloc] initWithRootViewController:fuelSavingViewController];
 	
 	[viewControllers addObject:fuelSavingNavigationController];
@@ -45,7 +45,7 @@
 	[fuelSavingViewController release];
 	[fuelSavingNavigationController release];
 	
-	TripViewController *tripViewController = [[TripViewController alloc] initWithTabBar];
+	TripViewController *tripViewController = [[TripViewController alloc] initWithTabBar:YES buttons:YES];
 	UINavigationController *tripNavigationController = [[UINavigationController alloc] initWithRootViewController:tripViewController];
 	
 	[viewControllers addObject:tripNavigationController];

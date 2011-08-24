@@ -15,7 +15,7 @@
 #import "Settings.h"
 
 #define TRIP_NEW_TAG 1
-#define TRIP_DELETE_TAG 2
+#define TRIP_ACTION_TAG 2
 
 @interface TripViewController (Private)
 
@@ -38,30 +38,25 @@
 	self = [super initWithNibName:@"TripViewController" bundle:nil];
 	if (self) {
 		savingsData_ = [SavingsData sharedSavingsData];
-		self.currentTrip = [Trip emptyTrip];
 		isNewTrip_ = NO;
 		showNewAction_ = NO;
-		buttonView_ = nil;
+		hasButtons_ = NO;
+		self.currentTrip = [Trip emptyTrip];
 		self.currentCountry = nil;
 	}
 	return self;
 }
 
-- (id)initWithTabBar
+- (id)initWithTabBar:(BOOL)tab buttons:(BOOL)buttons
 {
 	self = [self init];
 	if (self) {
-		self.title = @"Trip";
-		self.navigationItem.title = @"Analyze Trip";
-		self.tabBarItem.image = [UIImage imageNamed:@"trip_tab.png"];
-		
-		buttonView_ = [[DoubleButtonView alloc] initWithButtonType:UIButtonTypeRoundedRect frame:CGRectZero];
-		
-		[buttonView_.leftButton addTarget:self action:@selector(saveAction) forControlEvents:UIControlEventTouchDown];
-		[buttonView_.leftButton setTitle:@"Save As..." forState:UIControlStateNormal];
-		
-		[buttonView_.rightButton addTarget:self action:@selector(deleteOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		[buttonView_.rightButton setTitle:@"Delete" forState:UIControlStateNormal];
+		if (tab) {
+			self.title = @"Trip";
+			self.navigationItem.title = @"Analyze Trip";
+			self.tabBarItem.image = [UIImage imageNamed:@"trip_tab.png"];
+		}
+		hasButtons_ = buttons;
 	}
 	return self;
 }
@@ -89,7 +84,7 @@
 {
     [super viewDidLoad];
 	
-	if (buttonView_) {
+	if (hasButtons_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
@@ -97,11 +92,11 @@
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
 		
-		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit
-																					target:self
-																					action:@selector(editAction)];
-		self.navigationItem.rightBarButtonItem = editButton;
-		[editButton release];
+		UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+																					  target:self
+																					  action:@selector(actionOptionsAction:)];
+		self.navigationItem.rightBarButtonItem = actionButton;
+		[actionButton release];
 		
 		if (![savingsData_.currentTrip isTripEmpty]) {
 			self.currentTrip = savingsData_.currentTrip;
@@ -228,28 +223,40 @@
 								  initWithTitle:@"You have a Current Trip. What would you like to do before creating a New Trip?"
 								  delegate:self
 								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:@"Save Current As...", nil];
+								  destructiveButtonTitle:nil
+								  otherButtonTitles:@"Save Current As...", @"Delete Current", nil];
+	
+	actionSheet.destructiveButtonIndex = 1;
 	
 	actionSheet.tag = TRIP_NEW_TAG;
 	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	UIView *view = self.view;
+	if (hasButtons_) {
+		view = self.tabBarController.view;
+	}
+	[actionSheet showInView:view];
 	[actionSheet release];	
 }
 
-- (void)deleteOptionsAction:(id)sender {
+- (void)actionOptionsAction:(id)sender {
 	// open a dialog with two custom buttons	
 	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:@"Are you sure? The information on your Current Trip will be lost."
+								  initWithTitle:nil
 								  delegate:self
 								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete Current"
-								  otherButtonTitles:nil];
+								  destructiveButtonTitle:nil
+								  otherButtonTitles:@"Edit Current", @"Save Current As...", @"Delete Current", nil];
 	
-	actionSheet.tag = TRIP_DELETE_TAG;
+	actionSheet.destructiveButtonIndex = 2;
 	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	actionSheet.tag = TRIP_ACTION_TAG;
+	
+	UIView *view = self.view;
+	if (hasButtons_) {
+		view = self.tabBarController.view;
+	}
+	[actionSheet showInView:view];
 	[actionSheet release];	
 }
 
@@ -258,14 +265,14 @@
 - (void)saveCurrentTrip:(Trip *)trip
 {
 	self.currentTrip = trip;
-	if (buttonView_) {
+	if (hasButtons_) {
 		savingsData_.currentTrip = trip;
 	}
 }
 
 - (void)reloadTable
 {
-	if (buttonView_ && [self.currentTrip isTripEmpty]) {
+	if (hasButtons_ && [self.currentTrip isTripEmpty]) {
 		self.currentCountry = [Settings sharedSettings].defaultCountry;
 	} else {
 		self.currentCountry = self.currentTrip.country;
@@ -429,20 +436,32 @@
 	return height;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-	if (section == 1 && buttonView_) {
-		return buttonView_;
+	CGFloat height = 5.0;
+	if (section == 0) {
+		height = 10.0;
 	}
-	return nil;
+	return height;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+	CGFloat height = 5.0;
 	if (section == 1) {
-		return 74.0;
+		height = 10.0;
 	}
-	return 10.0;
+	return height;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
 
 #pragma mark - UIActionSheet Delegate
@@ -450,13 +469,17 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == TRIP_NEW_TAG) {
 		if (buttonIndex == 0) {
-			[self performSelector:@selector(newAction)];
-		} else if (buttonIndex == 1) {
 			isNewTrip_ = YES;
 			[self performSelector:@selector(saveAction)];
+		} else if (buttonIndex == 1) {
+			[self performSelector:@selector(newAction)];
 		}
 	} else {
 		if (buttonIndex == 0) {
+			[self performSelector:@selector(editAction)];
+		} else if (buttonIndex == 1) {
+			[self performSelector:@selector(saveAction)];
+		} else if (buttonIndex == 2) {
 			[self performSelector:@selector(deleteAction)];
 		}
 	}
