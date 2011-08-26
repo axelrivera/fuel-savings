@@ -13,6 +13,8 @@
 #import "FuelSavingsViewController.h"
 #import "TripViewController.h"
 #import "RLCustomButton+Default.h"
+#import "UIViewController+iAd.h"
+#import "Fuel_SavingsAppDelegate.h"
 
 @interface MySavingsViewController (Private)
 
@@ -23,6 +25,8 @@
 
 @implementation MySavingsViewController
 
+@synthesize contentView = contentView_;
+@synthesize mySavingsTable = mySavingsTable_;
 @synthesize tableData = tableData_;
 @synthesize segmentedControl = segmentedControl_;
 
@@ -31,6 +35,7 @@
 	self = [super initWithNibName:@"MySavingsViewController" bundle:nil];
 	if (self) {
 		selectedIndex_ = 0;
+		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -48,6 +53,8 @@
 
 - (void)dealloc
 {
+	[contentView_ release];
+	[mySavingsTable_ release];
 	[segmentedControl_ release];
     [super dealloc];
 }
@@ -77,14 +84,29 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.contentView = nil;
+	self.mySavingsTable = nil;
 	self.segmentedControl = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	
+	adBanner_.delegate = self;
+	[self.view addSubview:adBanner_];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	
 	[self.segmentedControl setSelectedSegmentIndex:selectedIndex_];
 	[self reloadTableData];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	
+	adBanner_.delegate = nil;
+	//[adBanner_ removeFromSuperview];
 }
 
 #pragma mark - Custom Actions
@@ -147,7 +169,7 @@
 	} else {
 		self.navigationItem.rightBarButtonItem.enabled = NO;
 	}
-	[self.tableView reloadData];
+	[self.mySavingsTable reloadData];
 }
 
 #pragma mark - UITableView Methods
@@ -157,7 +179,7 @@
 	// Always call super implementation of this method, it needs to do some work
 	[super setEditing:flag animated:animated];
 
-	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+	[self.mySavingsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 	
 	self.segmentedControl.enabled = !self.segmentedControl.enabled;
 }
@@ -348,6 +370,29 @@
 		if (buttonIndex == 0) {
 			[self performSelector:@selector(deleteAllAction)];
 		}
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    // Stop or Pause Stuff Here
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // Get things back up running again!
 }
 
 @end

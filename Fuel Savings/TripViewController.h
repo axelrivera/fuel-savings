@@ -12,16 +12,19 @@
 #import "CurrentTripViewController.h"
 #import "NameInputViewController.h"
 #import "DetailSummaryView.h"
+#import <iAd/iAd.h>
 
 @interface TripViewController : UIViewController <UIActionSheetDelegate, CurrentTripViewControllerDelegate,
-	NameInputViewControllerDelegate>
+	NameInputViewControllerDelegate, ADBannerViewDelegate>
 {
     SavingsData *savingsData_;
 	BOOL isNewTrip_;
 	BOOL showNewAction_;
 	BOOL hasButtons_;
+	ADBannerView *adBanner_;
 }
 
+@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *tripTable;
 @property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
 @property (nonatomic, copy) Trip *currentTrip;

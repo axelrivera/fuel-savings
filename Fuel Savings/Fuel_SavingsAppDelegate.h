@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
+
+#define SharedAdBannerView ((Fuel_SavingsAppDelegate *)[[UIApplication sharedApplication] delegate]).adBanner
 
 @class RLCoreDataObject;
 
@@ -15,6 +18,7 @@
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;
 @property (nonatomic, retain) RLCoreDataObject *coreDataObject;
+@property (nonatomic, retain) ADBannerView *adBanner;
 
 - (NSString *)savingsDataFilePath;
 - (void)archiveSavingsData;

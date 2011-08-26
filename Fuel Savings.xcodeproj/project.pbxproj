@@ -15,6 +15,7 @@
 		161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A613EA035D00D2D2FC /* chart@2x.png */; };
 		161100AB13EA035D00D2D2FC /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A713EA035D00D2D2FC /* money.png */; };
 		161100AC13EA035D00D2D2FC /* money@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A813EA035D00D2D2FC /* money@2x.png */; };
+		1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1618BEED1406971A008CE88A /* UIViewController+iAd.m */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
@@ -98,6 +99,8 @@
 		16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16A707AE13BA057D00A0E93F /* NameInputViewController.xib */; };
 		16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */; };
 		16A707BD13BA240700A0E93F /* SavingsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707BC13BA240700A0E93F /* SavingsData.m */; };
+		16B56D061405903500130191 /* RLBannerViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B56D051405903500130191 /* RLBannerViewObject.m */; };
+		16B56D081405906300130191 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B56D071405906300130191 /* iAd.framework */; };
 		16B5F7E813BB81CE00DEE869 /* DistanceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */; };
 		16B5F7EB13BB81FD00DEE869 /* DistanceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */; };
 		16B5F7EE13BB9D4D00DEE869 /* OwnerInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F7ED13BB9D4D00DEE869 /* OwnerInputViewController.m */; };
@@ -130,6 +133,8 @@
 		161100A613EA035D00D2D2FC /* chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chart@2x.png"; sourceTree = "<group>"; };
 		161100A713EA035D00D2D2FC /* money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = money.png; sourceTree = "<group>"; };
 		161100A813EA035D00D2D2FC /* money@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "money@2x.png"; sourceTree = "<group>"; };
+		1618BEEC1406971A008CE88A /* UIViewController+iAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+iAd.h"; sourceTree = "<group>"; };
+		1618BEED1406971A008CE88A /* UIViewController+iAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+iAd.m"; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TypeInputViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeInputViewController.xib; sourceTree = "<group>"; };
@@ -244,6 +249,9 @@
 		16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Vehicle.m"; sourceTree = "<group>"; };
 		16A707BB13BA240700A0E93F /* SavingsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavingsData.h; sourceTree = "<group>"; };
 		16A707BC13BA240700A0E93F /* SavingsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavingsData.m; sourceTree = "<group>"; };
+		16B56D041405903500130191 /* RLBannerViewObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLBannerViewObject.h; sourceTree = "<group>"; };
+		16B56D051405903500130191 /* RLBannerViewObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLBannerViewObject.m; sourceTree = "<group>"; };
+		16B56D071405906300130191 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceInputViewController.h; sourceTree = "<group>"; };
 		16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceInputViewController.m; sourceTree = "<group>"; };
 		16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DistanceInputViewController.xib; sourceTree = "<group>"; };
@@ -280,6 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16B56D081405906300130191 /* iAd.framework in Frameworks */,
 				16F0C2CE14047CD300E3E108 /* QuartzCore.framework in Frameworks */,
 				1620147013E32DDA00EDFF2B /* CoreData.framework in Frameworks */,
 				1666FCF013B8FA8B00FC97F1 /* UIKit.framework in Frameworks */,
@@ -403,6 +412,7 @@
 		1666FCEE13B8FA8B00FC97F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16B56D071405906300130191 /* iAd.framework */,
 				16F0C2CD14047CD300E3E108 /* QuartzCore.framework */,
 				1620146F13E32DDA00EDFF2B /* CoreData.framework */,
 				1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */,
@@ -501,6 +511,8 @@
 				164E1E8613FDB05E00095044 /* NSNumber+Units.m */,
 				16F0C2CA1404769400E3E108 /* RLCustomButton+Default.h */,
 				16F0C2CB1404769400E3E108 /* RLCustomButton+Default.m */,
+				1618BEEC1406971A008CE88A /* UIViewController+iAd.h */,
+				1618BEED1406971A008CE88A /* UIViewController+iAd.m */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -522,6 +534,8 @@
 				1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */,
 				1646C6AA13FAF743006571C1 /* Settings.h */,
 				1646C6AB13FAF743006571C1 /* Settings.m */,
+				16B56D041405903500130191 /* RLBannerViewObject.h */,
+				16B56D051405903500130191 /* RLBannerViewObject.m */,
 			);
 			name = "Model+Data";
 			sourceTree = "<group>";
@@ -708,6 +722,8 @@
 				164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */,
 				16F0C2C81404753500E3E108 /* RLCustomButton.m in Sources */,
 				16F0C2CC1404769400E3E108 /* RLCustomButton+Default.m in Sources */,
+				16B56D061405903500130191 /* RLBannerViewObject.m in Sources */,
+				1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -737,7 +753,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -747,7 +763,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -777,6 +793,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fuel Savings/Fuel Savings-Prefix.pch";
 				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -790,6 +807,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fuel Savings/Fuel Savings-Prefix.pch";
 				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

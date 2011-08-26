@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 
-
-@interface SettingsViewController : UIViewController {
-    
+@interface SettingsViewController : UIViewController <ADBannerViewDelegate> {
+	ADBannerView *adBanner_;
 }
 
+@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *settingsTable;
 @property (nonatomic, retain) NSArray *settingsData;
 

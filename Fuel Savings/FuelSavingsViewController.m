@@ -13,6 +13,8 @@
 #import "DetailView.h"
 #import "DetailSummaryViewCell.h"
 #import "Settings.h"
+#import "UIViewController+iAd.h"
+#import "Fuel_SavingsAppDelegate.h"
 
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_ACTION_TAG 2
@@ -44,6 +46,7 @@
 		showNewAction_ = NO;
 		hasButtons_ = NO;
 		self.currentSavings = [Savings emptySavings];
+		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -57,13 +60,12 @@
 			self.tabBarItem.image = [UIImage imageNamed:@"piggy_tab.png"];
 		}
 		hasButtons_ = buttons; 
-		
 	}
 	return self;
 }
 
 - (void)dealloc
-{
+{	
 	[contentView_ release];
 	[savingsTable_ release];
 	[instructionsLabel_ release];
@@ -88,7 +90,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	
+		
 	if (hasButtons_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
@@ -126,6 +128,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	
+	adBanner_.delegate = self;
+	[self.view addSubview:adBanner_];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	
+	self.savingsTable.hidden = YES;
 	[self reloadTable];
 }
 
@@ -137,6 +145,13 @@
 		showNewAction_ = NO;
 		[self performSelector:@selector(newAction)];
 	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	adBanner_.delegate = nil;
+	//[adBanner_ removeFromSuperview];
 }
 
 #pragma mark - Custom Actions
@@ -537,34 +552,6 @@
 	return height;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	CGFloat height = 5.0;
-	if (section == 0) {
-		height = 10.0;
-	}
-	return height;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-	CGFloat height = 5.0;
-	if (section == 2) {
-		height = 10.0;
-	}
-	return height;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
 #pragma mark - UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -584,6 +571,29 @@
 			[self performSelector:@selector(deleteAction)];
 		}
 	}
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    // Stop or Pause Stuff Here
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // Get things back up running again!
 }
 
 @end

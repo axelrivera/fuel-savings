@@ -13,6 +13,8 @@
 #import "DetailView.h"
 #import "DetailSummaryViewCell.h"
 #import "Settings.h"
+#import "UIViewController+iAd.h"
+#import "Fuel_SavingsAppDelegate.h"
 
 #define TRIP_NEW_TAG 1
 #define TRIP_ACTION_TAG 2
@@ -26,6 +28,7 @@
 
 @implementation TripViewController
 
+@synthesize contentView = contentView_;
 @synthesize tripTable = tripTable_;
 @synthesize instructionsLabel = instructionsLabel_;
 @synthesize currentTrip = currentTrip_;
@@ -43,6 +46,7 @@
 		hasButtons_ = NO;
 		self.currentTrip = [Trip emptyTrip];
 		self.currentCountry = nil;
+		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -62,7 +66,8 @@
 }
 
 - (void)dealloc
-{
+{	
+	[contentView_ release];
 	[tripTable_ release];
 	[instructionsLabel_ release];
 	[currentTrip_ release];
@@ -113,6 +118,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.contentView = nil;
 	self.tripTable = nil;
 	self.instructionsLabel = nil;
 }
@@ -120,6 +126,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	
+	adBanner_.delegate = self;
+	[self.view addSubview:adBanner_];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	
 	[self reloadTable];
 }
 
@@ -131,6 +142,13 @@
 		showNewAction_ = NO;
 		[self performSelector:@selector(newAction)];
 	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	adBanner_.delegate = nil;
+	//[adBanner_ removeFromSuperview];
 }
 
 #pragma mark - Custom Actions
@@ -436,34 +454,6 @@
 	return height;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	CGFloat height = 5.0;
-	if (section == 0) {
-		height = 10.0;
-	}
-	return height;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-	CGFloat height = 5.0;
-	if (section == 1) {
-		height = 10.0;
-	}
-	return height;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
 #pragma mark - UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -483,6 +473,29 @@
 			[self performSelector:@selector(deleteAction)];
 		}
 	}
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    // Stop or Pause Stuff Here
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // Get things back up running again!
 }
 
 @end

@@ -9,9 +9,12 @@
 #import "SettingsViewController.h"
 #import "CountriesViewController.h"
 #import "AboutViewController.h"
+#import "UIViewController+iAd.h"
+#import "Fuel_SavingsAppDelegate.h"
 
 @implementation SettingsViewController
 
+@synthesize contentView = contentView_;
 @synthesize settingsTable = settingsTable_;
 @synthesize settingsData = settingsData_;
 
@@ -19,7 +22,7 @@
 {
 	self = [super initWithNibName:@"SettingsViewController" bundle:nil];
 	if (self) {
-		// Initialization Code
+		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -37,6 +40,7 @@
 
 - (void)dealloc
 {
+	[contentView_ release];
 	[settingsTable_ release];
 	[settingsData_ release];
     [super dealloc];
@@ -62,6 +66,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.contentView = nil;
 	self.settingsTable = nil;
 	self.settingsData = nil;
 }
@@ -69,6 +74,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	
+	adBanner_.delegate = self;
+	[self.view addSubview:adBanner_];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	
+	adBanner_.delegate = nil;
+	//[adBanner_ removeFromSuperview];
 }
 
 #pragma mark - Table view data source
@@ -130,6 +147,29 @@
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    // Stop or Pause Stuff Here
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // Get things back up running again!
 }
 
 @end
