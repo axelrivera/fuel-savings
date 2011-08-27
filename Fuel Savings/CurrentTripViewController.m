@@ -11,6 +11,8 @@
 #import "VehicleSelectViewController.h"
 #import "Fuel_SavingsAppDelegate.h"
 #import "Settings.h"
+#import "UIViewController+iAd.h"
+#import "Fuel_SavingsAppDelegate.h"
 
 static NSString * const tripNameKey = @"TripNameKey";
 static NSString * const fuelPriceKey = @"PriceKey";
@@ -28,13 +30,14 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (BOOL)validateControllerData;
 - (void)displayErrorWithMessage:(NSString *)message;
 
-
 @end
 
 @implementation CurrentTripViewController
 
 @synthesize delegate = delegate_;
 @synthesize currentTrip = currentTrip_;
+@synthesize contentView = contentView_;
+@synthesize newTable = newTable_;
 @synthesize newData = newData_;
 @synthesize isEditingTrip = isEditingTrip_;
 
@@ -43,6 +46,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	self = [super initWithNibName:@"CurrentTripViewController" bundle:nil];
 	if (self) {
 		self.currentTrip = nil;
+		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -59,6 +63,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)dealloc
 {
 	[currentTrip_ release];
+	[contentView_ release];
+	[newTable_ release];
 	[newData_ release];
     [super dealloc];
 }
@@ -95,6 +101,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.contentView = nil;
+	self.newTable = nil;
 	self.newData = nil;
 }
 
@@ -108,12 +116,22 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		self.title = @"New Trip";
 	}
 	
+	adBanner_.delegate = self;
+	[self.view addSubview:adBanner_];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	
 	self.newData = [NSMutableArray arrayWithCapacity:0];
 	
 	[newData_ addObject:[self informationArray]];
 	[newData_ addObject:[self vehicleArray]];
 	
-	[self.tableView reloadData];
+	[self.newTable reloadData];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	adBanner_.delegate = nil;
 }
 
 #pragma mark - Custom Actions
@@ -420,6 +438,29 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    // Stop or Pause Stuff Here
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // Get things back up running again!
 }
 
 @end

@@ -15,6 +15,7 @@
 		161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A613EA035D00D2D2FC /* chart@2x.png */; };
 		161100AB13EA035D00D2D2FC /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A713EA035D00D2D2FC /* money.png */; };
 		161100AC13EA035D00D2D2FC /* money@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A813EA035D00D2D2FC /* money@2x.png */; };
+		16112F941408301F00252EDD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16112F931408301F00252EDD /* MessageUI.framework */; };
 		1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1618BEED1406971A008CE88A /* UIViewController+iAd.m */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
@@ -133,6 +134,7 @@
 		161100A613EA035D00D2D2FC /* chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chart@2x.png"; sourceTree = "<group>"; };
 		161100A713EA035D00D2D2FC /* money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = money.png; sourceTree = "<group>"; };
 		161100A813EA035D00D2D2FC /* money@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "money@2x.png"; sourceTree = "<group>"; };
+		16112F931408301F00252EDD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		1618BEEC1406971A008CE88A /* UIViewController+iAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+iAd.h"; sourceTree = "<group>"; };
 		1618BEED1406971A008CE88A /* UIViewController+iAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+iAd.m"; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16112F941408301F00252EDD /* MessageUI.framework in Frameworks */,
 				16B56D081405906300130191 /* iAd.framework in Frameworks */,
 				16F0C2CE14047CD300E3E108 /* QuartzCore.framework in Frameworks */,
 				1620147013E32DDA00EDFF2B /* CoreData.framework in Frameworks */,
@@ -412,6 +415,7 @@
 		1666FCEE13B8FA8B00FC97F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				16112F931408301F00252EDD /* MessageUI.framework */,
 				16B56D071405906300130191 /* iAd.framework */,
 				16F0C2CD14047CD300E3E108 /* QuartzCore.framework */,
 				1620146F13E32DDA00EDFF2B /* CoreData.framework */,
@@ -753,7 +757,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -762,7 +766,8 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
@@ -772,13 +777,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};

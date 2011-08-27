@@ -13,15 +13,21 @@
 #import "NameInputViewController.h"
 #import "EfficiencyInputViewController.h"
 #import "VehicleDetailsViewController.h"
+#import <iAd/iAd.h>
 
 @protocol CurrentTripViewControllerDelegate;
 
-@interface CurrentTripViewController : UITableViewController
+@interface CurrentTripViewController : UIViewController
 	<PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, NameInputViewControllerDelegate,
-	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
+	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
+{
+	ADBannerView *adBanner_;
+}
 
 @property (nonatomic, assign) id <CurrentTripViewControllerDelegate> delegate;
 @property (nonatomic, retain) Trip *currentTrip;
+@property (nonatomic, retain) IBOutlet UIView *contentView;
+@property (nonatomic, retain) IBOutlet UITableView *newTable;
 @property (nonatomic, retain) NSMutableArray *newData;
 @property (nonatomic) BOOL isEditingTrip;
 

@@ -10,6 +10,7 @@
 #import "NSMutableArray+Vehicle.h"
 #import "NSDictionary+Section.h"
 #import "RLCustomButton+Default.h"
+#import "UIViewController+iAd.h"
 #import "Fuel_SavingsAppDelegate.h"
 
 static NSString * const typeKey = @"TypeKey";
@@ -41,6 +42,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 @synthesize delegate = delegate_;
 @synthesize currentSavings = currentSavings_;
+@synthesize contentView = contentView_;
 @synthesize newTable = newTable_;
 @synthesize newData = newData_;
 @synthesize isEditingSavings = isEditingSavings_;
@@ -52,6 +54,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		self.currentSavings = nil;
 		isCar1Selected_ = NO;
 		isCar2Selected_ = NO;
+		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -68,6 +71,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)dealloc
 {
 	[currentSavings_ release];
+	[contentView_ release];
 	[newData_ release];
 	[newTable_ release];
     [super dealloc];
@@ -105,6 +109,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+	self.contentView = nil;
 	self.newTable = nil;
 	self.newData = nil;
 }
@@ -119,10 +124,20 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		self.title = @"New Savings";
 	}
 	
+	adBanner_.delegate = self;
+	[self.view addSubview:adBanner_];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	
 	if (self.currentSavings) {
 		[self reloadTableData];
 	}
 	[newTable_ reloadData];	
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+	[super viewDidDisappear:animated];
+	adBanner_.delegate = nil;
 }
 
 #pragma mark - Custom Actions
@@ -708,6 +723,29 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	if (buttonIndex == 0) {
 		[self performSelector:@selector(resetCar2Action)];
 	} 
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+    // Stop or Pause Stuff Here
+    return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+    // Get things back up running again!
 }
 
 @end

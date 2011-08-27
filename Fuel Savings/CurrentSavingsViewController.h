@@ -17,20 +17,23 @@
 #import "EfficiencyInputViewController.h"
 #import "VehicleSelectViewController.h"
 #import "VehicleDetailsViewController.h"
+#include <iAd/iAd.h>
 
 @protocol CurrentSavingsViewControllerDelegate;
 
 @interface CurrentSavingsViewController : UIViewController
 	<UIActionSheetDelegate, TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
 	OwnerInputViewControllerDelegate, NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate,
-	VehicleDetailsViewControllerDelegate>
+	VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
 {
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;
+	ADBannerView *adBanner_;
 }
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;
 @property (nonatomic, retain) Savings *currentSavings;
+@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *newTable;
 @property (nonatomic, retain) NSMutableArray *newData;
 @property (nonatomic) BOOL isEditingSavings;
