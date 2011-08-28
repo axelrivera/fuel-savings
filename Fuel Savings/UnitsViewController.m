@@ -32,10 +32,10 @@
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)dealloc
@@ -59,9 +59,9 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.tableData = nil;
 }
 
@@ -99,18 +99,18 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [[self.tableData objectAtIndex:section] count];
+	// Return the number of rows in the section.
+	return [[self.tableData objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+	static NSString *CellIdentifier = @"Cell";
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	}
 	
 	NSDictionary *dataDictionary = nil;
 	NSInteger currentIndex = 0;
@@ -129,8 +129,8 @@
 	NSDictionary *dictionary = [dataDictionary objectForKey:[[self.tableData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
 	
 	NSString *textLabelStr = [NSString stringWithFormat:@"%@ (%@)",
-					[dictionary objectForKey:kSettingsUnitNameKey],
-					[dictionary objectForKey:kSettingsUnitUnitKey]];
+														[dictionary objectForKey:kSettingsUnitNameKey],
+														[dictionary objectForKey:kSettingsUnitUnitKey]];
 	
 	cell.textLabel.font = [UIFont systemFontOfSize:17.0];
 	cell.textLabel.text = textLabelStr;
@@ -139,10 +139,10 @@
 	if (indexPath.row == currentIndex) {
 		cell.accessoryType = UITableViewCellAccessoryCheckmark;
 	}
-    
+	
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	
-    return cell;
+	return cell;
 }
 
 #pragma mark - Table view delegate methods
@@ -160,15 +160,15 @@
 		localIndex = self.currentEfficiency;
 	}
 	
-    if (localIndex == indexPath.row) {
-        return;
-    }
+	if (localIndex == indexPath.row) {
+		return;
+	}
 	
-    NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:indexPath.section];
+	NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:indexPath.section];
 	
-    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-    if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-        newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
 		
 		NSInteger row = indexPath.row;
 		if (indexPath.section == 0) {
@@ -178,12 +178,12 @@
 		} else {
 			self.currentEfficiency = row;
 		}
-    }
+	}
 	
-    UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
-    if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
-        oldCell.accessoryType = UITableViewCellAccessoryNone;
-    }
+	UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+	if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+		oldCell.accessoryType = UITableViewCellAccessoryNone;
+	}
 }
 
 

@@ -76,9 +76,9 @@
 	self.imageView.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
 	
 	self.titleLabel.frame = CGRectMake(10.0 + 24.0 + 10.0,
-									   10.0,
-									   self.bounds.size.width - (10.0 + 24.0 + 10.0 + 10.0),
-									   24.0);
+																		 10.0,
+																		 self.bounds.size.width - (10.0 + 24.0 + 10.0 + 10.0),
+																		 24.0);
 	
 	NSInteger totalViews = [detailViews_ count];
 	
@@ -86,9 +86,9 @@
 		DetailView *detailView = [detailViews_ objectAtIndex:i];
 		
 		detailView.frame = CGRectMake(10.0,
-									  detailY,
-									  self.bounds.size.width - (10.0 + 10.0),
-									  detailView.frame.size.height);
+																	detailY,
+																	self.bounds.size.width - (10.0 + 10.0),
+																	detailView.frame.size.height);
 		
 		detailY = detailY + DETAIL_VIEW_HEIGHT;
 	}

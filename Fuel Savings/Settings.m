@@ -43,8 +43,8 @@ static NSDictionary *countries;
 
 - (id)init
 {
-    self = [super init];
-    if (self) {		
+	self = [super init];
+	if (self) {		
 		NSString *distanceStr = [[NSUserDefaults standardUserDefaults] objectForKey:kSettingsDistanceUnitKey];
 		if (distanceStr == nil) {
 			distanceStr = kSettingsDefaultDistanceUnit;
@@ -74,9 +74,9 @@ static NSDictionary *countries;
 			countryStr = kSettingsDefaultCountry;
 		}
 		self.defaultCountry = countryStr;
-    }
-    
-    return self;
+	}
+	
+	return self;
 }
 
 - (void)dealloc
@@ -207,40 +207,40 @@ static NSDictionary *countries;
 
 + (Settings *)sharedSettings
 {
-    if (sharedSettings == nil) {
-        sharedSettings = [[super allocWithZone:NULL] init];
-    }
-    return sharedSettings;
+	if (sharedSettings == nil) {
+		sharedSettings = [[super allocWithZone:NULL] init];
+	}
+	return sharedSettings;
 }
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self sharedSettings] retain];
+	return [[self sharedSettings] retain];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    return self;
+	return self;
 }
 
 - (id)retain
 {
-    return self;
+	return self;
 }
 
 - (NSUInteger)retainCount
 {
-    return NSUIntegerMax;  //denotes an object that cannot be released
+	return NSUIntegerMax;  //denotes an object that cannot be released
 }
 
 - (void)release
 {
-    //do nothing
+	//do nothing
 }
 
 - (id)autorelease
 {
-    return self;
+	return self;
 }
 
 @end

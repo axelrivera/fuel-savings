@@ -11,7 +11,7 @@
 @protocol TypeInputViewControllerDelegate;
 
 @interface TypeInputViewController : UIViewController {
-	 NSNumberFormatter *percentFormatter_;
+	NSNumberFormatter *percentFormatter_;
 }
 
 @property (nonatomic, assign) id <TypeInputViewControllerDelegate> delegate;

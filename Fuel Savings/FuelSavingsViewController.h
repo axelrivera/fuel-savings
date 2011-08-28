@@ -15,7 +15,7 @@
 #import <iAd/iAd.h>
 
 @interface FuelSavingsViewController : UIViewController <UIActionSheetDelegate, CurrentSavingsViewControllerDelegate,
-	NameInputViewControllerDelegate, ADBannerViewDelegate>
+NameInputViewControllerDelegate, ADBannerViewDelegate>
 {
 	SavingsData *savingsData_;
 	BOOL isNewSavings_;

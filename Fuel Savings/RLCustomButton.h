@@ -10,8 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface RLCustomButton : UIButton {
-    CAGradientLayer *gradientLayer_;
-    CALayer         *highlightLayer_;
+	CAGradientLayer *gradientLayer_;
+	CALayer	*highlightLayer_;
 }
 
 + (RLCustomButton *)customButton;

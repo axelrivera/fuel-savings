@@ -44,8 +44,8 @@
 	if (savingsData == nil) {
 		[SavingsData sharedSavingsData];
 	}
-
-//	SavingsData *savingsData = [SavingsData sharedSavingsData];
+	
+	//	SavingsData *savingsData = [SavingsData sharedSavingsData];
 	
 	NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:5];
 	
@@ -100,10 +100,10 @@
 	
 	[viewControllers release];
 	
-    [self.window addSubview:self.tabBarController.view];
-    [self.window makeKeyAndVisible];
+	[self.window addSubview:self.tabBarController.view];
+	[self.window makeKeyAndVisible];
 	
-    return YES;
+	return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -156,7 +156,7 @@
 	[_tabBarController release];
 	[_coreDataObject release];
 	[_adBanner release];
-    [super dealloc];
+	[super dealloc];
 }
 
 @end

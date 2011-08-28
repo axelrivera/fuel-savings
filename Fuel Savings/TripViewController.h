@@ -15,9 +15,9 @@
 #import <iAd/iAd.h>
 
 @interface TripViewController : UIViewController <UIActionSheetDelegate, CurrentTripViewControllerDelegate,
-	NameInputViewControllerDelegate, ADBannerViewDelegate>
+NameInputViewControllerDelegate, ADBannerViewDelegate>
 {
-    SavingsData *savingsData_;
+	SavingsData *savingsData_;
 	BOOL isNewTrip_;
 	BOOL showNewAction_;
 	BOOL hasButtons_;

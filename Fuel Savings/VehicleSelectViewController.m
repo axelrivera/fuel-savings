@@ -65,10 +65,10 @@
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 - (void)dealloc
@@ -84,12 +84,12 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	if (self.tabBarController == nil) {
 		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(cancelAction)];
+																																									target:self
+																																									action:@selector(cancelAction)];
 		self.navigationItem.rightBarButtonItem = cancelButton;
 		[cancelButton release];
 	}
@@ -99,9 +99,9 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.mpgDatabaseInfo = nil;
 }
 
@@ -118,9 +118,9 @@
 {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"MPGDatabaseInfo" inManagedObjectContext:_context];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"MPGDatabaseInfo" inManagedObjectContext:_context];
 	
-    [fetchRequest setEntity:entity];
+	[fetchRequest setEntity:entity];
 	
 	[fetchRequest setResultType:NSDictionaryResultType];
 	
@@ -163,13 +163,13 @@
 		titleStr = self.make;
 		[sort release];
 	}
-    
+	
 	NSError *error;
 	self.mpgDatabaseInfo = [self.context executeFetchRequest:fetchRequest error:&error];
 	
 	self.navigationItem.title = titleStr;
 	
-    [fetchRequest release];
+	[fetchRequest release];
 }
 
 #pragma mark - Table view data source
@@ -188,12 +188,12 @@
 		cellStyle = UITableViewCellStyleSubtitle;
 	}
 	
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-    NSDictionary *info = [self.mpgDatabaseInfo objectAtIndex:indexPath.row];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:cellStyle reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
+	NSDictionary *info = [self.mpgDatabaseInfo objectAtIndex:indexPath.row];
 	
 	NSString *labelStr = nil;
 	NSString *detailStr = nil;
@@ -205,9 +205,9 @@
 	} else {
 		labelStr = [info objectForKey:@"model"];
 		detailStr = [NSString stringWithFormat:@"%@ Cyl, %@ L, %@",
-					 [info objectForKey:@"cylinders"],
-					 [info objectForKey:@"engine"],
-					 [info objectForKey:@"transmission"]];
+								 [info objectForKey:@"cylinders"],
+								 [info objectForKey:@"engine"],
+								 [info objectForKey:@"transmission"]];
 	}
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -231,8 +231,8 @@
 	if (self.selectionType == VehicleSelectionTypeYear) {
 		NSString *yearStr = [[info objectForKey:@"year"] stringValue];
 		VehicleSelectViewController *selectController = [[VehicleSelectViewController alloc] initWithType:VehicleSelectionTypeMake
-																									 year:yearStr
-																									 make:nil];
+																																																 year:yearStr
+																																																 make:nil];
 		selectController.context = self.context;
 		selectController.currentSavingsViewController = self.currentSavingsViewController;
 		selectController.currentTripViewController = self.currentTripViewController;
@@ -241,8 +241,8 @@
 		NSString *yearStr = self.year;
 		NSString *makeStr = [info objectForKey:@"make"];
 		VehicleSelectViewController *selectController = [[VehicleSelectViewController alloc] initWithType:VehicleSelectionTypeModel
-																									 year:yearStr
-																									 make:makeStr];
+																																																 year:yearStr
+																																																 make:makeStr];
 		selectController.context = self.context;
 		selectController.currentSavingsViewController = self.currentSavingsViewController;
 		selectController.currentTripViewController = self.currentTripViewController;

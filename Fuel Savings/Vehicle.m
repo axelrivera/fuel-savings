@@ -122,8 +122,8 @@
 - (BOOL)hasDataReady
 {
 	if ([self.avgEfficiency integerValue] > 0 &&
-		[self.cityEfficiency integerValue] > 0 &&
-		[self.highwayEfficiency integerValue] > 0) {
+			[self.cityEfficiency integerValue] > 0 &&
+			[self.highwayEfficiency integerValue] > 0) {
 		return YES;
 	}
 	return NO;
@@ -145,10 +145,10 @@
 - (NSString *)description
 {
 	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, City: %@, Highway: %@, Combined: %@",
-								self.name,
-								[self.cityEfficiency stringValue],
-								[self.highwayEfficiency stringValue],
-								[self.avgEfficiency stringValue]];
+															self.name,
+															[self.cityEfficiency stringValue],
+															[self.highwayEfficiency stringValue],
+															[self.avgEfficiency stringValue]];
 	return descriptionStr;
 }
 

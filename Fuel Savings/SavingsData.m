@@ -63,39 +63,39 @@ static SavingsData *sharedSavingsData;
 
 + (SavingsData *)sharedSavingsData
 {
-    if (sharedSavingsData == nil) {
-        sharedSavingsData = [[super allocWithZone:NULL] init];
-    }
-    return sharedSavingsData;
+	if (sharedSavingsData == nil) {
+		sharedSavingsData = [[super allocWithZone:NULL] init];
+	}
+	return sharedSavingsData;
 }
 
 + (id)allocWithZone:(NSZone *)zone
 {
-    return [[self sharedSavingsData] retain];
+	return [[self sharedSavingsData] retain];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    return self;
+	return self;
 }
 
 - (id)retain
 {
-    return self;
+	return self;
 }
 
 - (NSUInteger)retainCount
 {
-    return NSUIntegerMax;  //denotes an object that cannot be released
+	return NSUIntegerMax;  //denotes an object that cannot be released
 }
 
 - (void)release
 {
-    //do nothing
+	//do nothing
 }
 
 - (id)autorelease
 {
-    return self;
+	return self;
 }
 @end

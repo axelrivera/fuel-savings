@@ -11,8 +11,6 @@
 		160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 160ED0B813CA41E5001021F7 /* FileHelpers.m */; };
 		16112F941408301F00252EDD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16112F931408301F00252EDD /* MessageUI.framework */; };
 		1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1618BEED1406971A008CE88A /* UIViewController+iAd.m */; };
-		161EC63A1409C859005FE184 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 161EC6381409C859005FE184 /* Icon.png */; };
-		161EC63B1409C859005FE184 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161EC6391409C859005FE184 /* Icon@2x.png */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
@@ -105,6 +103,8 @@
 		16C9E31E13E83E71001809B2 /* TotalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C9E31D13E83E71001809B2 /* TotalView.m */; };
 		16CBB87813D0805F00E8BD05 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87713D0805F00E8BD05 /* Trip.m */; };
 		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
+		16CF037B140AB0F00035BFB8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16CF0379140AB0F00035BFB8 /* Icon.png */; };
+		16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16CF037A140AB0F00035BFB8 /* Icon@2x.png */; };
 		16D590A413E822B80095EAC3 /* TotalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D590A313E822B80095EAC3 /* TotalViewCell.m */; };
 		16D73AD713FE967000F01035 /* CountriesAvailable.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D73AD613FE967000F01035 /* CountriesAvailable.plist */; };
 		16F0C2C81404753500E3E108 /* RLCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F0C2C71404753500E3E108 /* RLCustomButton.m */; };
@@ -120,8 +120,6 @@
 		16112F931408301F00252EDD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		1618BEEC1406971A008CE88A /* UIViewController+iAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+iAd.h"; sourceTree = "<group>"; };
 		1618BEED1406971A008CE88A /* UIViewController+iAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+iAd.m"; sourceTree = "<group>"; };
-		161EC6381409C859005FE184 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		161EC6391409C859005FE184 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TypeInputViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeInputViewController.xib; sourceTree = "<group>"; };
@@ -251,6 +249,8 @@
 		16CBB87613D0805F00E8BD05 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
 		16CBB87713D0805F00E8BD05 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuelSavingsHelpers.m; sourceTree = "<group>"; };
+		16CF0379140AB0F00035BFB8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		16CF037A140AB0F00035BFB8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		16D590A213E822B80095EAC3 /* TotalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalViewCell.h; sourceTree = "<group>"; };
 		16D590A313E822B80095EAC3 /* TotalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalViewCell.m; sourceTree = "<group>"; };
 		16D73AD613FE967000F01035 /* CountriesAvailable.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountriesAvailable.plist; sourceTree = "<group>"; };
@@ -411,8 +411,8 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				161EC6381409C859005FE184 /* Icon.png */,
-				161EC6391409C859005FE184 /* Icon@2x.png */,
+				16CF0379140AB0F00035BFB8 /* Icon.png */,
+				16CF037A140AB0F00035BFB8 /* Icon@2x.png */,
 				1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */,
 				162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */,
 				165ACFB113B937A500A2AD3E /* images */,
@@ -628,8 +628,8 @@
 				162831AE1409A2B500C71D4D /* details@2x.png in Resources */,
 				162831AF1409A2B500C71D4D /* money.png in Resources */,
 				162831B01409A2B500C71D4D /* money@2x.png in Resources */,
-				161EC63A1409C859005FE184 /* Icon.png in Resources */,
-				161EC63B1409C859005FE184 /* Icon@2x.png in Resources */,
+				16CF037B140AB0F00035BFB8 /* Icon.png in Resources */,
+				16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

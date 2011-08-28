@@ -43,29 +43,29 @@
 	[contentView_ release];
 	[settingsTable_ release];
 	[settingsData_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.contentView = nil;
 	self.settingsTable = nil;
 	self.settingsData = nil;
@@ -97,8 +97,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 1;
+	// Return the number of rows in the section.
+	return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -153,23 +153,23 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
 {
-    // Stop or Pause Stuff Here
-    return YES;
+	// Stop or Pause Stuff Here
+	return YES;
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
-    // Get things back up running again!
+	// Get things back up running again!
 }
 
 @end

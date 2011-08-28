@@ -22,9 +22,9 @@
 @protocol CurrentSavingsViewControllerDelegate;
 
 @interface CurrentSavingsViewController : UIViewController
-	<UIActionSheetDelegate, TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
-	OwnerInputViewControllerDelegate, NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate,
-	VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
+<UIActionSheetDelegate, TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
+OwnerInputViewControllerDelegate, NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate,
+VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
 {
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;

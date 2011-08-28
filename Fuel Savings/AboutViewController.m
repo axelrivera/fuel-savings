@@ -31,25 +31,25 @@
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	self.title = @"About";
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 }
 
 #pragma mark -
@@ -65,7 +65,7 @@
 	[picker setSubject:@"Fuel Savings Feedback"];
 	
 	[self presentModalViewController:picker animated:YES];
-    [picker release];
+	[picker release];
 }
 
 - (void)gotoTwitter
@@ -241,12 +241,12 @@
 			break;
 		case MFMailComposeResultFailed:
 			errorString = [NSString stringWithFormat:@"E-mail failed: %@", 
-						   [error localizedDescription]];
+										 [error localizedDescription]];
 			showAlert = YES;
 			break;
 		default:
 			errorString = [NSString stringWithFormat:@"E-mail was not sent: %@", 
-						   [error localizedDescription]];
+										 [error localizedDescription]];
 			showAlert = YES;
 			break;
 	}
@@ -255,10 +255,10 @@
 	
 	if (showAlert == YES) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"E-mail Error"
-														message:errorString
-													   delegate:self
-											  cancelButtonTitle:@"OK"
-											  otherButtonTitles: nil];
+																										message:errorString
+																									 delegate:self
+																					cancelButtonTitle:@"OK"
+																					otherButtonTitles: nil];
 		[alert show];
 		[alert release];
 	}

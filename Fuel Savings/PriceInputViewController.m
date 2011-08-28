@@ -39,27 +39,27 @@
 	[enteredDigits_ release];
 	[currentPrice_ release];
 	[footerText_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	self.title = @"Change Price";
 	
 	UIBarButtonItem *clearButton = [[self.inputToolbar items] objectAtIndex:1];
 	clearButton.title = @"Clear";
-		
+	
 	inputTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(0.0, 7.0, 280.0, 30.0)];
 	inputTextField_.font = [UIFont systemFontOfSize:18.0];
 	inputTextField_.adjustsFontSizeToFitWidth = NO;
@@ -76,9 +76,9 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	[inputTextField_ release];
 	inputTextField_ = nil;
 	self.inputToolbar = nil;
@@ -124,23 +124,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 1;
+	// Return the number of rows in the section.
+	return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
+	static NSString *CellIdentifier = @"Cell";
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryView = inputTextField_;
 	
-    return cell;
+	return cell;
 }
 
 #pragma mark - Table view delegate methods
@@ -169,38 +169,38 @@
 		return NO;
 	}
 	
-    // Check the length of the string
-    if ([string length] > 0) {
+	// Check the length of the string
+	if ([string length] > 0) {
 		if ([self.enteredDigits length] + 1 <= MAX_DIGITS) {
 			self.enteredDigits = [self.enteredDigits stringByAppendingFormat:@"%d", [string integerValue]];
 		}
-    } else {
-        // This is a backspace
-        NSUInteger len = [self.enteredDigits length];
-        if (len > 1) {
-            self.enteredDigits = [self.enteredDigits substringWithRange:NSMakeRange(0, len - 1)];
-        } else {
-            self.enteredDigits = @"";
-        }
-    }
+	} else {
+		// This is a backspace
+		NSUInteger len = [self.enteredDigits length];
+		if (len > 1) {
+			self.enteredDigits = [self.enteredDigits substringWithRange:NSMakeRange(0, len - 1)];
+		} else {
+			self.enteredDigits = @"";
+		}
+	}
 	
-    NSDecimalNumber *number = nil;
+	NSDecimalNumber *number = nil;
 	
-    if (![self.enteredDigits isEqualToString:@""]) {
+	if (![self.enteredDigits isEqualToString:@""]) {
 		NSDecimalNumber *decimal = [NSDecimalNumber decimalNumberWithString:self.enteredDigits];
-        number = [decimal decimalNumberByMultiplyingByPowerOf10:CURRENCY_SCALE];
-    } else {
-        number = [NSDecimalNumber zero];
-    }
+		number = [decimal decimalNumberByMultiplyingByPowerOf10:CURRENCY_SCALE];
+	} else {
+		number = [NSDecimalNumber zero];
+	}
 	
 	self.currentPrice = number;
-    // Replace the text with the localized decimal number
-    textField.text = [formatter_ stringFromNumber:number];
+	// Replace the text with the localized decimal number
+	textField.text = [formatter_ stringFromNumber:number];
 	
 	//NSLog(@"Entered Digits (change end): %@", self.enteredDigits);
 	//NSLog(@"Current Efficiency (change end): %@", self.currentPrice);
 	
-    return NO;  
+	return NO;  
 }
 
 @end

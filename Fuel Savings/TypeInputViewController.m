@@ -78,22 +78,22 @@
 	[highwaySubtractButton_ release];
 	[citySlider_ release];
 	[highwaySlider_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];	
+	[super viewDidLoad];	
 	self.title = @"Change Use";
 	
 	UIColor *gray = [UIColor darkGrayColor];
@@ -139,9 +139,9 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.typeSegmentedControl = nil;
 	self.headerTextLabel = nil;
 	self.descriptionTextLabel = nil;
@@ -277,11 +277,11 @@
 {
 	if (animated) {
 		[UIView animateWithDuration:0.5
-						 animations:^{
-							 [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-							 [UIView setAnimationDelegate:self];
-							 [self ratioViewsHidden:hidden];
-						 }];
+										 animations:^{
+											 [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+											 [UIView setAnimationDelegate:self];
+											 [self ratioViewsHidden:hidden];
+										 }];
 	} else {
 		[self ratioViewsHidden:hidden];
 	}

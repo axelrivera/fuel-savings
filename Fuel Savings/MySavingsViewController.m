@@ -56,22 +56,22 @@
 	[contentView_ release];
 	[mySavingsTable_ release];
 	[segmentedControl_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	[self setupSegmentedControl];
 	self.navigationItem.titleView = self.segmentedControl;
@@ -81,9 +81,9 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.contentView = nil;
 	self.mySavingsTable = nil;
 	self.segmentedControl = nil;
@@ -134,11 +134,11 @@
 	// open a dialog with two custom buttons	
 	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:nil
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete All"
-								  otherButtonTitles:nil];
+																initWithTitle:nil
+																delegate:self
+																cancelButtonTitle:@"Cancel"
+																destructiveButtonTitle:@"Delete All"
+																otherButtonTitles:nil];
 	
 	[actionSheet showFromTabBar:self.tabBarController.tabBar];
 	[actionSheet release];	
@@ -172,15 +172,25 @@
 	[self.mySavingsTable reloadData];
 }
 
+#pragma mark - View Controller Delegates
+
+- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
+{
+	if (save) {
+		[[self.tableData objectAtIndex:selectedRow_] setName:controller.currentName];
+		[self reloadTableData];
+	}
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - UITableView Methods
 
 - (void)setEditing:(BOOL)flag animated:(BOOL)animated
 {
 	// Always call super implementation of this method, it needs to do some work
 	[super setEditing:flag animated:animated];
-
-	[self.mySavingsTable reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
-	
+	[mySavingsTable_ setEditing:flag animated:animated];
+	[mySavingsTable_ reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 	self.segmentedControl.enabled = !self.segmentedControl.enabled;
 }
 
@@ -228,6 +238,7 @@
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+	
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	
 	cell.imageView.image = iconImage;
@@ -295,8 +306,13 @@
 	[navController release];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	return YES;
+}
+
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath 
-{		
+{
 	return UITableViewCellEditingStyleDelete;
 }
 
@@ -323,7 +339,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
 	CGFloat height = 10.0;
-	if (self.editing) {
+	if (tableView.editing) {
 		height = 64.0;
 	}
 	return height;
@@ -336,15 +352,15 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
-	if (self.editing) {
+	if (tableView.editing) {
 		UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 		
 		RLCustomButton *button = [[RLCustomButton deleteAllButton] retain];
 		[button addTarget:self action:@selector(deleteAllOptionsAction:) forControlEvents:UIControlEventTouchDown];
 		button.frame = CGRectMake(10.0,
-								  10.0,
-								  tableView.bounds.size.width - 20.0,
-								  44.0);
+															10.0,
+															tableView.bounds.size.width - 20.0,
+															44.0);
 		
 		[sectionView addSubview:button];
 		[button release];
@@ -353,46 +369,35 @@
 	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
 
-#pragma mark - View Controller Delegates
-
-- (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
-{
-	if (save) {
-		[[self.tableData objectAtIndex:selectedRow_] setName:controller.currentName];
-		[self reloadTableData];
-	}
-	[self dismissModalViewControllerAnimated:YES];
-}
-
 #pragma mark - UIActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-		if (buttonIndex == 0) {
-			[self performSelector:@selector(deleteAllAction)];
-		}
+	if (buttonIndex == 0) {
+		[self performSelector:@selector(deleteAllAction)];
+	}
 }
 
 #pragma mark - ADBannerViewDelegate
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
 {
-    // Stop or Pause Stuff Here
-    return YES;
+	// Stop or Pause Stuff Here
+	return YES;
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
-    // Get things back up running again!
+	// Get things back up running again!
 }
 
 @end

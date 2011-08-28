@@ -74,41 +74,41 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[contentView_ release];
 	[newData_ release];
 	[newTable_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																				  target:self
-																				  action:@selector(dismissAction)];
+																																								target:self
+																																								action:@selector(dismissAction)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
 	[cancelButton release];
 	
 	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-																				target:self
-																				action:@selector(saveAction)];
+																																							target:self
+																																							action:@selector(saveAction)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.contentView = nil;
 	self.newTable = nil;
 	self.newData = nil;
@@ -199,11 +199,11 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	// open a dialog with two custom buttons	
 	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:@"Reset Car 2 to its default settings."
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Reset Car 2"
-								  otherButtonTitles:nil];
+																initWithTitle:@"Reset Car 2 to its default settings."
+																delegate:self
+																cancelButtonTitle:@"Cancel"
+																destructiveButtonTitle:@"Reset Car 2"
+																otherButtonTitles:nil];
 	
 	[actionSheet showInView:self.view];
 	[actionSheet release];	
@@ -216,13 +216,13 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	NSArray *informationArray = [[self informationArray] retain];
 	NSArray *vehicle1Array = [[self vehicleArrayWithKey:vehicle1Key] retain]; 
 	NSArray *vehicle2Array = [[self vehicleArrayWithKey:vehicle2Key] retain];
-
+	
 	self.newData = [NSMutableArray arrayWithCapacity:0];
 	
 	[newData_ addObject:informationArray];
 	[newData_ addObject:vehicle1Array];
 	[newData_ addObject:vehicle2Array];
-
+	
 	[informationArray release];
 	[vehicle1Array release];
 	[vehicle2Array release];
@@ -239,18 +239,18 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
-												text:@"Fuel Price"
-											  detail:[self.currentSavings stringForFuelPrice]];
+																							text:@"Fuel Price"
+																						detail:[self.currentSavings stringForFuelPrice]];
 	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
-												text:@"Distance"
-											  detail:[self.currentSavings stringForDistance]];
+																							text:@"Distance"
+																						detail:[self.currentSavings stringForDistance]];
 	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:carOwnershipKey
-												text:@"Ownership"
-											  detail:[self.currentSavings stringForCarOwnership]];
+																							text:@"Ownership"
+																						detail:[self.currentSavings stringForCarOwnership]];
 	[array addObject:dictionary];
 	
 	return array;
@@ -279,7 +279,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	NSDictionary *dictionary = nil;
 	
 	dictionary = [NSDictionary buttonDictionaryWithKey:key
-												  text:titleText];
+																								text:titleText];
 	
 	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
 	[button addTarget:self action:titleSelector forControlEvents:UIControlEventTouchDown];
@@ -287,8 +287,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
-												text:@"Name"
-											  detail:[vehicle stringForName]];
+																							text:@"Name"
+																						detail:[vehicle stringForName]];
 	[array addObject:dictionary];
 	
 	
@@ -298,8 +298,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			avgEfficiencyStr = [vehicle stringForAvgEfficiency];
 		}
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
-													text:@"Average MPG"
-												  detail:avgEfficiencyStr];
+																								text:@"Average MPG"
+																							detail:avgEfficiencyStr];
 		[array addObject:dictionary];
 	} else {
 		NSString *cityEfficiencyStr = emptyStr;
@@ -318,8 +318,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			cityEfficiencyStr = [vehicle stringForCityEfficiency];
 		}
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleCityEfficiencyKey
-													text:@"City MPG"
-												  detail:cityEfficiencyStr];
+																								text:@"City MPG"
+																							detail:cityEfficiencyStr];
 		[array addObject:dictionary];
 		
 		
@@ -327,8 +327,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			highwayEfficiencyStr = [vehicle stringForHighwayEfficiency];
 		}
 		dictionary = [NSDictionary textDictionaryWithKey:vehicleHighwayEfficiencyKey
-													text:@"Highway MPG"
-												  detail:highwayEfficiencyStr];
+																								text:@"Highway MPG"
+																							detail:highwayEfficiencyStr];
 		[array addObject:dictionary];
 	}
 	
@@ -377,10 +377,10 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)displayErrorWithMessage:(NSString *)message
 {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
-													message:message
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles: nil];
+																									message:message
+																								 delegate:self
+																				cancelButtonTitle:@"OK"
+																				otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
 }
@@ -468,15 +468,15 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		NSDictionary *info = controller.mpgDatabaseInfo;
 		if (isCar1Selected_ == YES) {
 			self.currentSavings.vehicle1.name = [NSString stringWithFormat:@"%@ %@",
-												 [info objectForKey:@"year"],
-												 [info objectForKey:@"model"]];
+																					 [info objectForKey:@"year"],
+																					 [info objectForKey:@"model"]];
 			self.currentSavings.vehicle1.avgEfficiency = [info objectForKey:@"mpgAverage"];
 			self.currentSavings.vehicle1.cityEfficiency = [info objectForKey:@"mpgCity"];
 			self.currentSavings.vehicle1.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
 		} else {
 			self.currentSavings.vehicle2.name = [NSString stringWithFormat:@"%@ %@",
-												 [info objectForKey:@"year"],
-												 [info objectForKey:@"model"]];
+																					 [info objectForKey:@"year"],
+																					 [info objectForKey:@"model"]];
 			self.currentSavings.vehicle2.avgEfficiency = [info objectForKey:@"mpgAverage"];
 			self.currentSavings.vehicle2.cityEfficiency = [info objectForKey:@"mpgCity"];
 			self.currentSavings.vehicle2.highwayEfficiency = [info	objectForKey:@"mpgHighway"];
@@ -697,9 +697,9 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		RLCustomButton *button = [[RLCustomButton resetCar2Button] retain];
 		[button addTarget:self action:@selector(resetCar2OptionsAction:) forControlEvents:UIControlEventTouchDown];
 		button.frame = CGRectMake(10.0,
-								  10.0,
-								  tableView.bounds.size.width - 20.0,
-								  44.0);
+															10.0,
+															tableView.bounds.size.width - 20.0,
+															44.0);
 		
 		[sectionView addSubview:button];
 		[button release];
@@ -729,23 +729,23 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
 {
-    // Stop or Pause Stuff Here
-    return YES;
+	// Stop or Pause Stuff Here
+	return YES;
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
-    // Get things back up running again!
+	// Get things back up running again!
 }
 
 @end

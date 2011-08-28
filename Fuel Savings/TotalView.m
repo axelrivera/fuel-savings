@@ -69,30 +69,30 @@
 	self.imageView.frame = CGRectMake(10.0, 10.0, 24.0, 24.0);
 	
 	self.titleLabel.frame = CGRectMake(10.0 + 24.0 + 10.0,
-									   10.0,
-									   self.bounds.size.width - (10.0 + 24.0 + 10.0 + 10.0),
-									   24.0);
-
+																		 10.0,
+																		 self.bounds.size.width - (10.0 + 24.0 + 10.0 + 10.0),
+																		 24.0);
+	
 	self.text1Label.frame = CGRectMake(10.0,
-									   10.0 + 24.0 + 5.0,
-									   TEXT_LABEL_WIDTH,
-									   17.0);
+																		 10.0 + 24.0 + 5.0,
+																		 TEXT_LABEL_WIDTH,
+																		 17.0);
 	
 	self.detail1Label.frame = CGRectMake(10.0 + TEXT_LABEL_WIDTH + 1.0,
-										 10.0 + 24.0 + 5.0,
-										 self.bounds.size.width - (10.0 + TEXT_LABEL_WIDTH + 1.0 + 10.0),
-										 17.0);
+																			 10.0 + 24.0 + 5.0,
+																			 self.bounds.size.width - (10.0 + TEXT_LABEL_WIDTH + 1.0 + 10.0),
+																			 17.0);
 	
 	if (type_ == TotalViewTypeDouble) {
 		self.text2Label.frame = CGRectMake(10.0,
-										   10.0 + 24.0 + 5.0 + 17.0 + 5.0,
-										   TEXT_LABEL_WIDTH,
-										   17.0);
+																			 10.0 + 24.0 + 5.0 + 17.0 + 5.0,
+																			 TEXT_LABEL_WIDTH,
+																			 17.0);
 		
 		self.detail2Label.frame = CGRectMake(10.0 + TEXT_LABEL_WIDTH + 1.0,
-											 10.0 + 24.0 + 5.0 + 17.0 + 5.0,
-											 self.bounds.size.width - (10.0 + TEXT_LABEL_WIDTH + 1.0 + 10.0),
-											 17.0);
+																				 10.0 + 24.0 + 5.0 + 17.0 + 5.0,
+																				 self.bounds.size.width - (10.0 + TEXT_LABEL_WIDTH + 1.0 + 10.0),
+																				 17.0);
 	}
 }
 

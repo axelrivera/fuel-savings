@@ -40,23 +40,23 @@
 	[enteredDigits_ release];
 	[currentEfficiency_ release];
 	[footerText_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-		
+	[super viewDidLoad];
+	
 	self.title = @"Fuel Efficiency";
 	
 	UIBarButtonItem *clearButton = [[self.inputToolbar items] objectAtIndex:1];
@@ -78,9 +78,9 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	[efficiencyTextField_ release];
 	efficiencyTextField_ = nil;
 	self.inputToolbar = nil;
@@ -126,23 +126,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 1;
+	// Return the number of rows in the section.
+	return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
+	static NSString *CellIdentifier = @"Cell";
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.accessoryView = efficiencyTextField_;
 	
-    return cell;
+	return cell;
 }
 
 #pragma mark - Table view delegate methods
@@ -171,37 +171,37 @@
 		return NO;
 	}
 	
-    // Check the length of the string
-    if ([string length] > 0) {
+	// Check the length of the string
+	if ([string length] > 0) {
 		if ([self.enteredDigits length] + 1 <= MAX_DIGITS) {
 			self.enteredDigits = [self.enteredDigits stringByAppendingFormat:@"%d", [string integerValue]];
 		}
-    } else {
-        // This is a backspace
-        NSUInteger len = [self.enteredDigits length];
-        if (len > 1) {
-            self.enteredDigits = [self.enteredDigits substringWithRange:NSMakeRange(0, len - 1)];
-        } else {
-            self.enteredDigits = @"";
-        }
-    }
-	
-    if (![self.enteredDigits isEqualToString:@""]) {
-		self.currentEfficiency = [NSNumber numberWithInteger:[self.enteredDigits integerValue]];
-    } else {
-        self.currentEfficiency = [NSNumber numberWithInteger:0];
+	} else {
+		// This is a backspace
+		NSUInteger len = [self.enteredDigits length];
+		if (len > 1) {
+			self.enteredDigits = [self.enteredDigits substringWithRange:NSMakeRange(0, len - 1)];
+		} else {
+			self.enteredDigits = @"";
+		}
 	}
-    
+	
+	if (![self.enteredDigits isEqualToString:@""]) {
+		self.currentEfficiency = [NSNumber numberWithInteger:[self.enteredDigits integerValue]];
+	} else {
+		self.currentEfficiency = [NSNumber numberWithInteger:0];
+	}
+	
 	if ([self.currentEfficiency integerValue] > 0) {
 		textField.text = [NSString stringWithFormat:@"%@ MPG", [self.currentEfficiency stringValue]];
 	} else {
 		textField.text = @"";
 	}
-
+	
 	//NSLog(@"Entered Digits (change end): %@", self.enteredDigits);
 	//NSLog(@"Current Efficiency (change end): %@", self.currentEfficiency);
 	
-    return NO;  
+	return NO;  
 }
 
 @end

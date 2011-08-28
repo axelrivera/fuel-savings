@@ -21,7 +21,7 @@
 	if ([[self objectForKey:kNSDictionaryOrderKey] integerValue] > [[dictionary objectForKey:kNSDictionaryOrderKey] integerValue]) {
 		return (NSComparisonResult)NSOrderedDescending;
 	}
-	 
+	
 	if ([[self objectForKey:kNSDictionaryOrderKey] integerValue] < [[dictionary objectForKey:kNSDictionaryOrderKey] integerValue]) {
 		return (NSComparisonResult)NSOrderedAscending;
 	}

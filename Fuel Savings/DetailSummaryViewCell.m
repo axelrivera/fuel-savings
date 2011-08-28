@@ -15,10 +15,10 @@
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier
 {
 	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-    if (self) {
-       // Initialization Code
-    }
-    return self;
+	if (self) {
+		// Initialization Code
+	}
+	return self;
 }
 
 - (void)dealloc
@@ -38,9 +38,9 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+	[super setSelected:selected animated:animated];
+	
+	// Configure the view for the selected state
 }
 
 - (void)redisplay

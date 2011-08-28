@@ -25,7 +25,7 @@
 
 - (id)initCustomButton
 {
-	self = [[[super class] buttonWithType:UIButtonTypeCustom] retain];
+	self = [super initWithFrame:CGRectZero];
 	if (self) {
 		CALayer *layer = self.layer;
 		
@@ -37,22 +37,22 @@
 		gradientLayer_ = [[CAGradientLayer layer] retain];
 		
 		gradientLayer_.colors = [NSArray arrayWithObjects:
-							  (id)[UIColor colorWithWhite:1.0f alpha:0.6f].CGColor,
-							  (id)[UIColor colorWithWhite:1.0f alpha:0.4].CGColor,
-							  (id)[UIColor colorWithWhite:1.0f alpha:0.2f].CGColor,
-							  (id)[UIColor colorWithWhite:0.75f alpha:0.2f].CGColor,
-							  (id)[UIColor colorWithWhite:0.4f alpha:0.2f].CGColor,
-							  (id)[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f].CGColor,
-							  nil];
+														 (id)[UIColor colorWithWhite:1.0f alpha:0.6f].CGColor,
+														 (id)[UIColor colorWithWhite:1.0f alpha:0.4].CGColor,
+														 (id)[UIColor colorWithWhite:1.0f alpha:0.2f].CGColor,
+														 (id)[UIColor colorWithWhite:0.75f alpha:0.2f].CGColor,
+														 (id)[UIColor colorWithWhite:0.4f alpha:0.2f].CGColor,
+														 (id)[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.3f].CGColor,
+														 nil];
 		
 		gradientLayer_.locations = [NSArray arrayWithObjects:
-								 [NSNumber numberWithFloat:0.0f],
-								 [NSNumber numberWithFloat:0.05f],
-								 [NSNumber numberWithFloat:0.5f],
-								 [NSNumber numberWithFloat:0.5f],
-								 [NSNumber numberWithFloat:0.8f],
-								 [NSNumber numberWithFloat:1.0f],
-								 nil];
+																[NSNumber numberWithFloat:0.0f],
+																[NSNumber numberWithFloat:0.05f],
+																[NSNumber numberWithFloat:0.5f],
+																[NSNumber numberWithFloat:0.5f],
+																[NSNumber numberWithFloat:0.8f],
+																[NSNumber numberWithFloat:1.0f],
+																nil];
 		
 		[self.layer addSublayer:gradientLayer_];
 		
@@ -88,8 +88,8 @@
 
 - (void)setHighlighted:(BOOL)highlight
 {
-    highlightLayer_.hidden = !highlight;
-    [super setHighlighted:highlight];
+	highlightLayer_.hidden = !highlight;
+	[super setHighlighted:highlight];
 }
 
 @end

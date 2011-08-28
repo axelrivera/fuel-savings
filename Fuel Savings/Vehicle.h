@@ -10,7 +10,7 @@
 #import "FuelSavingsHelpers.h"
 
 @interface Vehicle : NSObject <NSCoding, NSCopying> {
-    
+	
 }
 
 @property (nonatomic, copy) NSString *name;

@@ -13,7 +13,7 @@ typedef enum { DistanceInputTypeSavings, DistanceInputTypeTrip } DistanceInputTy
 @protocol DistanceInputViewControllerDelegate;
 
 @interface DistanceInputViewController : UIViewController {
-    NSArray *inputData_;
+	NSArray *inputData_;
 	NSNumberFormatter *numberFormatter_;
 	DistanceInputType type_;
 	NSInteger distanceFactor_;

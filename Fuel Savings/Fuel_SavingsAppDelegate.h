@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 
+#define ApplicationDelegate ((Fuel_SavingsAppDelegate *)[[UIApplication sharedApplication] delegate])
 #define SharedAdBannerView ((Fuel_SavingsAppDelegate *)[[UIApplication sharedApplication] delegate]).adBanner
 
 @class RLCoreDataObject;

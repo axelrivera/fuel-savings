@@ -74,34 +74,34 @@
 	[car1Summary_ release];
 	[car2Summary_ release];
 	[currentCountry_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-		
+	[super viewDidLoad];
+	
 	if (hasButtons_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
-																	  style:UIBarButtonItemStyleBordered
-																	 target:self
-																	 action:@selector(newCheckAction)];
+																																	style:UIBarButtonItemStyleBordered
+																																 target:self
+																																 action:@selector(newCheckAction)];
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
 		
 		UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-																					  target:self
-																					  action:@selector(actionOptionsAction:)];
+																																									target:self
+																																									action:@selector(actionOptionsAction:)];
 		self.navigationItem.rightBarButtonItem = actionButton;
 		[actionButton release];
 		
@@ -111,15 +111,15 @@
 		
 		self.instructionsLabel.font = [UIFont systemFontOfSize:18.0];
 		self.instructionsLabel.text = @"Tap the New button to create a New Savings. You have the option to calculate "
-										@"fuel savings for one or two cars.";
+		@"fuel savings for one or two cars.";
 	}
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.contentView = nil;
 	self.savingsTable = nil;
 	self.instructionsLabel = nil;
@@ -237,11 +237,11 @@
 
 - (void)newOptionsAction:(id)sender {	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:nil
-								  otherButtonTitles:@"Save Current As...", @"Delete Current", nil];
+																initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
+																delegate:self
+																cancelButtonTitle:@"Cancel"
+																destructiveButtonTitle:nil
+																otherButtonTitles:@"Save Current As...", @"Delete Current", nil];
 	
 	actionSheet.destructiveButtonIndex = 1;
 	
@@ -259,11 +259,11 @@
 	// open a dialog with two custom buttons	
 	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:nil
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:nil
-								  otherButtonTitles:@"Edit Current", @"Save Current As...", @"Delete Current", nil];
+																initWithTitle:nil
+																delegate:self
+																cancelButtonTitle:@"Cancel"
+																destructiveButtonTitle:nil
+																otherButtonTitles:@"Edit Current", @"Save Current As...", @"Delete Current", nil];
 	
 	actionSheet.destructiveButtonIndex = 2;
 	
@@ -470,7 +470,7 @@
 					totalCell.totalView.detail2Label.textColor = highlightColor;
 				}
 			}
-
+			
 			return totalCell;
 		} else {
 			static NSString *DetailCellIdentifier = @"DetailCell";
@@ -577,7 +577,7 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-    [self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
@@ -587,13 +587,13 @@
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
 {
-    // Stop or Pause Stuff Here
-    return YES;
+	// Stop or Pause Stuff Here
+	return YES;
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner
 {
-    // Get things back up running again!
+	// Get things back up running again!
 }
 
 @end

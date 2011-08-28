@@ -18,8 +18,8 @@
 @protocol CurrentTripViewControllerDelegate;
 
 @interface CurrentTripViewController : UIViewController
-	<PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, NameInputViewControllerDelegate,
-	EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
+<PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, NameInputViewControllerDelegate,
+EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
 {
 	ADBannerView *adBanner_;
 }

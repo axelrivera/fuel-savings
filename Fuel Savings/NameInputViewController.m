@@ -38,35 +38,35 @@
 	[key_ release];
 	[currentName_ release];
 	[footerText_ release];
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-																				target:self
-																				action:@selector(saveAction)];
+																																							target:self
+																																							action:@selector(saveAction)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];
 	
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																				  target:self
-																				  action:@selector(cancelAction)];
+																																								target:self
+																																								action:@selector(cancelAction)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
 	[cancelButton release];
-
+	
 	nameTextField_ = [[UITextField alloc] initWithFrame:CGRectMake(0.0, 7.0, 280.0, 30.0)];
 	nameTextField_.font = [UIFont systemFontOfSize:16.0];
 	nameTextField_.adjustsFontSizeToFitWidth = YES;
@@ -85,16 +85,16 @@
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	[nameTextField_ release];
 	nameTextField_ = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+	[super viewWillAppear:animated];
 	nameTextField_.text = self.currentName;
 }
 
@@ -134,10 +134,10 @@
 - (void)displayErrorWithMessage:(NSString *)message
 {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
-													message:message
-												   delegate:self
-										  cancelButtonTitle:@"OK"
-										  otherButtonTitles: nil];
+																									message:message
+																								 delegate:self
+																				cancelButtonTitle:@"OK"
+																				otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
 }
@@ -146,23 +146,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return 1;
+	// Return the number of rows in the section.
+	return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
-    
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.accessoryView = nameTextField_;
+	static NSString *CellIdentifier = @"Cell";
 	
-    return cell;
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.accessoryView = nameTextField_;
+	
+	return cell;
 }
 
 #pragma mark - Table view delegate methods
