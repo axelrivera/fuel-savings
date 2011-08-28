@@ -28,15 +28,15 @@ NSString * const dictionaryButtonKey = @"DictionaryButtonKey";
 
 + (NSDictionary *)buttonDictionaryWithKey:(NSString *)key text:(NSString *)text;
 {
-	//	RLCustomButton *button = [[RLCustomButton selectCarButton] retain];
-	//	button.frame = CGRectMake(0.0, 0.0, 110.0, 28.0);
+	RLCustomButton *button = [[RLCustomButton selectCarButton] retain];
+	button.frame = CGRectMake(0.0, 0.0, 110.0, 28.0);
 	
 	NSDictionary *dictionary = [[[NSDictionary alloc] initWithObjectsAndKeys:
 															 key, dictionaryKey,
 															 text, dictionaryTextKey,
-															 //button, dictionaryButtonKey,
+															 button, dictionaryButtonKey,
 															 nil] autorelease];
-	//[button release];
+	[button release];
 	
 	return dictionary;
 }
