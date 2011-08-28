@@ -22,5 +22,9 @@
 #define kCurrencySymbolBritishPoundKey @"british_pound"
 #define kCurrencySymbolGenericKey @"generic"
 
+#define kCountriesDistanceUnitKey @"distance_unit"
+#define kCountriesVolumeUnitKey @"volume_unit"
+#define kCountriesEfficiencyUnitKey @"efficiency_unit"
+
 #define kCountriesAvailableUnitedStates @"US"
 #define kCountriesAvailablePuertoRico @"PR"

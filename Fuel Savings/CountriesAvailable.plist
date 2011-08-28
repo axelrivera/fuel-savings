@@ -6,6 +6,12 @@
 	<dict>
 		<key>name</key>
 		<string>United States</string>
+		<key>distance_unit</key>
+		<string>Miles</string>
+		<key>volume_unit</key>
+		<string>Gallons</string>
+		<key>efficiency_unit</key>
+		<string>MPG</string>
 		<key>order</key>
 		<string>0</string>
 	</dict>
@@ -13,6 +19,12 @@
 	<dict>
 		<key>name</key>
 		<string>Puerto Rico</string>
+		<key>distance_unit</key>
+		<string>Miles</string>
+		<key>volume_unit</key>
+		<string>Liters</string>
+		<key>efficiency_unit</key>
+		<string>MPG</string>
 		<key>order</key>
 		<string>1</string>
 	</dict>

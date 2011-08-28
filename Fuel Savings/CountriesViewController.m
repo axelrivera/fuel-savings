@@ -31,26 +31,26 @@
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+	// Releases the view if it doesn't have a superview.
+	[super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	self.title = @"Units";
-    self.tableData = [Settings orderedCountries];
+	self.tableData = [Settings orderedCountries];
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 	self.tableData = nil;
 }
 
@@ -73,38 +73,73 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 1;
+	return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    return [self.tableData count];
+	NSInteger rows = 3;
+	if (section == 0) {
+		rows = [self.tableData count];
+	}
+	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+	if (indexPath.section == 0) {
+		static NSString *SelectCellIdentifier = @"SelectCell";
 		
-	NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:indexPath.row]];
-	NSString *textLabelStr = [NSString stringWithFormat:@"%@", [dictionary objectForKey:kSettingsUnitNameKey]];
-	
-	cell.textLabel.font = [UIFont systemFontOfSize:17.0];
-	cell.textLabel.text = textLabelStr;
-	
-	cell.accessoryType = UITableViewCellAccessoryNone;
-	if (indexPath.row == self.currentCountry) {
-		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+		UITableViewCell *selectCell = [tableView dequeueReusableCellWithIdentifier:SelectCellIdentifier];
+		if (selectCell == nil) {
+			selectCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SelectCellIdentifier] autorelease];
+		}
+		
+		NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:indexPath.row]];
+		NSString *textLabelStr = [dictionary objectForKey:kSettingsUnitNameKey];
+		
+		selectCell.textLabel.text = textLabelStr;
+		
+		selectCell.accessoryType = UITableViewCellAccessoryNone;
+		if (indexPath.row == self.currentCountry) {
+			selectCell.accessoryType = UITableViewCellAccessoryCheckmark;
+		}
+		
+		selectCell.selectionStyle = UITableViewCellSelectionStyleBlue;
+		
+		return selectCell;
 	}
-    
-	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	
-    return cell;
+	static NSString *CellIdentifier = @"Cell";
+	
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+	}
+	
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.accessoryType = UITableViewCellAccessoryNone;
+	
+	NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:self.currentCountry]];
+	
+	NSString *textLabelStr = nil;
+	NSString *detailLabelStr = nil;
+	
+	if (indexPath.row == 0) {
+		textLabelStr = @"Distance Units";
+		detailLabelStr = [dictionary objectForKey:kCountriesDistanceUnitKey];
+	} else if (indexPath.row == 1) {
+		textLabelStr = @"Volume Units";
+		detailLabelStr = [dictionary objectForKey:kCountriesVolumeUnitKey];
+	} else {
+		textLabelStr = @"Fuel Efficiency Units";
+		detailLabelStr = [dictionary objectForKey:kCountriesEfficiencyUnitKey];
+	}
+	
+	cell.textLabel.text = textLabelStr;
+	cell.detailTextLabel.text = detailLabelStr;
+	
+	return cell;
 }
 
 #pragma mark - Table view delegate methods
@@ -114,33 +149,44 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	NSInteger localIndex = self.currentCountry;
-    if (localIndex == indexPath.row) {
-        return;
-    }
+	if (indexPath.section == 1 || localIndex == indexPath.row) {
+		return;
+	}
 	
-    NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:indexPath.section];
+	NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:indexPath.section];
 	
-    UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-    if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-        newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
 		self.currentCountry = indexPath.row;
-    }
+		[tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+	}
 	
-    UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
-    if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
-        oldCell.accessoryType = UITableViewCellAccessoryNone;
-    }
+	UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+	if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+		oldCell.accessoryType = UITableViewCellAccessoryNone;
+	}
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	return @"Available Countries";
+	NSString *titleStr = nil;
+	if (section == 0) {
+		titleStr = @"Available Countries";
+	} else {
+		NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:self.currentCountry]];
+		titleStr = [dictionary objectForKey:kSettingsUnitNameKey];
+	}
+	return titleStr;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
-	return @"The units will be configured based on the selected country. Changes will only affect new calculations. "
-	@"Current and Saved calculations will not be affected.";
+	NSString *titleStr = nil;
+	if (section == 0) {
+		titleStr = @"Changes will only affect new calculations.";
+	}
+	return titleStr;
 }
 
 @end

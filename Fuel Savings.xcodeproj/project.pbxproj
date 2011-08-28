@@ -8,15 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		160203A013F5E26400749F1C /* DetailSummaryViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */; };
-		160203A513F5E4E900749F1C /* car.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A113F5E4E900749F1C /* car.png */; };
-		160203A613F5E4E900749F1C /* car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 160203A213F5E4E900749F1C /* car@2x.png */; };
 		160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 160ED0B813CA41E5001021F7 /* FileHelpers.m */; };
-		161100A913EA035D00D2D2FC /* chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A513EA035D00D2D2FC /* chart.png */; };
-		161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A613EA035D00D2D2FC /* chart@2x.png */; };
-		161100AB13EA035D00D2D2FC /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A713EA035D00D2D2FC /* money.png */; };
-		161100AC13EA035D00D2D2FC /* money@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161100A813EA035D00D2D2FC /* money@2x.png */; };
 		16112F941408301F00252EDD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16112F931408301F00252EDD /* MessageUI.framework */; };
 		1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1618BEED1406971A008CE88A /* UIViewController+iAd.m */; };
+		161EC63A1409C859005FE184 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 161EC6381409C859005FE184 /* Icon.png */; };
+		161EC63B1409C859005FE184 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 161EC6391409C859005FE184 /* Icon@2x.png */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
@@ -31,27 +27,25 @@
 		162535D013E32B4000162B7A /* RLCoreDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 162535CE13E32B4000162B7A /* RLCoreDataObject.m */; };
 		162535D413E32B9200162B7A /* MPGDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */; };
 		1628039C13F0361F00848A31 /* NSDictionary+Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 1628039B13F0361F00848A31 /* NSDictionary+Section.m */; };
-		1631568F13F6DD740032210F /* details.png in Resources */ = {isa = PBXBuildFile; fileRef = 1631568D13F6DD740032210F /* details.png */; };
-		1631569013F6DD740032210F /* details@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1631568E13F6DD740032210F /* details@2x.png */; };
+		162831A91409A2B500C71D4D /* car.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A11409A2B000C71D4D /* car.png */; };
+		162831AA1409A2B500C71D4D /* car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A21409A2B000C71D4D /* car@2x.png */; };
+		162831AB1409A2B500C71D4D /* chart.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A31409A2B100C71D4D /* chart.png */; };
+		162831AC1409A2B500C71D4D /* chart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A41409A2B100C71D4D /* chart@2x.png */; };
+		162831AD1409A2B500C71D4D /* details.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A51409A2B200C71D4D /* details.png */; };
+		162831AE1409A2B500C71D4D /* details@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A61409A2B200C71D4D /* details@2x.png */; };
+		162831AF1409A2B500C71D4D /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A71409A2B300C71D4D /* money.png */; };
+		162831B01409A2B500C71D4D /* money@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A81409A2B400C71D4D /* money@2x.png */; };
 		1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */; };
 		1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */; };
 		16376D8413F5B961002E0036 /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16376D8313F5B961002E0036 /* DetailView.m */; };
 		16376D8813F5C690002E0036 /* DetailSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16376D8713F5C690002E0036 /* DetailSummaryView.m */; };
 		1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */; };
 		1640EC1A13BE13A7008190C1 /* EfficiencyInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */; };
-		1641350513ECA5ED00BFD3DD /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350313ECA5ED00BFD3DD /* add.png */; };
-		1641350613ECA5ED00BFD3DD /* add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1641350413ECA5ED00BFD3DD /* add@2x.png */; };
 		1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */; };
 		1646C6AC13FAF743006571C1 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1646C6AB13FAF743006571C1 /* Settings.m */; };
 		164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E1E8613FDB05E00095044 /* NSNumber+Units.m */; };
-		1654418E13CC88690060D1C3 /* savings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418C13CC88690060D1C3 /* savings_tab.png */; };
-		1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1654418D13CC88690060D1C3 /* savings_tab@2x.png */; };
 		1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* CurrentSavingsViewController.m */; };
 		1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */; };
-		165ACFB413B937D200A2AD3E /* topbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFB213B937D200A2AD3E /* topbar.png */; };
-		165ACFB513B937D200A2AD3E /* topbar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFB313B937D200A2AD3E /* topbar@2x.png */; };
-		165ACFD913B9737A00A2AD3E /* fuel_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD113B9737A00A2AD3E /* fuel_tab.png */; };
-		165ACFDA13B9737A00A2AD3E /* fuel_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD213B9737A00A2AD3E /* fuel_tab@2x.png */; };
 		165ACFDB13B9737A00A2AD3E /* mpg_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD313B9737A00A2AD3E /* mpg_tab.png */; };
 		165ACFDC13B9737A00A2AD3E /* mpg_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD413B9737A00A2AD3E /* mpg_tab@2x.png */; };
 		165ACFDF13B9737A00A2AD3E /* settings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD713B9737A00A2AD3E /* settings_tab.png */; };
@@ -78,16 +72,12 @@
 		1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */; };
 		16807DFC13F1EFCE00D1F51D /* piggy_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF613F1EFCE00D1F51D /* piggy_tab.png */; };
 		16807DFD13F1EFCE00D1F51D /* piggy_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */; };
-		16807E0F13F1F59100D1F51D /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E0D13F1F59100D1F51D /* Icon.png */; };
-		16807E1013F1F59100D1F51D /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E0E13F1F59100D1F51D /* Icon@2x.png */; };
 		16807E1713F1F68900D1F51D /* tags.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1313F1F68900D1F51D /* tags.png */; };
 		16807E1813F1F68900D1F51D /* tags@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1413F1F68900D1F51D /* tags@2x.png */; };
 		16807E1B13F1F9A200D1F51D /* navigation.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1913F1F9A200D1F51D /* navigation.png */; };
 		16807E1C13F1F9A200D1F51D /* navigation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1A13F1F9A200D1F51D /* navigation@2x.png */; };
 		16807F5913BE9E430036F89E /* TripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16807F5813BE9E430036F89E /* TripViewController.m */; };
 		16807F5C13BE9E660036F89E /* TripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5B13BE9E660036F89E /* TripViewController.xib */; };
-		16807F6313BEA0AE0036F89E /* compare_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5D13BEA0AE0036F89E /* compare_tab.png */; };
-		16807F6413BEA0AE0036F89E /* compare_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5E13BEA0AE0036F89E /* compare_tab@2x.png */; };
 		16807F6513BEA0AE0036F89E /* saved_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F5F13BEA0AE0036F89E /* saved_tab.png */; };
 		16807F6613BEA0AE0036F89E /* saved_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F6013BEA0AE0036F89E /* saved_tab@2x.png */; };
 		16807F6713BEA0AE0036F89E /* trip_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807F6113BEA0AE0036F89E /* trip_tab.png */; };
@@ -100,7 +90,6 @@
 		16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16A707AE13BA057D00A0E93F /* NameInputViewController.xib */; };
 		16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */; };
 		16A707BD13BA240700A0E93F /* SavingsData.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707BC13BA240700A0E93F /* SavingsData.m */; };
-		16B56D061405903500130191 /* RLBannerViewObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B56D051405903500130191 /* RLBannerViewObject.m */; };
 		16B56D081405906300130191 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16B56D071405906300130191 /* iAd.framework */; };
 		16B5F7E813BB81CE00DEE869 /* DistanceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */; };
 		16B5F7EB13BB81FD00DEE869 /* DistanceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B5F7EA13BB81FD00DEE869 /* DistanceInputViewController.xib */; };
@@ -126,17 +115,13 @@
 /* Begin PBXFileReference section */
 		1602039E13F5E26400749F1C /* DetailSummaryViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailSummaryViewCell.h; sourceTree = "<group>"; };
 		1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailSummaryViewCell.m; sourceTree = "<group>"; };
-		160203A113F5E4E900749F1C /* car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = car.png; sourceTree = "<group>"; };
-		160203A213F5E4E900749F1C /* car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@2x.png"; sourceTree = "<group>"; };
 		160ED0B713CA41E5001021F7 /* FileHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileHelpers.h; sourceTree = "<group>"; };
 		160ED0B813CA41E5001021F7 /* FileHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileHelpers.m; sourceTree = "<group>"; };
-		161100A513EA035D00D2D2FC /* chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chart.png; sourceTree = "<group>"; };
-		161100A613EA035D00D2D2FC /* chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chart@2x.png"; sourceTree = "<group>"; };
-		161100A713EA035D00D2D2FC /* money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = money.png; sourceTree = "<group>"; };
-		161100A813EA035D00D2D2FC /* money@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "money@2x.png"; sourceTree = "<group>"; };
 		16112F931408301F00252EDD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		1618BEEC1406971A008CE88A /* UIViewController+iAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+iAd.h"; sourceTree = "<group>"; };
 		1618BEED1406971A008CE88A /* UIViewController+iAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+iAd.m"; sourceTree = "<group>"; };
+		161EC6381409C859005FE184 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		161EC6391409C859005FE184 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TypeInputViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeInputViewController.xib; sourceTree = "<group>"; };
@@ -158,8 +143,14 @@
 		162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MPGDatabase.xcdatamodel; sourceTree = "<group>"; };
 		1628039A13F0361F00848A31 /* NSDictionary+Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Section.h"; sourceTree = "<group>"; };
 		1628039B13F0361F00848A31 /* NSDictionary+Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Section.m"; sourceTree = "<group>"; };
-		1631568D13F6DD740032210F /* details.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = details.png; sourceTree = "<group>"; };
-		1631568E13F6DD740032210F /* details@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details@2x.png"; sourceTree = "<group>"; };
+		162831A11409A2B000C71D4D /* car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = car.png; sourceTree = "<group>"; };
+		162831A21409A2B000C71D4D /* car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "car@2x.png"; sourceTree = "<group>"; };
+		162831A31409A2B100C71D4D /* chart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chart.png; sourceTree = "<group>"; };
+		162831A41409A2B100C71D4D /* chart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chart@2x.png"; sourceTree = "<group>"; };
+		162831A51409A2B200C71D4D /* details.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = details.png; sourceTree = "<group>"; };
+		162831A61409A2B200C71D4D /* details@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details@2x.png"; sourceTree = "<group>"; };
+		162831A71409A2B300C71D4D /* money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = money.png; sourceTree = "<group>"; };
+		162831A81409A2B400C71D4D /* money@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "money@2x.png"; sourceTree = "<group>"; };
 		1635AFD613D0C549005FC8EB /* CurrentTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentTripViewController.h; sourceTree = "<group>"; };
 		1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentTripViewController.m; sourceTree = "<group>"; };
 		1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentTripViewController.xib; sourceTree = "<group>"; };
@@ -170,23 +161,15 @@
 		1640EC1513BE137F008190C1 /* EfficiencyInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EfficiencyInputViewController.h; sourceTree = "<group>"; };
 		1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EfficiencyInputViewController.m; sourceTree = "<group>"; };
 		1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EfficiencyInputViewController.xib; sourceTree = "<group>"; };
-		1641350313ECA5ED00BFD3DD /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
-		1641350413ECA5ED00BFD3DD /* add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add@2x.png"; sourceTree = "<group>"; };
 		1643A65813E9B8F9005F2F1F /* TotalDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalDetailViewCell.h; sourceTree = "<group>"; };
 		1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalDetailViewCell.m; sourceTree = "<group>"; };
 		1646C6AA13FAF743006571C1 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		1646C6AB13FAF743006571C1 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		164E1E8513FDB05E00095044 /* NSNumber+Units.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Units.h"; sourceTree = "<group>"; };
 		164E1E8613FDB05E00095044 /* NSNumber+Units.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Units.m"; sourceTree = "<group>"; };
-		1654418C13CC88690060D1C3 /* savings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = savings_tab.png; sourceTree = "<group>"; };
-		1654418D13CC88690060D1C3 /* savings_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "savings_tab@2x.png"; sourceTree = "<group>"; };
 		1658291113B9262100BC5219 /* CurrentSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentSavingsViewController.h; sourceTree = "<group>"; };
 		1658291213B9262100BC5219 /* CurrentSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CurrentSavingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentSavingsViewController.xib; sourceTree = "<group>"; };
-		165ACFB213B937D200A2AD3E /* topbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topbar.png; sourceTree = "<group>"; };
-		165ACFB313B937D200A2AD3E /* topbar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "topbar@2x.png"; sourceTree = "<group>"; };
-		165ACFD113B9737A00A2AD3E /* fuel_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fuel_tab.png; sourceTree = "<group>"; };
-		165ACFD213B9737A00A2AD3E /* fuel_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fuel_tab@2x.png"; sourceTree = "<group>"; };
 		165ACFD313B9737A00A2AD3E /* mpg_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mpg_tab.png; sourceTree = "<group>"; };
 		165ACFD413B9737A00A2AD3E /* mpg_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mpg_tab@2x.png"; sourceTree = "<group>"; };
 		165ACFD713B9737A00A2AD3E /* settings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_tab.png; sourceTree = "<group>"; };
@@ -223,8 +206,6 @@
 		1677C05913C64A9F0013CDD3 /* FuelSavingsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsHelpers.h; sourceTree = "<group>"; };
 		16807DF613F1EFCE00D1F51D /* piggy_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggy_tab.png; sourceTree = "<group>"; };
 		16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piggy_tab@2x.png"; sourceTree = "<group>"; };
-		16807E0D13F1F59100D1F51D /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		16807E0E13F1F59100D1F51D /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		16807E1313F1F68900D1F51D /* tags.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tags.png; sourceTree = "<group>"; };
 		16807E1413F1F68900D1F51D /* tags@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tags@2x.png"; sourceTree = "<group>"; };
 		16807E1913F1F9A200D1F51D /* navigation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigation.png; sourceTree = "<group>"; };
@@ -232,8 +213,6 @@
 		16807F5713BE9E430036F89E /* TripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripViewController.h; sourceTree = "<group>"; };
 		16807F5813BE9E430036F89E /* TripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripViewController.m; sourceTree = "<group>"; };
 		16807F5B13BE9E660036F89E /* TripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TripViewController.xib; sourceTree = "<group>"; };
-		16807F5D13BEA0AE0036F89E /* compare_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compare_tab.png; sourceTree = "<group>"; };
-		16807F5E13BEA0AE0036F89E /* compare_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compare_tab@2x.png"; sourceTree = "<group>"; };
 		16807F5F13BEA0AE0036F89E /* saved_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = saved_tab.png; sourceTree = "<group>"; };
 		16807F6013BEA0AE0036F89E /* saved_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saved_tab@2x.png"; sourceTree = "<group>"; };
 		16807F6113BEA0AE0036F89E /* trip_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = trip_tab.png; sourceTree = "<group>"; };
@@ -251,8 +230,6 @@
 		16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Vehicle.m"; sourceTree = "<group>"; };
 		16A707BB13BA240700A0E93F /* SavingsData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavingsData.h; sourceTree = "<group>"; };
 		16A707BC13BA240700A0E93F /* SavingsData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavingsData.m; sourceTree = "<group>"; };
-		16B56D041405903500130191 /* RLBannerViewObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLBannerViewObject.h; sourceTree = "<group>"; };
-		16B56D051405903500130191 /* RLBannerViewObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLBannerViewObject.m; sourceTree = "<group>"; };
 		16B56D071405906300130191 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		16B5F7E613BB81CE00DEE869 /* DistanceInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DistanceInputViewController.h; sourceTree = "<group>"; };
 		16B5F7E713BB81CE00DEE869 /* DistanceInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DistanceInputViewController.m; sourceTree = "<group>"; };
@@ -359,38 +336,28 @@
 		165ACFB113B937A500A2AD3E /* images */ = {
 			isa = PBXGroup;
 			children = (
-				1631568D13F6DD740032210F /* details.png */,
-				1631568E13F6DD740032210F /* details@2x.png */,
-				160203A113F5E4E900749F1C /* car.png */,
-				160203A213F5E4E900749F1C /* car@2x.png */,
+				162831A11409A2B000C71D4D /* car.png */,
+				162831A21409A2B000C71D4D /* car@2x.png */,
+				162831A31409A2B100C71D4D /* chart.png */,
+				162831A41409A2B100C71D4D /* chart@2x.png */,
+				162831A51409A2B200C71D4D /* details.png */,
+				162831A61409A2B200C71D4D /* details@2x.png */,
+				162831A71409A2B300C71D4D /* money.png */,
+				162831A81409A2B400C71D4D /* money@2x.png */,
 				16807E1913F1F9A200D1F51D /* navigation.png */,
 				16807E1A13F1F9A200D1F51D /* navigation@2x.png */,
 				16807E1313F1F68900D1F51D /* tags.png */,
 				16807E1413F1F68900D1F51D /* tags@2x.png */,
 				16807DF613F1EFCE00D1F51D /* piggy_tab.png */,
 				16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */,
-				1641350313ECA5ED00BFD3DD /* add.png */,
-				1641350413ECA5ED00BFD3DD /* add@2x.png */,
-				161100A513EA035D00D2D2FC /* chart.png */,
-				161100A613EA035D00D2D2FC /* chart@2x.png */,
-				161100A713EA035D00D2D2FC /* money.png */,
-				161100A813EA035D00D2D2FC /* money@2x.png */,
-				1654418C13CC88690060D1C3 /* savings_tab.png */,
-				1654418D13CC88690060D1C3 /* savings_tab@2x.png */,
-				16807F5D13BEA0AE0036F89E /* compare_tab.png */,
-				16807F5E13BEA0AE0036F89E /* compare_tab@2x.png */,
 				16807F5F13BEA0AE0036F89E /* saved_tab.png */,
 				16807F6013BEA0AE0036F89E /* saved_tab@2x.png */,
 				16807F6113BEA0AE0036F89E /* trip_tab.png */,
 				16807F6213BEA0AE0036F89E /* trip_tab@2x.png */,
-				165ACFD113B9737A00A2AD3E /* fuel_tab.png */,
-				165ACFD213B9737A00A2AD3E /* fuel_tab@2x.png */,
 				165ACFD313B9737A00A2AD3E /* mpg_tab.png */,
 				165ACFD413B9737A00A2AD3E /* mpg_tab@2x.png */,
 				165ACFD713B9737A00A2AD3E /* settings_tab.png */,
 				165ACFD813B9737A00A2AD3E /* settings_tab@2x.png */,
-				165ACFB213B937D200A2AD3E /* topbar.png */,
-				165ACFB313B937D200A2AD3E /* topbar@2x.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -444,8 +411,8 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				16807E0D13F1F59100D1F51D /* Icon.png */,
-				16807E0E13F1F59100D1F51D /* Icon@2x.png */,
+				161EC6381409C859005FE184 /* Icon.png */,
+				161EC6391409C859005FE184 /* Icon@2x.png */,
 				1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */,
 				162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */,
 				165ACFB113B937A500A2AD3E /* images */,
@@ -538,8 +505,6 @@
 				1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */,
 				1646C6AA13FAF743006571C1 /* Settings.h */,
 				1646C6AB13FAF743006571C1 /* Settings.m */,
-				16B56D041405903500130191 /* RLBannerViewObject.h */,
-				16B56D051405903500130191 /* RLBannerViewObject.m */,
 			);
 			name = "Model+Data";
 			sourceTree = "<group>";
@@ -622,10 +587,6 @@
 				1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */,
 				1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */,
 				1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */,
-				165ACFB413B937D200A2AD3E /* topbar.png in Resources */,
-				165ACFB513B937D200A2AD3E /* topbar@2x.png in Resources */,
-				165ACFD913B9737A00A2AD3E /* fuel_tab.png in Resources */,
-				165ACFDA13B9737A00A2AD3E /* fuel_tab@2x.png in Resources */,
 				165ACFDB13B9737A00A2AD3E /* mpg_tab.png in Resources */,
 				165ACFDC13B9737A00A2AD3E /* mpg_tab@2x.png in Resources */,
 				165ACFDF13B9737A00A2AD3E /* settings_tab.png in Resources */,
@@ -637,36 +598,20 @@
 				16B5F7F013BB9D8100DEE869 /* OwnerInputViewController.xib in Resources */,
 				1640EC1A13BE13A7008190C1 /* EfficiencyInputViewController.xib in Resources */,
 				16807F5C13BE9E660036F89E /* TripViewController.xib in Resources */,
-				16807F6313BEA0AE0036F89E /* compare_tab.png in Resources */,
-				16807F6413BEA0AE0036F89E /* compare_tab@2x.png in Resources */,
 				16807F6513BEA0AE0036F89E /* saved_tab.png in Resources */,
 				16807F6613BEA0AE0036F89E /* saved_tab@2x.png in Resources */,
 				16807F6713BEA0AE0036F89E /* trip_tab.png in Resources */,
 				16807F6813BEA0AE0036F89E /* trip_tab@2x.png in Resources */,
-				1654418E13CC88690060D1C3 /* savings_tab.png in Resources */,
-				1654418F13CC88690060D1C3 /* savings_tab@2x.png in Resources */,
 				1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */,
 				1620146D13E32D4B00EDFF2B /* MPGDatabase.sqlite in Resources */,
 				1620147913E32EE700EDFF2B /* VehicleDetailsViewController.xib in Resources */,
 				1620147A13E32EE700EDFF2B /* VehicleSelectViewController.xib in Resources */,
-				161100A913EA035D00D2D2FC /* chart.png in Resources */,
-				161100AA13EA035D00D2D2FC /* chart@2x.png in Resources */,
-				161100AB13EA035D00D2D2FC /* money.png in Resources */,
-				161100AC13EA035D00D2D2FC /* money@2x.png in Resources */,
-				1641350513ECA5ED00BFD3DD /* add.png in Resources */,
-				1641350613ECA5ED00BFD3DD /* add@2x.png in Resources */,
 				16807DFC13F1EFCE00D1F51D /* piggy_tab.png in Resources */,
 				16807DFD13F1EFCE00D1F51D /* piggy_tab@2x.png in Resources */,
-				16807E0F13F1F59100D1F51D /* Icon.png in Resources */,
-				16807E1013F1F59100D1F51D /* Icon@2x.png in Resources */,
 				16807E1713F1F68900D1F51D /* tags.png in Resources */,
 				16807E1813F1F68900D1F51D /* tags@2x.png in Resources */,
 				16807E1B13F1F9A200D1F51D /* navigation.png in Resources */,
 				16807E1C13F1F9A200D1F51D /* navigation@2x.png in Resources */,
-				160203A513F5E4E900749F1C /* car.png in Resources */,
-				160203A613F5E4E900749F1C /* car@2x.png in Resources */,
-				1631568F13F6DD740032210F /* details.png in Resources */,
-				1631569013F6DD740032210F /* details@2x.png in Resources */,
 				16C27BBA13FC4F110084C2F5 /* AboutViewController.xib in Resources */,
 				16C27BC013FC4F320084C2F5 /* UnitsViewController.xib in Resources */,
 				16C27BC513FC58290084C2F5 /* DistanceUnits.plist in Resources */,
@@ -675,6 +620,16 @@
 				168A425B13FD3E6D0044E421 /* CurrencySymbols.plist in Resources */,
 				168A426B13FD8DB70044E421 /* CountriesViewController.xib in Resources */,
 				16D73AD713FE967000F01035 /* CountriesAvailable.plist in Resources */,
+				162831A91409A2B500C71D4D /* car.png in Resources */,
+				162831AA1409A2B500C71D4D /* car@2x.png in Resources */,
+				162831AB1409A2B500C71D4D /* chart.png in Resources */,
+				162831AC1409A2B500C71D4D /* chart@2x.png in Resources */,
+				162831AD1409A2B500C71D4D /* details.png in Resources */,
+				162831AE1409A2B500C71D4D /* details@2x.png in Resources */,
+				162831AF1409A2B500C71D4D /* money.png in Resources */,
+				162831B01409A2B500C71D4D /* money@2x.png in Resources */,
+				161EC63A1409C859005FE184 /* Icon.png in Resources */,
+				161EC63B1409C859005FE184 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,7 +681,6 @@
 				164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */,
 				16F0C2C81404753500E3E108 /* RLCustomButton.m in Sources */,
 				16F0C2CC1404769400E3E108 /* RLCustomButton+Default.m in Sources */,
-				16B56D061405903500130191 /* RLBannerViewObject.m in Sources */,
 				1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
