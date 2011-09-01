@@ -11,19 +11,19 @@
 		160ED0B913CA41E5001021F7 /* FileHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 160ED0B813CA41E5001021F7 /* FileHelpers.m */; };
 		16112F941408301F00252EDD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16112F931408301F00252EDD /* MessageUI.framework */; };
 		1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1618BEED1406971A008CE88A /* UIViewController+iAd.m */; };
+		161D0778140FF5CE00689107 /* MPGDatabaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 161D0777140FF5CE00689107 /* MPGDatabaseInfo.m */; };
+		161D077A140FF5E600689107 /* MPGDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 161D0779140FF5E600689107 /* MPGDatabase.sqlite */; };
+		161D077D140FF6DA00689107 /* MPGDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 161D077B140FF6DA00689107 /* MPGDatabase.xcdatamodeld */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
 		161F956C13BA474C00DE5E5C /* PriceInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956B13BA474B00DE5E5C /* PriceInputViewController.m */; };
 		161F956E13BA479300DE5E5C /* PriceInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956D13BA479300DE5E5C /* PriceInputViewController.xib */; };
-		1620146D13E32D4B00EDFF2B /* MPGDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */; };
 		1620147013E32DDA00EDFF2B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1620146F13E32DDA00EDFF2B /* CoreData.framework */; };
 		1620147513E32ECD00EDFF2B /* VehicleDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1620147213E32ECD00EDFF2B /* VehicleDetailsViewController.m */; };
 		1620147613E32ECD00EDFF2B /* VehicleSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1620147413E32ECD00EDFF2B /* VehicleSelectViewController.m */; };
 		1620147913E32EE700EDFF2B /* VehicleDetailsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1620147713E32EE700EDFF2B /* VehicleDetailsViewController.xib */; };
 		1620147A13E32EE700EDFF2B /* VehicleSelectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1620147813E32EE700EDFF2B /* VehicleSelectViewController.xib */; };
-		162535CF13E32B4000162B7A /* MPGDatabaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 162535CC13E32B4000162B7A /* MPGDatabaseInfo.m */; };
 		162535D013E32B4000162B7A /* RLCoreDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 162535CE13E32B4000162B7A /* RLCoreDataObject.m */; };
-		162535D413E32B9200162B7A /* MPGDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */; };
 		1628039C13F0361F00848A31 /* NSDictionary+Section.m in Sources */ = {isa = PBXBuildFile; fileRef = 1628039B13F0361F00848A31 /* NSDictionary+Section.m */; };
 		162831A91409A2B500C71D4D /* car.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A11409A2B000C71D4D /* car.png */; };
 		162831AA1409A2B500C71D4D /* car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A21409A2B000C71D4D /* car@2x.png */; };
@@ -120,13 +120,16 @@
 		16112F931408301F00252EDD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		1618BEEC1406971A008CE88A /* UIViewController+iAd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+iAd.h"; sourceTree = "<group>"; };
 		1618BEED1406971A008CE88A /* UIViewController+iAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+iAd.m"; sourceTree = "<group>"; };
+		161D0776140FF5CE00689107 /* MPGDatabaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGDatabaseInfo.h; sourceTree = "<group>"; };
+		161D0777140FF5CE00689107 /* MPGDatabaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGDatabaseInfo.m; sourceTree = "<group>"; };
+		161D0779140FF5E600689107 /* MPGDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = MPGDatabase.sqlite; sourceTree = "<group>"; };
+		161D077C140FF6DA00689107 /* MPGDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MPGDatabase.xcdatamodel; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TypeInputViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TypeInputViewController.xib; sourceTree = "<group>"; };
 		161F956A13BA474B00DE5E5C /* PriceInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PriceInputViewController.h; sourceTree = "<group>"; };
 		161F956B13BA474B00DE5E5C /* PriceInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PriceInputViewController.m; sourceTree = "<group>"; };
 		161F956D13BA479300DE5E5C /* PriceInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PriceInputViewController.xib; sourceTree = "<group>"; };
-		1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = MPGDatabase.sqlite; sourceTree = "<group>"; };
 		1620146F13E32DDA00EDFF2B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1620147113E32ECD00EDFF2B /* VehicleDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VehicleDetailsViewController.h; sourceTree = "<group>"; };
 		1620147213E32ECD00EDFF2B /* VehicleDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VehicleDetailsViewController.m; sourceTree = "<group>"; };
@@ -134,11 +137,8 @@
 		1620147413E32ECD00EDFF2B /* VehicleSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VehicleSelectViewController.m; sourceTree = "<group>"; };
 		1620147713E32EE700EDFF2B /* VehicleDetailsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VehicleDetailsViewController.xib; sourceTree = "<group>"; };
 		1620147813E32EE700EDFF2B /* VehicleSelectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VehicleSelectViewController.xib; sourceTree = "<group>"; };
-		162535CB13E32B4000162B7A /* MPGDatabaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGDatabaseInfo.h; sourceTree = "<group>"; };
-		162535CC13E32B4000162B7A /* MPGDatabaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGDatabaseInfo.m; sourceTree = "<group>"; };
 		162535CD13E32B4000162B7A /* RLCoreDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLCoreDataObject.h; sourceTree = "<group>"; };
 		162535CE13E32B4000162B7A /* RLCoreDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLCoreDataObject.m; sourceTree = "<group>"; };
-		162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MPGDatabase.xcdatamodel; sourceTree = "<group>"; };
 		1628039A13F0361F00848A31 /* NSDictionary+Section.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Section.h"; sourceTree = "<group>"; };
 		1628039B13F0361F00848A31 /* NSDictionary+Section.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Section.m"; sourceTree = "<group>"; };
 		162831A11409A2B000C71D4D /* car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = car.png; sourceTree = "<group>"; };
@@ -411,10 +411,10 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				161D077B140FF6DA00689107 /* MPGDatabase.xcdatamodeld */,
+				161D0779140FF5E600689107 /* MPGDatabase.sqlite */,
 				16CF0379140AB0F00035BFB8 /* Icon.png */,
 				16CF037A140AB0F00035BFB8 /* Icon@2x.png */,
-				1620146C13E32D4B00EDFF2B /* MPGDatabase.sqlite */,
-				162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */,
 				165ACFB113B937A500A2AD3E /* images */,
 				1666FD0913B8FAC500FC97F1 /* Icon-72.png */,
 				1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */,
@@ -491,8 +491,8 @@
 		1666FD1913B8FAF700FC97F1 /* Model+Data */ = {
 			isa = PBXGroup;
 			children = (
-				162535CB13E32B4000162B7A /* MPGDatabaseInfo.h */,
-				162535CC13E32B4000162B7A /* MPGDatabaseInfo.m */,
+				161D0776140FF5CE00689107 /* MPGDatabaseInfo.h */,
+				161D0777140FF5CE00689107 /* MPGDatabaseInfo.m */,
 				162535CD13E32B4000162B7A /* RLCoreDataObject.h */,
 				162535CE13E32B4000162B7A /* RLCoreDataObject.m */,
 				1666FD1B13B8FB4D00FC97F1 /* Savings.h */,
@@ -603,7 +603,6 @@
 				16807F6713BEA0AE0036F89E /* trip_tab.png in Resources */,
 				16807F6813BEA0AE0036F89E /* trip_tab@2x.png in Resources */,
 				1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */,
-				1620146D13E32D4B00EDFF2B /* MPGDatabase.sqlite in Resources */,
 				1620147913E32EE700EDFF2B /* VehicleDetailsViewController.xib in Resources */,
 				1620147A13E32EE700EDFF2B /* VehicleSelectViewController.xib in Resources */,
 				16807DFC13F1EFCE00D1F51D /* piggy_tab.png in Resources */,
@@ -630,6 +629,7 @@
 				162831B01409A2B500C71D4D /* money@2x.png in Resources */,
 				16CF037B140AB0F00035BFB8 /* Icon.png in Resources */,
 				16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */,
+				161D077A140FF5E600689107 /* MPGDatabase.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -661,9 +661,7 @@
 				16CBB87813D0805F00E8BD05 /* Trip.m in Sources */,
 				16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */,
 				1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */,
-				162535CF13E32B4000162B7A /* MPGDatabaseInfo.m in Sources */,
 				162535D013E32B4000162B7A /* RLCoreDataObject.m in Sources */,
-				162535D413E32B9200162B7A /* MPGDatabase.xcdatamodeld in Sources */,
 				1620147513E32ECD00EDFF2B /* VehicleDetailsViewController.m in Sources */,
 				1620147613E32ECD00EDFF2B /* VehicleSelectViewController.m in Sources */,
 				16D590A413E822B80095EAC3 /* TotalViewCell.m in Sources */,
@@ -682,6 +680,8 @@
 				16F0C2C81404753500E3E108 /* RLCustomButton.m in Sources */,
 				16F0C2CC1404769400E3E108 /* RLCustomButton+Default.m in Sources */,
 				1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */,
+				161D0778140FF5CE00689107 /* MPGDatabaseInfo.m in Sources */,
+				161D077D140FF6DA00689107 /* MPGDatabase.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,12 +799,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		162535D213E32B9200162B7A /* MPGDatabase.xcdatamodeld */ = {
+		161D077B140FF6DA00689107 /* MPGDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */,
+				161D077C140FF6DA00689107 /* MPGDatabase.xcdatamodel */,
 			);
-			currentVersion = 162535D313E32B9200162B7A /* MPGDatabase.xcdatamodel */;
+			currentVersion = 161D077C140FF6DA00689107 /* MPGDatabase.xcdatamodel */;
 			path = MPGDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

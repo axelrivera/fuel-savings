@@ -14,18 +14,36 @@
 @interface VehicleSelectViewController (Private)
 
 - (void)setupDataSourceAndFetchRequest;
++ (NSDictionary *)fuelDescription;
 
 @end
 
 @implementation VehicleSelectViewController
 
-@synthesize selectionType = _selectionType;
-@synthesize year = _year;
-@synthesize make = _make;
-@synthesize mpgDatabaseInfo = _mpgDatabaseInfo;
+static NSDictionary *fuelDescription;
+
+@synthesize selectionType = selectionType_;
+@synthesize year = year_;
+@synthesize make = make_;
+@synthesize mpgDatabaseInfo = mpgDatabaseInfo_;
 @synthesize context = _context;
-@synthesize currentSavingsViewController = _currentSavingsViewController;
-@synthesize currentTripViewController = _currentTripViewController;
+@synthesize currentSavingsViewController = currentSavingsViewController_;
+@synthesize currentTripViewController = currentTripViewController_;
+
++ (NSDictionary *)fuelDescription
+{
+	if (fuelDescription == nil) {
+		fuelDescription = [[NSDictionary alloc] initWithObjectsAndKeys:
+											 @"Electric", @"Electricity",
+											 @"Natural Gas", @"Compressed Natural Gas",
+											 @"Diesel", @"Diesel",
+											 @"Ethanol", @"Ethanol",
+											 @"Regular", @"Regular Gasoline",
+											 @"Mid Grade", @"Gasoline Mid Grade",
+											 @"Premium", @"Premium Gasoline", nil];
+	}
+	return fuelDescription;
+}
 
 - (id)init
 {
@@ -92,6 +110,10 @@
 																																									action:@selector(cancelAction)];
 		self.navigationItem.rightBarButtonItem = cancelButton;
 		[cancelButton release];
+		
+		if (selectionType_ == VehicleSelectionTypeModel) {
+			self.tableView.rowHeight = 48.0;
+		}
 	}
 	
 	[self setupDataSourceAndFetchRequest];
@@ -194,9 +216,11 @@
 	}
 	
 	NSDictionary *info = [self.mpgDatabaseInfo objectAtIndex:indexPath.row];
-	
+
 	NSString *labelStr = nil;
 	NSString *detailStr = nil;
+	
+	UIFont *textLabelFont = [UIFont boldSystemFontOfSize:[UIFont labelFontSize]];
 	
 	if (self.selectionType == VehicleSelectionTypeYear) {
 		labelStr = [[info objectForKey:@"year"] stringValue];
@@ -204,12 +228,34 @@
 		labelStr = [info objectForKey:@"make"];
 	} else {
 		labelStr = [info objectForKey:@"model"];
-		detailStr = [NSString stringWithFormat:@"%@ Cyl, %@ L, %@",
-								 [info objectForKey:@"cylinders"],
-								 [info objectForKey:@"engine"],
-								 [info objectForKey:@"transmission"]];
+		
+		NSString *cylindersLabel = @"N/A Cyl";
+		if (![[info objectForKey:@"cylinders"] isEqualToString:@""]) {
+			cylindersLabel = [NSString stringWithFormat:@"%@ Cyl", [info objectForKey:@"cylinders"]];
+		}
+		
+		NSString *engineLabel = @", N/A L";
+		if (![[info objectForKey:@"engine"] isEqualToString:@""]) {
+			engineLabel = [NSString stringWithFormat:@", %@ L", [info objectForKey:@"engine"]];
+		}
+		
+		NSString *transmissionLabel = @"";
+		if (![[info objectForKey:@"transmission"] isEqualToString:@""]) {
+			transmissionLabel = [NSString stringWithFormat:@", %@", [info objectForKey:@"transmission"]];
+		}
+		
+		NSString *description = [[[self class] fuelDescription] objectForKey:[info objectForKey:@"fuel"]];
+		NSString *gasolineLabel = @"";
+		if (description != nil) {
+			gasolineLabel = [NSString stringWithFormat:@", %@", description];
+		}
+		
+		detailStr = [NSString stringWithFormat:@"%@%@%@%@", cylindersLabel, engineLabel, transmissionLabel, gasolineLabel];
+		
+		textLabelFont = [UIFont systemFontOfSize:16.0];
 	}
 	
+	cell.textLabel.font = textLabelFont;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.textLabel.text = labelStr;
 	

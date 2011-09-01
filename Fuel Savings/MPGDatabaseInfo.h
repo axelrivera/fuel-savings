@@ -16,6 +16,7 @@
 @property (nonatomic, retain) NSString *make;
 @property (nonatomic, retain) NSString *model;
 @property (nonatomic, retain) NSString *engine;
+@property (nonatomic, retain) NSString *fuel;
 @property (nonatomic, retain) NSString *cylinders;
 @property (nonatomic, retain) NSString *transmission;
 @property (nonatomic, retain) NSNumber *turbocharger;

@@ -15,6 +15,7 @@
 @dynamic make;
 @dynamic model;
 @dynamic engine;
+@dynamic fuel;
 @dynamic cylinders;
 @dynamic transmission;
 @dynamic turbocharger;
