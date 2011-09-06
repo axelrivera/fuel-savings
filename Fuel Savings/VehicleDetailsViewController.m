@@ -55,8 +55,8 @@
 	
 	if (self.tabBarController == nil) {
 		UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-																																								target:self
-																																								action:@selector(saveAction)];
+																					target:self
+																					action:@selector(saveAction)];
 		self.navigationItem.rightBarButtonItem = saveButton;
 		[saveButton release];
 	}
@@ -107,9 +107,9 @@
 	
 	if (indexPath.row == 0) {
 		labelStr = [NSString stringWithFormat:@"%@ %@ %@",
-								[[self.mpgDatabaseInfo objectForKey:@"year"] stringValue],
-								[self.mpgDatabaseInfo objectForKey:@"make"],
-								[self.mpgDatabaseInfo objectForKey:@"model"]];
+					[[self.mpgDatabaseInfo objectForKey:@"year"] stringValue],
+					[self.mpgDatabaseInfo objectForKey:@"make"],
+					[self.mpgDatabaseInfo objectForKey:@"model"]];
 		detailStr = @"";
 	} else if (indexPath.row == 1) {
 		labelStr = @"City MPG";

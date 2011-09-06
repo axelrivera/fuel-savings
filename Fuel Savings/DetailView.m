@@ -21,16 +21,16 @@ NSString * const kDetailViewDetailKey = @"DetailSummaryViewDetailKey";
 + (NSDictionary *)detailDictionaryWithText:(NSString *)text detail:(NSString *)detail
 {
 	NSDictionary *details = [NSDictionary dictionaryWithObjectsAndKeys:
-													 text, kDetailViewTextKey,
-													 detail, kDetailViewDetailKey,
-													 nil];
+							 text, kDetailViewTextKey,
+							 detail, kDetailViewDetailKey,
+							 nil];
 	return details;
 }
 
 - (id)initWithDictionary:(NSDictionary *)dictionary
 {
 	self = [self initWithText:[dictionary objectForKey:kDetailViewTextKey]
-										 detail:[dictionary objectForKey:kDetailViewDetailKey]];
+					   detail:[dictionary objectForKey:kDetailViewDetailKey]];
 	if	(self) {
 		// Initialization Code
 	}
@@ -97,19 +97,19 @@ NSString * const kDetailViewDetailKey = @"DetailSummaryViewDetailKey";
 	}
 	
 	self.frame = CGRectMake(self.frame.origin.x,
-													self.frame.origin.y,
-													self.superview.frame.size.width - (10.0 + 10.0),
-													DETAIL_VIEW_HEIGHT);
+							self.frame.origin.y,
+							self.superview.frame.size.width - (10.0 + 10.0),
+							DETAIL_VIEW_HEIGHT);
 	
 	textLabel_.frame = CGRectMake(PADDING,
-																0.0,
-																textLabelSize.width,
-																DETAIL_VIEW_HEIGHT);
+								  0.0,
+								  textLabelSize.width,
+								  DETAIL_VIEW_HEIGHT);
 	
 	detailTextLabel_.frame = CGRectMake(PADDING + textLabelSize.width + HORIZONTAL_OFFSET,
-																			0.0,
-																			self.frame.size.width - (PADDING + textLabelSize.width + HORIZONTAL_OFFSET + PADDING),
-																			DETAIL_VIEW_HEIGHT);
+										0.0,
+										self.frame.size.width - (PADDING + textLabelSize.width + HORIZONTAL_OFFSET + PADDING),
+										DETAIL_VIEW_HEIGHT);
 }
 
 - (void)setText:(NSString *)text detail:(NSString *)detail

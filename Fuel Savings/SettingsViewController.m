@@ -113,7 +113,7 @@
 	NSString *textLabelStr = nil;
 	
 	if (indexPath.section == 0) {
-		textLabelStr = @"Units";
+		textLabelStr = @"Change Units";
 	} else {
 		textLabelStr = @"About";
 	}

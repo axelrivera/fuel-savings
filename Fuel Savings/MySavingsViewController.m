@@ -134,11 +134,11 @@
 	// open a dialog with two custom buttons	
 	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-																initWithTitle:nil
-																delegate:self
-																cancelButtonTitle:@"Cancel"
-																destructiveButtonTitle:@"Delete All"
-																otherButtonTitles:nil];
+								  initWithTitle:nil
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:@"Delete All"
+								  otherButtonTitles:nil];
 	
 	[actionSheet showFromTabBar:self.tabBarController.tabBar];
 	[actionSheet release];	
@@ -358,9 +358,9 @@
 		RLCustomButton *button = [[RLCustomButton deleteAllButton] retain];
 		[button addTarget:self action:@selector(deleteAllOptionsAction:) forControlEvents:UIControlEventTouchDown];
 		button.frame = CGRectMake(10.0,
-															10.0,
-															tableView.bounds.size.width - 20.0,
-															44.0);
+								  10.0,
+								  tableView.bounds.size.width - 20.0,
+								  44.0);
 		
 		[sectionView addSubview:button];
 		[button release];

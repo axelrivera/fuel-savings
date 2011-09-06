@@ -42,8 +42,9 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	self.title = @"Units";
+	self.title = @"Change Units";
 	self.tableData = [Settings orderedCountries];
+	self.tableView.rowHeight = 48.0;
 }
 
 - (void)viewDidUnload
@@ -73,71 +74,41 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 2;
+	return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSInteger rows = 3;
-	if (section == 0) {
-		rows = [self.tableData count];
-	}
-	return rows;
+	return [self.tableData count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	if (indexPath.section == 0) {
-		static NSString *SelectCellIdentifier = @"SelectCell";
-		
-		UITableViewCell *selectCell = [tableView dequeueReusableCellWithIdentifier:SelectCellIdentifier];
-		if (selectCell == nil) {
-			selectCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SelectCellIdentifier] autorelease];
-		}
-		
-		NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:indexPath.row]];
-		NSString *textLabelStr = [dictionary objectForKey:kSettingsUnitNameKey];
-		
-		selectCell.textLabel.text = textLabelStr;
-		
-		selectCell.accessoryType = UITableViewCellAccessoryNone;
-		if (indexPath.row == self.currentCountry) {
-			selectCell.accessoryType = UITableViewCellAccessoryCheckmark;
-		}
-		
-		selectCell.selectionStyle = UITableViewCellSelectionStyleBlue;
-		
-		return selectCell;
-	}
-	
 	static NSString *CellIdentifier = @"Cell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 	}
 	
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
-	cell.accessoryType = UITableViewCellAccessoryNone;
+	NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:indexPath.row]];
 	
-	NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:self.currentCountry]];
+	NSString *textLabelStr = [dictionary objectForKey:kSettingsUnitNameKey];
 	
-	NSString *textLabelStr = nil;
-	NSString *detailLabelStr = nil;
-	
-	if (indexPath.row == 0) {
-		textLabelStr = @"Distance Units";
-		detailLabelStr = [dictionary objectForKey:kCountriesDistanceUnitKey];
-	} else if (indexPath.row == 1) {
-		textLabelStr = @"Volume Units";
-		detailLabelStr = [dictionary objectForKey:kCountriesVolumeUnitKey];
-	} else {
-		textLabelStr = @"Fuel Efficiency Units";
-		detailLabelStr = [dictionary objectForKey:kCountriesEfficiencyUnitKey];
-	}
+	NSString *detailLabelStr = [NSString stringWithFormat:@"%@, %@, %@",
+								[dictionary objectForKey:kCountriesDistanceUnitKey],
+								[dictionary objectForKey:kCountriesVolumeUnitKey],
+								[dictionary objectForKey:kCountriesEfficiencyUnitKey]];
 	
 	cell.textLabel.text = textLabelStr;
 	cell.detailTextLabel.text = detailLabelStr;
+	
+	cell.accessoryType = UITableViewCellAccessoryNone;
+	if (indexPath.row == self.currentCountry) {
+		cell.accessoryType = UITableViewCellAccessoryCheckmark;
+	}
+	
+	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	
 	return cell;
 }
@@ -149,7 +120,7 @@
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	NSInteger localIndex = self.currentCountry;
-	if (indexPath.section == 1 || localIndex == indexPath.row) {
+	if (localIndex == indexPath.row) {
 		return;
 	}
 	
@@ -159,7 +130,6 @@
 	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
 		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
 		self.currentCountry = indexPath.row;
-		[tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
 	}
 	
 	UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
@@ -170,21 +140,14 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-	NSString *titleStr = nil;
-	if (section == 0) {
-		titleStr = @"Available Countries";
-	} else {
-		NSDictionary *dictionary = [[Settings countries]  objectForKey:[self.tableData objectAtIndex:self.currentCountry]];
-		titleStr = [dictionary objectForKey:kSettingsUnitNameKey];
-	}
-	return titleStr;
+	return @"Available Countries";
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
 {
 	NSString *titleStr = nil;
 	if (section == 0) {
-		titleStr = @"Changes will only affect new calculations.";
+		titleStr = @"Available units are Distance, Volume and Fuel Efficiency. Changes will only affect new calculations.";
 	}
 	return titleStr;
 }

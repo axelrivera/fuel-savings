@@ -20,5 +20,4 @@
 	[self insertObject:vehicle atIndex:index];
 }
 
-
 @end

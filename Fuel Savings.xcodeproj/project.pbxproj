@@ -12,7 +12,6 @@
 		16112F941408301F00252EDD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16112F931408301F00252EDD /* MessageUI.framework */; };
 		1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1618BEED1406971A008CE88A /* UIViewController+iAd.m */; };
 		161D0778140FF5CE00689107 /* MPGDatabaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 161D0777140FF5CE00689107 /* MPGDatabaseInfo.m */; };
-		161D077A140FF5E600689107 /* MPGDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 161D0779140FF5E600689107 /* MPGDatabase.sqlite */; };
 		161D077D140FF6DA00689107 /* MPGDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 161D077B140FF6DA00689107 /* MPGDatabase.xcdatamodeld */; };
 		161F956713BA3BCF00DE5E5C /* TypeInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */; };
 		161F956913BA3C0400DE5E5C /* TypeInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 161F956813BA3C0400DE5E5C /* TypeInputViewController.xib */; };
@@ -84,6 +83,7 @@
 		168A425F13FD607F0044E421 /* NSDictionary+OrderKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 168A425E13FD607F0044E421 /* NSDictionary+OrderKey.m */; };
 		168A426A13FD8DB70044E421 /* CountriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168A426813FD8DB60044E421 /* CountriesViewController.m */; };
 		168A426B13FD8DB70044E421 /* CountriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 168A426913FD8DB70044E421 /* CountriesViewController.xib */; };
+		16A62E1E14152430006CF380 /* MPGDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 16A62E1D14152430006CF380 /* MPGDatabase.sqlite */; };
 		16A707AC13B9FFE600A0E93F /* NameInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707AB13B9FFE600A0E93F /* NameInputViewController.m */; };
 		16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16A707AE13BA057D00A0E93F /* NameInputViewController.xib */; };
 		16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */; };
@@ -122,7 +122,6 @@
 		1618BEED1406971A008CE88A /* UIViewController+iAd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+iAd.m"; sourceTree = "<group>"; };
 		161D0776140FF5CE00689107 /* MPGDatabaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPGDatabaseInfo.h; sourceTree = "<group>"; };
 		161D0777140FF5CE00689107 /* MPGDatabaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPGDatabaseInfo.m; sourceTree = "<group>"; };
-		161D0779140FF5E600689107 /* MPGDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = MPGDatabase.sqlite; sourceTree = "<group>"; };
 		161D077C140FF6DA00689107 /* MPGDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MPGDatabase.xcdatamodel; sourceTree = "<group>"; };
 		161F956513BA3BCE00DE5E5C /* TypeInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TypeInputViewController.h; sourceTree = "<group>"; };
 		161F956613BA3BCF00DE5E5C /* TypeInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TypeInputViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -221,6 +220,7 @@
 		168A426713FD8DB60044E421 /* CountriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountriesViewController.h; sourceTree = "<group>"; };
 		168A426813FD8DB60044E421 /* CountriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountriesViewController.m; sourceTree = "<group>"; };
 		168A426913FD8DB70044E421 /* CountriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountriesViewController.xib; sourceTree = "<group>"; };
+		16A62E1D14152430006CF380 /* MPGDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = MPGDatabase.sqlite; sourceTree = "<group>"; };
 		16A707AA13B9FFE600A0E93F /* NameInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NameInputViewController.h; sourceTree = "<group>"; };
 		16A707AB13B9FFE600A0E93F /* NameInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NameInputViewController.m; sourceTree = "<group>"; };
 		16A707AE13BA057D00A0E93F /* NameInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NameInputViewController.xib; sourceTree = "<group>"; };
@@ -411,8 +411,8 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				16A62E1D14152430006CF380 /* MPGDatabase.sqlite */,
 				161D077B140FF6DA00689107 /* MPGDatabase.xcdatamodeld */,
-				161D0779140FF5E600689107 /* MPGDatabase.sqlite */,
 				16CF0379140AB0F00035BFB8 /* Icon.png */,
 				16CF037A140AB0F00035BFB8 /* Icon@2x.png */,
 				165ACFB113B937A500A2AD3E /* images */,
@@ -629,7 +629,7 @@
 				162831B01409A2B500C71D4D /* money@2x.png in Resources */,
 				16CF037B140AB0F00035BFB8 /* Icon.png in Resources */,
 				16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */,
-				161D077A140FF5E600689107 /* MPGDatabase.sqlite in Resources */,
+				16A62E1E14152430006CF380 /* MPGDatabase.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

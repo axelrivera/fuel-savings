@@ -179,10 +179,10 @@
 - (NSString *)description
 {
 	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, Price: %@, Distance: %@, Vehicle: (%@)",
-															self.name,
-															[self.fuelPrice stringValue],
-															[self.distance stringValue],
-															[self.vehicle description]];
+								self.name,
+								[self.fuelPrice stringValue],
+								[self.distance stringValue],
+								[self.vehicle description]];
 	return descriptionStr;
 }
 

@@ -245,13 +245,13 @@ static NSNumberFormatter *currencyFormatter_;
 	} else if (result == NSOrderedDescending) {
 		NSNumber *savings = [NSNumber numberWithFloat:[vehicle1AnnualCost floatValue] - [vehicle2AnnualCost floatValue]];
 		compareStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-									self.vehicle2.name,
-									[[Savings currencyFormatter] stringFromNumber:savings]];
+					  self.vehicle2.name,
+					  [[Savings currencyFormatter] stringFromNumber:savings]];
 	} else {
 		NSNumber *savings = [NSNumber numberWithFloat:[vehicle2AnnualCost floatValue] - [vehicle1AnnualCost floatValue]];
 		compareStr = [NSString stringWithFormat:@"%@ saves you %@ each year.",
-									self.vehicle1.name,
-									[[Savings currencyFormatter] stringFromNumber:savings]];
+					  self.vehicle1.name,
+					  [[Savings currencyFormatter] stringFromNumber:savings]];
 	}
 	return compareStr;
 }
@@ -271,15 +271,15 @@ static NSNumberFormatter *currencyFormatter_;
 	} else if (result == NSOrderedDescending) {
 		NSNumber *savings = [NSNumber numberWithFloat:[vehicle1TotalCost floatValue] - [vehicle2TotalCost floatValue]];
 		compareStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-									self.vehicle2.name,
-									[[Savings currencyFormatter] stringFromNumber:savings],
-									years];
+					  self.vehicle2.name,
+					  [[Savings currencyFormatter] stringFromNumber:savings],
+					  years];
 	} else {
 		NSNumber *savings = [NSNumber numberWithFloat:[vehicle2TotalCost floatValue] - [vehicle1TotalCost floatValue]];
 		compareStr = [NSString stringWithFormat:@"%@ saves you %@ over %i years.",
-									self.vehicle1.name,
-									[[Savings currencyFormatter] stringFromNumber:savings],
-									years];
+					  self.vehicle1.name,
+					  [[Savings currencyFormatter] stringFromNumber:savings],
+					  years];
 	}
 	return compareStr;
 }
@@ -332,7 +332,7 @@ static NSNumberFormatter *currencyFormatter_;
 	BOOL vehicle2Value = [self.vehicle2 isVehicleEmpty];
 	
 	if (nameLength == 0 && self.type == EfficiencyTypeNone && fuelValue == 0.0 && cityValue == 0.0 && highwayValue == 0.0 &&
-			distanceValue == 0 && ownershipValue == 0 && vehicle1Value == YES && vehicle2Value == YES)
+		distanceValue == 0 && ownershipValue == 0 && vehicle1Value == YES && vehicle2Value == YES)
 	{
 		return YES;
 	}
@@ -406,16 +406,16 @@ static NSNumberFormatter *currencyFormatter_;
 - (NSString *)description
 {	
 	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, Type: %@, Price: %@, City Ratio: %@, "
-															@"Highway Ratio: %@, Distance: %@, Ownership: %@ Vehicle 1: (%@) Vehicle 2: (%@)",
-															self.name,
-															[self stringForCurrentType],
-															[self.fuelPrice stringValue],
-															[self.cityRatio stringValue],
-															[self.highwayRatio stringValue],
-															[self.distance stringValue],
-															[self.carOwnership stringValue],
-															[self.vehicle1 description],
-															[self.vehicle2 description]];
+								@"Highway Ratio: %@, Distance: %@, Ownership: %@ Vehicle 1: (%@) Vehicle 2: (%@)",
+								self.name,
+								[self stringForCurrentType],
+								[self.fuelPrice stringValue],
+								[self.cityRatio stringValue],
+								[self.highwayRatio stringValue],
+								[self.distance stringValue],
+								[self.carOwnership stringValue],
+								[self.vehicle1 description],
+								[self.vehicle2 description]];
 	return descriptionStr;
 }
 

@@ -84,14 +84,14 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	[super viewDidLoad];
 	
  	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																																								target:self
-																																								action:@selector(dismissAction)];
+																				  target:self
+																				  action:@selector(dismissAction)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
 	[cancelButton release];
 	
 	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-																																							target:self
-																																							action:@selector(saveAction)];
+																				target:self
+																				action:@selector(saveAction)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];
 }
@@ -174,20 +174,20 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	NSDictionary *dictionary = nil;
 	
 	dictionary = [NSDictionary textDictionaryWithKey:tripNameKey
-																							text:@"Trip Name"
-																						detail:[self.currentTrip stringForName]];
+												text:@"Trip Name"
+											  detail:[self.currentTrip stringForName]];
 	
 	[array addObject:dictionary];
 	
 	
 	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
-																							text:@"Fuel Price"
-																						detail:[self.currentTrip stringForFuelPrice]];
+												text:@"Fuel Price"
+											  detail:[self.currentTrip stringForFuelPrice]];
 	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
-																							text:@"Distance"
-																						detail:[self.currentTrip stringForDistance]];
+												text:@"Distance"
+											  detail:[self.currentTrip stringForDistance]];
 	[array addObject:dictionary];
 	
 	return array;
@@ -200,7 +200,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	NSDictionary *dictionary = nil;
 	
 	dictionary = [NSDictionary buttonDictionaryWithKey:vehicleKey
-																								text:@"My Car"];
+												  text:@"My Car"];
 	
 	UIButton *button = [dictionary objectForKey:dictionaryButtonKey];
 	[button addTarget:self action:@selector(selectCarAction) forControlEvents:UIControlEventTouchDown];
@@ -208,8 +208,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
-																							text:@"Name"
-																						detail:[self.currentTrip.vehicle stringForName]];
+												text:@"Name"
+											  detail:[self.currentTrip.vehicle stringForName]];
 	[array addObject:dictionary];
 	
 	NSString *efficiencyStr = @"required";
@@ -218,8 +218,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	}
 	
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleAvgEfficiencyKey
-																							text:@"Fuel Efficiency"
-																						detail:efficiencyStr];
+												text:@"Fuel Efficiency"
+											  detail:efficiencyStr];
 	[array addObject:dictionary];
 	
 	return array;
@@ -236,10 +236,10 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)displayErrorWithMessage:(NSString *)message
 {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
-																									message:message
-																								 delegate:self
-																				cancelButtonTitle:@"OK"
-																				otherButtonTitles: nil];
+													message:message
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
 }
@@ -289,8 +289,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	if (save) {
 		NSDictionary *info = controller.mpgDatabaseInfo;
 		self.currentTrip.vehicle.name = [NSString stringWithFormat:@"%@ %@",
-																		 [info objectForKey:@"year"],
-																		 [info objectForKey:@"model"]];
+										 [info objectForKey:@"year"],
+										 [info objectForKey:@"model"]];
 		self.currentTrip.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
 		self.currentTrip.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];
 		self.currentTrip.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];

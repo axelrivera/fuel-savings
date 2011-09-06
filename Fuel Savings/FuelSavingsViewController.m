@@ -93,15 +93,15 @@
 	
 	if (hasButtons_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
-																																	style:UIBarButtonItemStyleBordered
-																																 target:self
-																																 action:@selector(newCheckAction)];
+																	  style:UIBarButtonItemStyleBordered
+																	 target:self
+																	 action:@selector(newCheckAction)];
 		self.navigationItem.leftBarButtonItem = newButton;
 		[newButton release];
 		
 		UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-																																									target:self
-																																									action:@selector(actionOptionsAction:)];
+																					  target:self
+																					  action:@selector(actionOptionsAction:)];
 		self.navigationItem.rightBarButtonItem = actionButton;
 		[actionButton release];
 		
@@ -237,11 +237,11 @@
 
 - (void)newOptionsAction:(id)sender {	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-																initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
-																delegate:self
-																cancelButtonTitle:@"Cancel"
-																destructiveButtonTitle:nil
-																otherButtonTitles:@"Save Current As...", @"Delete Current", nil];
+								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:nil
+								  otherButtonTitles:@"Save Current As...", @"Delete Current", nil];
 	
 	actionSheet.destructiveButtonIndex = 1;
 	
@@ -259,11 +259,11 @@
 	// open a dialog with two custom buttons	
 	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-																initWithTitle:nil
-																delegate:self
-																cancelButtonTitle:@"Cancel"
-																destructiveButtonTitle:nil
-																otherButtonTitles:@"Edit Current", @"Save Current As...", @"Delete Current", nil];
+								  initWithTitle:nil
+								  delegate:self
+								  cancelButtonTitle:@"Cancel"
+								  destructiveButtonTitle:nil
+								  otherButtonTitles:@"Edit Current", @"Save Current As...", @"Delete Current", nil];
 	
 	actionSheet.destructiveButtonIndex = 2;
 	

@@ -129,8 +129,8 @@
 	NSDictionary *dictionary = [dataDictionary objectForKey:[[self.tableData objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
 	
 	NSString *textLabelStr = [NSString stringWithFormat:@"%@ (%@)",
-														[dictionary objectForKey:kSettingsUnitNameKey],
-														[dictionary objectForKey:kSettingsUnitUnitKey]];
+							  [dictionary objectForKey:kSettingsUnitNameKey],
+							  [dictionary objectForKey:kSettingsUnitUnitKey]];
 	
 	cell.textLabel.font = [UIFont systemFontOfSize:17.0];
 	cell.textLabel.text = textLabelStr;

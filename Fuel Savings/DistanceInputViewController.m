@@ -43,12 +43,12 @@
 		}
 		
 		inputData_ = [[NSArray alloc] initWithObjects:
-									[NSArray arrayWithArray:input],
-									[NSArray arrayWithArray:input],
-									[NSArray arrayWithArray:input],
-									[NSArray arrayWithArray:input],
-									[NSArray arrayWithArray:input],
-									nil];
+					  [NSArray arrayWithArray:input],
+					  [NSArray arrayWithArray:input],
+					  [NSArray arrayWithArray:input],
+					  [NSArray arrayWithArray:input],
+					  [NSArray arrayWithArray:input],
+					  nil];
 		
 		[input release];
 		

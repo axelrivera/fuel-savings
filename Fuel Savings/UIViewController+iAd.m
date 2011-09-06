@@ -45,11 +45,11 @@
 	
 	// And finally animate the changes, running layout for the content view if required.
 	[UIView animateWithDuration:animationDuration
-									 animations:^{
-										 contentView.frame = contentFrame;
-										 [contentView layoutIfNeeded];
-										 adBanner.frame = CGRectMake(bannerOrigin.x, bannerOrigin.y, adBanner.frame.size.width, adBanner.frame.size.height);
-									 }];
+					 animations:^{
+						 contentView.frame = contentFrame;
+						 [contentView layoutIfNeeded];
+						 adBanner.frame = CGRectMake(bannerOrigin.x, bannerOrigin.y, adBanner.frame.size.width, adBanner.frame.size.height);
+					 }];
 }
 
 @end

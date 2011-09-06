@@ -241,12 +241,12 @@
 			break;
 		case MFMailComposeResultFailed:
 			errorString = [NSString stringWithFormat:@"E-mail failed: %@", 
-										 [error localizedDescription]];
+						   [error localizedDescription]];
 			showAlert = YES;
 			break;
 		default:
 			errorString = [NSString stringWithFormat:@"E-mail was not sent: %@", 
-										 [error localizedDescription]];
+						   [error localizedDescription]];
 			showAlert = YES;
 			break;
 	}
@@ -255,10 +255,10 @@
 	
 	if (showAlert == YES) {
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"E-mail Error"
-																										message:errorString
-																									 delegate:self
-																					cancelButtonTitle:@"OK"
-																					otherButtonTitles: nil];
+														message:errorString
+													   delegate:self
+											  cancelButtonTitle:@"OK"
+											  otherButtonTitles: nil];
 		[alert show];
 		[alert release];
 	}

@@ -34,13 +34,13 @@ static NSDictionary *fuelDescription;
 {
 	if (fuelDescription == nil) {
 		fuelDescription = [[NSDictionary alloc] initWithObjectsAndKeys:
-											 @"Electric", @"Electricity",
-											 @"Natural Gas", @"Compressed Natural Gas",
-											 @"Diesel", @"Diesel",
-											 @"Ethanol", @"Ethanol",
-											 @"Regular", @"Regular Gasoline",
-											 @"Mid Grade", @"Gasoline Mid Grade",
-											 @"Premium", @"Premium Gasoline", nil];
+						   @"Electric", @"Electricity",
+						   @"Natural Gas", @"Compressed Natural Gas",
+						   @"Diesel", @"Diesel",
+						   @"Ethanol", @"Ethanol",
+						   @"Regular", @"Regular Gasoline",
+						   @"Mid Grade", @"Gasoline Mid Grade",
+						   @"Premium", @"Premium Gasoline", nil];
 	}
 	return fuelDescription;
 }
@@ -106,8 +106,8 @@ static NSDictionary *fuelDescription;
 	
 	if (self.tabBarController == nil) {
 		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																																									target:self
-																																									action:@selector(cancelAction)];
+																					  target:self
+																					  action:@selector(cancelAction)];
 		self.navigationItem.rightBarButtonItem = cancelButton;
 		[cancelButton release];
 		
@@ -216,7 +216,7 @@ static NSDictionary *fuelDescription;
 	}
 	
 	NSDictionary *info = [self.mpgDatabaseInfo objectAtIndex:indexPath.row];
-
+	
 	NSString *labelStr = nil;
 	NSString *detailStr = nil;
 	
@@ -277,8 +277,8 @@ static NSDictionary *fuelDescription;
 	if (self.selectionType == VehicleSelectionTypeYear) {
 		NSString *yearStr = [[info objectForKey:@"year"] stringValue];
 		VehicleSelectViewController *selectController = [[VehicleSelectViewController alloc] initWithType:VehicleSelectionTypeMake
-																																																 year:yearStr
-																																																 make:nil];
+																									 year:yearStr
+																									 make:nil];
 		selectController.context = self.context;
 		selectController.currentSavingsViewController = self.currentSavingsViewController;
 		selectController.currentTripViewController = self.currentTripViewController;
@@ -287,8 +287,8 @@ static NSDictionary *fuelDescription;
 		NSString *yearStr = self.year;
 		NSString *makeStr = [info objectForKey:@"make"];
 		VehicleSelectViewController *selectController = [[VehicleSelectViewController alloc] initWithType:VehicleSelectionTypeModel
-																																																 year:yearStr
-																																																 make:makeStr];
+																									 year:yearStr
+																									 make:makeStr];
 		selectController.context = self.context;
 		selectController.currentSavingsViewController = self.currentSavingsViewController;
 		selectController.currentTripViewController = self.currentTripViewController;

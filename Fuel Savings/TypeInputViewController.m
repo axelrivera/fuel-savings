@@ -277,11 +277,11 @@
 {
 	if (animated) {
 		[UIView animateWithDuration:0.5
-										 animations:^{
-											 [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-											 [UIView setAnimationDelegate:self];
-											 [self ratioViewsHidden:hidden];
-										 }];
+						 animations:^{
+							 [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+							 [UIView setAnimationDelegate:self];
+							 [self ratioViewsHidden:hidden];
+						 }];
 	} else {
 		[self ratioViewsHidden:hidden];
 	}

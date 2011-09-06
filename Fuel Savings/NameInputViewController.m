@@ -56,14 +56,14 @@
 	[super viewDidLoad];
 	
 	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-																																							target:self
-																																							action:@selector(saveAction)];
+																				target:self
+																				action:@selector(saveAction)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];
 	
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																																								target:self
-																																								action:@selector(cancelAction)];
+																				  target:self
+																				  action:@selector(cancelAction)];
 	self.navigationItem.leftBarButtonItem = cancelButton;
 	[cancelButton release];
 	
@@ -134,10 +134,10 @@
 - (void)displayErrorWithMessage:(NSString *)message
 {
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"]
-																									message:message
-																								 delegate:self
-																				cancelButtonTitle:@"OK"
-																				otherButtonTitles: nil];
+													message:message
+												   delegate:self
+										  cancelButtonTitle:@"OK"
+										  otherButtonTitles: nil];
 	[alert show];	
 	[alert release];
 }
