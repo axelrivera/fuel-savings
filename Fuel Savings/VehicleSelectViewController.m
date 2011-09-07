@@ -13,6 +13,7 @@
 
 @interface VehicleSelectViewController (Private)
 
+- (void)setupToolbarItems;
 - (void)setupDataSourceAndFetchRequest;
 + (NSDictionary *)fuelDescription;
 
@@ -105,12 +106,7 @@ static NSDictionary *fuelDescription;
 	[super viewDidLoad];
 	
 	if (self.tabBarController == nil) {
-		UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
-																					  target:self
-																					  action:@selector(cancelAction)];
-		self.navigationItem.rightBarButtonItem = cancelButton;
-		[cancelButton release];
-		
+		[self setupToolbarItems];
 	}
 	
 	if (selectionType_ == VehicleSelectionTypeModel) {
@@ -136,6 +132,27 @@ static NSDictionary *fuelDescription;
 }
 
 #pragma mark - Private Methods
+
+- (void)setupToolbarItems
+{
+	[self.navigationController setToolbarHidden:NO];
+	
+	UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+																				   target:nil
+																				   action:nil];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																				  target:self
+																				  action:@selector(cancelAction)];
+	
+	NSArray *items = [[NSArray alloc] initWithObjects:flexibleSpace, cancelButton, nil];
+	
+	[self setToolbarItems:items];
+	
+	[flexibleSpace release];
+	[cancelButton release];
+	[items release];
+}
 
 - (void)setupDataSourceAndFetchRequest
 {

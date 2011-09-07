@@ -14,6 +14,7 @@ static NSString * const noStr = @"No";
 @interface VehicleDetailsViewController (Private)
 
 - (void)fixTopToolbarView;
+- (void)setupToolbarItems;
 
 @end
 
@@ -74,6 +75,8 @@ static NSString * const noStr = @"No";
 	}
 	
 	if (self.tabBarController == nil) {
+		[self setupToolbarItems];
+		
 		UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
 																					target:self
 																					action:@selector(saveAction)];
@@ -118,6 +121,11 @@ static NSString * const noStr = @"No";
 	[self.delegate vehicleDetailsViewControllerDidFinish:self save:YES];
 }
 
+- (void)cancelAction
+{
+	[self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - Private Methods
 
 - (void)fixTopToolbarView
@@ -126,6 +134,27 @@ static NSString * const noStr = @"No";
 	viewFrame.origin.y = topBarView_.frame.size.height;
 	viewFrame.size.height = self.view.frame.size.height - topBarView_.frame.size.height;
 	detailsTable_.frame = viewFrame;
+}
+
+- (void)setupToolbarItems
+{
+	[self.navigationController setToolbarHidden:NO];
+	
+	UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+																				   target:nil
+																				   action:nil];
+	
+	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+																				  target:self
+																				  action:@selector(cancelAction)];
+	
+	NSArray *items = [[NSArray alloc] initWithObjects:flexibleSpace, cancelButton, nil];
+	
+	[self setToolbarItems:items];
+	
+	[flexibleSpace release];
+	[cancelButton release];
+	[items release];
 }
 
 #pragma mark - Table view data source

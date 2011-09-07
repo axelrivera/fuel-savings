@@ -17,18 +17,18 @@
 	self = [super initWithFrame:CGRectZero];
 	if (self) {
 		self.opaque = YES;
-		self.backgroundColor = [UIColor colorWithRed:201.0/255.0 green:201.0/255.0 blue:201.0/255.0 alpha:1.0];
+		self.backgroundColor = [UIColor colorWithRed:171.0/255.0 green:183.0/255.0 blue:191.0/255.0 alpha:1.0];
 		
 		[self setFrame:frame];
 		
 		titleLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
-		titleLabel_.font = [UIFont systemFontOfSize:15.0];
+		titleLabel_.font = [UIFont boldSystemFontOfSize:14.0];
 		titleLabel_.textAlignment = UITextAlignmentCenter;
 		titleLabel_.numberOfLines = 2;
 		titleLabel_.minimumFontSize = 10.0;
 		titleLabel_.lineBreakMode = UILineBreakModeWordWrap;
 		titleLabel_.backgroundColor = [UIColor clearColor];
-		titleLabel_.textColor = [UIColor darkGrayColor];
+		titleLabel_.textColor = [UIColor colorWithRed:57.0/255.0 green:85.0/255.0 blue:135.0/255.0 alpha:1.0];
 		titleLabel_.shadowColor = [UIColor whiteColor];
 		titleLabel_.shadowOffset = CGSizeMake(0.0, 1.0);
 		
@@ -48,13 +48,7 @@
 {
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
-	CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:255.0 green:255.0 blue:255.0 alpha:0.5].CGColor);
-	CGContextSetLineWidth(context, 2.0);
-    CGContextMoveToPoint(context, 0.0, 0.0); //start at this point
-    CGContextAddLineToPoint(context, self.frame.size.width, 0.0); //draw to this point
-	CGContextStrokePath(context);
-	
-    CGContextSetStrokeColorWithColor(context, [UIColor darkGrayColor].CGColor);
+    CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:137.0/255.0 green:153.0/255.0 blue:166.0/255.0 alpha:1.0].CGColor);
 	CGContextSetLineWidth(context, 2.0);
     CGContextMoveToPoint(context, 0.0, self.frame.size.height); //start at this point
     CGContextAddLineToPoint(context, self.frame.size.width, self.frame.size.height); //draw to this point
