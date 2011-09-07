@@ -24,21 +24,37 @@ static NSString * const noStr = @"No";
 @synthesize detailsTable = detailsTable_;
 @synthesize topBarView = topBarView_;
 @synthesize mpgDatabaseInfo = mpgDatabaseInfo_;
+@synthesize selectedEfficiency = selectedEfficiency_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"VehicleDetailsViewController" bundle:nil];
 	if (self) {
 		mpgDatabaseInfo_ = nil;
+		allowSelection_ = NO;
+		selectedEfficiency_ = nil;
+		selectedIndex_ = 0;
+		efficiencyArray_ = nil;
 	}
 	return self;
 }
 
 - (id)initWithInfo:(NSDictionary *)info
 {
+	return [self initWithInfo:info selection:NO];
+}
+
+- (id)initWithInfo:(NSDictionary *)info selection:(BOOL)selection
+{
 	self = [self init];
 	if (self) {
 		mpgDatabaseInfo_ = [info retain];
+		allowSelection_ = selection;
+		efficiencyArray_ = [[NSArray alloc] initWithObjects:
+							[mpgDatabaseInfo_ objectForKey:@"mpgCity"],
+							[mpgDatabaseInfo_ objectForKey:@"mpgHighway"],
+							[mpgDatabaseInfo_ objectForKey:@"mpgAverage"],
+							nil];
 	}
 	return self;
 }
@@ -53,9 +69,11 @@ static NSString * const noStr = @"No";
 
 - (void)dealloc
 {
+	[efficiencyArray_ release];
 	[detailsTable_ release];
 	[topBarView_ release];
 	[mpgDatabaseInfo_ release];
+	[selectedEfficiency_ release];
 	[super dealloc];
 }
 
@@ -102,6 +120,7 @@ static NSString * const noStr = @"No";
 {
 	[super viewWillAppear:animated];
 	[self fixTopToolbarView];
+	selectedIndex_ = [efficiencyArray_ count] - 1;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -182,7 +201,7 @@ static NSString * const noStr = @"No";
 		
 		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 		if (cell == nil) {
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
 		}
 		
 		NSString *labelStr = nil;
@@ -203,6 +222,14 @@ static NSString * const noStr = @"No";
 		cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
 		
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		cell.accessoryType = UITableViewCellAccessoryNone;
+		
+		if (allowSelection_) {
+			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			if (indexPath.row == selectedIndex_) {
+				cell.accessoryType = UITableViewCellAccessoryCheckmark;
+			}
+		}
 		
 		cell.textLabel.text = labelStr;
 		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MPG", detailStr];
@@ -287,9 +314,41 @@ static NSString * const noStr = @"No";
 	return titleStr;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	NSString *titleStr = nil;
+	if (allowSelection_ && section == 0) {
+		titleStr = @"Select one of the Fuel Efficiency options.";
+	}
+	return titleStr;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	if (!allowSelection_ || indexPath.section > 0) {
+		return;
+	}
+	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+	
+	NSInteger localIndex = selectedIndex_;
+	if (localIndex == indexPath.row) {
+		return;
+	}
+	
+	NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:indexPath.section];
+	
+	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+		selectedIndex_ = indexPath.row;
+		self.selectedEfficiency = [efficiencyArray_ objectAtIndex:selectedIndex_];
+	}
+	
+	UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+	if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+		oldCell.accessoryType = UITableViewCellAccessoryNone;
+	}
 }
 
 @end

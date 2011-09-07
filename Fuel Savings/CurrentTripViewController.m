@@ -291,9 +291,17 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		self.currentTrip.vehicle.name = [NSString stringWithFormat:@"%@ %@",
 										 [info objectForKey:@"year"],
 										 [info objectForKey:@"model"]];
-		self.currentTrip.vehicle.avgEfficiency = [info objectForKey:@"mpgAverage"];
-		self.currentTrip.vehicle.cityEfficiency = [info objectForKey:@"mpgAverage"];
-		self.currentTrip.vehicle.highwayEfficiency = [info objectForKey:@"mpgAverage"];
+		
+		NSNumber *number = nil;
+		if (controller.selectedEfficiency) {
+			number = controller.selectedEfficiency;
+		} else {
+			number = [info objectForKey:@"mpgAverage"];
+		}
+		
+		self.currentTrip.vehicle.avgEfficiency = number;
+		self.currentTrip.vehicle.cityEfficiency = number;
+		self.currentTrip.vehicle.highwayEfficiency = number;
 	}
 	[self dismissModalViewControllerAnimated:YES];
 }

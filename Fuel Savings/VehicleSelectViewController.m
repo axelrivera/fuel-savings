@@ -312,8 +312,13 @@ static NSDictionary *fuelDescription;
 		selectController.currentTripViewController = self.currentTripViewController;
 		viewController = selectController;
 	} else {
-		VehicleDetailsViewController *detailsController = [[VehicleDetailsViewController alloc] initWithInfo:info];
+		BOOL allowSelection = NO;
+		if (self.currentTripViewController) {
+			allowSelection = YES;
+		}
 		
+		VehicleDetailsViewController *detailsController = [[VehicleDetailsViewController alloc] initWithInfo:info
+																								   selection:allowSelection];
 		detailsController.title = [NSString stringWithFormat:@"%@ %@", [info objectForKey:@"year"], [info objectForKey:@"make"]];
 		
 		if (self.currentSavingsViewController) {

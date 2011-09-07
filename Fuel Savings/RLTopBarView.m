@@ -19,6 +19,28 @@
 		self.opaque = YES;
 		self.backgroundColor = [UIColor colorWithRed:171.0/255.0 green:183.0/255.0 blue:191.0/255.0 alpha:1.0];
 		
+		gradientLayer_ = [[CAGradientLayer layer] retain];
+		
+		gradientLayer_.colors = [NSArray arrayWithObjects:
+								 (id)[UIColor colorWithWhite:1.0f alpha:0.7f].CGColor,
+								 (id)[UIColor colorWithWhite:0.9f alpha:0.3].CGColor,
+								 (id)[UIColor colorWithWhite:0.9f alpha:0.2f].CGColor,
+								 (id)[UIColor colorWithWhite:0.75f alpha:0.2f].CGColor,
+								 (id)[UIColor colorWithWhite:0.4f alpha:0.2f].CGColor,
+								 (id)[UIColor colorWithWhite:0.2f alpha:0.1f].CGColor,
+								 nil];
+		
+		gradientLayer_.locations = [NSArray arrayWithObjects:
+									[NSNumber numberWithFloat:0.0f],
+									[NSNumber numberWithFloat:0.05f],
+									[NSNumber numberWithFloat:0.5f],
+									[NSNumber numberWithFloat:0.5f],
+									[NSNumber numberWithFloat:0.8f],
+									[NSNumber numberWithFloat:1.0f],
+									nil];
+		
+		[self.layer addSublayer:gradientLayer_];
+		
 		[self setFrame:frame];
 		
 		titleLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -55,6 +77,12 @@
     CGContextStrokePath(context);
 }
 
+- (void)layoutSubviews
+{
+	[super layoutSubviews];
+	gradientLayer_.frame = self.layer.bounds;
+}
+
 - (void)setFrame:(CGRect)frame
 {
 	CGRect newframe = CGRectMake(frame.origin.x,
@@ -66,6 +94,7 @@
 
 - (void)dealloc
 {
+	[gradientLayer_ release];
 	[titleLabel_ release];
 	[super dealloc];
 }

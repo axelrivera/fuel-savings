@@ -75,17 +75,17 @@
 
 - (void)gotoProductWebsite
 {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://www.riveralabs.com/apps/fuel-savings"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://riveralabs.com/apps/fuel-savings"]];
 }
 
 - (void)gotoSupport
 {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://www.riveralabs.com/contact"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://riveralabs.com/contact"]];
 }
 
 - (void)gotoWebsite
 {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://www.riveralabs.com"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://riveralabs.com"]];
 }
 
 #pragma mark - Table view data source

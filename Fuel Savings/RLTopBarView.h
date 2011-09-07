@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
-@interface RLTopBarView : UIView
+@interface RLTopBarView : UIView {
+	CAGradientLayer *gradientLayer_;
+}
 
 @property (nonatomic, retain, readonly) UILabel *titleLabel;
 

@@ -11,14 +11,20 @@
 
 @protocol VehicleDetailsViewControllerDelegate;
 
-@interface VehicleDetailsViewController : UIViewController
+@interface VehicleDetailsViewController : UIViewController {
+	BOOL allowSelection_;
+	NSInteger selectedIndex_;
+	NSArray *efficiencyArray_;
+}
 
 @property (nonatomic, assign) id <VehicleDetailsViewControllerDelegate> delegate;
 @property (nonatomic, retain) IBOutlet UITableView *detailsTable;
 @property (nonatomic, retain) RLTopBarView *topBarView;
 @property (nonatomic, retain) NSDictionary *mpgDatabaseInfo;
+@property (nonatomic, retain) NSNumber *selectedEfficiency;
 
 - (id)initWithInfo:(NSDictionary *)info;
+- (id)initWithInfo:(NSDictionary *)info selection:(BOOL)selection;
 
 @end
 
