@@ -7,12 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RLTopBarView.h"
 
 @protocol VehicleDetailsViewControllerDelegate;
 
-@interface VehicleDetailsViewController : UITableViewController
+@interface VehicleDetailsViewController : UIViewController
 
 @property (nonatomic, assign) id <VehicleDetailsViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UITableView *detailsTable;
+@property (nonatomic, retain) RLTopBarView *topBarView;
 @property (nonatomic, retain) NSDictionary *mpgDatabaseInfo;
 
 - (id)initWithInfo:(NSDictionary *)info;

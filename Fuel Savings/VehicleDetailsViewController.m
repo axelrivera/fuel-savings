@@ -8,16 +8,27 @@
 
 #import "VehicleDetailsViewController.h"
 
+static NSString * const yesStr = @"Yes";
+static NSString * const noStr = @"No";
+
+@interface VehicleDetailsViewController (Private)
+
+- (void)fixTopToolbarView;
+
+@end
+
 @implementation VehicleDetailsViewController
 
-@synthesize mpgDatabaseInfo = _mpgDatabaseInfo;
-@synthesize delegate = _delegate;
+@synthesize delegate = delegate_;
+@synthesize detailsTable = detailsTable_;
+@synthesize topBarView = topBarView_;
+@synthesize mpgDatabaseInfo = mpgDatabaseInfo_;
 
 - (id)init
 {
 	self = [super initWithNibName:@"VehicleDetailsViewController" bundle:nil];
 	if (self) {
-		self.mpgDatabaseInfo = nil;
+		mpgDatabaseInfo_ = nil;
 	}
 	return self;
 }
@@ -26,7 +37,7 @@
 {
 	self = [self init];
 	if (self) {
-		self.mpgDatabaseInfo = info;
+		mpgDatabaseInfo_ = [info retain];
 	}
 	return self;
 }
@@ -41,7 +52,9 @@
 
 - (void)dealloc
 {
-	self.mpgDatabaseInfo = nil;
+	[detailsTable_ release];
+	[topBarView_ release];
+	[mpgDatabaseInfo_ release];
 	[super dealloc];
 }
 
@@ -51,7 +64,14 @@
 {
 	[super viewDidLoad];
 	
-	self.title = [self.mpgDatabaseInfo objectForKey:@"model"];
+	if (self.navigationController) {
+		UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+																	   style:UIBarButtonItemStyleBordered
+																	  target:self
+																	  action:@selector(backAction)];
+		self.navigationItem.leftBarButtonItem = backButton;
+		[backButton release];
+	}
 	
 	if (self.tabBarController == nil) {
 		UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
@@ -60,6 +80,10 @@
 		self.navigationItem.rightBarButtonItem = saveButton;
 		[saveButton release];
 	}
+	
+	self.topBarView = [[[RLTopBarView alloc] initWithFrame:CGRectZero] autorelease];
+	topBarView_.titleLabel.text = [mpgDatabaseInfo_ objectForKey:@"model"];
+	[self.view addSubview:topBarView_];
 }
 
 - (void)viewDidUnload
@@ -67,11 +91,14 @@
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	self.detailsTable = nil;
+	self.topBarView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
+	[self fixTopToolbarView];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -81,21 +108,80 @@
 
 #pragma mark - Action Methods
 
+- (void)backAction
+{
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)saveAction
 {
 	[self.delegate vehicleDetailsViewControllerDidFinish:self save:YES];
 }
 
+#pragma mark - Private Methods
+
+- (void)fixTopToolbarView
+{	
+	CGRect viewFrame = self.view.frame;
+	viewFrame.origin.y = topBarView_.frame.size.height;
+	viewFrame.size.height = self.view.frame.size.height - topBarView_.frame.size.height;
+	detailsTable_.frame = viewFrame;
+}
+
 #pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+	return 2;
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 4;
+	NSInteger rows = 0;
+	if (section == 0) {
+		rows = 3;
+	} else {
+		rows = 11;
+	}
+	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *CellIdentifier = @"Cell";
+	if (indexPath.section == 0) {
+		NSString *CellIdentifier = @"EfficiencyCell";
+		
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+		if (cell == nil) {
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
+		}
+		
+		NSString *labelStr = nil;
+		NSString *detailStr = nil;
+		
+		if (indexPath.row == 0) {
+			labelStr = @"City";
+			detailStr = [[self.mpgDatabaseInfo objectForKey:@"mpgCity"] stringValue];
+		} else if (indexPath.row == 1) {
+			labelStr = @"Highway";
+			detailStr = [[self.mpgDatabaseInfo objectForKey:@"mpgHighway"] stringValue];
+		} else {
+			labelStr = @"Average";
+			detailStr = [[self.mpgDatabaseInfo objectForKey:@"mpgAverage"] stringValue];
+		}
+		
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+		cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
+		
+		cell.selectionStyle = UITableViewCellSelectionStyleNone;
+		
+		cell.textLabel.text = labelStr;
+		cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MPG", detailStr];
+		
+		return cell;
+	}
+	
+	NSString *CellIdentifier = @"DetailsCell";
 	
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
@@ -106,24 +192,53 @@
 	NSString *detailStr = nil;
 	
 	if (indexPath.row == 0) {
-		labelStr = [NSString stringWithFormat:@"%@ %@ %@",
-					[[self.mpgDatabaseInfo objectForKey:@"year"] stringValue],
-					[self.mpgDatabaseInfo objectForKey:@"make"],
-					[self.mpgDatabaseInfo objectForKey:@"model"]];
-		detailStr = @"";
+		labelStr = @"Year";
+		detailStr = [[mpgDatabaseInfo_ objectForKey:@"year"] stringValue];
 	} else if (indexPath.row == 1) {
-		labelStr = @"City MPG";
-		detailStr = [[self.mpgDatabaseInfo objectForKey:@"mpgCity"] stringValue];
+		labelStr = @"Make";
+		detailStr = [mpgDatabaseInfo_ objectForKey:@"make"];
 	} else if (indexPath.row == 2) {
-		labelStr = @"Highway MPG";
-		detailStr = [[self.mpgDatabaseInfo objectForKey:@"mpgHighway"] stringValue];
-	} else {
-		labelStr = @"Combined MPG";
-		detailStr = [[self.mpgDatabaseInfo objectForKey:@"mpgAverage"] stringValue];
+		labelStr = @"Class";
+		detailStr = [mpgDatabaseInfo_ objectForKey:@"sizeClass"];
+	} else if (indexPath.row == 3) {
+		labelStr = @"Fuel";
+		detailStr = [mpgDatabaseInfo_ objectForKey:@"fuel"];
+	} else if (indexPath.row == 4) {
+		labelStr = @"Engine Size";
+		detailStr = [NSString stringWithFormat:@"%@ liters", [mpgDatabaseInfo_ objectForKey:@"engine"]];
+	} else if (indexPath.row == 5) {
+		labelStr = @"Cylinders";
+		detailStr = [mpgDatabaseInfo_ objectForKey:@"cylinders"];
+	} else if (indexPath.row == 6) {
+		labelStr = @"Transmission";
+		detailStr = [mpgDatabaseInfo_ objectForKey:@"transmission"];
+	} else if (indexPath.row == 7) {
+		labelStr = @"Drive";
+		detailStr = [mpgDatabaseInfo_ objectForKey:@"drive"];
+	} else if (indexPath.row == 8) {
+		labelStr = @"Gas Guzzler";
+		detailStr = noStr;
+		if ([[mpgDatabaseInfo_ objectForKey:@"guzzler"] boolValue] == YES) {
+			detailStr = yesStr;
+		}
+	} else if (indexPath.row == 9) {
+		labelStr = @"Turbocharger";
+		detailStr = noStr;
+		if ([[mpgDatabaseInfo_ objectForKey:@"turbocharger"] boolValue] == YES) {
+			detailStr = yesStr;
+		}
+	} else  {
+		labelStr = @"Supercharger";
+		detailStr = noStr;
+		if ([[mpgDatabaseInfo_ objectForKey:@"supercharger"] boolValue] == YES) {
+			detailStr = yesStr;
+		}
 	}
 	
-	cell.selectionStyle = UITableViewCellSelectionStyleNone;
+	cell.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
+	cell.detailTextLabel.font = [UIFont systemFontOfSize:14.0];
 	
+	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	cell.textLabel.text = labelStr;
 	cell.detailTextLabel.text = detailStr;
 	
@@ -132,16 +247,20 @@
 
 #pragma mark - Table view delegate
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+	NSString *titleStr = nil;
+	if (section == 0) {
+		titleStr = @"Fuel Efficiency";
+	} else {
+		titleStr = @"Details";
+	}
+	return titleStr;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	// Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-	 // ...
-	 // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

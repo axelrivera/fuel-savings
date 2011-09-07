@@ -111,9 +111,10 @@ static NSDictionary *fuelDescription;
 		self.navigationItem.rightBarButtonItem = cancelButton;
 		[cancelButton release];
 		
-		if (selectionType_ == VehicleSelectionTypeModel) {
-			self.tableView.rowHeight = 48.0;
-		}
+	}
+	
+	if (selectionType_ == VehicleSelectionTypeModel) {
+		self.tableView.rowHeight = 48.0;
 	}
 	
 	[self setupDataSourceAndFetchRequest];
@@ -295,6 +296,8 @@ static NSDictionary *fuelDescription;
 		viewController = selectController;
 	} else {
 		VehicleDetailsViewController *detailsController = [[VehicleDetailsViewController alloc] initWithInfo:info];
+		
+		detailsController.title = [NSString stringWithFormat:@"%@ %@", [info objectForKey:@"year"], [info objectForKey:@"make"]];
 		
 		if (self.currentSavingsViewController) {
 			detailsController.delegate = self.currentSavingsViewController;

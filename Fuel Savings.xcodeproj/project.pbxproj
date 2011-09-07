@@ -47,6 +47,7 @@
 		165ACFDC13B9737A00A2AD3E /* mpg_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD413B9737A00A2AD3E /* mpg_tab@2x.png */; };
 		165ACFDF13B9737A00A2AD3E /* settings_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD713B9737A00A2AD3E /* settings_tab.png */; };
 		165ACFE013B9737A00A2AD3E /* settings_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD813B9737A00A2AD3E /* settings_tab@2x.png */; };
+		165BBC891416F69800932508 /* MPGDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 165BBC881416F69800932508 /* MPGDatabase.sqlite */; };
 		1666FCF013B8FA8B00FC97F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */; };
 		1666FCF213B8FA8B00FC97F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCF113B8FA8B00FC97F1 /* Foundation.framework */; };
 		1666FCF413B8FA8B00FC97F1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1666FCF313B8FA8B00FC97F1 /* CoreGraphics.framework */; };
@@ -67,6 +68,7 @@
 		1666FD3713B911A400FC97F1 /* FuelSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */; };
 		1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */; };
 		1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */; };
+		16729A981416941900BB3BFF /* RLTopBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16729A971416941900BB3BFF /* RLTopBarView.m */; };
 		16807DFC13F1EFCE00D1F51D /* piggy_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF613F1EFCE00D1F51D /* piggy_tab.png */; };
 		16807DFD13F1EFCE00D1F51D /* piggy_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */; };
 		16807E1713F1F68900D1F51D /* tags.png in Resources */ = {isa = PBXBuildFile; fileRef = 16807E1313F1F68900D1F51D /* tags.png */; };
@@ -83,7 +85,6 @@
 		168A425F13FD607F0044E421 /* NSDictionary+OrderKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 168A425E13FD607F0044E421 /* NSDictionary+OrderKey.m */; };
 		168A426A13FD8DB70044E421 /* CountriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168A426813FD8DB60044E421 /* CountriesViewController.m */; };
 		168A426B13FD8DB70044E421 /* CountriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 168A426913FD8DB70044E421 /* CountriesViewController.xib */; };
-		16A62E1E14152430006CF380 /* MPGDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 16A62E1D14152430006CF380 /* MPGDatabase.sqlite */; };
 		16A707AC13B9FFE600A0E93F /* NameInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707AB13B9FFE600A0E93F /* NameInputViewController.m */; };
 		16A707AF13BA057D00A0E93F /* NameInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16A707AE13BA057D00A0E93F /* NameInputViewController.xib */; };
 		16A707BA13BA1BA600A0E93F /* NSMutableArray+Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 16A707B913BA1BA600A0E93F /* NSMutableArray+Vehicle.m */; };
@@ -171,6 +172,7 @@
 		165ACFD413B9737A00A2AD3E /* mpg_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mpg_tab@2x.png"; sourceTree = "<group>"; };
 		165ACFD713B9737A00A2AD3E /* settings_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings_tab.png; sourceTree = "<group>"; };
 		165ACFD813B9737A00A2AD3E /* settings_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "settings_tab@2x.png"; sourceTree = "<group>"; };
+		165BBC881416F69800932508 /* MPGDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = MPGDatabase.sqlite; sourceTree = "<group>"; };
 		1666FCEB13B8FA8B00FC97F1 /* Fuel Savings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fuel Savings.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1666FCEF13B8FA8B00FC97F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1666FCF113B8FA8B00FC97F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -200,6 +202,8 @@
 		1666FD3613B911A400FC97F1 /* FuelSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FuelSavingsViewController.xib; sourceTree = "<group>"; };
 		1666FD3813B911B900FC97F1 /* MySavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MySavingsViewController.xib; sourceTree = "<group>"; };
 		1666FD3C13B9127B00FC97F1 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		16729A961416941900BB3BFF /* RLTopBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RLTopBarView.h; sourceTree = "<group>"; };
+		16729A971416941900BB3BFF /* RLTopBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RLTopBarView.m; sourceTree = "<group>"; };
 		1677C05913C64A9F0013CDD3 /* FuelSavingsHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FuelSavingsHelpers.h; sourceTree = "<group>"; };
 		16807DF613F1EFCE00D1F51D /* piggy_tab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = piggy_tab.png; sourceTree = "<group>"; };
 		16807DF713F1EFCE00D1F51D /* piggy_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "piggy_tab@2x.png"; sourceTree = "<group>"; };
@@ -220,7 +224,6 @@
 		168A426713FD8DB60044E421 /* CountriesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountriesViewController.h; sourceTree = "<group>"; };
 		168A426813FD8DB60044E421 /* CountriesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountriesViewController.m; sourceTree = "<group>"; };
 		168A426913FD8DB70044E421 /* CountriesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CountriesViewController.xib; sourceTree = "<group>"; };
-		16A62E1D14152430006CF380 /* MPGDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = MPGDatabase.sqlite; sourceTree = "<group>"; };
 		16A707AA13B9FFE600A0E93F /* NameInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NameInputViewController.h; sourceTree = "<group>"; };
 		16A707AB13B9FFE600A0E93F /* NameInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NameInputViewController.m; sourceTree = "<group>"; };
 		16A707AE13BA057D00A0E93F /* NameInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NameInputViewController.xib; sourceTree = "<group>"; };
@@ -329,6 +332,8 @@
 				1602039F13F5E26400749F1C /* DetailSummaryViewCell.m */,
 				16F0C2C61404753500E3E108 /* RLCustomButton.h */,
 				16F0C2C71404753500E3E108 /* RLCustomButton.m */,
+				16729A961416941900BB3BFF /* RLTopBarView.h */,
+				16729A971416941900BB3BFF /* RLTopBarView.m */,
 			);
 			name = "Custom Views";
 			sourceTree = "<group>";
@@ -411,7 +416,7 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				16A62E1D14152430006CF380 /* MPGDatabase.sqlite */,
+				165BBC881416F69800932508 /* MPGDatabase.sqlite */,
 				161D077B140FF6DA00689107 /* MPGDatabase.xcdatamodeld */,
 				16CF0379140AB0F00035BFB8 /* Icon.png */,
 				16CF037A140AB0F00035BFB8 /* Icon@2x.png */,
@@ -629,7 +634,7 @@
 				162831B01409A2B500C71D4D /* money@2x.png in Resources */,
 				16CF037B140AB0F00035BFB8 /* Icon.png in Resources */,
 				16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */,
-				16A62E1E14152430006CF380 /* MPGDatabase.sqlite in Resources */,
+				165BBC891416F69800932508 /* MPGDatabase.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -682,6 +687,7 @@
 				1618BEEE1406971A008CE88A /* UIViewController+iAd.m in Sources */,
 				161D0778140FF5CE00689107 /* MPGDatabaseInfo.m in Sources */,
 				161D077D140FF6DA00689107 /* MPGDatabase.xcdatamodeld in Sources */,
+				16729A981416941900BB3BFF /* RLTopBarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

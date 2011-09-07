@@ -75,7 +75,7 @@
 
 - (void)gotoProductWebsite
 {
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://www.riveralabs.com/fuelsavings"]];
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"http://www.riveralabs.com/apps/fuel-savings"]];
 }
 
 - (void)gotoSupport
