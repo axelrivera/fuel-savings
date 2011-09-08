@@ -54,7 +54,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		self.currentSavings = nil;
 		isCar1Selected_ = NO;
 		isCar2Selected_ = NO;
-		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -124,8 +123,9 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		self.title = @"New Savings";
 	}
 	
-	adBanner_.delegate = self;
-	[self.view addSubview:adBanner_];
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = self;
+	[self.view addSubview:adBanner];
 	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
 	
 	if (self.currentSavings) {
@@ -134,10 +134,15 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[newTable_ reloadData];	
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
-	adBanner_.delegate = nil;
+	[super viewWillDisappear:animated];
+	
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = ApplicationDelegate;
+	if ([adBanner isDescendantOfView:self.view]) {
+		[adBanner removeFromSuperview];
+	}
 }
 
 #pragma mark - Custom Actions

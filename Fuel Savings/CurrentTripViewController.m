@@ -45,8 +45,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 {
 	self = [super initWithNibName:@"CurrentTripViewController" bundle:nil];
 	if (self) {
-		self.currentTrip = nil;
-		adBanner_ = SharedAdBannerView;
+		currentTrip_ = nil;
 	}
 	return self;
 }
@@ -55,7 +54,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 {
 	self = [self init];
 	if (self) {
-		self.currentTrip = trip;
+		currentTrip_ = [trip retain];
 	}
 	return self;
 }
@@ -116,8 +115,9 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		self.title = @"New Trip";
 	}
 	
-	adBanner_.delegate = self;
-	[self.view addSubview:adBanner_];
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = self;
+	[self.view addSubview:adBanner];
 	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
 	
 	self.newData = [NSMutableArray arrayWithCapacity:0];
@@ -128,10 +128,15 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	[newTable_ reloadData];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
-	adBanner_.delegate = nil;
+	[super viewWillDisappear:animated];
+	
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = ApplicationDelegate;
+	if ([adBanner isDescendantOfView:self.view]) {
+		[adBanner removeFromSuperview];
+	}
 }
 
 #pragma mark - Custom Actions
@@ -396,7 +401,14 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 			inputViewController.currentName = self.currentTrip.name;
 			inputViewController.key = tripNameKey;
 			inputViewController.footerText = @"Enter a Name for the Trip.";
-			viewController = inputViewController;
+			
+			UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
+			[inputViewController release];
+			
+			[self presentModalViewController:navController animated:YES];
+			[navController release];
+			
+			return;
 		} else if ([key isEqualToString:fuelPriceKey]) {
 			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
 			inputViewController.delegate = self;

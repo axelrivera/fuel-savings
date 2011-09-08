@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <iAd/iAd.h>
 
-@interface SettingsViewController : UIViewController <ADBannerViewDelegate> {
-	ADBannerView *adBanner_;
-}
+@interface SettingsViewController : UIViewController <ADBannerViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *settingsTable;

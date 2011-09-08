@@ -10,6 +10,8 @@
 #import "CurrentSavingsViewController.h"
 #import "CurrentTripViewController.h"
 #import "VehicleDetailsViewController.h"
+#import "UIViewController+iAd.h"
+#import "Fuel_SavingsAppDelegate.h"
 
 @interface VehicleSelectViewController (Private)
 
@@ -23,11 +25,13 @@
 
 static NSDictionary *fuelDescription;
 
+@synthesize contentView = contentView_;
+@synthesize selectionTable = selectionTable_;
 @synthesize selectionType = selectionType_;
 @synthesize year = year_;
 @synthesize make = make_;
 @synthesize mpgDatabaseInfo = mpgDatabaseInfo_;
-@synthesize context = _context;
+@synthesize context = context_;
 @synthesize currentSavingsViewController = currentSavingsViewController_;
 @synthesize currentTripViewController = currentTripViewController_;
 
@@ -57,6 +61,7 @@ static NSDictionary *fuelDescription;
 		self.context = nil;
 		self.currentSavingsViewController = nil;
 		self.currentTripViewController = nil;
+		isAdBannerVisible_ = NO;
 	}
 	return self;
 }
@@ -92,10 +97,10 @@ static NSDictionary *fuelDescription;
 
 - (void)dealloc
 {
-	self.year = nil;
-	self.make = nil;
-	self.mpgDatabaseInfo = nil;
-	self.context = nil;
+	[year_ release];
+	[make_ release];
+	[mpgDatabaseInfo_ release];
+	[context_ release];
 	[super dealloc];
 }
 
@@ -107,10 +112,13 @@ static NSDictionary *fuelDescription;
 	
 	if (self.tabBarController == nil) {
 		[self setupToolbarItems];
+		isAdBannerVisible_ = NO;
+	} else {
+		isAdBannerVisible_ = YES;
 	}
 	
 	if (selectionType_ == VehicleSelectionTypeModel) {
-		self.tableView.rowHeight = 48.0;
+		selectionTable_.rowHeight = 48.0;
 	}
 	
 	[self setupDataSourceAndFetchRequest];
@@ -121,7 +129,41 @@ static NSDictionary *fuelDescription;
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+	self.contentView = nil;
+	self.selectionTable = nil;
 	self.mpgDatabaseInfo = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[selectionTable_ reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	[super viewDidAppear:animated];
+	
+	if (isAdBannerVisible_) {
+		ADBannerView *adBanner = SharedAdBannerView;
+		adBanner.delegate = self;
+		[self.view addSubview:adBanner];
+		[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	}
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	
+	if (isAdBannerVisible_) {
+		ADBannerView *adBanner = SharedAdBannerView;
+		[self hideBannerView:contentView_ animated:NO];
+		adBanner.delegate = ApplicationDelegate;
+		if ([adBanner isDescendantOfView:self.view]) {
+			[adBanner removeFromSuperview];
+		}
+	}
 }
 
 #pragma mark - Action Methods
@@ -152,13 +194,22 @@ static NSDictionary *fuelDescription;
 	[flexibleSpace release];
 	[cancelButton release];
 	[items release];
+	
+	CGRect contentFrame = self.view.bounds;
+	CGPoint toolbarOrigin = CGPointMake(CGRectGetMinX(contentFrame), CGRectGetMaxY(contentFrame));
+	CGFloat toolbarHeight = self.navigationController.toolbar.bounds.size.height;
+	
+	contentFrame.size.height -= toolbarHeight;
+	toolbarOrigin.y -= toolbarHeight;
+	contentView_.frame = contentFrame;
+	[contentView_ layoutIfNeeded];
 }
 
 - (void)setupDataSourceAndFetchRequest
 {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"MPGDatabaseInfo" inManagedObjectContext:_context];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"MPGDatabaseInfo" inManagedObjectContext:context_];
 	
 	[fetchRequest setEntity:entity];
 	
@@ -336,6 +387,29 @@ static NSDictionary *fuelDescription;
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
+}
+
+#pragma mark - ADBannerViewDelegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+}
+
+- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
+{
+	// Stop or Pause Stuff Here
+	return YES;
+}
+
+- (void)bannerViewActionDidFinish:(ADBannerView *)banner
+{
+	// Get things back up running again!
 }
 
 @end

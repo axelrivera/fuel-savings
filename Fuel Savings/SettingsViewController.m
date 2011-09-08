@@ -22,7 +22,7 @@
 {
 	self = [super initWithNibName:@"SettingsViewController" bundle:nil];
 	if (self) {
-		adBanner_ = SharedAdBannerView;
+		// Initialization Code
 	}
 	return self;
 }
@@ -75,17 +75,21 @@
 {
 	[super viewWillAppear:animated];
 	
-	adBanner_.delegate = self;
-	[self.view addSubview:adBanner_];
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = self;
+	[self.view addSubview:adBanner];
 	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
+	[super viewWillDisappear:animated];
 	
-	adBanner_.delegate = nil;
-	//[adBanner_ removeFromSuperview];
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = ApplicationDelegate;
+	if ([adBanner isDescendantOfView:self.view]) {
+		[adBanner removeFromSuperview];
+	}
 }
 
 #pragma mark - Table view data source

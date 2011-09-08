@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NameInputViewController.h"
 #import <iAd/iAd.h>
+#import "NameInputViewController.h"
 
 @interface MySavingsViewController : UIViewController <NameInputViewControllerDelegate, UIActionSheetDelegate, ADBannerViewDelegate> {
 	NSInteger selectedRow_;
 	NSInteger selectedIndex_;
-	ADBannerView *adBanner_;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *contentView;

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#include <iAd/iAd.h>
 #import "SavingsData.h"
 #import "Savings.h"
 #import "TypeInputViewController.h"
@@ -17,7 +18,6 @@
 #import "EfficiencyInputViewController.h"
 #import "VehicleSelectViewController.h"
 #import "VehicleDetailsViewController.h"
-#include <iAd/iAd.h>
 
 @protocol CurrentSavingsViewControllerDelegate;
 
@@ -28,7 +28,6 @@ VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
 {
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;
-	ADBannerView *adBanner_;
 }
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;

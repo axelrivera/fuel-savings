@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 
 @class CurrentSavingsViewController;
 @class CurrentTripViewController;
@@ -17,8 +18,12 @@ typedef enum {
 	VehicleSelectionTypeModel
 } VehicleSelectionType;
 
-@interface VehicleSelectViewController : UITableViewController
+@interface VehicleSelectViewController : UIViewController <ADBannerViewDelegate> {
+	BOOL isAdBannerVisible_;
+}
 
+@property (nonatomic, retain) IBOutlet UIView *contentView;
+@property (nonatomic, retain) IBOutlet UITableView *selectionTable;
 @property (nonatomic, assign) VehicleSelectionType selectionType;
 @property (nonatomic, copy) NSString *year;
 @property (nonatomic, copy) NSString *make;

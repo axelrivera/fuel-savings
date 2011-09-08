@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 #import "CurrentSavingsViewController.h"
 #import "SavingsData.h"
 #import "Savings.h"
 #import "DetailSummaryView.h"
 #import "NameInputViewController.h"
-#import <iAd/iAd.h>
 
 @interface FuelSavingsViewController : UIViewController <UIActionSheetDelegate, CurrentSavingsViewControllerDelegate,
 NameInputViewControllerDelegate, ADBannerViewDelegate>
@@ -21,7 +21,6 @@ NameInputViewControllerDelegate, ADBannerViewDelegate>
 	BOOL isNewSavings_;
 	BOOL showNewAction_;
 	BOOL hasButtons_;
-	ADBannerView *adBanner_;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *contentView;

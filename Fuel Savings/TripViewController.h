@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 #import "SavingsData.h"
 #import "DetailSummaryView.h"
 #import "CurrentTripViewController.h"
 #import "NameInputViewController.h"
 #import "DetailSummaryView.h"
-#import <iAd/iAd.h>
 
 @interface TripViewController : UIViewController <UIActionSheetDelegate, CurrentTripViewControllerDelegate,
 NameInputViewControllerDelegate, ADBannerViewDelegate>
@@ -21,7 +21,6 @@ NameInputViewControllerDelegate, ADBannerViewDelegate>
 	BOOL isNewTrip_;
 	BOOL showNewAction_;
 	BOOL hasButtons_;
-	ADBannerView *adBanner_;
 }
 
 @property (nonatomic, retain) IBOutlet UIView *contentView;

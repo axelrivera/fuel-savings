@@ -7,17 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <iAd/iAd.h>
 #import "RLTopBarView.h"
 
 @protocol VehicleDetailsViewControllerDelegate;
 
-@interface VehicleDetailsViewController : UIViewController {
+@interface VehicleDetailsViewController : UIViewController <ADBannerViewDelegate> {
 	BOOL allowSelection_;
+	BOOL isAdBannerVisible_;
 	NSInteger selectedIndex_;
 	NSArray *efficiencyArray_;
 }
 
 @property (nonatomic, assign) id <VehicleDetailsViewControllerDelegate> delegate;
+@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *detailsTable;
 @property (nonatomic, retain) RLTopBarView *topBarView;
 @property (nonatomic, retain) NSDictionary *mpgDatabaseInfo;

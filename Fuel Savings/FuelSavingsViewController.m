@@ -46,7 +46,6 @@
 		showNewAction_ = NO;
 		hasButtons_ = NO;
 		self.currentSavings = [Savings emptySavings];
-		adBanner_ = SharedAdBannerView;
 	}
 	return self;
 }
@@ -129,8 +128,9 @@
 {
 	[super viewWillAppear:animated];
 	
-	adBanner_.delegate = self;
-	[self.view addSubview:adBanner_];
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = self;
+	[self.view addSubview:adBanner];
 	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
 	
 	self.savingsTable.hidden = YES;
@@ -147,11 +147,15 @@
 	}
 }
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-	[super viewDidDisappear:animated];
-	adBanner_.delegate = nil;
-	//[adBanner_ removeFromSuperview];
+	[super viewWillDisappear:animated];
+	
+	ADBannerView *adBanner = SharedAdBannerView;
+	adBanner.delegate = ApplicationDelegate;
+	if ([adBanner isDescendantOfView:self.view]) {
+		[adBanner removeFromSuperview];
+	}
 }
 
 #pragma mark - Custom Actions

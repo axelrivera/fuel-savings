@@ -14,7 +14,7 @@
 
 @class RLCoreDataObject;
 
-@interface Fuel_SavingsAppDelegate : NSObject <UIApplicationDelegate>
+@interface Fuel_SavingsAppDelegate : NSObject <UIApplicationDelegate, ADBannerViewDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) UITabBarController *tabBarController;

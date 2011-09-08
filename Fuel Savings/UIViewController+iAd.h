@@ -11,5 +11,6 @@
 @interface UIViewController (UIViewController_iAd)
 
 - (void)layoutContentViewForCurrentOrientation:(UIView *)contentView animated:(BOOL)animated;
+- (void)hideBannerView:(UIView *)contentView animated:(BOOL)animated;
 
 @end
