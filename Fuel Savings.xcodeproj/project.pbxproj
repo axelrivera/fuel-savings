@@ -41,6 +41,7 @@
 		1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */; };
 		1646C6AC13FAF743006571C1 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1646C6AB13FAF743006571C1 /* Settings.m */; };
 		164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E1E8613FDB05E00095044 /* NSNumber+Units.m */; };
+		1657C4E91419178D007A0D97 /* Fuel_Savings.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1657C4E81419178D007A0D97 /* Fuel_Savings.entitlements */; };
 		1658291313B9262100BC5219 /* CurrentSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1658291213B9262100BC5219 /* CurrentSavingsViewController.m */; };
 		1658291513B9264700BC5219 /* CurrentSavingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */; };
 		165ACFDB13B9737A00A2AD3E /* mpg_tab.png in Resources */ = {isa = PBXBuildFile; fileRef = 165ACFD313B9737A00A2AD3E /* mpg_tab.png */; };
@@ -165,6 +166,7 @@
 		1646C6AB13FAF743006571C1 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		164E1E8513FDB05E00095044 /* NSNumber+Units.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Units.h"; sourceTree = "<group>"; };
 		164E1E8613FDB05E00095044 /* NSNumber+Units.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+Units.m"; sourceTree = "<group>"; };
+		1657C4E81419178D007A0D97 /* Fuel_Savings.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Fuel_Savings.entitlements; sourceTree = SOURCE_ROOT; };
 		1658291113B9262100BC5219 /* CurrentSavingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentSavingsViewController.h; sourceTree = "<group>"; };
 		1658291213B9262100BC5219 /* CurrentSavingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CurrentSavingsViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1658291413B9264700BC5219 /* CurrentSavingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentSavingsViewController.xib; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				16C27BC813FC5BDF0084C2F5 /* EfficiencyUnits.plist */,
 				168A425A13FD3E6D0044E421 /* CurrencySymbols.plist */,
 				16D73AD613FE967000F01035 /* CountriesAvailable.plist */,
+				1657C4E81419178D007A0D97 /* Fuel_Savings.entitlements */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -635,6 +638,7 @@
 				16CF037B140AB0F00035BFB8 /* Icon.png in Resources */,
 				16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */,
 				165BBC891416F69800932508 /* MPGDatabase.sqlite in Resources */,
+				1657C4E91419178D007A0D97 /* Fuel_Savings.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -713,6 +717,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		1657C4E3141910D9007A0D97 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CODE_SIGN_ENTITLEMENTS = Fuel_Savings.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Axel Rivera";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Axel Rivera";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "3269666B-D973-4828-9387-C63BDBA5E308";
+				"PROVISIONING_PROFILE[sdk=*]" = "3269666B-D973-4828-9387-C63BDBA5E308";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Beta;
+		};
+		1657C4E4141910D9007A0D97 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_ENTITLEMENTS = Fuel_Savings.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Axel Rivera";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Axel Rivera";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Fuel Savings/Fuel Savings-Prefix.pch";
+				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3269666B-D973-4828-9387-C63BDBA5E308";
+				"PROVISIONING_PROFILE[sdk=*]" = "3269666B-D973-4828-9387-C63BDBA5E308";
+				VALIDATE_PRODUCT = NO;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Beta;
+		};
 		1666FD0413B8FA8B00FC97F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -723,7 +767,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
@@ -738,16 +782,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Axel Rivera";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution: Axel Rivera";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "0EB23526-1A24-44DA-8116-E081153101AA";
+				"PROVISIONING_PROFILE[sdk=*]" = "0EB23526-1A24-44DA-8116-E081153101AA";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 			};
@@ -757,6 +801,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Axel Rivera (7GJQFAYSB9)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -764,6 +809,7 @@
 				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "AEF76940-2579-4554-907C-97B78A1217E5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -772,12 +818,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Axel Rivera";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fuel Savings/Fuel Savings-Prefix.pch";
 				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "F716E4A6-E076-49BD-B3FE-2A89AAA80F47";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -791,6 +839,7 @@
 			buildConfigurations = (
 				1666FD0413B8FA8B00FC97F1 /* Debug */,
 				1666FD0513B8FA8B00FC97F1 /* Release */,
+				1657C4E3141910D9007A0D97 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -800,6 +849,7 @@
 			buildConfigurations = (
 				1666FD0713B8FA8B00FC97F1 /* Debug */,
 				1666FD0813B8FA8B00FC97F1 /* Release */,
+				1657C4E4141910D9007A0D97 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

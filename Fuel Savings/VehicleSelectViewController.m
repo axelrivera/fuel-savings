@@ -138,12 +138,7 @@ static NSDictionary *fuelDescription;
 {
 	[super viewWillAppear:animated];
 	[selectionTable_ reloadData];
-}
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-	
 	if (isAdBannerVisible_) {
 		ADBannerView *adBanner = SharedAdBannerView;
 		adBanner.delegate = self;

@@ -131,12 +131,7 @@ static NSString * const noStr = @"No";
 	[super viewWillAppear:animated];
 	[self fixTopToolbarView];
 	selectedIndex_ = [efficiencyArray_ count] - 1;
-}
 
-- (void)viewDidAppear:(BOOL)animated
-{
-	[super viewDidAppear:animated];
-	
 	if (isAdBannerVisible_) {
 		ADBannerView *adBanner = SharedAdBannerView;
 		adBanner.delegate = self;
