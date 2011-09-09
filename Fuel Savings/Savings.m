@@ -8,11 +8,14 @@
 
 #import "Savings.h"
 #import "NSNumber+Units.h"
+#import "Settings.h"
 
 static NSNumberFormatter *percentFormatter_;
 static NSNumberFormatter *currencyFormatter_;
 
 @interface Savings (Private)
+
+- (void)setCountry:(NSString *)country;
 
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle;
 - (NSNumber *)totalCostForVehicle:(Vehicle *)vehicle;
@@ -26,7 +29,6 @@ static NSNumberFormatter *currencyFormatter_;
 
 @synthesize name = name_;
 @synthesize type;
-@synthesize fuelPrice = fuelPrice_;
 @synthesize cityRatio = cityRatio_;
 @synthesize highwayRatio = highwayRatio_;
 @synthesize distance = distance_;
@@ -45,14 +47,12 @@ static NSNumberFormatter *currencyFormatter_;
 	Savings *savings = [Savings calculation];
 	savings.name = @"";
 	savings.type = EfficiencyTypeNone;
-	savings.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
 	savings.cityRatio = [NSNumber numberWithFloat:0.0];
 	savings.highwayRatio = [NSNumber numberWithFloat:0.0];
 	savings.distance = [NSNumber numberWithInteger:0];
 	savings.carOwnership = [NSNumber numberWithInteger:0];
 	savings.vehicle1 = [Vehicle emptyVehicle];
 	savings.vehicle2 = [Vehicle emptyVehicle];
-	savings.country = nil;
 	return savings;
 }
 
@@ -61,7 +61,14 @@ static NSNumberFormatter *currencyFormatter_;
 {
 	self = [super init];
 	if (self) {
-		self.country = kCountriesAvailableUnitedStates;
+		NSString *defaultCountry = [Settings sharedSettings].defaultCountry;
+		NSString *country;
+		if (defaultCountry) {
+			country = defaultCountry;
+		} else {
+			country = kCountriesAvailableDefault;
+		}
+		[self setCountry:country];
 		[self setDefaultValues];
 	}
 	return self;
@@ -73,14 +80,13 @@ static NSNumberFormatter *currencyFormatter_;
 	if (self) {
 		self.name = [decoder decodeObjectForKey:@"savingsName"];
 		self.type = [decoder decodeIntForKey:@"savingsType"];
-		self.fuelPrice = [decoder decodeObjectForKey:@"savingsFuelPrice"];
 		self.cityRatio = [decoder decodeObjectForKey:@"savingsCityRatio"];
 		self.highwayRatio = [decoder decodeObjectForKey:@"savingsHighwayRatio"];
 		self.distance = [decoder decodeObjectForKey:@"savingsDistance"];
 		self.carOwnership = [decoder decodeObjectForKey:@"savingsCarOwnership"];
 		self.vehicle1 = [decoder decodeObjectForKey:@"savingsVehicle1"];
 		self.vehicle2 = [decoder decodeObjectForKey:@"savingsVehicle2"];
-		self.country = [decoder decodeObjectForKey:@"savingsCountry"];
+		[self setCountry:[decoder decodeObjectForKey:@"savingsCountry"]];
 	}
 	return self;
 }
@@ -90,7 +96,6 @@ static NSNumberFormatter *currencyFormatter_;
 	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
 	[encoder encodeObject:self.name forKey:@"savingsName"];
 	[encoder encodeInt:self.type forKey:@"savingsType"];
-	[encoder encodeObject:self.fuelPrice forKey:@"savingsFuelPrice"];
 	[encoder encodeObject:self.cityRatio forKey:@"savingsCityRatio"];
 	[encoder encodeObject:self.highwayRatio forKey:@"savingsHighwayRatio"];
 	[encoder encodeObject:self.distance forKey:@"savingsDistance"];
@@ -105,21 +110,19 @@ static NSNumberFormatter *currencyFormatter_;
 	Savings *newSavings = [[Savings allocWithZone:zone] init];
 	newSavings.name = self.name;
 	newSavings.type = self.type;
-	newSavings.fuelPrice = self.fuelPrice;
 	newSavings.cityRatio = self.cityRatio;
 	newSavings.highwayRatio = self.highwayRatio;
 	newSavings.distance = self.distance;
 	newSavings.carOwnership = self.carOwnership;
 	newSavings.vehicle1 = self.vehicle1;
 	newSavings.vehicle2 = self.vehicle2;
-	newSavings.country = self.country;
+	[newSavings setCountry:self.country];
 	return newSavings;
 }
 
 - (void)dealloc
 {
 	[name_ release];
-	[fuelPrice_ release];
 	[cityRatio_ release];
 	[highwayRatio_ release];
 	[distance_ release];
@@ -140,22 +143,6 @@ static NSNumberFormatter *currencyFormatter_;
 - (NSString *)stringForCurrentType
 {
 	return efficiencyTypeStringValue(self.type);
-}
-
-- (NSString *)stringForFuelPrice
-{
-	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
-	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-	
-	NSString *priceStr = [priceFormatter stringFromNumber:self.fuelPrice];
-	[priceFormatter release];
-	
-	NSString *unitStr = kVolumeUnitsGallonKey;
-	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
-		unitStr = kVolumeUnitsLiterKey;
-	}
-	
-	return [NSString stringWithFormat:@"%@ /%@", priceStr, unitStr];
 }
 
 - (NSString *)stringForCityRatio
@@ -305,25 +292,18 @@ static NSNumberFormatter *currencyFormatter_;
 {
 	self.name = @"";
 	self.type = EfficiencyTypeAverage;
-	
-	NSString *priceStr = @"3.65";
-	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
-		priceStr = @"0.89";
-	}
-	
-	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:priceStr];
+
 	self.cityRatio = [NSNumber numberWithFloat:0.55];
 	self.highwayRatio = [NSNumber numberWithFloat:0.45];
 	self.distance = [NSNumber numberWithInteger:15000];
 	self.carOwnership = [NSNumber numberWithInteger:5];
-	self.vehicle1 = [Vehicle vehicleWithName:@"Car 1"];
-	self.vehicle2 = [Vehicle vehicleWithName:@"Car 2"];
+	self.vehicle1 = [Vehicle vehicleWithName:@"Car 1" country:country_];
+	self.vehicle2 = [Vehicle vehicleWithName:@"Car 2" country:country_];
 }
 
 - (BOOL)isSavingsEmpty
 {
 	NSInteger nameLength = [self.name length];
-	CGFloat fuelValue = [self.fuelPrice floatValue];
 	CGFloat cityValue = [self.cityRatio floatValue];
 	CGFloat highwayValue = [self.highwayRatio floatValue];
 	NSInteger distanceValue = [self.distance integerValue];
@@ -331,7 +311,7 @@ static NSNumberFormatter *currencyFormatter_;
 	BOOL vehicle1Value = [self.vehicle1 isVehicleEmpty];
 	BOOL vehicle2Value = [self.vehicle2 isVehicleEmpty];
 	
-	if (nameLength == 0 && self.type == EfficiencyTypeNone && fuelValue == 0.0 && cityValue == 0.0 && highwayValue == 0.0 &&
+	if (nameLength == 0 && self.type == EfficiencyTypeNone && cityValue == 0.0 && highwayValue == 0.0 &&
 		distanceValue == 0 && ownershipValue == 0 && vehicle1Value == YES && vehicle2Value == YES)
 	{
 		return YES;
@@ -341,20 +321,26 @@ static NSNumberFormatter *currencyFormatter_;
 
 #pragma mark - Private Methods
 
+- (void)setCountry:(id)country
+{
+	[country_ autorelease];
+	country_ = [country retain];
+}
+
 - (NSNumber *)annualCostForVehicle:(Vehicle *)vehicle
 {
 	if (self.type == EfficiencyTypeAverage) {
 		NSNumber *distance = nil;
 		NSNumber *efficiency = nil;
 		
-		if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
+		if ([vehicle.country isEqualToString:kCountriesAvailablePuertoRico]) {
 			distance = [self.distance milesToKilometers];
 			efficiency = [vehicle.avgEfficiency milesPerGallonToKilometersPerLiter];
 		} else {
 			distance = self.distance;
 			efficiency = vehicle.avgEfficiency;
 		}
-		return [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:efficiency];
+		return [NSNumber fuelCostWithPrice:vehicle.fuelPrice distance:distance efficiency:efficiency];
 	}
 	
 	NSNumber *distance = nil;
@@ -371,8 +357,8 @@ static NSNumberFormatter *currencyFormatter_;
 		highwayEfficiency = vehicle.highwayEfficiency;
 	}
 	
-	NSNumber *cityFuelCost = [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:cityEfficiency];
-	NSNumber *highwayFuelCost = [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:highwayEfficiency];
+	NSNumber *cityFuelCost = [NSNumber fuelCostWithPrice:vehicle.fuelPrice distance:distance efficiency:cityEfficiency];
+	NSNumber *highwayFuelCost = [NSNumber fuelCostWithPrice:vehicle.fuelPrice distance:distance efficiency:highwayEfficiency];
 	
 	CGFloat annual = ([cityFuelCost floatValue] * [self.cityRatio floatValue]) + ([highwayFuelCost floatValue] * [self.highwayRatio floatValue]);
 	return [NSNumber numberWithFloat:annual];
@@ -405,11 +391,10 @@ static NSNumberFormatter *currencyFormatter_;
 
 - (NSString *)description
 {	
-	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, Type: %@, Price: %@, City Ratio: %@, "
+	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, Type: %@, City Ratio: %@, "
 								@"Highway Ratio: %@, Distance: %@, Ownership: %@ Vehicle 1: (%@) Vehicle 2: (%@)",
 								self.name,
 								[self stringForCurrentType],
-								[self.fuelPrice stringValue],
 								[self.cityRatio stringValue],
 								[self.highwayRatio stringValue],
 								[self.distance stringValue],

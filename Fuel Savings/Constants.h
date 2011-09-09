@@ -26,5 +26,6 @@
 #define kCountriesVolumeUnitKey @"volume_unit"
 #define kCountriesEfficiencyUnitKey @"efficiency_unit"
 
+#define kCountriesAvailableDefault @"US"
 #define kCountriesAvailableUnitedStates @"US"
 #define kCountriesAvailablePuertoRico @"PR"

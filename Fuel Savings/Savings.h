@@ -13,21 +13,19 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) EfficiencyType type;
-@property (nonatomic, copy) NSDecimalNumber *fuelPrice;
 @property (nonatomic, copy) NSNumber *cityRatio;
 @property (nonatomic, copy) NSNumber *highwayRatio;
 @property (nonatomic, copy) NSNumber *distance;
 @property (nonatomic, copy) NSNumber *carOwnership;
 @property (nonatomic, copy) Vehicle *vehicle1;
 @property (nonatomic, copy) Vehicle *vehicle2;
-@property (nonatomic, copy) NSString *country;
+@property (nonatomic, retain, readonly) NSString *country;
 
 + (Savings *)calculation;
 + (Savings *)emptySavings;
 
 - (NSString *)stringForName;
 - (NSString *)stringForCurrentType;
-- (NSString *)stringForFuelPrice;
 - (NSString *)stringForCityRatio;
 - (NSString *)stringForHighwayRatio;
 - (NSString *)stringForDistance;

@@ -20,6 +20,7 @@
 @property (nonatomic, copy) NSString *enteredDigits;
 @property (nonatomic, copy) NSDecimalNumber *currentPrice;
 @property (nonatomic, copy) NSString *footerText;
+@property (nonatomic, copy) NSString *key;
 
 - (IBAction)clearButtonAction:(id)sender;
 

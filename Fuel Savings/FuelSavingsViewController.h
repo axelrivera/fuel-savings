@@ -30,7 +30,6 @@ NameInputViewControllerDelegate, ADBannerViewDelegate>
 @property (nonatomic, retain) DetailSummaryView *infoSummary;
 @property (nonatomic, retain) DetailSummaryView *car1Summary;
 @property (nonatomic, retain) DetailSummaryView *car2Summary;
-@property (nonatomic, copy) NSString *currentCountry;
 
 - (id)initWithTabBar:(BOOL)tab buttons:(BOOL)buttons;
 

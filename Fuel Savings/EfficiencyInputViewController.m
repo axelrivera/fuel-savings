@@ -28,6 +28,7 @@
 		self.enteredDigits = @"";
 		self.currentEfficiency = [NSNumber numberWithInteger:0];
 		self.footerText = nil;
+		self.key = nil;
 	}
 	return self;
 }

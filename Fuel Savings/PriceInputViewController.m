@@ -18,6 +18,7 @@
 @synthesize enteredDigits = enteredDigits_;
 @synthesize currentPrice = currentPrice_;
 @synthesize footerText = footerText_;
+@synthesize key = key_;
 
 - (id)init
 {
@@ -28,6 +29,7 @@
 		
 		self.enteredDigits = @"";
 		self.currentPrice = [NSDecimalNumber zero];
+		self.key = nil;
 	}
 	return self;
 }
@@ -39,6 +41,7 @@
 	[enteredDigits_ release];
 	[currentPrice_ release];
 	[footerText_ release];
+	[key_ release];
 	[super dealloc];
 }
 

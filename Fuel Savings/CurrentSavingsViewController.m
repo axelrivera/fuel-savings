@@ -22,6 +22,7 @@ static NSString * const vehicle1Key = @"Vehicle1Key";
 static NSString * const vehicle2Key = @"Vehicle2Key";
 
 static NSString * const vehicleNameKey = @"VehicleNameKey";
+static NSString * const vehicleFuelPriceKey = @"VehicleFuelPriceKey";
 static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 static NSString * const vehicleCityEfficiencyKey = @"VehicleCityEfficiencyKey";
 static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiencyKey";
@@ -101,6 +102,9 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 																				action:@selector(saveAction)];
 	self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];
+	
+	newTable_.sectionHeaderHeight = 10.0;
+	newTable_.sectionFooterHeight = 10.0;
 }
 
 - (void)viewDidUnload
@@ -196,6 +200,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	self.currentSavings.vehicle2.avgEfficiency = [NSNumber numberWithInteger:0];
 	self.currentSavings.vehicle2.cityEfficiency = [NSNumber numberWithInteger:0];
 	self.currentSavings.vehicle2.highwayEfficiency = [NSNumber numberWithInteger:0];
+	self.currentSavings.vehicle2.fuelPrice = [self.currentSavings.vehicle2 defaultPrice];
 	[self reloadTableData];
 	[newTable_ reloadData];
 }
@@ -241,11 +246,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	NSString *typeStr = [NSString stringWithString:[self.currentSavings stringForCurrentType]];
 	dictionary = [NSDictionary textDictionaryWithKey:typeKey text:@"Using" detail:typeStr];
-	[array addObject:dictionary];
-	
-	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
-												text:@"Fuel Price"
-											  detail:[self.currentSavings stringForFuelPrice]];
 	[array addObject:dictionary];
 	
 	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
@@ -296,6 +296,10 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 											  detail:[vehicle stringForName]];
 	[array addObject:dictionary];
 	
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleFuelPriceKey
+												text:@"Fuel Price"
+											  detail:[vehicle stringForFuelPrice]];
+	[array addObject:dictionary];
 	
 	if (self.currentSavings.type == EfficiencyTypeAverage) {
 		NSString *avgEfficiencyStr = emptyStr;
@@ -405,7 +409,13 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		self.currentSavings.fuelPrice = controller.currentPrice;
+		Vehicle *vehicle = nil;
+		if ([controller.key isEqualToString:vehicle1Key]) {
+			vehicle = self.currentSavings.vehicle1;
+		} else {
+			vehicle = self.currentSavings.vehicle2;
+		}
+		vehicle.fuelPrice = controller.currentPrice;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -581,17 +591,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			inputViewController.currentCityRatio = self.currentSavings.cityRatio;
 			inputViewController.currentHighwayRatio = self.currentSavings.highwayRatio;
 			viewController = inputViewController;
-		} else if ([key isEqualToString:fuelPriceKey]) {
-			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
-			inputViewController.delegate = self;
-			inputViewController.currentPrice = self.currentSavings.fuelPrice;
-			
-			NSString *unitStr = kVolumeUnitsGallonKey;
-			if ([self.currentSavings.country isEqualToString:kCountriesAvailablePuertoRico]) {
-				unitStr = kVolumeUnitsLiterKey;
-			}
-			inputViewController.footerText = [NSString stringWithFormat:@"Enter the Price per %@ of fuel.", unitStr];
-			viewController = inputViewController;
 		} else if ([key isEqualToString:distanceKey]) {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] init];
 			inputViewController.delegate = self;
@@ -633,7 +632,19 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 			return;
 		}
 		
-		if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
+		if ([key isEqualToString:vehicleFuelPriceKey]) {
+			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentPrice = vehicle.fuelPrice;
+			inputViewController.key = vehicleKey;
+			
+			NSString *unitStr = kVolumeUnitsGallonKey;
+			if ([self.currentSavings.country isEqualToString:kCountriesAvailablePuertoRico]) {
+				unitStr = kVolumeUnitsLiterKey;
+			}
+			inputViewController.footerText = [NSString stringWithFormat:@"Enter the Price per %@ of fuel.", unitStr];
+			viewController = inputViewController;
+		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.key = vehicleKey;
@@ -666,26 +677,6 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	}
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	CGFloat height = 5.0;
-	if (section == 0) {
-		height = 10.0;
-	} else if (section ==2) {
-		height = 34.0;
-	}
-	return height;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-	CGFloat height = 5.0;
-	if (section == 2) {
-		height = 64.0;
-	}
-	return height;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
 	if (section == 2) {
@@ -694,10 +685,31 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	return nil;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+	CGFloat height = 10.0;
+	if (section == 0) {
+		height = 24.0;
+	} else if (section == 2) {
+		height = 64.0;
+	}
+	return height;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+	NSString *titleStr = nil;
+	if (section == 0) {
+		titleStr = @"You can analyze one or two cars.";
+	}
+	return titleStr;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
+	UIView *sectionView = nil;
 	if (section == 2) {
-		UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+		sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 		
 		RLCustomButton *button = [[RLCustomButton resetCar2Button] retain];
 		[button addTarget:self action:@selector(resetCar2OptionsAction:) forControlEvents:UIControlEventTouchDown];
@@ -708,18 +720,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 		
 		[sectionView addSubview:button];
 		[button release];
-		return sectionView;
 	}
-	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-	UIView *view = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-	if (section == 2) {
-		view = nil;
-	}
-	return view;
+	return sectionView;
 }
 
 #pragma mark - UIActionSheet Delegate

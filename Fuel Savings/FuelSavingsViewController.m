@@ -35,7 +35,6 @@
 @synthesize infoSummary = infoSummary_;
 @synthesize car1Summary = car1Summary_;
 @synthesize car2Summary = car2Summary_;
-@synthesize currentCountry = currentCountry_;
 
 - (id)init
 {
@@ -72,7 +71,6 @@
 	[infoSummary_ release];
 	[car1Summary_ release];
 	[car2Summary_ release];
-	[currentCountry_ release];
 	[super dealloc];
 }
 
@@ -172,7 +170,6 @@
 - (void)newAction
 {
 	Savings *newSavings = [[Savings calculation] retain];
-	newSavings.country = [Settings sharedSettings].defaultCountry;
 	[newSavings setDefaultValues];
 	
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings];
@@ -293,12 +290,6 @@
 
 - (void)reloadTable
 {
-	if (hasButtons_ && [self.currentSavings isSavingsEmpty]) {
-		self.currentCountry = [Settings sharedSettings].defaultCountry;
-	} else {
-		self.currentCountry = self.currentSavings.country;
-	}
-	
 	if ([self.currentSavings isSavingsEmpty]) {
 		self.savingsTable.hidden = YES;
 		self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -336,7 +327,6 @@
 	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
 	
 	[details addObject:[DetailView detailDictionaryWithText:@"Using" detail:[self.currentSavings stringForCurrentType]]];
-	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[self.currentSavings stringForFuelPrice]]];
 	[details addObject:[DetailView detailDictionaryWithText:@"Distance" detail:[self.currentSavings stringForDistance]]];
 	
 	if (self.currentSavings.type == EfficiencyTypeCombined) {
@@ -354,6 +344,7 @@
 	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
 	
 	[details addObject:[DetailView detailDictionaryWithText:@"Name" detail:[vehicle stringForName]]];
+	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[vehicle stringForFuelPrice]]];
 	
 	if (self.currentSavings.type == EfficiencyTypeAverage) {
 		[details addObject:[DetailView detailDictionaryWithText:@"Average MPG" detail:[vehicle stringForAvgEfficiency]]];
@@ -541,15 +532,15 @@
 	} else if (indexPath.section == 2) {
 		if (indexPath.row == 0) {
 			if (self.currentSavings.type == EfficiencyTypeAverage) {
-				height = 117.0;
+				height = 100.0;
 			} else {
-				height = 151.0;
+				height = 134.0;
 			}
 		} else {
 			if (self.currentSavings.type == EfficiencyTypeAverage) {
-				height = 83.0;
-			} else {
 				height = 100.0;
+			} else {
+				height = 117.0;
 			}
 		}
 	}
