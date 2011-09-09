@@ -11,11 +11,10 @@
 
 @interface Trip : NSObject <NSCoding, NSCopying>
 
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSDecimalNumber *fuelPrice;
-@property (nonatomic, copy) NSNumber *distance;
-@property (nonatomic, copy) Vehicle *vehicle;
-@property (nonatomic, copy) NSString *country;
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSNumber *distance;
+@property (nonatomic, retain) Vehicle *vehicle;
+@property (nonatomic, retain, readonly) NSString *country;
 
 + (Trip *)calculation;
 + (Trip *)emptyTrip;
@@ -24,7 +23,6 @@
 - (void)setDefaultValues;
 
 - (NSString *)stringForName;
-- (NSString *)stringForFuelPrice;
 - (NSString *)stringForDistance;
 
 - (NSString *)stringForTripCost;

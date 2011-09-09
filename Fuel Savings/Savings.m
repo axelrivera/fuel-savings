@@ -61,14 +61,7 @@ static NSNumberFormatter *currencyFormatter_;
 {
 	self = [super init];
 	if (self) {
-		NSString *defaultCountry = [Settings sharedSettings].defaultCountry;
-		NSString *country;
-		if (defaultCountry) {
-			country = defaultCountry;
-		} else {
-			country = kCountriesAvailableDefault;
-		}
-		[self setCountry:country];
+		[self setCountry:[Settings sharedSettings].defaultCountry];
 		[self setDefaultValues];
 	}
 	return self;

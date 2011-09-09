@@ -15,11 +15,11 @@
 #import "Fuel_SavingsAppDelegate.h"
 
 static NSString * const tripNameKey = @"TripNameKey";
-static NSString * const fuelPriceKey = @"PriceKey";
 static NSString * const distanceKey = @"DistanceKey";
 
 static NSString * const vehicleKey = @"VehicleKey";
 static NSString * const vehicleNameKey = @"VehicleNameKey";
+static NSString * const vehicleFuelPriceKey = @"VehicleFuelPriceKey";
 static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 
 @interface CurrentTripViewController (Private)
@@ -184,12 +184,6 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	[array addObject:dictionary];
 	
-	
-	dictionary = [NSDictionary textDictionaryWithKey:fuelPriceKey
-												text:@"Fuel Price"
-											  detail:[self.currentTrip stringForFuelPrice]];
-	[array addObject:dictionary];
-	
 	dictionary = [NSDictionary textDictionaryWithKey:distanceKey
 												text:@"Distance"
 											  detail:[self.currentTrip stringForDistance]];
@@ -215,6 +209,11 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	dictionary = [NSDictionary textDictionaryWithKey:vehicleNameKey
 												text:@"Name"
 											  detail:[self.currentTrip.vehicle stringForName]];
+	[array addObject:dictionary];
+	
+	dictionary = [NSDictionary textDictionaryWithKey:vehicleFuelPriceKey
+												text:@"Fuel Price"
+											  detail:[self.currentTrip.vehicle stringForFuelPrice]];
 	[array addObject:dictionary];
 	
 	NSString *efficiencyStr = @"required";
@@ -254,7 +253,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)priceInputViewControllerDidFinish:(PriceInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		self.currentTrip.fuelPrice = controller.currentPrice;
+		self.currentTrip.vehicle.fuelPrice = controller.currentPrice;
 	}
 	[self.navigationController popViewControllerAnimated:YES];
 }
@@ -409,17 +408,6 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 			[navController release];
 			
 			return;
-		} else if ([key isEqualToString:fuelPriceKey]) {
-			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
-			inputViewController.delegate = self;
-			inputViewController.currentPrice = self.currentTrip.fuelPrice;
-			
-			NSString *unitStr = kVolumeUnitsGallonKey;
-			if ([self.currentTrip.country isEqualToString:kCountriesAvailablePuertoRico]) {
-				unitStr = kVolumeUnitsLiterKey;
-			}
-			inputViewController.footerText = [NSString stringWithFormat:@"Enter the Price per %@ of fuel.", unitStr];
-			viewController = inputViewController;
 		} else {
 			DistanceInputViewController *inputViewController = [[DistanceInputViewController alloc] initWithType:DistanceInputTypeTrip];
 			inputViewController.delegate = self;
@@ -444,7 +432,18 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 			return;
 		}
 		
-		if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
+		if ([key isEqualToString:vehicleFuelPriceKey]) {
+			PriceInputViewController *inputViewController = [[PriceInputViewController alloc] init];
+			inputViewController.delegate = self;
+			inputViewController.currentPrice = self.currentTrip.vehicle.fuelPrice;
+			
+			NSString *unitStr = kVolumeUnitsGallonKey;
+			if ([self.currentTrip.country isEqualToString:kCountriesAvailablePuertoRico]) {
+				unitStr = kVolumeUnitsLiterKey;
+			}
+			inputViewController.footerText = [NSString stringWithFormat:@"Enter the Price per %@ of fuel.", unitStr];
+			viewController = inputViewController;
+		} else if ([key isEqualToString:vehicleAvgEfficiencyKey]) {
 			EfficiencyInputViewController *inputViewController = [[EfficiencyInputViewController alloc] init];
 			inputViewController.delegate = self;
 			inputViewController.currentEfficiency = self.currentTrip.vehicle.avgEfficiency;

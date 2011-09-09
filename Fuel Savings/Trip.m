@@ -8,11 +8,17 @@
 
 #import "Trip.h"
 #import "NSNumber+Units.h"
+#import "Settings.h"
+
+@interface Trip (Private)
+
+- (void)setCountry:(NSString *)country;
+
+@end
 
 @implementation Trip
 
 @synthesize name = name_;
-@synthesize fuelPrice = fuelPrice_;
 @synthesize distance = distance_;
 @synthesize vehicle = vehicle_;
 @synthesize country = country_;
@@ -26,10 +32,9 @@
 {
 	Trip *trip = [Trip calculation];
 	trip.name = @"";
-	trip.fuelPrice = [NSDecimalNumber decimalNumberWithString:@"0.0"];
 	trip.distance = [NSNumber numberWithInteger:0];
 	trip.vehicle = [Vehicle emptyVehicle];
-	trip.country = nil;
+	[trip setCountry:nil];
 	return trip;
 }
 
@@ -37,7 +42,7 @@
 {
 	self = [super init];
 	if (self) {
-		self.country = kCountriesAvailableUnitedStates;
+		[self setCountry:[Settings sharedSettings].defaultCountry];
 		[self setDefaultValues];
 	}
 	return self;
@@ -48,10 +53,9 @@
 	self = [super init]; // this needs to be [super initWithCoder:decoder] if the superclass implements NSCoding
 	if (self) {
 		self.name = [decoder decodeObjectForKey:@"tripName"];
-		self.fuelPrice = [decoder decodeObjectForKey:@"tripFuelPrice"];
 		self.distance = [decoder decodeObjectForKey:@"tripDistance"];
 		self.vehicle = [decoder decodeObjectForKey:@"tripVehicle"];
-		self.country = [decoder decodeObjectForKey:@"tripCountry"];
+		[self setCountry:[decoder decodeObjectForKey:@"tripCountry"]];
 	}
 	return self;
 }
@@ -60,7 +64,6 @@
 {
 	// add [super encodeWithCoder:encoder] if the superclass implements NSCoding
 	[encoder encodeObject:self.name forKey:@"tripName"];
-	[encoder encodeObject:self.fuelPrice forKey:@"tripFuelPrice"];
 	[encoder encodeObject:self.distance forKey:@"tripDistance"];
 	[encoder encodeObject:self.vehicle forKey:@"tripVehicle"];
 	[encoder encodeObject:self.country forKey:@"tripCountry"];
@@ -70,17 +73,15 @@
 {
 	Trip *newTrip = [[Trip allocWithZone:zone] init];
 	newTrip.name = self.name;
-	newTrip.fuelPrice = self.fuelPrice;
 	newTrip.distance = self.distance;
 	newTrip.vehicle = self.vehicle;
-	newTrip.country = self.country;
+	[newTrip setCountry:self.country];
 	return newTrip;
 }
 
 - (void)dealloc
 {
 	[name_ release];
-	[fuelPrice_ release];
 	[distance_ release];
 	[vehicle_ release];
 	[country_ release];
@@ -101,42 +102,20 @@
 		distance = self.distance;
 		efficiency = self.vehicle.avgEfficiency;
 	}
-	return [NSNumber fuelCostWithPrice:self.fuelPrice distance:distance efficiency:efficiency];
+	return [NSNumber fuelCostWithPrice:self.vehicle.fuelPrice distance:distance efficiency:efficiency];
 }
 
 - (void)setDefaultValues
 {
 	self.name = @"My Trip";
 	
-	NSString *priceStr = @"3.65";
-	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
-		priceStr = @"0.89";
-	}
-	
-	self.fuelPrice = [NSDecimalNumber decimalNumberWithString:priceStr];
 	self.distance = [NSNumber numberWithInteger:100];
-	self.vehicle = [Vehicle vehicleWithName:@"My Car"];
+	self.vehicle = [Vehicle vehicleWithName:@"My Car" country:country_];
 }
 
 - (NSString *)stringForName
 {
 	return self.name;
-}
-
-- (NSString *)stringForFuelPrice
-{
-	NSNumberFormatter *priceFormatter = [[NSNumberFormatter alloc] init];
-	[priceFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
-	
-	NSString *priceStr = [priceFormatter stringFromNumber:self.fuelPrice];
-	[priceFormatter release];
-	
-	NSString *unitStr = kVolumeUnitsGallonKey;
-	if ([self.country isEqualToString:kCountriesAvailablePuertoRico]) {
-		unitStr = kVolumeUnitsLiterKey;
-	}
-	
-	return [NSString stringWithFormat:@"%@ /%@", priceStr, unitStr];
 }
 
 - (NSString *)stringForDistance
@@ -163,14 +142,21 @@
 	return costStr;
 }
 
+#pragma mark - Private Methods
+
+- (void)setCountry:(NSString *)country
+{
+	[country_ autorelease];
+	country_ = [country retain];
+}
+
 - (BOOL)isTripEmpty
 {
 	NSInteger nameLength = [self.name length];
-	CGFloat fuelValue = [self.fuelPrice floatValue];
 	NSInteger distanceValue = [self.distance integerValue];
 	BOOL vehicleValue = [self.vehicle isVehicleEmpty];
 	
-	if (nameLength == 0 && fuelValue == 0.0 && distanceValue == 0 && vehicleValue == YES) {
+	if (nameLength == 0 && distanceValue == 0 && vehicleValue == YES) {
 		return YES;
 	}
 	return NO;
@@ -178,9 +164,8 @@
 
 - (NSString *)description
 {
-	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, Price: %@, Distance: %@, Vehicle: (%@)",
+	NSString *descriptionStr = [NSString stringWithFormat:@"Name: %@, Distance: %@, Vehicle: (%@)",
 								self.name,
-								[self.fuelPrice stringValue],
 								[self.distance stringValue],
 								[self.vehicle description]];
 	return descriptionStr;

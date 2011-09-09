@@ -34,7 +34,6 @@
 @synthesize currentTrip = currentTrip_;
 @synthesize infoSummary = infoSummary_;
 @synthesize carSummary = carSummary_;
-@synthesize currentCountry = currentCountry_;
 
 - (id)init
 {
@@ -45,7 +44,6 @@
 		showNewAction_ = NO;
 		hasButtons_ = NO;
 		self.currentTrip = [Trip emptyTrip];
-		self.currentCountry = nil;
 	}
 	return self;
 }
@@ -70,7 +68,6 @@
 	[tripTable_ release];
 	[instructionsLabel_ release];
 	[currentTrip_ release];
-	[currentCountry_ release];
 	[super dealloc];
 }
 
@@ -169,7 +166,6 @@
 - (void)newAction
 {
 	Trip *newTrip = [[Trip calculation] retain];
-	newTrip.country = [Settings sharedSettings].defaultCountry;
 	[newTrip setDefaultValues];
 	
 	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:newTrip];
@@ -293,13 +289,7 @@
 }
 
 - (void)reloadTable
-{
-	if (hasButtons_ && [self.currentTrip isTripEmpty]) {
-		self.currentCountry = [Settings sharedSettings].defaultCountry;
-	} else {
-		self.currentCountry = self.currentTrip.country;
-	}
-	
+{	
 	if ([self.currentTrip isTripEmpty]) {
 		self.tripTable.hidden = YES;
 		self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -329,7 +319,6 @@
 	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
 	
 	[details addObject:[DetailView detailDictionaryWithText:@"Trip Name" detail:[self.currentTrip stringForName]]];
-	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[self.currentTrip stringForFuelPrice]]];
 	[details addObject:[DetailView detailDictionaryWithText:@"Distance" detail:[self.currentTrip stringForDistance]]];
 	
 	return details;
@@ -340,6 +329,7 @@
 	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
 	
 	[details addObject:[DetailView detailDictionaryWithText:@"Name" detail:[vehicle stringForName]]];
+	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[self.currentTrip.vehicle stringForFuelPrice]]];
 	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Efficiency" detail:[vehicle stringForAvgEfficiency]]];
 	
 	return details;
@@ -450,9 +440,9 @@
 		height = 66.0;
 	} else {
 		if (indexPath.row == 0) {
-			height = 100.0;
-		} else {
 			height = 83.0;
+		} else {
+			height = 100.0;
 		}
 	}
 	return height;

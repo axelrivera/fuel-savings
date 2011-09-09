@@ -21,7 +21,7 @@ NSString * const kSettingsDefaultDistanceUnit = kDistanceUnitsMileKey;
 NSString * const kSettingsDefaultVolumeUnit = kVolumeUnitsGallonKey;
 NSString * const kSettingsDefaultEfficiencyUnit = kEfficiencyUnitsMilesPerGallonKey;
 NSString * const kSettingsDefaultCurrencySymbol = kCurrencySymbolsDollarKey;
-NSString * const kSettingsDefaultCountry = kCountriesAvailableUnitedStates;
+NSString * const kSettingsDefaultCountry = kCountriesAvailableDefault;
 
 // Local Variables
 

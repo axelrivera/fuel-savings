@@ -29,7 +29,6 @@ NameInputViewControllerDelegate, ADBannerViewDelegate>
 @property (nonatomic, copy) Trip *currentTrip;
 @property (nonatomic, retain) DetailSummaryView *infoSummary;
 @property (nonatomic, retain) DetailSummaryView *carSummary;
-@property (nonatomic, copy) NSString *currentCountry;
 
 - (id)initWithTabBar:(BOOL)tab buttons:(BOOL)buttons;
 
