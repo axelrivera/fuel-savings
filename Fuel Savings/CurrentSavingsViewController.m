@@ -91,6 +91,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 {
 	[super viewDidLoad];
 	
+	self.contentView.tag = kAdContentViewTag;
+	
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																				  target:self
 																				  action:@selector(dismissAction)];
@@ -129,8 +131,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	ADBannerView *adBanner = SharedAdBannerView;
 	adBanner.delegate = self;
-	[self.view addSubview:adBanner];
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	[self layoutCurrentOrientation:NO];
 	
 	if (self.currentSavings) {
 		[self reloadTableData];
@@ -141,12 +142,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	
 	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = ApplicationDelegate;
-	if ([adBanner isDescendantOfView:self.view]) {
-		[adBanner removeFromSuperview];
-	}
+	adBanner.delegate = nil;
 }
 
 #pragma mark - Custom Actions
@@ -736,12 +733,12 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave

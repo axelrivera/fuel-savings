@@ -85,6 +85,8 @@
 {
 	[super viewDidLoad];
 	
+	self.contentView.tag = kAdContentViewTag;
+	
 	if (hasButtons_) {
 		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
@@ -125,8 +127,7 @@
 	
 	ADBannerView *adBanner = SharedAdBannerView;
 	adBanner.delegate = self;
-	[self.view addSubview:adBanner];
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	[self layoutCurrentOrientation:NO];
 	
 	[self reloadTable];
 }
@@ -144,12 +145,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	
 	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = ApplicationDelegate;
-	if ([adBanner isDescendantOfView:self.view]) {
-		[adBanner removeFromSuperview];
-	}
+	adBanner.delegate = nil;
 }
 
 #pragma mark - Custom Actions
@@ -473,12 +470,12 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave

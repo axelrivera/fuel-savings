@@ -159,11 +159,4 @@
 	[super dealloc];
 }
 
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	[banner removeFromSuperview];
-}
-
 @end

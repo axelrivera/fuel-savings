@@ -110,6 +110,8 @@ static NSDictionary *fuelDescription;
 {
 	[super viewDidLoad];
 	
+	self.contentView.tag = kAdContentViewTag;
+	
 	if (self.tabBarController == nil) {
 		[self setupToolbarItems];
 		isAdBannerVisible_ = NO;
@@ -142,8 +144,7 @@ static NSDictionary *fuelDescription;
 	if (isAdBannerVisible_) {
 		ADBannerView *adBanner = SharedAdBannerView;
 		adBanner.delegate = self;
-		[self.view addSubview:adBanner];
-		[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+		[self layoutCurrentOrientation:NO];
 	}
 }
 
@@ -153,11 +154,8 @@ static NSDictionary *fuelDescription;
 	
 	if (isAdBannerVisible_) {
 		ADBannerView *adBanner = SharedAdBannerView;
-		[self hideBannerView:contentView_ animated:NO];
-		adBanner.delegate = ApplicationDelegate;
-		if ([adBanner isDescendantOfView:self.view]) {
-			[adBanner removeFromSuperview];
-		}
+		adBanner.delegate = nil;
+		[self hideBannerView:NO];
 	}
 }
 
@@ -388,12 +386,12 @@ static NSDictionary *fuelDescription;
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave

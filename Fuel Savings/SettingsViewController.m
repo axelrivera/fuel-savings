@@ -59,6 +59,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+	self.contentView.tag = kAdContentViewTag;
 }
 
 - (void)viewDidUnload
@@ -74,22 +75,16 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
 	ADBannerView *adBanner = SharedAdBannerView;
 	adBanner.delegate = self;
-	[self.view addSubview:adBanner];
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	[self layoutCurrentOrientation:NO];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	
 	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = ApplicationDelegate;
-	if ([adBanner isDescendantOfView:self.view]) {
-		[adBanner removeFromSuperview];
-	}
+	adBanner.delegate = nil;
 }
 
 #pragma mark - Table view data source
@@ -157,12 +152,12 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave

@@ -6,6 +6,8 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#define kAdContentViewTag 10
+
 #define kDistanceUnitsMileKey @"mile"
 #define kDistanceUnitsKilometerKey @"kilometer"
 

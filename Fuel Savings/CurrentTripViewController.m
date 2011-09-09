@@ -82,6 +82,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 {
 	[super viewDidLoad];
 	
+	self.contentView.tag = kAdContentViewTag;
+	
  	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																				  target:self
 																				  action:@selector(dismissAction)];
@@ -117,8 +119,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	ADBannerView *adBanner = SharedAdBannerView;
 	adBanner.delegate = self;
-	[self.view addSubview:adBanner];
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:NO];
+	[self layoutCurrentOrientation:NO];
 	
 	self.newData = [NSMutableArray arrayWithCapacity:0];
 	
@@ -131,12 +132,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	
 	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = ApplicationDelegate;
-	if ([adBanner isDescendantOfView:self.view]) {
-		[adBanner removeFromSuperview];
-	}
+	adBanner.delegate = nil;
 }
 
 #pragma mark - Custom Actions
@@ -463,12 +460,12 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-	[self layoutContentViewForCurrentOrientation:contentView_ animated:YES];
+	[self layoutCurrentOrientation:YES];
 }
 
 - (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
