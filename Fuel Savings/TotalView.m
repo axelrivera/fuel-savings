@@ -30,23 +30,19 @@
 @synthesize detail1Label = detail1Label_;
 @synthesize detail2Label = detail2Label_;
 
-- (id)initWithFrame:(CGRect)frame type:(TotalViewType)type
+- (id)initWithFrame:(CGRect)frame
 {
 	self = [super initWithFrame:frame];
 	if (self) {
 		self.opaque = YES;
 		self.backgroundColor = [UIColor clearColor];
-		type_ = type;
 		
 		[self setImageView];
 		[self setTitleLabel];
 		[self setText1Label];
 		[self setDetail1Label];
-		
-		if (type_ == TotalViewTypeDouble) {
-			[self setText2Label];
-			[self setDetail2Label];
-		}
+		[self setText2Label];
+		[self setDetail2Label];
 	}
 	return self;
 }
@@ -83,7 +79,7 @@
 										 self.bounds.size.width - (10.0 + TEXT_LABEL_WIDTH + 1.0 + 10.0),
 										 17.0);
 	
-	if (type_ == TotalViewTypeDouble) {
+	if (self.text2Label.hidden == NO && self.detail2Label.hidden == NO) {		
 		self.text2Label.frame = CGRectMake(10.0,
 										   10.0 + 24.0 + 5.0 + 17.0 + 5.0,
 										   TEXT_LABEL_WIDTH,
@@ -127,6 +123,7 @@
 {
 	[text2Label_ autorelease];
 	text2Label_ = [[self commonLabel] retain];
+	text2Label_.hidden = YES;
 	[self addSubview:text2Label_];
 }
 
@@ -143,6 +140,7 @@
 	[detail2Label_ autorelease];
 	detail2Label_ = [[self commonLabel] retain];
 	detail2Label_.textAlignment = UITextAlignmentRight;
+	detail2Label_.hidden = YES;
 	[self addSubview:detail2Label_];
 }
 

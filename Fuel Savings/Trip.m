@@ -107,10 +107,9 @@
 
 - (void)setDefaultValues
 {
-	self.name = @"My Trip";
-	
-	self.distance = [NSNumber numberWithInteger:100];
-	self.vehicle = [Vehicle vehicleWithName:@"My Car" country:country_];
+	self.name = kTripDefaultName;
+	self.distance = [NSNumber numberWithInteger:kTripDefaultDistance];
+	self.vehicle = [Vehicle vehicleWithName:kTripDefaultVehicleName country:country_];
 }
 
 - (NSString *)stringForName

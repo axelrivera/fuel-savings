@@ -7,6 +7,7 @@
 //
 
 #import "FuelSavingsViewController.h"
+#import "FuelSavingsViewController+Details.h"
 #import "TotalView.h"
 #import "TotalViewCell.h"
 #import "TotalDetailViewCell.h"
@@ -19,22 +20,12 @@
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_ACTION_TAG 2
 
-@interface FuelSavingsViewController (Private)
-
-- (NSArray *)infoDetails;
-- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle;
-
-@end
-
 @implementation FuelSavingsViewController
 
 @synthesize contentView = contentView_;
 @synthesize savingsTable = savingsTable_;
 @synthesize instructionsLabel = instructionsLabel_;
 @synthesize currentSavings = currentSavings_;
-@synthesize infoSummary = infoSummary_;
-@synthesize car1Summary = car1Summary_;
-@synthesize car2Summary = car2Summary_;
 
 - (id)init
 {
@@ -68,9 +59,6 @@
 	[savingsTable_ release];
 	[instructionsLabel_ release];
 	[currentSavings_ release];
-	[infoSummary_ release];
-	[car1Summary_ release];
-	[car2Summary_ release];
 	[super dealloc];
 }
 
@@ -157,7 +145,7 @@
 
 - (void)newCheckAction
 {
-	if ([self.currentSavings isSavingsEmpty]) {
+	if ([currentSavings_ isSavingsEmpty]) {
 		[self performSelector:@selector(newAction)];
 	} else {
 		[self performSelector:@selector(newOptionsAction:)];
@@ -167,7 +155,6 @@
 - (void)newAction
 {
 	Savings *newSavings = [[Savings calculation] retain];
-	[newSavings setDefaultValues];
 	
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings];
 	currentSavingsViewController.delegate = self;
@@ -183,7 +170,7 @@
 
 - (void)editAction
 {
-	Savings *editSavings = [self.currentSavings retain];
+	Savings *editSavings = [currentSavings_ retain];
 	
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:editSavings];
 	currentSavingsViewController.delegate = self;
@@ -279,78 +266,24 @@
 
 - (void)saveCurrentSavings:(Savings *)savings
 {
-	self.currentSavings = savings;
+	Savings *savingsCopy = [savings copy];
+	self.currentSavings = savingsCopy;
+	[savingsCopy release];
 	if (hasButtons_) {
-		savingsData_.currentSavings = savings;
+		savingsData_.currentSavings = currentSavings_;
 	}
 }
 
 - (void)reloadTable
 {
-	if ([self.currentSavings isSavingsEmpty]) {
+	if ([currentSavings_ isSavingsEmpty]) {
 		self.savingsTable.hidden = YES;
 		self.navigationItem.rightBarButtonItem.enabled = NO;
 	} else {
 		self.savingsTable.hidden = NO;
 		self.navigationItem.rightBarButtonItem.enabled = YES;
-		
-		DetailSummaryView *infoView = [[DetailSummaryView alloc] initWithDetails:[self infoDetails]];
-		infoView.titleLabel.text = @"Details";
-		infoView.imageView.image = [UIImage imageNamed:@"details.png"];
-		[self setInfoSummary:infoView];
-		[infoView release];
-		
-		DetailSummaryView *car1View = [[DetailSummaryView alloc] initWithDetails:[self carDetailsForVehicle:self.currentSavings.vehicle1]];
-		car1View.titleLabel.text = @"Car 1";
-		car1View.imageView.image = [UIImage imageNamed:@"car.png"];
-		[self setCar1Summary:car1View];
-		[car1View release];
-		
-		if ([self.currentSavings.vehicle2 hasDataReady]) {
-			DetailSummaryView *car2View = [[DetailSummaryView alloc] initWithDetails:[self carDetailsForVehicle:self.currentSavings.vehicle2]];
-			car2View.titleLabel.text = @"Car 2";
-			car2View.imageView.image = [UIImage imageNamed:@"car.png"];
-			[self setCar2Summary:car2View];
-			[car2View release];
-		}
 	}
 	[self.savingsTable reloadData];
-}
-
-#pragma mark - Private Methods
-
-- (NSArray *)infoDetails
-{
-	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
-	
-	[details addObject:[DetailView detailDictionaryWithText:@"Using" detail:[self.currentSavings stringForCurrentType]]];
-	[details addObject:[DetailView detailDictionaryWithText:@"Distance" detail:[self.currentSavings stringForDistance]]];
-	
-	if (self.currentSavings.type == EfficiencyTypeCombined) {
-		[details addObject:[DetailView detailDictionaryWithText:@"City Drive Ratio" detail:[self.currentSavings stringForCityRatio]]];
-		[details addObject:[DetailView detailDictionaryWithText:@"Highway Drive Ratio" detail:[self.currentSavings stringForHighwayRatio]]];
-	}
-	
-	[details addObject:[DetailView detailDictionaryWithText:@"Ownership" detail:[self.currentSavings stringForCarOwnership]]];
-	
-	return details;
-}
-
-- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle
-{	
-	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
-	
-	[details addObject:[DetailView detailDictionaryWithText:@"Name" detail:[vehicle stringForName]]];
-	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[vehicle stringForFuelPrice]]];
-	
-	if (self.currentSavings.type == EfficiencyTypeAverage) {
-		[details addObject:[DetailView detailDictionaryWithText:@"Average MPG" detail:[vehicle stringForAvgEfficiency]]];
-	} else {
-		[details addObject:[DetailView detailDictionaryWithText:@"City MPG" detail:[vehicle stringForCityEfficiency]]];
-		[details addObject:[DetailView detailDictionaryWithText:@"Highway MPG" detail:[vehicle stringForHighwayEfficiency]]];
-	}
-	
-	return details;
 }
 
 #pragma mark - View Controller Delegates
@@ -366,8 +299,8 @@
 - (void)nameInputViewControllerDidFinish:(NameInputViewController *)controller save:(BOOL)save
 {
 	if (save) {
-		self.currentSavings.name = controller.currentName;
-		Savings *savings = [self.currentSavings copy];
+		currentSavings_.name = controller.currentName;
+		Savings *savings = [currentSavings_ copy];
 		[savingsData_.savingsArray addObject:savings];
 		[savings release];
 		if (isNewSavings_) {
@@ -382,7 +315,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	if ([self.currentSavings isSavingsEmpty]) {
+	if ([currentSavings_ isSavingsEmpty]) {
 		return 0;
 	}
 	return 3;
@@ -391,11 +324,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	NSInteger rows = 1;
-	if (section <= 1 && [self.currentSavings.vehicle2 hasDataReady]) {
+	if (section <= 1 && [currentSavings_.vehicle2 hasDataReady]) {
 		rows = 2;
-	} else if (section == 2 && [self.currentSavings.vehicle2 hasDataReady]) {
+	} else if (section == 2 && [currentSavings_.vehicle2 hasDataReady]) {
 		rows = 3;
-	} else if (section == 2 && ![self.currentSavings.vehicle2 hasDataReady]) {
+	} else if (section == 2 && ![currentSavings_.vehicle2 hasDataReady]) {
 		rows = 2;
 	}
 	return rows;
@@ -405,63 +338,22 @@
 {	
 	if (indexPath.section <= 1) {
 		if (indexPath.row < 1) {
-			TotalViewType type = TotalViewTypeSingle;
-			if ([self.currentSavings.vehicle2 hasDataReady]) {
-				type = TotalViewTypeDouble;
+			static NSString *CellIdentifier = @"TotalCell";
+			TotalViewCell *totalCell = (TotalViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+			if (totalCell == nil) {
+				totalCell = [[[TotalViewCell alloc] initWithReuseIdentifier:CellIdentifier] autorelease];
 			}
-			TotalViewCell *totalCell = [[[TotalViewCell alloc] initWithTotalType:type reuseIdentifier:nil] autorelease];
+			
+			TotalView *totalView = nil;
+			if (indexPath.section == 0) {
+				totalView = [self annualFuelCostView];
+			} else {
+				totalView = [self totalFuelCostView];
+			}
+			
+			[totalCell setTotalView:totalView];
 			
 			totalCell.selectionStyle = UITableViewCellSelectionStyleNone;
-			
-			NSString *imageStr = nil;;
-			NSString *titleStr = nil;
-			NSString *text1LabelStr = nil;
-			NSString *text2LabelStr = nil;
-			NSString *detail1LabelStr = nil;
-			NSString *detail2LabelStr = nil;
-			
-			text1LabelStr = self.currentSavings.vehicle1.name;
-			text2LabelStr = self.currentSavings.vehicle2.name;
-			
-			if (indexPath.section == 0) {
-				imageStr = @"money.png";
-				titleStr = @"Annual Fuel Cost";
-				detail1LabelStr = [self.currentSavings stringForAnnualCostForVehicle1];
-				detail2LabelStr = [self.currentSavings stringForAnnualCostForVehicle2];
-			} else {
-				imageStr = @"chart.png";
-				titleStr = @"Total Fuel Cost";
-				detail1LabelStr = [self.currentSavings stringForTotalCostForVehicle1];
-				detail2LabelStr = [self.currentSavings stringForTotalCostForVehicle2];
-			}
-			
-			totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
-			totalCell.totalView.titleLabel.text = titleStr;
-			totalCell.totalView.text1Label.text = text1LabelStr;
-			totalCell.totalView.detail1Label.text = detail1LabelStr;
-			
-			if ([self.currentSavings.vehicle2 hasDataReady]) {
-				totalCell.totalView.text2Label.text = text2LabelStr;
-				totalCell.totalView.detail2Label.text = detail2LabelStr;
-				
-				NSComparisonResult compareCost;
-				
-				if (indexPath.section == 0) {
-					compareCost = [[self.currentSavings annualCostForVehicle1] compare:[self.currentSavings annualCostForVehicle2]];
-				} else {
-					compareCost = [[self.currentSavings totalCostForVehicle1] compare:[self.currentSavings totalCostForVehicle2]];
-				}
-				
-				UIColor *highlightColor = [UIColor colorWithRed:245.0/255.0 green:121.0/255.0 blue:0.0 alpha:1.0];
-				
-				if (compareCost == NSOrderedAscending) {
-					totalCell.totalView.text1Label.textColor = highlightColor;
-					totalCell.totalView.detail1Label.textColor = highlightColor;
-				} else if (compareCost == NSOrderedDescending) {
-					totalCell.totalView.text2Label.textColor = highlightColor;
-					totalCell.totalView.detail2Label.textColor = highlightColor;
-				}
-			}
 			
 			return totalCell;
 		} else {
@@ -478,9 +370,9 @@
 			NSString *textLabelStr = nil;
 			
 			if (indexPath.section == 0) {
-				textLabelStr = [self.currentSavings annualCostCompareString];
+				textLabelStr = [currentSavings_ annualCostCompareString];
 			} else {
-				textLabelStr = [self.currentSavings totalCostCompareString];
+				textLabelStr = [currentSavings_ totalCostCompareString];
 			}
 			
 			detailCell.textLabel.text = textLabelStr;
@@ -488,28 +380,26 @@
 			return detailCell;
 		}
 	}
-	
-	DetailSummaryView *summary = nil;
-	
-	if (indexPath.row == 0) {
-		summary = infoSummary_;
-	} else if (indexPath.row == 1) {
-		summary = car1Summary_;
-	} else {
-		summary = car2Summary_;
-	}
-	
-	NSString *SummaryCellIdentifier = [NSString stringWithFormat:@"SummaryCell%i", [summary.detailViews count]];
+		
+	static NSString *SummaryCellIdentifier = @"SummaryCell";
 	
 	DetailSummaryViewCell *summaryCell = (DetailSummaryViewCell *)[tableView dequeueReusableCellWithIdentifier:SummaryCellIdentifier];
-	
 	if (summaryCell == nil) {
 		summaryCell = [[[DetailSummaryViewCell alloc] initWithReuseIdentifier:SummaryCellIdentifier] autorelease];
 	}
 	
-	summaryCell.selectionStyle = UITableViewCellSelectionStyleNone;
+	DetailSummaryView *summaryView = nil;
+	if (indexPath.row == 0) {
+		summaryView = [self infoSummaryView];
+	} else if (indexPath.row == 1) {
+		summaryView = [self car1SummaryView];
+	} else {
+		summaryView = [self car2SummaryView];
+	}
 	
-	[summaryCell setSummaryView:summary];
+	[summaryCell setSummaryView:summaryView];
+	
+	summaryCell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	return summaryCell;
 }
@@ -520,7 +410,7 @@
 	if (indexPath.section <= 1) {
 		if (indexPath.row < 1) {
 			height = 66.0;
-			if ([self.currentSavings.vehicle2 hasDataReady]) {
+			if ([currentSavings_.vehicle2 hasDataReady]) {
 				height = 88.0;
 			}
 		} else {
@@ -528,13 +418,13 @@
 		}
 	} else if (indexPath.section == 2) {
 		if (indexPath.row == 0) {
-			if (self.currentSavings.type == EfficiencyTypeAverage) {
+			if (currentSavings_.type == EfficiencyTypeAverage) {
 				height = 100.0;
 			} else {
 				height = 134.0;
 			}
 		} else {
-			if (self.currentSavings.type == EfficiencyTypeAverage) {
+			if (currentSavings_.type == EfficiencyTypeAverage) {
 				height = 100.0;
 			} else {
 				height = 117.0;

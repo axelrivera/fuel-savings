@@ -15,7 +15,6 @@
 
 - (id)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 
-- (void)setSummaryView:(DetailSummaryView *)summaryView;
 - (void)redisplay;
 
 @end

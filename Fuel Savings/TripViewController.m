@@ -7,6 +7,7 @@
 //
 
 #import "TripViewController.h"
+#import "TripViewController+Details.h"
 #import "TotalView.h"
 #import "TotalViewCell.h"
 #import "TotalDetailViewCell.h"
@@ -19,21 +20,12 @@
 #define TRIP_NEW_TAG 1
 #define TRIP_ACTION_TAG 2
 
-@interface TripViewController (Private)
-
-- (NSArray *)infoDetails;
-- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle;
-
-@end
-
 @implementation TripViewController
 
 @synthesize contentView = contentView_;
 @synthesize tripTable = tripTable_;
 @synthesize instructionsLabel = instructionsLabel_;
 @synthesize currentTrip = currentTrip_;
-@synthesize infoSummary = infoSummary_;
-@synthesize carSummary = carSummary_;
 
 - (id)init
 {
@@ -279,7 +271,9 @@
 
 - (void)saveCurrentTrip:(Trip *)trip
 {
-	self.currentTrip = trip;
+	Trip *tripCopy = [trip copy];
+	self.currentTrip = tripCopy;
+	[tripCopy release];
 	if (hasButtons_) {
 		savingsData_.currentTrip = trip;
 	}
@@ -293,43 +287,8 @@
 	} else {
 		self.tripTable.hidden = NO;
 		self.navigationItem.rightBarButtonItem.enabled = YES;
-		
-		DetailSummaryView *infoView = [[DetailSummaryView alloc] initWithDetails:[self infoDetails]];
-		infoView.titleLabel.text = @"Details";
-		infoView.imageView.image = [UIImage imageNamed:@"details.png"];
-		[self setInfoSummary:infoView];
-		[infoView release];
-		
-		DetailSummaryView *carView = [[DetailSummaryView alloc] initWithDetails:[self carDetailsForVehicle:self.currentTrip.vehicle]];
-		carView.titleLabel.text = @"My Car";
-		carView.imageView.image = [UIImage imageNamed:@"car.png"];
-		[self setCarSummary:carView];
-		[carView release];
 	}
 	[self.tripTable reloadData];
-}
-
-#pragma mark - Private Methods
-
-- (NSArray *)infoDetails
-{
-	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
-	
-	[details addObject:[DetailView detailDictionaryWithText:@"Trip Name" detail:[self.currentTrip stringForName]]];
-	[details addObject:[DetailView detailDictionaryWithText:@"Distance" detail:[self.currentTrip stringForDistance]]];
-	
-	return details;
-}
-
-- (NSArray *)carDetailsForVehicle:(Vehicle *)vehicle
-{	
-	NSMutableArray *details = [[[NSMutableArray alloc] initWithCapacity:0] autorelease];
-	
-	[details addObject:[DetailView detailDictionaryWithText:@"Name" detail:[vehicle stringForName]]];
-	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Price" detail:[self.currentTrip.vehicle stringForFuelPrice]]];
-	[details addObject:[DetailView detailDictionaryWithText:@"Fuel Efficiency" detail:[vehicle stringForAvgEfficiency]]];
-	
-	return details;
 }
 
 #pragma mark - View Controller Delegates
@@ -381,51 +340,36 @@
 		static NSString *TotalCellIdentifier = @"TotalCell";
 		
 		TotalViewCell *totalCell = (TotalViewCell *)[tableView dequeueReusableCellWithIdentifier:TotalCellIdentifier];
-		
 		if (totalCell == nil) {
-			totalCell = [[[TotalViewCell alloc] initWithTotalType:TotalViewTypeSingle reuseIdentifier:TotalCellIdentifier] autorelease];
+			totalCell = [[[TotalViewCell alloc] initWithReuseIdentifier:TotalCellIdentifier] autorelease];
 		}
+		
+		TotalView *totalView = [self tripCostView];
+		[totalCell setTotalView:totalView];
 		
 		totalCell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
-		NSString *imageStr = @"money.png";
-		NSString *titleStr = @"Trip Cost";
-		NSString *text1LabelStr = [self.currentTrip stringForName];
-		
-		NSString *detail1LabelStr = [self.currentTrip stringForTripCost];
-		
-		totalCell.totalView.imageView.image = [UIImage imageNamed:imageStr];
-		totalCell.totalView.titleLabel.text = titleStr;
-		totalCell.totalView.text1Label.text = text1LabelStr;
-		totalCell.totalView.detail1Label.text = detail1LabelStr;
-		
-		UIColor *textColor = [UIColor colorWithRed:0.0 green:128.0/255.0 blue:0.0 alpha:1.0];
-		
-		totalCell.totalView.text1Label.textColor = textColor;
-		totalCell.totalView.detail1Label.textColor = textColor;
-		
 		return totalCell;
 	} 
-	
-	DetailSummaryView *summary = nil;
-	
-	if (indexPath.row == 0) {
-		summary = infoSummary_;
-	} else {
-		summary = carSummary_;
-	}
-	
-	NSString *SummaryCellIdentifier = [NSString stringWithFormat:@"SummaryCell%i", [summary.detailViews count]];
+		
+	static NSString *SummaryCellIdentifier = @"SummaryCell";
 	
 	DetailSummaryViewCell *summaryCell = (DetailSummaryViewCell *)[tableView dequeueReusableCellWithIdentifier:SummaryCellIdentifier];
-	
 	if (summaryCell == nil) {
 		summaryCell = [[[DetailSummaryViewCell alloc] initWithReuseIdentifier:SummaryCellIdentifier] autorelease];
 	}
 	
-	summaryCell.selectionStyle = UITableViewCellSelectionStyleNone;
+	DetailSummaryView *summaryView = nil;
 	
-	[summaryCell setSummaryView:summary];
+	if (indexPath.row == 0) {
+		summaryView = [self infoSummaryView];
+	} else {
+		summaryView = [self carSummaryView];
+	}
+
+	[summaryCell setSummaryView:summaryView];
+	
+	summaryCell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	return summaryCell;
 }

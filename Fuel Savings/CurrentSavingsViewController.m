@@ -193,7 +193,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (void)resetCar2Action
 {
-	self.currentSavings.vehicle2.name = @"Car 2";
+	self.currentSavings.vehicle2.name = kSavingsVehicle2DefaultName;
 	self.currentSavings.vehicle2.avgEfficiency = [NSNumber numberWithInteger:0];
 	self.currentSavings.vehicle2.cityEfficiency = [NSNumber numberWithInteger:0];
 	self.currentSavings.vehicle2.highwayEfficiency = [NSNumber numberWithInteger:0];
@@ -267,11 +267,11 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	if ([key isEqualToString:vehicle1Key]) {
 		vehicle = self.currentSavings.vehicle1;
-		titleText = @"Car 1";
+		titleText = kSavingsVehicle1DefaultName;
 		titleSelector = @selector(selectCar1Action);
 	} else {
 		vehicle = self.currentSavings.vehicle2;
-		titleText = @"Car 2";
+		titleText = kSavingsVehicle2DefaultName;
 		titleSelector = @selector(selectCar2Action);
 		emptyStr = @"optional";
 	}

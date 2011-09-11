@@ -6,6 +6,17 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#define kSavingsDefaultCityRatio 0.55f
+#define kSavingsDefaultHighwayRatio 0.45f
+#define kSavingsDefaultDistance 15000
+#define kSavingsDefaultCarOwnership 5
+#define kSavingsVehicle1DefaultName @"Car 1"
+#define kSavingsVehicle2DefaultName @"Car 2"
+
+#define kTripDefaultName @"My Trip"
+#define kTripDefaultDistance 100
+#define kTripDefaultVehicleName @"My Car"
+
 #define kAdContentViewTag 10
 
 #define kDistanceUnitsMileKey @"mile"

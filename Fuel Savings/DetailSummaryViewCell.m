@@ -29,6 +29,9 @@
 
 - (void)setSummaryView:(DetailSummaryView *)summaryView
 {
+	[summaryView_ removeFromSuperview];
+	[summaryView_ autorelease];
+	
 	CGRect tvFrame = CGRectMake(0.0, 0.0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
 	summaryView_ = [summaryView retain];
 	summaryView_.frame = tvFrame;

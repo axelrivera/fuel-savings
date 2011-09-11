@@ -32,6 +32,7 @@
 		162831AE1409A2B500C71D4D /* details@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A61409A2B200C71D4D /* details@2x.png */; };
 		162831AF1409A2B500C71D4D /* money.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A71409A2B300C71D4D /* money.png */; };
 		162831B01409A2B500C71D4D /* money@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 162831A81409A2B400C71D4D /* money@2x.png */; };
+		1632108D141AA86500B33076 /* FuelSavingsViewController+Details.m in Sources */ = {isa = PBXBuildFile; fileRef = 1632108C141AA86500B33076 /* FuelSavingsViewController+Details.m */; };
 		1635AFD813D0C549005FC8EB /* CurrentTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */; };
 		1635AFDA13D0D51F005FC8EB /* CurrentTripViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */; };
 		16376D8413F5B961002E0036 /* DetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16376D8313F5B961002E0036 /* DetailView.m */; };
@@ -39,6 +40,7 @@
 		1640EC1713BE137F008190C1 /* EfficiencyInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1640EC1613BE137F008190C1 /* EfficiencyInputViewController.m */; };
 		1640EC1A13BE13A7008190C1 /* EfficiencyInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */; };
 		1643A65A13E9B8F9005F2F1F /* TotalDetailViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */; };
+		1645CE64141D40BC0054E16E /* TripViewController+Details.m in Sources */ = {isa = PBXBuildFile; fileRef = 1645CE63141D40BC0054E16E /* TripViewController+Details.m */; };
 		1646C6AC13FAF743006571C1 /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1646C6AB13FAF743006571C1 /* Settings.m */; };
 		164E1E8713FDB05E00095044 /* NSNumber+Units.m in Sources */ = {isa = PBXBuildFile; fileRef = 164E1E8613FDB05E00095044 /* NSNumber+Units.m */; };
 		1657C4E91419178D007A0D97 /* Fuel_Savings.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 1657C4E81419178D007A0D97 /* Fuel_Savings.entitlements */; };
@@ -150,6 +152,8 @@
 		162831A61409A2B200C71D4D /* details@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "details@2x.png"; sourceTree = "<group>"; };
 		162831A71409A2B300C71D4D /* money.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = money.png; sourceTree = "<group>"; };
 		162831A81409A2B400C71D4D /* money@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "money@2x.png"; sourceTree = "<group>"; };
+		1632108B141AA86500B33076 /* FuelSavingsViewController+Details.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FuelSavingsViewController+Details.h"; sourceTree = "<group>"; };
+		1632108C141AA86500B33076 /* FuelSavingsViewController+Details.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FuelSavingsViewController+Details.m"; sourceTree = "<group>"; };
 		1635AFD613D0C549005FC8EB /* CurrentTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentTripViewController.h; sourceTree = "<group>"; };
 		1635AFD713D0C549005FC8EB /* CurrentTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentTripViewController.m; sourceTree = "<group>"; };
 		1635AFD913D0D51F005FC8EB /* CurrentTripViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CurrentTripViewController.xib; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 		1640EC1913BE13A7008190C1 /* EfficiencyInputViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EfficiencyInputViewController.xib; sourceTree = "<group>"; };
 		1643A65813E9B8F9005F2F1F /* TotalDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalDetailViewCell.h; sourceTree = "<group>"; };
 		1643A65913E9B8F9005F2F1F /* TotalDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalDetailViewCell.m; sourceTree = "<group>"; };
+		1645CE62141D40BC0054E16E /* TripViewController+Details.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TripViewController+Details.h"; sourceTree = "<group>"; };
+		1645CE63141D40BC0054E16E /* TripViewController+Details.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TripViewController+Details.m"; sourceTree = "<group>"; };
 		1646C6AA13FAF743006571C1 /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		1646C6AB13FAF743006571C1 /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		164E1E8513FDB05E00095044 /* NSNumber+Units.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+Units.h"; sourceTree = "<group>"; };
@@ -285,6 +291,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1632108F141AAFDE00B33076 /* Controller Categories */ = {
+			isa = PBXGroup;
+			children = (
+				1632108B141AA86500B33076 /* FuelSavingsViewController+Details.h */,
+				1632108C141AA86500B33076 /* FuelSavingsViewController+Details.m */,
+				1645CE62141D40BC0054E16E /* TripViewController+Details.h */,
+				1645CE63141D40BC0054E16E /* TripViewController+Details.m */,
+			);
+			name = "Controller Categories";
+			sourceTree = "<group>";
+		};
 		1635AFD313D0C496005FC8EB /* Input */ = {
 			isa = PBXGroup;
 			children = (
@@ -467,6 +484,7 @@
 				168A426813FD8DB60044E421 /* CountriesViewController.m */,
 				16C27BB613FC4F110084C2F5 /* AboutViewController.h */,
 				16C27BB713FC4F110084C2F5 /* AboutViewController.m */,
+				1632108F141AAFDE00B33076 /* Controller Categories */,
 				1635AFD313D0C496005FC8EB /* Input */,
 			);
 			name = Controllers;
@@ -692,6 +710,8 @@
 				161D0778140FF5CE00689107 /* MPGDatabaseInfo.m in Sources */,
 				161D077D140FF6DA00689107 /* MPGDatabase.xcdatamodeld in Sources */,
 				16729A981416941900BB3BFF /* RLTopBarView.m in Sources */,
+				1632108D141AA86500B33076 /* FuelSavingsViewController+Details.m in Sources */,
+				1645CE64141D40BC0054E16E /* TripViewController+Details.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

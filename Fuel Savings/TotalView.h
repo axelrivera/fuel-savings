@@ -8,14 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum {
-	TotalViewTypeSingle,
-	TotalViewTypeDouble
-} TotalViewType;
-
-@interface TotalView : UIView {
-	TotalViewType type_;
-}
+@interface TotalView : UIView
 
 @property (nonatomic, retain, readonly) UIImageView *imageView;
 @property (nonatomic, retain, readonly) UILabel *titleLabel;
@@ -24,6 +17,6 @@ typedef enum {
 @property (nonatomic, retain, readonly) UILabel *detail1Label;
 @property (nonatomic, retain, readonly) UILabel *detail2Label;
 
-- (id)initWithFrame:(CGRect)frame type:(TotalViewType)type;
+- (id)initWithFrame:(CGRect)frame;
 
 @end

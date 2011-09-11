@@ -27,9 +27,6 @@ NameInputViewControllerDelegate, ADBannerViewDelegate>
 @property (nonatomic, retain) IBOutlet UITableView *savingsTable;
 @property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
 @property (nonatomic, copy) Savings *currentSavings;
-@property (nonatomic, retain) DetailSummaryView *infoSummary;
-@property (nonatomic, retain) DetailSummaryView *car1Summary;
-@property (nonatomic, retain) DetailSummaryView *car2Summary;
 
 - (id)initWithTabBar:(BOOL)tab buttons:(BOOL)buttons;
 

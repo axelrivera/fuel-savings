@@ -286,12 +286,12 @@ static NSNumberFormatter *currencyFormatter_;
 	self.name = @"";
 	self.type = EfficiencyTypeAverage;
 
-	self.cityRatio = [NSNumber numberWithFloat:0.55];
-	self.highwayRatio = [NSNumber numberWithFloat:0.45];
-	self.distance = [NSNumber numberWithInteger:15000];
-	self.carOwnership = [NSNumber numberWithInteger:5];
-	self.vehicle1 = [Vehicle vehicleWithName:@"Car 1" country:country_];
-	self.vehicle2 = [Vehicle vehicleWithName:@"Car 2" country:country_];
+	self.cityRatio = [NSNumber numberWithFloat:kSavingsDefaultCityRatio];
+	self.highwayRatio = [NSNumber numberWithFloat:kSavingsDefaultHighwayRatio];
+	self.distance = [NSNumber numberWithInteger:kSavingsDefaultDistance];
+	self.carOwnership = [NSNumber numberWithInteger:kSavingsDefaultCarOwnership];
+	self.vehicle1 = [Vehicle vehicleWithName:kSavingsVehicle1DefaultName country:country_];
+	self.vehicle2 = [Vehicle vehicleWithName:kSavingsVehicle2DefaultName country:country_];
 }
 
 - (BOOL)isSavingsEmpty
