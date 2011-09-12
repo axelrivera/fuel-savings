@@ -2,8 +2,8 @@
 //  OwnerInputViewController.h
 //  Fuel Savings
 //
-//  Created by arn on 6/29/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Axel Rivera on 6/29/11.
+//  Copyright 2011 Axel Rivera. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

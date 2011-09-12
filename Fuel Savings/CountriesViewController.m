@@ -1,9 +1,9 @@
 //
-//  CurrencyViewController.m
+//  CountriesViewController.m
 //  Fuel Savings
 //
 //  Created by Axel Rivera on 8/18/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Axel Rivera. All rights reserved.
 //
 
 #import "CountriesViewController.h"

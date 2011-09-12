@@ -3,7 +3,7 @@
 //  Fuel Savings
 //
 //  Created by Axel Rivera on 8/19/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Axel Rivera. All rights reserved.
 //
 
 #define kSavingsDefaultCityRatio 0.55f

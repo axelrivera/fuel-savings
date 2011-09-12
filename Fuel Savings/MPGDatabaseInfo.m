@@ -1,9 +1,9 @@
 //
 //  MPGDatabaseInfo.m
-//  MPGDatabase
+//  Fuel Savings
 //
 //  Created by Axel Rivera on 7/22/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 Axel Rivera. All rights reserved.
 //
 
 #import "MPGDatabaseInfo.h"
