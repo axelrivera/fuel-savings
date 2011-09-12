@@ -11,10 +11,10 @@
 
 @interface Trip : NSObject <NSCoding, NSCopying>
 
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSNumber *distance;
-@property (nonatomic, retain) Vehicle *vehicle;
-@property (nonatomic, retain, readonly) NSString *country;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSNumber *distance;
+@property (nonatomic, copy) Vehicle *vehicle;
+@property (nonatomic, copy, readonly) NSString *country;
 
 + (Trip *)calculation;
 + (Trip *)emptyTrip;

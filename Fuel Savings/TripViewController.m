@@ -172,11 +172,9 @@
 - (void)editAction
 {
 	Trip *editTrip = [self.currentTrip retain];
-	
 	CurrentTripViewController *currentTripViewController = [[CurrentTripViewController alloc] initWithTrip:editTrip];
 	currentTripViewController.delegate = self;
 	currentTripViewController.isEditingTrip = YES;
-	
 	[editTrip release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentTripViewController];
@@ -214,7 +212,6 @@
 		[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 		
 		inputViewController.currentName = [NSString stringWithFormat:@"Trip %@", [dateFormatter stringFromDate:[NSDate date]]];
-		
 		[dateFormatter release];
 	}
 	

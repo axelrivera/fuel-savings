@@ -76,7 +76,6 @@
 	
 	[self setupSegmentedControl];
 	self.navigationItem.titleView = self.segmentedControl;
-	
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
@@ -140,7 +139,7 @@
 								  destructiveButtonTitle:@"Delete All"
 								  otherButtonTitles:nil];
 	
-	[actionSheet showFromTabBar:self.tabBarController.tabBar];
+	[actionSheet showInView:self.tabBarController.view];
 	[actionSheet release];	
 }
 
@@ -149,11 +148,11 @@
 
 - (void)setupSegmentedControl
 {	
-	UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:@"Savings", @"Trips", nil]];
+	UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:
+											[NSArray arrayWithObjects:@"Savings", @"Trips", nil]];
 	[segmentedControl setSegmentedControlStyle:UISegmentedControlStyleBar];
 	[segmentedControl setMomentary:NO];
 	[segmentedControl addTarget:self action:@selector(changedSegmentedControlAction) forControlEvents:UIControlEventValueChanged];
-	
 	
 	[segmentedControl setWidth:80.0 forSegmentAtIndex:0];
 	[segmentedControl setWidth:80.0 forSegmentAtIndex:1];
@@ -259,21 +258,15 @@
 	
 	if ([self.segmentedControl selectedSegmentIndex] == 0) {
 		FuelSavingsViewController *fuelSavingsViewController = [[FuelSavingsViewController alloc] init];
-		
 		Savings *calculation = [self.tableData objectAtIndex:indexPath.row];
-		
 		fuelSavingsViewController.title	= [calculation stringForName];
 		fuelSavingsViewController.currentSavings = calculation;
-		
 		currentController = fuelSavingsViewController;
 	} else {
 		TripViewController *tripViewController = [[TripViewController alloc] init];
-		
 		Trip *calculation = [self.tableData objectAtIndex:indexPath.row];
-		
 		tripViewController.title = [calculation stringForName];
 		tripViewController.currentTrip = calculation;
-		
 		currentController = tripViewController;
 	}
 	
@@ -325,10 +318,6 @@
 		// We also remove that row from the table view with an animation
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
 	}
-	
-	if ([self.tableData count] == 0) {
-		[self setEditing:NO animated:YES];
-	}
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -343,11 +332,6 @@
 		height = 64.0;
 	}
 	return height;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section

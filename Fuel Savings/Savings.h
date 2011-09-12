@@ -11,15 +11,15 @@
 
 @interface Savings : NSObject <NSCoding, NSCopying> 
 
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, copy) NSString *name;
 @property (nonatomic, assign) EfficiencyType type;
-@property (nonatomic, retain) NSNumber *cityRatio;
-@property (nonatomic, retain) NSNumber *highwayRatio;
-@property (nonatomic, retain) NSNumber *distance;
-@property (nonatomic, retain) NSNumber *carOwnership;
-@property (nonatomic, retain) Vehicle *vehicle1;
-@property (nonatomic, retain) Vehicle *vehicle2;
-@property (nonatomic, retain, readonly) NSString *country;
+@property (nonatomic, copy) NSNumber *cityRatio;
+@property (nonatomic, copy) NSNumber *highwayRatio;
+@property (nonatomic, copy) NSNumber *distance;
+@property (nonatomic, copy) NSNumber *carOwnership;
+@property (nonatomic, copy) Vehicle *vehicle1;
+@property (nonatomic, copy) Vehicle *vehicle2;
+@property (nonatomic, copy, readonly) NSString *country;
 
 + (Savings *)calculation;
 + (Savings *)emptySavings;

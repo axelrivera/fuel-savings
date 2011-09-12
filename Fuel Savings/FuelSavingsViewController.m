@@ -145,7 +145,7 @@
 
 - (void)newCheckAction
 {
-	if ([currentSavings_ isSavingsEmpty]) {
+	if ([self.currentSavings isSavingsEmpty]) {
 		[self performSelector:@selector(newAction)];
 	} else {
 		[self performSelector:@selector(newOptionsAction:)];
@@ -155,15 +155,12 @@
 - (void)newAction
 {
 	Savings *newSavings = [[Savings calculation] retain];
-	
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings];
 	currentSavingsViewController.delegate = self;
-	
 	[newSavings release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
 	[currentSavingsViewController release];
-	
 	[self presentModalViewController:navController animated:YES];
 	[navController release];
 }
@@ -171,16 +168,13 @@
 - (void)editAction
 {
 	Savings *editSavings = [currentSavings_ retain];
-	
 	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:editSavings];
 	currentSavingsViewController.delegate = self;
 	currentSavingsViewController.isEditingSavings = YES;
-	
 	[editSavings release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
 	[currentSavingsViewController release];
-	
 	[self presentModalViewController:navController animated:YES];
 	[navController release];
 }
@@ -208,15 +202,11 @@
 	[dateFormatter setTimeStyle:NSDateFormatterMediumStyle];
 	
 	inputViewController.currentName = [NSString stringWithFormat:@"Savings %@", [dateFormatter stringFromDate:[NSDate date]]];
-	
 	[dateFormatter release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
-	
 	[inputViewController release];
-	
 	[self presentModalViewController:navController animated:YES];
-	
 	[navController release];
 }
 
@@ -270,7 +260,7 @@
 	self.currentSavings = savingsCopy;
 	[savingsCopy release];
 	if (hasButtons_) {
-		savingsData_.currentSavings = currentSavings_;
+		savingsData_.currentSavings = savings;
 	}
 }
 
@@ -300,7 +290,7 @@
 {
 	if (save) {
 		currentSavings_.name = controller.currentName;
-		Savings *savings = [currentSavings_ copy];
+		Savings *savings = [self.currentSavings copy];
 		[savingsData_.savingsArray addObject:savings];
 		[savings release];
 		if (isNewSavings_) {
