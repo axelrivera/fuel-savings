@@ -199,11 +199,8 @@ static NSDictionary *fuelDescription;
 - (void)setupDataSourceAndFetchRequest
 {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"MPGDatabaseInfo" inManagedObjectContext:context_];
-	
 	[fetchRequest setEntity:entity];
-	
 	[fetchRequest setResultType:NSDictionaryResultType];
 	
 	NSString *titleStr = nil;
@@ -248,9 +245,7 @@ static NSDictionary *fuelDescription;
 	
 	NSError *error;
 	self.mpgDatabaseInfo = [self.context executeFetchRequest:fetchRequest error:&error];
-	
 	self.navigationItem.title = titleStr;
-	
 	[fetchRequest release];
 }
 
