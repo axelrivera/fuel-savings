@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#include <iAd/iAd.h>
 #import "SavingsData.h"
 #import "Savings.h"
 #import "TypeInputViewController.h"
@@ -24,7 +23,7 @@
 @interface CurrentSavingsViewController : UIViewController
 <UIActionSheetDelegate, TypeInputViewControllerDelegate, PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate,
 OwnerInputViewControllerDelegate, NameInputViewControllerDelegate, EfficiencyInputViewControllerDelegate,
-VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
+VehicleDetailsViewControllerDelegate>
 {
 	BOOL isCar1Selected_;
 	BOOL isCar2Selected_;

@@ -146,8 +146,6 @@ static NSString * const noStr = @"No";
 	[super viewWillDisappear:animated];
 	
 	if (isAdBannerVisible_) {
-		ADBannerView *adBanner = SharedAdBannerView;
-		adBanner.delegate = nil;
 		[self hideBannerView:YES];
 	}
 }

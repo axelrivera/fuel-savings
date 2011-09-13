@@ -83,8 +83,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = nil;
+	[self hideBannerView:YES];
 }
 
 #pragma mark - Table view data source

@@ -153,9 +153,7 @@ static NSDictionary *fuelDescription;
 	[super viewWillDisappear:animated];
 	
 	if (isAdBannerVisible_) {
-		ADBannerView *adBanner = SharedAdBannerView;
-		adBanner.delegate = nil;
-		[self hideBannerView:NO];
+		[self hideBannerView:YES];
 	}
 }
 

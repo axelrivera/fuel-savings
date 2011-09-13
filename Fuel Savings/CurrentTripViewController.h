@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iAd/iAd.h>
 #import "Trip.h"
 #import "PriceInputViewController.h"
 #import "DistanceInputViewController.h"
@@ -19,7 +18,7 @@
 
 @interface CurrentTripViewController : UIViewController
 <PriceInputViewControllerDelegate, DistanceInputViewControllerDelegate, NameInputViewControllerDelegate,
-EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate, ADBannerViewDelegate>
+EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
 
 @property (nonatomic, assign) id <CurrentTripViewControllerDelegate> delegate;
 @property (nonatomic, retain) Trip *currentTrip;

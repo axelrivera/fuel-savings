@@ -11,7 +11,6 @@
 #import "VehicleSelectViewController.h"
 #import "Fuel_SavingsAppDelegate.h"
 #import "Settings.h"
-#import "UIViewController+iAd.h"
 #import "Fuel_SavingsAppDelegate.h"
 
 static NSString * const tripNameKey = @"TripNameKey";
@@ -117,23 +116,12 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		self.title = @"New Trip";
 	}
 	
-	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = self;
-	[self layoutCurrentOrientation:NO];
-	
 	self.newData = [NSMutableArray arrayWithCapacity:0];
 	
 	[newData_ addObject:[self informationArray]];
 	[newData_ addObject:[self vehicleArray]];
 	
 	[newTable_ reloadData];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = nil;
 }
 
 #pragma mark - Custom Actions
@@ -454,29 +442,6 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
-}
-
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-	// Stop or Pause Stuff Here
-	return YES;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-	// Get things back up running again!
 }
 
 @end

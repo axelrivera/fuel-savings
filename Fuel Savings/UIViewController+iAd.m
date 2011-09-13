@@ -87,6 +87,7 @@
 	
 	[self layoutContentFrame:contentFrame bannerFrame:bannerFrame animated:animated];
 	[adBanner removeFromSuperview];
+	adBanner.delegate = nil;
 }
 
 - (NSString *)currentAdContentSizeIdentifier
