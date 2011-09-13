@@ -77,6 +77,8 @@
 	[self setupSegmentedControl];
 	self.navigationItem.titleView = self.segmentedControl;
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	mySavingsTable_.sectionHeaderHeight = 10.0;
+	mySavingsTable_.sectionFooterHeight = 10.0;
 }
 
 - (void)viewDidUnload
@@ -120,29 +122,6 @@
 	}
 	[self reloadTableData];
 }
-
-- (void)deleteAllAction
-{
-	[self setEditing:NO animated:YES];
-	[self.tableData removeAllObjects];
-	[self reloadTableData];
-	
-}
-
-- (void)deleteAllOptionsAction:(id)sender {
-	// open a dialog with two custom buttons	
-	
-	UIActionSheet *actionSheet = [[UIActionSheet alloc]
-								  initWithTitle:nil
-								  delegate:self
-								  cancelButtonTitle:@"Cancel"
-								  destructiveButtonTitle:@"Delete All"
-								  otherButtonTitles:nil];
-	
-	[actionSheet showInView:self.tabBarController.view];
-	[actionSheet release];	
-}
-
 
 #pragma mark - Private Methods
 
@@ -189,7 +168,6 @@
 	// Always call super implementation of this method, it needs to do some work
 	[super setEditing:flag animated:animated];
 	[mySavingsTable_ setEditing:flag animated:animated];
-	[mySavingsTable_ reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
 	self.segmentedControl.enabled = !self.segmentedControl.enabled;
 }
 
@@ -206,10 +184,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+	NSInteger rows = 0;
 	if (section == 0) {
-		return [self.tableData count];
+		rows = [self.tableData count];
 	}
-	return 1;
+	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -237,7 +216,6 @@
 	
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 	cell.editingAccessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-	
 	cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 	
 	cell.imageView.image = iconImage;
@@ -291,11 +269,8 @@
 	selectedRow_ = indexPath.row;
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inputViewController];
-	
 	[inputViewController release];
-	
 	[self presentModalViewController:navController animated:YES];
-	
 	[navController release];
 }
 
@@ -317,47 +292,6 @@
 		[self.tableData removeObjectAtIndex:indexPath.row];
 		// We also remove that row from the table view with an animation
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-	}
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-	return 10.0;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-	CGFloat height = 10.0;
-	if (tableView.editing) {
-		height = 64.0;
-	}
-	return height;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-	if (tableView.editing) {
-		UIView *sectionView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-		
-		RLCustomButton *button = [[RLCustomButton deleteAllButton] retain];
-		[button addTarget:self action:@selector(deleteAllOptionsAction:) forControlEvents:UIControlEventTouchDown];
-		button.frame = CGRectMake(10.0,
-								  10.0,
-								  tableView.bounds.size.width - 20.0,
-								  44.0);
-		
-		[sectionView addSubview:button];
-		[button release];
-		return sectionView;
-	}
-	return [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
-}
-
-#pragma mark - UIActionSheet Delegate
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 0) {
-		[self performSelector:@selector(deleteAllAction)];
 	}
 }
 

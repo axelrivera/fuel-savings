@@ -10,7 +10,7 @@
 #import <iAd/iAd.h>
 #import "NameInputViewController.h"
 
-@interface MySavingsViewController : UIViewController <NameInputViewControllerDelegate, UIActionSheetDelegate, ADBannerViewDelegate> {
+@interface MySavingsViewController : UIViewController <NameInputViewControllerDelegate, ADBannerViewDelegate> {
 	NSInteger selectedRow_;
 	NSInteger selectedIndex_;
 }

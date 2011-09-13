@@ -58,11 +58,6 @@
 		1666FCFD13B8FA8B00FC97F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FCFC13B8FA8B00FC97F1 /* main.m */; };
 		1666FD0013B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FCFF13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m */; };
 		1666FD0313B8FA8B00FC97F1 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0113B8FA8B00FC97F1 /* MainWindow.xib */; };
-		1666FD1013B8FAC500FC97F1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0913B8FAC500FC97F1 /* Icon-72.png */; };
-		1666FD1113B8FAC500FC97F1 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */; };
-		1666FD1213B8FAC500FC97F1 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */; };
-		1666FD1313B8FAC500FC97F1 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */; };
-		1666FD1613B8FAC500FC97F1 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */; };
 		1666FD1D13B8FB4D00FC97F1 /* Savings.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1C13B8FB4D00FC97F1 /* Savings.m */; };
 		1666FD2013B8FB5D00FC97F1 /* Vehicle.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD1F13B8FB5D00FC97F1 /* Vehicle.m */; };
 		1666FD2B13B9108B00FC97F1 /* FuelSavingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1666FD2A13B9108B00FC97F1 /* FuelSavingsViewController.m */; };
@@ -107,13 +102,18 @@
 		16C9E31E13E83E71001809B2 /* TotalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 16C9E31D13E83E71001809B2 /* TotalView.m */; };
 		16CBB87813D0805F00E8BD05 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87713D0805F00E8BD05 /* Trip.m */; };
 		16CBB87A13D0907200E8BD05 /* FuelSavingsHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = 16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */; };
-		16CF037B140AB0F00035BFB8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16CF0379140AB0F00035BFB8 /* Icon.png */; };
-		16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16CF037A140AB0F00035BFB8 /* Icon@2x.png */; };
 		16D590A413E822B80095EAC3 /* TotalViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D590A313E822B80095EAC3 /* TotalViewCell.m */; };
 		16D73AD713FE967000F01035 /* CountriesAvailable.plist in Resources */ = {isa = PBXBuildFile; fileRef = 16D73AD613FE967000F01035 /* CountriesAvailable.plist */; };
 		16F0C2C81404753500E3E108 /* RLCustomButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F0C2C71404753500E3E108 /* RLCustomButton.m */; };
 		16F0C2CC1404769400E3E108 /* RLCustomButton+Default.m in Sources */ = {isa = PBXBuildFile; fileRef = 16F0C2CB1404769400E3E108 /* RLCustomButton+Default.m */; };
 		16F0C2CE14047CD300E3E108 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F0C2CD14047CD300E3E108 /* QuartzCore.framework */; };
+		16F86129141ED33C00AAE0C8 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 16F86122141ED33C00AAE0C8 /* Icon-72.png */; };
+		16F8612A141ED33C00AAE0C8 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 16F86123141ED33C00AAE0C8 /* Icon-Small-50.png */; };
+		16F8612B141ED33C00AAE0C8 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 16F86124141ED33C00AAE0C8 /* Icon-Small.png */; };
+		16F8612C141ED33C00AAE0C8 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16F86125141ED33C00AAE0C8 /* Icon-Small@2x.png */; };
+		16F8612D141ED33C00AAE0C8 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 16F86126141ED33C00AAE0C8 /* Icon.png */; };
+		16F8612E141ED33C00AAE0C8 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 16F86127141ED33C00AAE0C8 /* Icon@2x.png */; };
+		16F8612F141ED33C00AAE0C8 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 16F86128141ED33C00AAE0C8 /* iTunesArtwork */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -192,11 +192,6 @@
 		1666FCFE13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Fuel_SavingsAppDelegate.h; sourceTree = "<group>"; };
 		1666FCFF13B8FA8B00FC97F1 /* Fuel_SavingsAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Fuel_SavingsAppDelegate.m; sourceTree = "<group>"; };
 		1666FD0213B8FA8B00FC97F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		1666FD0913B8FAC500FC97F1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
-		1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
-		1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
-		1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
-		1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		1666FD1B13B8FB4D00FC97F1 /* Savings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Savings.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1666FD1C13B8FB4D00FC97F1 /* Savings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Savings.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1666FD1E13B8FB5D00FC97F1 /* Vehicle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vehicle.h; sourceTree = "<group>"; };
@@ -260,8 +255,6 @@
 		16CBB87613D0805F00E8BD05 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
 		16CBB87713D0805F00E8BD05 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		16CBB87913D0907200E8BD05 /* FuelSavingsHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FuelSavingsHelpers.m; sourceTree = "<group>"; };
-		16CF0379140AB0F00035BFB8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		16CF037A140AB0F00035BFB8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		16D590A213E822B80095EAC3 /* TotalViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TotalViewCell.h; sourceTree = "<group>"; };
 		16D590A313E822B80095EAC3 /* TotalViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TotalViewCell.m; sourceTree = "<group>"; };
 		16D73AD613FE967000F01035 /* CountriesAvailable.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CountriesAvailable.plist; sourceTree = "<group>"; };
@@ -271,6 +264,13 @@
 		16F0C2CA1404769400E3E108 /* RLCustomButton+Default.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RLCustomButton+Default.h"; sourceTree = "<group>"; };
 		16F0C2CB1404769400E3E108 /* RLCustomButton+Default.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RLCustomButton+Default.m"; sourceTree = "<group>"; };
 		16F0C2CD14047CD300E3E108 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		16F86122141ED33C00AAE0C8 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		16F86123141ED33C00AAE0C8 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		16F86124141ED33C00AAE0C8 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		16F86125141ED33C00AAE0C8 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		16F86126141ED33C00AAE0C8 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		16F86127141ED33C00AAE0C8 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		16F86128141ED33C00AAE0C8 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -435,16 +435,16 @@
 		1666FCF613B8FA8B00FC97F1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				16F86122141ED33C00AAE0C8 /* Icon-72.png */,
+				16F86123141ED33C00AAE0C8 /* Icon-Small-50.png */,
+				16F86124141ED33C00AAE0C8 /* Icon-Small.png */,
+				16F86125141ED33C00AAE0C8 /* Icon-Small@2x.png */,
+				16F86126141ED33C00AAE0C8 /* Icon.png */,
+				16F86127141ED33C00AAE0C8 /* Icon@2x.png */,
+				16F86128141ED33C00AAE0C8 /* iTunesArtwork */,
 				165BBC881416F69800932508 /* MPGDatabase.sqlite */,
 				161D077B140FF6DA00689107 /* MPGDatabase.xcdatamodeld */,
-				16CF0379140AB0F00035BFB8 /* Icon.png */,
-				16CF037A140AB0F00035BFB8 /* Icon@2x.png */,
 				165ACFB113B937A500A2AD3E /* images */,
-				1666FD0913B8FAC500FC97F1 /* Icon-72.png */,
-				1666FD0A13B8FAC500FC97F1 /* Icon-Small-50.png */,
-				1666FD0B13B8FAC500FC97F1 /* Icon-Small.png */,
-				1666FD0C13B8FAC500FC97F1 /* Icon-Small@2x.png */,
-				1666FD0F13B8FAC500FC97F1 /* iTunesArtwork.png */,
 				1666FCF713B8FA8B00FC97F1 /* Fuel Savings-Info.plist */,
 				1666FCF813B8FA8B00FC97F1 /* InfoPlist.strings */,
 				1666FCFB13B8FA8B00FC97F1 /* Fuel Savings-Prefix.pch */,
@@ -604,11 +604,6 @@
 			files = (
 				1666FCFA13B8FA8B00FC97F1 /* InfoPlist.strings in Resources */,
 				1666FD0313B8FA8B00FC97F1 /* MainWindow.xib in Resources */,
-				1666FD1013B8FAC500FC97F1 /* Icon-72.png in Resources */,
-				1666FD1113B8FAC500FC97F1 /* Icon-Small-50.png in Resources */,
-				1666FD1213B8FAC500FC97F1 /* Icon-Small.png in Resources */,
-				1666FD1313B8FAC500FC97F1 /* Icon-Small@2x.png in Resources */,
-				1666FD1613B8FAC500FC97F1 /* iTunesArtwork.png in Resources */,
 				1666FD3713B911A400FC97F1 /* FuelSavingsViewController.xib in Resources */,
 				1666FD3913B911B900FC97F1 /* MySavingsViewController.xib in Resources */,
 				1666FD3D13B9127B00FC97F1 /* SettingsViewController.xib in Resources */,
@@ -653,10 +648,15 @@
 				162831AE1409A2B500C71D4D /* details@2x.png in Resources */,
 				162831AF1409A2B500C71D4D /* money.png in Resources */,
 				162831B01409A2B500C71D4D /* money@2x.png in Resources */,
-				16CF037B140AB0F00035BFB8 /* Icon.png in Resources */,
-				16CF037C140AB0F00035BFB8 /* Icon@2x.png in Resources */,
 				165BBC891416F69800932508 /* MPGDatabase.sqlite in Resources */,
 				1657C4E91419178D007A0D97 /* Fuel_Savings.entitlements in Resources */,
+				16F86129141ED33C00AAE0C8 /* Icon-72.png in Resources */,
+				16F8612A141ED33C00AAE0C8 /* Icon-Small-50.png in Resources */,
+				16F8612B141ED33C00AAE0C8 /* Icon-Small.png in Resources */,
+				16F8612C141ED33C00AAE0C8 /* Icon-Small@2x.png in Resources */,
+				16F8612D141ED33C00AAE0C8 /* Icon.png in Resources */,
+				16F8612E141ED33C00AAE0C8 /* Icon@2x.png in Resources */,
+				16F8612F141ED33C00AAE0C8 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -767,6 +767,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fuel Savings/Fuel Savings-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -826,6 +827,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fuel Savings/Fuel Savings-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -842,6 +844,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Fuel Savings/Fuel Savings-Prefix.pch";
+				GCC_VERSION = "";
 				INFOPLIST_FILE = "Fuel Savings/Fuel Savings-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
