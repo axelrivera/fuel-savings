@@ -580,6 +580,9 @@
 /* Begin PBXProject section */
 		1666FCE213B8FA8B00FC97F1 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 1666FCE513B8FA8B00FC97F1 /* Build configuration list for PBXProject "Fuel Savings" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
