@@ -22,9 +22,8 @@ EfficiencyInputViewControllerDelegate, VehicleDetailsViewControllerDelegate>
 
 @property (nonatomic, assign) id <CurrentTripViewControllerDelegate> delegate;
 @property (nonatomic, retain) Trip *currentTrip;
-@property (nonatomic, retain) IBOutlet UIView *contentView;
-@property (nonatomic, retain) IBOutlet UITableView *newTable;
-@property (nonatomic, retain) NSMutableArray *newData;
+@property (nonatomic, retain) IBOutlet UITableView *myTable;
+@property (nonatomic, retain) NSMutableArray *myData;
 @property (nonatomic, assign) BOOL isEditingTrip;
 
 - (id)initWithTrip:(Trip *)trip;

@@ -34,7 +34,7 @@
 {
 	self = [super initWithFrame:frame];
 	if (self) {
-		self.opaque = YES;
+		self.opaque = NO;
 		self.backgroundColor = [UIColor clearColor];
 		
 		[self setImageView];
@@ -107,7 +107,7 @@
 	[titleLabel_ autorelease];
 	titleLabel_  = [[UILabel alloc] initWithFrame:CGRectZero];
 	titleLabel_.font = [UIFont systemFontOfSize:20.0];
-	titleLabel_.backgroundColor = [UIColor whiteColor];
+	titleLabel_.backgroundColor = [UIColor clearColor];
 	
 	[self addSubview:titleLabel_];
 }
@@ -150,7 +150,7 @@
 	UILabel *label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
 	label.font = [UIFont systemFontOfSize:16.0];
 	label.lineBreakMode = UILineBreakModeTailTruncation;
-	label.backgroundColor = [UIColor whiteColor];
+	label.backgroundColor = [UIColor clearColor];
 	label.textColor = [UIColor darkGrayColor];
 	return label;
 }

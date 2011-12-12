@@ -10,8 +10,6 @@
 #import "CurrentSavingsViewController.h"
 #import "CurrentTripViewController.h"
 #import "VehicleDetailsViewController.h"
-#import "UIViewController+iAd.h"
-#import "Fuel_SavingsAppDelegate.h"
 
 @interface VehicleSelectViewController (Private)
 
@@ -25,7 +23,6 @@
 
 static NSDictionary *fuelDescription;
 
-@synthesize contentView = contentView_;
 @synthesize selectionTable = selectionTable_;
 @synthesize selectionType = selectionType_;
 @synthesize year = year_;
@@ -61,7 +58,6 @@ static NSDictionary *fuelDescription;
 		self.context = nil;
 		self.currentSavingsViewController = nil;
 		self.currentTripViewController = nil;
-		isAdBannerVisible_ = NO;
 	}
 	return self;
 }
@@ -109,14 +105,9 @@ static NSDictionary *fuelDescription;
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-	self.contentView.tag = kAdContentViewTag;
-	
+		
 	if (self.tabBarController == nil) {
 		[self setupToolbarItems];
-		isAdBannerVisible_ = NO;
-	} else {
-		isAdBannerVisible_ = YES;
 	}
 	
 	if (selectionType_ == VehicleSelectionTypeModel) {
@@ -131,7 +122,6 @@ static NSDictionary *fuelDescription;
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.contentView = nil;
 	self.selectionTable = nil;
 	self.mpgDatabaseInfo = nil;
 }
@@ -140,21 +130,6 @@ static NSDictionary *fuelDescription;
 {
 	[super viewWillAppear:animated];
 	[selectionTable_ reloadData];
-
-	if (isAdBannerVisible_) {
-		ADBannerView *adBanner = SharedAdBannerView;
-		adBanner.delegate = self;
-		[self layoutCurrentOrientation:NO];
-	}
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-	
-	if (isAdBannerVisible_) {
-		[self hideBannerView:YES];
-	}
 }
 
 #pragma mark - Action Methods
@@ -192,8 +167,8 @@ static NSDictionary *fuelDescription;
 	
 	contentFrame.size.height -= toolbarHeight;
 	toolbarOrigin.y -= toolbarHeight;
-	contentView_.frame = contentFrame;
-	[contentView_ layoutIfNeeded];
+	self.view.frame = contentFrame;
+	[self.view layoutIfNeeded];
 }
 
 - (void)setupDataSourceAndFetchRequest
@@ -373,29 +348,6 @@ static NSDictionary *fuelDescription;
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
-}
-
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-	// Stop or Pause Stuff Here
-	return YES;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-	// Get things back up running again!
 }
 
 @end

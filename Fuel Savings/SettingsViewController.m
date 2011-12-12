@@ -9,12 +9,9 @@
 #import "SettingsViewController.h"
 #import "CountriesViewController.h"
 #import "AboutViewController.h"
-#import "UIViewController+iAd.h"
-#import "Fuel_SavingsAppDelegate.h"
 
 @implementation SettingsViewController
 
-@synthesize contentView = contentView_;
 @synthesize settingsTable = settingsTable_;
 @synthesize settingsData = settingsData_;
 
@@ -40,7 +37,6 @@
 
 - (void)dealloc
 {
-	[contentView_ release];
 	[settingsTable_ release];
 	[settingsData_ release];
 	[super dealloc];
@@ -56,34 +52,13 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-	[super viewDidLoad];
-	self.contentView.tag = kAdContentViewTag;
-}
-
 - (void)viewDidUnload
 {
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.contentView = nil;
 	self.settingsTable = nil;
 	self.settingsData = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = self;
-	[self layoutCurrentOrientation:NO];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-	[self hideBannerView:YES];
 }
 
 #pragma mark - Table view data source
@@ -145,29 +120,6 @@
 		[self.navigationController pushViewController:viewController animated:YES];
 		[viewController release];
 	}
-}
-
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-	// Stop or Pause Stuff Here
-	return YES;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-	// Get things back up running again!
 }
 
 @end

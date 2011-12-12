@@ -166,9 +166,9 @@
 	
 	NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:indexPath.section];
 	
-	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+	UITableViewCell *myNewCell = [tableView cellForRowAtIndexPath:indexPath];
+	if (myNewCell.accessoryType == UITableViewCellAccessoryNone) {
+		myNewCell.accessoryType = UITableViewCellAccessoryCheckmark;
 		
 		NSInteger row = indexPath.row;
 		if (indexPath.section == 0) {

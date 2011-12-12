@@ -85,11 +85,11 @@
 
 - (void)setFrame:(CGRect)frame
 {
-	CGRect newframe = CGRectMake(frame.origin.x,
+	CGRect myframe = CGRectMake(frame.origin.x,
 								 frame.origin.y,
 								 [UIScreen mainScreen].bounds.size.width,
 								 44.0);
-	[super setFrame:newframe];
+	[super setFrame:myframe];
 }
 
 - (void)dealloc

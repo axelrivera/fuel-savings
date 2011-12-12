@@ -7,15 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iAd/iAd.h>
 #import "NameInputViewController.h"
 
-@interface MySavingsViewController : UIViewController <NameInputViewControllerDelegate, ADBannerViewDelegate> {
+@interface MySavingsViewController : UIViewController <NameInputViewControllerDelegate> {
 	NSInteger selectedRow_;
 	NSInteger selectedIndex_;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *mySavingsTable;
 @property (nonatomic, retain) UISegmentedControl *segmentedControl;
 @property (nonatomic, assign) NSMutableArray *tableData;

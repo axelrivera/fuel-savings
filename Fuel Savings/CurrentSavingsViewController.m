@@ -42,9 +42,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 @synthesize delegate = delegate_;
 @synthesize currentSavings = currentSavings_;
-@synthesize contentView = contentView_;
-@synthesize newTable = newTable_;
-@synthesize newData = newData_;
+@synthesize myTable = myTable_;
+@synthesize myData = myData_;
 @synthesize isEditingSavings = isEditingSavings_;
 
 - (id)init
@@ -70,9 +69,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)dealloc
 {
 	[currentSavings_ release];
-	[contentView_ release];
-	[newData_ release];
-	[newTable_ release];
+	[myData_ release];
+	[myTable_ release];
 	[super dealloc];
 }
 
@@ -89,9 +87,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-	self.contentView.tag = kAdContentViewTag;
-	
+		
 	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																				  target:self
 																				  action:@selector(dismissAction)];
@@ -104,8 +100,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	self.navigationItem.rightBarButtonItem = saveButton;
 	[saveButton release];
 	
-	newTable_.sectionHeaderHeight = 10.0;
-	newTable_.sectionFooterHeight = 10.0;
+	myTable_.sectionHeaderHeight = 10.0;
+	myTable_.sectionFooterHeight = 10.0;
 }
 
 - (void)viewDidUnload
@@ -113,9 +109,8 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.contentView = nil;
-	self.newTable = nil;
-	self.newData = nil;
+	self.myTable = nil;
+	self.myData = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -131,7 +126,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	if (self.currentSavings) {
 		[self reloadTableData];
 	}
-	[newTable_ reloadData];
+	[myTable_ reloadData];
 }
 
 #pragma mark - Custom Actions
@@ -187,7 +182,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	self.currentSavings.vehicle2.highwayEfficiency = [NSNumber numberWithInteger:0];
 	self.currentSavings.vehicle2.fuelPrice = [self.currentSavings.vehicle2 defaultPrice];
 	[self reloadTableData];
-	[newTable_ reloadData];
+	[myTable_ reloadData];
 }
 
 - (void)resetCar2OptionsAction:(id)sender {
@@ -212,11 +207,11 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	NSArray *vehicle1Array = [[self vehicleArrayWithKey:vehicle1Key] retain]; 
 	NSArray *vehicle2Array = [[self vehicleArrayWithKey:vehicle2Key] retain];
 	
-	self.newData = [NSMutableArray arrayWithCapacity:0];
+	self.myData = [NSMutableArray arrayWithCapacity:0];
 	
-	[newData_ addObject:informationArray];
-	[newData_ addObject:vehicle1Array];
-	[newData_ addObject:vehicle2Array];
+	[myData_ addObject:informationArray];
+	[myData_ addObject:vehicle1Array];
+	[myData_ addObject:vehicle2Array];
 	
 	[informationArray release];
 	[vehicle1Array release];
@@ -491,17 +486,17 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return [newData_ count];
+	return [myData_ count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return [[newData_ objectAtIndex:section] count];
+	return [[myData_ objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {	
-	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[myData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
 	if (indexPath.section > 0 && indexPath.row == 0) {
 		static NSString *TitleCellIdentifier = @"TitleCell";
@@ -565,7 +560,7 @@ static NSString * const vehicleHighwayEfficiencyKey = @"VehicleHighwayEfficiency
 	
 	UIViewController *viewController = nil;
 	
-	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[myData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	NSString *key = [dictionary objectForKey:dictionaryKey];
 	
 	if (indexPath.section == 0) {

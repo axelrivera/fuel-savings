@@ -7,8 +7,6 @@
 //
 
 #import "VehicleDetailsViewController.h"
-#import "UIViewController+iAd.h"
-#import "Fuel_SavingsAppDelegate.h"
 
 static NSString * const yesStr = @"Yes";
 static NSString * const noStr = @"No";
@@ -23,7 +21,6 @@ static NSString * const noStr = @"No";
 @implementation VehicleDetailsViewController
 
 @synthesize delegate = delegate_;
-@synthesize contentView = contentView_;
 @synthesize detailsTable = detailsTable_;
 @synthesize topBarView = topBarView_;
 @synthesize mpgDatabaseInfo = mpgDatabaseInfo_;
@@ -38,7 +35,6 @@ static NSString * const noStr = @"No";
 		selectedEfficiency_ = nil;
 		selectedIndex_ = 0;
 		efficiencyArray_ = nil;
-		isAdBannerVisible_ = NO;
 	}
 	return self;
 }
@@ -74,7 +70,6 @@ static NSString * const noStr = @"No";
 - (void)dealloc
 {
 	[efficiencyArray_ release];
-	[contentView_ release];
 	[detailsTable_ release];
 	[topBarView_ release];
 	[mpgDatabaseInfo_ release];
@@ -87,9 +82,7 @@ static NSString * const noStr = @"No";
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-	self.contentView.tag = kAdContentViewTag;
-	
+		
 	if (self.navigationController) {
 		UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
 																	   style:UIBarButtonItemStyleBordered
@@ -107,10 +100,6 @@ static NSString * const noStr = @"No";
 																					action:@selector(saveAction)];
 		self.navigationItem.rightBarButtonItem = saveButton;
 		[saveButton release];
-		
-		isAdBannerVisible_ = NO;
-	} else {
-		isAdBannerVisible_ = YES;
 	}
 	
 	self.topBarView = [[[RLTopBarView alloc] initWithFrame:CGRectZero] autorelease];
@@ -123,7 +112,6 @@ static NSString * const noStr = @"No";
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.contentView = nil;
 	self.detailsTable = nil;
 	self.topBarView = nil;
 }
@@ -133,21 +121,6 @@ static NSString * const noStr = @"No";
 	[super viewWillAppear:animated];
 	[self fixTopToolbarView];
 	selectedIndex_ = [efficiencyArray_ count] - 1;
-
-	if (isAdBannerVisible_) {
-		ADBannerView *adBanner = SharedAdBannerView;
-		adBanner.delegate = self;
-		[self layoutCurrentOrientation:NO];
-	}
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-	
-	if (isAdBannerVisible_) {
-		[self hideBannerView:YES];
-	}
 }
 
 #pragma mark - Action Methods
@@ -360,9 +333,9 @@ static NSString * const noStr = @"No";
 	
 	NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:localIndex inSection:indexPath.section];
 	
-	UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-	if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-		newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+	UITableViewCell *myNewCell = [tableView cellForRowAtIndexPath:indexPath];
+	if (myNewCell.accessoryType == UITableViewCellAccessoryNone) {
+		myNewCell.accessoryType = UITableViewCellAccessoryCheckmark;
 		selectedIndex_ = indexPath.row;
 		self.selectedEfficiency = [efficiencyArray_ objectAtIndex:selectedIndex_];
 	}
@@ -371,29 +344,6 @@ static NSString * const noStr = @"No";
 	if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
 		oldCell.accessoryType = UITableViewCellAccessoryNone;
 	}
-}
-
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-	// Stop or Pause Stuff Here
-	return YES;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-	// Get things back up running again!
 }
 
 @end

@@ -31,9 +31,8 @@ VehicleDetailsViewControllerDelegate>
 
 @property (nonatomic, assign) id <CurrentSavingsViewControllerDelegate> delegate;
 @property (nonatomic, retain) Savings *currentSavings;
-@property (nonatomic, retain) IBOutlet UIView *contentView;
-@property (nonatomic, retain) IBOutlet UITableView *newTable;
-@property (nonatomic, retain) NSMutableArray *newData;
+@property (nonatomic, retain) IBOutlet UITableView *myTable;
+@property (nonatomic, retain) NSMutableArray *myData;
 @property (nonatomic) BOOL isEditingSavings;
 
 - (id)initWithSavings:(Savings *)savings;

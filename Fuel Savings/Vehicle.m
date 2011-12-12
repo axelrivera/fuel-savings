@@ -100,14 +100,14 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	Vehicle *newVehicle = [[Vehicle allocWithZone:zone] init];
-	newVehicle.name = self.name;
-	newVehicle.fuelPrice = self.fuelPrice;
-	newVehicle.avgEfficiency = self.avgEfficiency;
-	newVehicle.cityEfficiency = self.cityEfficiency;
-	newVehicle.highwayEfficiency = self.highwayEfficiency;
-	[newVehicle setCountry:self.country];
-	return newVehicle;
+	Vehicle *myVehicle = [[Vehicle allocWithZone:zone] init];
+	myVehicle.name = self.name;
+	myVehicle.fuelPrice = self.fuelPrice;
+	myVehicle.avgEfficiency = self.avgEfficiency;
+	myVehicle.cityEfficiency = self.cityEfficiency;
+	myVehicle.highwayEfficiency = self.highwayEfficiency;
+	[myVehicle setCountry:self.country];
+	return myVehicle;
 }
 
 - (void)dealloc

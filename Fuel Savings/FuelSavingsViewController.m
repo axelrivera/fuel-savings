@@ -14,15 +14,12 @@
 #import "DetailView.h"
 #import "DetailSummaryViewCell.h"
 #import "Settings.h"
-#import "UIViewController+iAd.h"
-#import "Fuel_SavingsAppDelegate.h"
 
 #define SAVINGS_NEW_TAG 1
 #define SAVINGS_ACTION_TAG 2
 
 @implementation FuelSavingsViewController
 
-@synthesize contentView = contentView_;
 @synthesize savingsTable = savingsTable_;
 @synthesize instructionsLabel = instructionsLabel_;
 @synthesize currentSavings = currentSavings_;
@@ -55,7 +52,6 @@
 
 - (void)dealloc
 {	
-	[contentView_ release];
 	[savingsTable_ release];
 	[instructionsLabel_ release];
 	[currentSavings_ release];
@@ -75,16 +71,14 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-	self.contentView.tag = kAdContentViewTag;
-	
+		
 	if (hasButtons_) {
-		UIBarButtonItem *newButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
+		UIBarButtonItem *myNewButton = [[UIBarButtonItem alloc] initWithTitle:@"New"
 																	  style:UIBarButtonItemStyleBordered
 																	 target:self
-																	 action:@selector(newCheckAction)];
-		self.navigationItem.leftBarButtonItem = newButton;
-		[newButton release];
+																	 action:@selector(myNewCheckAction)];
+		self.navigationItem.leftBarButtonItem = myNewButton;
+		[myNewButton release];
 		
 		UIBarButtonItem *actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
 																					  target:self
@@ -107,7 +101,6 @@
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.contentView = nil;
 	self.savingsTable = nil;
 	self.instructionsLabel = nil;
 }
@@ -115,10 +108,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[super viewWillAppear:animated];
-	
-	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = self;
-	[self layoutCurrentOrientation:NO];
 	
 	self.savingsTable.hidden = YES;
 	[self reloadTable];
@@ -130,33 +119,32 @@
 	
 	if (showNewAction_ == YES) {
 		showNewAction_ = NO;
-		[self performSelector:@selector(newAction)];
+		[self performSelector:@selector(myNewAction)];
 	}
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	[self hideBannerView:YES];
 }
 
 #pragma mark - Custom Actions
 
-- (void)newCheckAction
+- (void)myNewCheckAction
 {
 	if ([self.currentSavings isSavingsEmpty]) {
-		[self performSelector:@selector(newAction)];
+		[self performSelector:@selector(myNewAction)];
 	} else {
-		[self performSelector:@selector(newOptionsAction:)];
+		[self performSelector:@selector(myNewOptionsAction:)];
 	}
 }
 
-- (void)newAction
+- (void)myNewAction
 {
-	Savings *newSavings = [[Savings calculation] retain];
-	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:newSavings];
+	Savings *myNewSavings = [[Savings calculation] retain];
+	CurrentSavingsViewController *currentSavingsViewController = [[CurrentSavingsViewController alloc] initWithSavings:myNewSavings];
 	currentSavingsViewController.delegate = self;
-	[newSavings release];
+	[myNewSavings release];
 	
 	UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:currentSavingsViewController];
 	[currentSavingsViewController release];
@@ -209,7 +197,7 @@
 	[navController release];
 }
 
-- (void)newOptionsAction:(id)sender {	
+- (void)myNewOptionsAction:(id)sender {	
 	UIActionSheet *actionSheet = [[UIActionSheet alloc]
 								  initWithTitle:@"You have a Current Savings. What would you like to do before creating a New Savings?"
 								  delegate:self
@@ -431,7 +419,7 @@
 			isNewSavings_ = YES;
 			[self performSelector:@selector(saveAction)];
 		} else if (buttonIndex == 1) {
-			[self performSelector:@selector(newAction)];
+			[self performSelector:@selector(myNewAction)];
 		}
 	} else {
 		if (buttonIndex == 0) {
@@ -442,29 +430,6 @@
 			[self performSelector:@selector(deleteAction)];
 		}
 	}
-}
-
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-	// Stop or Pause Stuff Here
-	return YES;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-	// Get things back up running again!
 }
 
 @end

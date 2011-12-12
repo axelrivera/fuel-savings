@@ -35,9 +35,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 
 @synthesize delegate = delegate_;
 @synthesize currentTrip = currentTrip_;
-@synthesize contentView = contentView_;
-@synthesize newTable = newTable_;
-@synthesize newData = newData_;
+@synthesize myTable = myTable_;
+@synthesize myData = myData_;
 @synthesize isEditingTrip = isEditingTrip_;
 
 - (id)init
@@ -61,9 +60,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)dealloc
 {
 	[currentTrip_ release];
-	[contentView_ release];
-	[newTable_ release];
-	[newData_ release];
+	[myTable_ release];
+	[myData_ release];
 	[super dealloc];
 }
 
@@ -80,9 +78,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-	self.contentView.tag = kAdContentViewTag;
-	
+		
  	UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
 																				  target:self
 																				  action:@selector(dismissAction)];
@@ -101,9 +97,8 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.contentView = nil;
-	self.newTable = nil;
-	self.newData = nil;
+	self.myTable = nil;
+	self.myData = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -116,12 +111,12 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 		self.title = @"New Trip";
 	}
 	
-	self.newData = [NSMutableArray arrayWithCapacity:0];
+	self.myData = [NSMutableArray arrayWithCapacity:0];
 	
-	[newData_ addObject:[self informationArray]];
-	[newData_ addObject:[self vehicleArray]];
+	[myData_ addObject:[self informationArray]];
+	[myData_ addObject:[self vehicleArray]];
 	
-	[newTable_ reloadData];
+	[myTable_ reloadData];
 }
 
 #pragma mark - Custom Actions
@@ -299,19 +294,19 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	NSInteger sections = [newData_ count];
+	NSInteger sections = [myData_ count];
 	return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	NSInteger rows = [[newData_ objectAtIndex:section] count]; 
+	NSInteger rows = [[myData_ objectAtIndex:section] count]; 
 	return rows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[myData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	
 	if (indexPath.section > 0 && indexPath.row == 0) {
 		static NSString *TitleCellIdentifier = @"TitleCell";
@@ -375,7 +370,7 @@ static NSString * const vehicleAvgEfficiencyKey = @"VehicleAvgEfficiencyKey";
 	
 	UIViewController *viewController = nil;
 	
-	NSDictionary *dictionary = [[newData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	NSDictionary *dictionary = [[myData_ objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 	NSString *key = [dictionary objectForKey:dictionaryKey];
 	
 	if (indexPath.section == 0) {

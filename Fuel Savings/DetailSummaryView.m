@@ -21,10 +21,10 @@
 {
 	self = [super initWithFrame:CGRectZero];
 	if (self) {
-		self.opaque = YES;
+		self.opaque = NO;
 		self.tag = DETAIL_SUMMARY_VIEW_TAG;
 		
-		self.oddColor = [UIColor whiteColor];
+		self.oddColor = [UIColor clearColor];
 		self.evenColor = [UIColor colorWithRed:238.0/255.0 green:238.0/255.0 blue:236.0/255.0 alpha:1.0];
 		
 		details_ = [details retain];
@@ -35,7 +35,7 @@
 		
 		titleLabel_  = [[UILabel alloc] initWithFrame:CGRectZero];
 		titleLabel_.font = [UIFont systemFontOfSize:20.0];
-		titleLabel_.backgroundColor = [UIColor whiteColor];
+		titleLabel_.backgroundColor = [UIColor clearColor];
 		[self addSubview:titleLabel_];
 		
 		NSInteger totalViews = [details count];

@@ -7,15 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iAd/iAd.h>
 #import "SavingsData.h"
 #import "DetailSummaryView.h"
 #import "CurrentTripViewController.h"
 #import "NameInputViewController.h"
 #import "DetailSummaryView.h"
 
-@interface TripViewController : UIViewController <UIActionSheetDelegate, CurrentTripViewControllerDelegate,
-NameInputViewControllerDelegate, ADBannerViewDelegate>
+@interface TripViewController : UIViewController
+<UIActionSheetDelegate, CurrentTripViewControllerDelegate, NameInputViewControllerDelegate>
 {
 	SavingsData *savingsData_;
 	BOOL isNewTrip_;
@@ -23,7 +22,6 @@ NameInputViewControllerDelegate, ADBannerViewDelegate>
 	BOOL hasButtons_;
 }
 
-@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *tripTable;
 @property (nonatomic, retain) IBOutlet UILabel *instructionsLabel;
 @property (nonatomic, copy) Trip *currentTrip;

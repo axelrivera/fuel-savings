@@ -18,11 +18,8 @@ typedef enum {
 	VehicleSelectionTypeModel
 } VehicleSelectionType;
 
-@interface VehicleSelectViewController : UIViewController <ADBannerViewDelegate> {
-	BOOL isAdBannerVisible_;
-}
+@interface VehicleSelectViewController : UIViewController
 
-@property (nonatomic, retain) IBOutlet UIView *contentView;
 @property (nonatomic, retain) IBOutlet UITableView *selectionTable;
 @property (nonatomic, assign) VehicleSelectionType selectionType;
 @property (nonatomic, copy) NSString *year;
@@ -33,5 +30,6 @@ typedef enum {
 @property (nonatomic, assign) CurrentTripViewController *currentTripViewController;
 
 - (id)initWithType:(VehicleSelectionType)type year:(NSString *)year make:(NSString *)make;
+- (id)initWithTabBar;
 
 @end

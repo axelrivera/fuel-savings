@@ -41,7 +41,7 @@ NSString * const kDetailViewDetailKey = @"DetailSummaryViewDetailKey";
 {
 	self = [super initWithFrame:CGRectZero];
 	if (self) {
-		self.opaque = YES;
+		self.opaque = NO;
 		
 		textFont_ = [[UIFont systemFontOfSize:12.0] retain];
 		detailFont_ = [[UIFont systemFontOfSize:12.0] retain];

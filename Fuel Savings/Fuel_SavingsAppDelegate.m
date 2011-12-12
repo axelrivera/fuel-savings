@@ -21,21 +21,9 @@
 @synthesize window = _window;
 @synthesize tabBarController = _tabBarController;
 @synthesize coreDataObject = _coreDataObject;
-@synthesize adBanner = _adBanner;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-	_adBanner = [[ADBannerView alloc] initWithFrame:CGRectZero];
-	
-	// Set the autoresizing mask so that the banner is pinned to the bottom
-	self.adBanner.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleTopMargin;
-	
-	// Since we support all orientations, support portrait and landscape content sizes.
-	// If you only supported landscape or portrait, you could remove the other from this set
-	self.adBanner.requiredContentSizeIdentifiers = (&ADBannerContentSizeIdentifierPortrait != nil) ?
-	[NSSet setWithObjects:ADBannerContentSizeIdentifierPortrait, ADBannerContentSizeIdentifierLandscape, nil] : 
-	[NSSet setWithObjects:ADBannerContentSizeIdentifier320x50, ADBannerContentSizeIdentifier480x32, nil];
-	
+{	
 	_coreDataObject = [[RLCoreDataObject alloc] initWithName:@"MPGDatabase"];
 	
 	NSString *savingsDataPath = [self savingsDataFilePath];
@@ -155,7 +143,6 @@
 	[_window release];
 	[_tabBarController release];
 	[_coreDataObject release];
-	[_adBanner release];
 	[super dealloc];
 }
 

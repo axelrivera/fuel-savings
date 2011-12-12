@@ -13,19 +13,17 @@
 #import "FuelSavingsViewController.h"
 #import "TripViewController.h"
 #import "RLCustomButton+Default.h"
-#import "UIViewController+iAd.h"
-#import "Fuel_SavingsAppDelegate.h"
 
 @interface MySavingsViewController (Private)
 
 - (void)setupSegmentedControl;
 - (void)reloadTableData;
+- (void)changedSegmentedControlAction;
 
 @end
 
 @implementation MySavingsViewController
 
-@synthesize contentView = contentView_;
 @synthesize mySavingsTable = mySavingsTable_;
 @synthesize tableData = tableData_;
 @synthesize segmentedControl = segmentedControl_;
@@ -52,7 +50,6 @@
 
 - (void)dealloc
 {
-	[contentView_ release];
 	[mySavingsTable_ release];
 	[segmentedControl_ release];
 	[super dealloc];
@@ -71,9 +68,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	
-	self.contentView.tag = kAdContentViewTag;
-	
+		
 	[self setupSegmentedControl];
 	self.navigationItem.titleView = self.segmentedControl;
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -86,7 +81,6 @@
 	[super viewDidUnload];
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
-	self.contentView = nil;
 	self.mySavingsTable = nil;
 	self.segmentedControl = nil;
 }
@@ -95,18 +89,13 @@
 {
 	[super viewWillAppear:animated];
 	
-	ADBannerView *adBanner = SharedAdBannerView;
-	adBanner.delegate = self;
-	[self layoutCurrentOrientation:NO];
-	
 	[self.segmentedControl setSelectedSegmentIndex:selectedIndex_];
-	[self reloadTableData];
+	[self changedSegmentedControlAction];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-	[self hideBannerView:YES];
 }
 
 #pragma mark - Custom Actions
@@ -292,29 +281,6 @@
 		// We also remove that row from the table view with an animation
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
 	}
-}
-
-#pragma mark - ADBannerViewDelegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
-{
-	[self layoutCurrentOrientation:YES];
-}
-
-- (BOOL)bannerViewActionShouldBegin:(ADBannerView *)banner willLeaveApplication:(BOOL)willLeave
-{
-	// Stop or Pause Stuff Here
-	return YES;
-}
-
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner
-{
-	// Get things back up running again!
 }
 
 @end

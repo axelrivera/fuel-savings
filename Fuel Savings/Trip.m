@@ -71,12 +71,12 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	Trip *newTrip = [[Trip allocWithZone:zone] init];
-	newTrip.name = self.name;
-	newTrip.distance = self.distance;
-	newTrip.vehicle = self.vehicle;
-	[newTrip setCountry:self.country];
-	return newTrip;
+	Trip *myTrip = [[Trip allocWithZone:zone] init];
+	myTrip.name = self.name;
+	myTrip.distance = self.distance;
+	myTrip.vehicle = self.vehicle;
+	[myTrip setCountry:self.country];
+	return myTrip;
 }
 
 - (void)dealloc

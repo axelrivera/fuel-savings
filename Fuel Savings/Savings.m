@@ -100,17 +100,17 @@ static NSNumberFormatter *currencyFormatter_;
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	Savings *newSavings = [[Savings allocWithZone:zone] init];
-	newSavings.name = self.name;
-	newSavings.type = self.type;
-	newSavings.cityRatio = self.cityRatio;
-	newSavings.highwayRatio = self.highwayRatio;
-	newSavings.distance = self.distance;
-	newSavings.carOwnership = self.carOwnership;
-	newSavings.vehicle1 = self.vehicle1;
-	newSavings.vehicle2 = self.vehicle2;
-	[newSavings setCountry:self.country];
-	return newSavings;
+	Savings *mySavings = [[Savings allocWithZone:zone] init];
+	mySavings.name = self.name;
+	mySavings.type = self.type;
+	mySavings.cityRatio = self.cityRatio;
+	mySavings.highwayRatio = self.highwayRatio;
+	mySavings.distance = self.distance;
+	mySavings.carOwnership = self.carOwnership;
+	mySavings.vehicle1 = self.vehicle1;
+	mySavings.vehicle2 = self.vehicle2;
+	[mySavings setCountry:self.country];
+	return mySavings;
 }
 
 - (void)dealloc
