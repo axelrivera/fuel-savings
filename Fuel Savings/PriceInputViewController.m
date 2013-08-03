@@ -172,6 +172,9 @@
 		return NO;
 	}
 	
+	NSLog(@"Range Location: %d, Length: %d", range.location, range.length);
+	NSLog(@"String: %@", string);
+	
 	// Check the length of the string
 	if ([string length] > 0) {
 		if ([self.enteredDigits length] + 1 <= MAX_DIGITS) {
@@ -198,7 +201,8 @@
 	
 	self.currentPrice = number;
 	// Replace the text with the localized decimal number
-	textField.text = [formatter_ stringFromNumber:number];
+	//textField.text = [formatter_ stringFromNumber:number];
+	textField.text = self.enteredDigits;
 	
 	//NSLog(@"Entered Digits (change end): %@", self.enteredDigits);
 	//NSLog(@"Current Efficiency (change end): %@", self.currentPrice);
