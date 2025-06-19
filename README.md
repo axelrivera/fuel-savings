@@ -61,6 +61,10 @@ The app performs comprehensive fuel cost analysis including:
 - Comprehensive vehicle specifications: year, make, model, city/highway/average MPG
 - Additional metadata: engine details, transmission, size class
 
+## Screenshots
+
+See the [Screenshots](./Screenshots) directory for additional app screenshots and interface examples.
+
 ## Status
 
 This project is archived and represents iOS development practices from 2011. It demonstrates pre-ARC Objective-C development, Core Data usage, and comprehensive fuel efficiency calculations in a mobile application context.
